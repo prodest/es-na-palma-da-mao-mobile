@@ -1,7 +1,7 @@
 import { NewsHighlightsController } from './news-highlights.component.controller';
 import { NewsApiService, News } from '../shared/index';
 import NewsHighlightsComponent from './news-highlights.component';
-import NewsHighlightsTemplate from './news-highlights.component.html';
+import NewsHighlightsTemplate = require('./news-highlights.component.html');
 import { environment } from '../../shared/tests/index';
 import { TransitionService } from '../../shared/index';
 

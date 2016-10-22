@@ -1,39 +1,100 @@
-var browsers = [ 'PhantomJS' ]; // para builds locais
-var reporters = [ 'mocha'];
+const argv = require('yargs')
+             .default('target', 'tests')
+             .argv;
 
-module.exports = function( config ) {
-    config.set( {
-        basePath: '../',
+const FILES_PATTERN = `./config/karma.files.${argv.target}.js`;
+const preprocessors = [ 'webpack', 'sourcemap' ];
+const reporters = [ 'mocha' ];
+
+if ( argv.coverage ) {
+    preprocessors.unshift( 'coverage' );
+    reporters.push( ...['coverage', 'remap-coverage'] );
+}
+
+if ( process.env.TRAVIS ) {
+    reporters.push( 'coveralls' );
+} 
+
+module.exports = config => {
+
+    const testWebpackConfig = require( './webpack.test.js' )( { env: 'test' });
+
+    const configuration = {
+        /**
+         * This path will be used for resolving.
+         */
+        basePath: '',
+
+        /**
+         * List of test frameworks we will use. Most of them are provided by separate packages (adapters).
+         * You can find them on npmjs.org: https://npmjs.org/browse/keyword/karma-adapter
+         */
         frameworks: [
-            'jspm', 'mocha', 'chai', 'sinon-stub-promise', 'sinon'
+            'mocha', 'chai', 'sinon-stub-promise', 'sinon', 'es6-shim'
         ],
 
-        jspm: {
-            config: 'config/system.config.js',
-            packages: 'www/jspm_packages',
-            loadFiles: [
-                'src/components/**/*.specs.ts'
-            ],
-            serveFiles: [
-                'src/components/**/*.css',
-                'src/components/**/*.html',
-                'src/components/**/*.json',
-                'src/components/**/*.png',
-                'src/components/**/!(*specs).ts',
-                'package.json'
-            ]
+        // list of files to exclude
+        exclude: [],
+
+        /**
+         * Entry point / test environment builder is also written in TypeScript.
+         */
+        files: [ { pattern: FILES_PATTERN, watched: false } ],
+
+        /**
+         * Transform files before loading them.
+         */
+        preprocessors: {
+            [FILES_PATTERN]: preprocessors
         },
 
-        proxies: {
-            '/node_modules': '/base/node_modules',
-            '/jspm_packages/': '/base/www/jspm_packages/',
-            '/src/': '/base/src/',
-            '/src/package.json': '/base/package.json'
-        },
+        // Webpack Config at ./webpack.test.js
+        webpack: testWebpackConfig,
 
+        // Webpack please don't spam the console when running in karma!
+        webpackMiddleware: { stats: 'errors-only' },
+
+        /**
+         * A lot of plugins are available for test results reporting.
+         * You can find them here: https://npmjs.org/browse/keyword/karma-reporter
+         */
         reporters: reporters,
-        browsers: browsers,
+
+        /**
+         * This JSON file is "intermediate", in post-test script we use remap-istanbul to map back to TypeScript
+         * and then generate coverage report.
+         */
+        coverageReporter: {
+            type: 'in-memory'
+        },
+
+        remapCoverageReporter: {
+            'text-summary': null,
+            json: './coverage/coverage.json',
+            html: './coverage/html',
+            lcovonly: './coverage/coverage.lcov'
+        },
+        /**
+         * Only Phantom is used in this example.
+         * You can find more browser launchers here: https://npmjs.org/browse/keyword/karma-launcher
+         */
+        browsers: [ 'PhantomJS' ],
+
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: false,
+
+        /*
+        * Continuous Integration mode
+        * if true, Karma captures browsers, runs the tests and exits
+        */
         singleRun: true,
-        browserNoActivityTimeout: 60000
-    } );
+
+        browserNoActivityTimeout: 60000,
+        concurrency: Infinity,
+        port: 9876,
+        colors: true,
+        logLevel: config.LOG_INFO
+    };
+
+    config.set( configuration );
 };

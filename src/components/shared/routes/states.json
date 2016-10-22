@@ -71,9 +71,9 @@
     "name": "home",
     "url": "home",
     "type": "load",
-    "src": "components/home/index",
+    "src": "../../home/index",
     "prefetch": [
-      "components/login/index"
+      "./src/components/login/index"
     ],
     "menu": false,
     "editable": false

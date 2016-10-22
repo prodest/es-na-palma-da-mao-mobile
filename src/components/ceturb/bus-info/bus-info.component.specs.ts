@@ -1,6 +1,6 @@
 import { BusInfoController } from './bus-info.component.controller';
 import BusInfoComponent from './bus-info.component';
-import BusInfoTemplate from './bus-info.component.html';
+import BusInfoTemplate = require('./bus-info.component.html');
 import { CeturbApiService, CeturbStorage } from '../shared/index';
 import { BusRoute, BusSchedule } from '../shared/index';
 import { environment, $stateParamsMock, $qMock, $windowMock, toastServiceMock } from '../../shared/tests/index';

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "module": "system",
+    "module": "commonjs",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -11,32 +11,14 @@
     "noResolve": false,
     "outDir": "www/components",
     "strictNullChecks": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noUnusedLocals": true,
     "moduleResolution": "node",
     "lib": [
       "dom",
       "es6",
       "es2015.promise"
-    ],
-    /* Module resolutions com jspm:
-       https://github.com/Microsoft/TypeScript/issues/5039
-       https://github.com/jspm/jspm-cli/issues/1476
-
-       As configurações a seguir ( typescript >= 2.0.0 ) configuram o compilador tsc usado pelo editor de modo que o mesmo
-       consiga "resolver" modules typescript a partir da pasta jspm_packages. Caso um módulo não seja encontrado usando as 
-       configurações a seguir, o processo de resolução de módulos "fallback" para o mecanismo especificado na propriedade "moduleResolution".
-
-       Para debugar as resoluções de módulos realizadas pelo compilador tsc, usando as configurações desse arquivo, execute (a partir do diretório desse arquivo):
-
-       tsc --traceResolution
-    */
-    "baseUrl": "./www/jspm_packages",
-    "paths": {
-      "ionic-native": [
-        "npm/ionic-native@1.3.24/dist"
-      ]
-    }
+    ]
   },
   "include": [
     "src/**/*"

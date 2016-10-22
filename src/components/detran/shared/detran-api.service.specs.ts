@@ -5,10 +5,10 @@
  angular/di: 0,
  no-unused-expressions: 0
  */
-import 'angular';
 import { DetranApiService } from './detran-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 import { Vehicle, DriverLicense } from './models/index';
+import { DetranStorage } from './index';
 
 let expect = chai.expect;
 
@@ -18,6 +18,7 @@ describe( 'DetranApiService', () => {
     beforeEach( () => sandbox = sinon.sandbox.create() );
     afterEach( () => sandbox.restore() );
 
+    let detranStorage: DetranStorage;
     let detranApiService: DetranApiService;
     let $httpGet: Sinon.SinonStub;
     let $httpPost: Sinon.SinonStub;
@@ -36,7 +37,7 @@ describe( 'DetranApiService', () => {
         $httpPost.returnsPromise().resolves( fakeResponse );
         settings = Settings.getInstance();
 
-        detranApiService = new DetranApiService( $http, settings );
+        detranApiService = new DetranApiService( $http, settings, detranStorage );
     } );
 
     describe( 'getDriverData()', () => {

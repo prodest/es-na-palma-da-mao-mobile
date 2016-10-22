@@ -1,4 +1,3 @@
-import 'angular';
 import { TicketColorService } from './ticket-color.service';
 
 let expect = chai.expect;

@@ -1,11 +1,11 @@
 import DriverLicenseComponent from './driver-license.component';
-import DriverLicenseTemplate from './driver-license.component.html';
-import registerLicenseTemplate from '../shared/add-license/add-license.html';
+import DriverLicenseTemplate = require('./driver-license.component.html');
+import registerLicenseTemplate = require('../shared/add-license/add-license.html');
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 import { DriverLicenseController } from './driver-license.component.controller';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
 import { TransitionService } from '../../shared/index';
-import imgDriverLicense from './img/cnh-frente.png!image';
+import driverLicenseImgUrl = require ('./img/cnh-frente.jpg');
 import { environment, $mdDialogMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
@@ -61,7 +61,7 @@ describe( 'Detran/driver-license', () => {
         describe( 'activate()', () => {
             it( 'imgLicense === imgDriverLicense.src', () => {
                 controller.activate();
-                expect( controller.imgLicense ).to.be.equal( imgDriverLicense.src );
+                expect( controller.imgLicense ).to.be.equal( driverLicenseImgUrl );
             });
 
             it( 'should redirect to "app.driverLicenseStatus" if hasDriverLicense === true', () => {

@@ -1,4 +1,3 @@
-import 'angular';
 import { CeturbStorage } from './ceturb-storage.service';
 import { AuthenticationService } from '../../shared/authentication/index';
 

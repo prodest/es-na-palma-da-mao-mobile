@@ -92,7 +92,6 @@
         "forin": true,
         "no-conditional-assignment": true,
         "no-construct": true,
-        "no-duplicate-key": true,
         "no-invalid-this": true,
         "no-null-keyword": true,
         "no-shadowed-variable": true,
@@ -100,6 +99,7 @@
         "no-unsafe-finally": true,
         "no-unused-expression": true,
         "no-unused-new": true,
-        "no-use-before-declare": true
+        "no-use-before-declare": true,
+        "no-unused-variable": true
     }
 }

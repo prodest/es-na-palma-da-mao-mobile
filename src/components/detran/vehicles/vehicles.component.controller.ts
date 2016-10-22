@@ -2,7 +2,7 @@ import { IScope } from 'angular';
 import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo } from '../shared/index';
 import { DialogService, ToastService, TransitionService } from '../../shared/index';
 
-import addVehicleTemplate from './add-vehicle/add-vehicle.html';
+import addVehicleTemplate = require('./add-vehicle/add-vehicle.html');
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
 
 /**

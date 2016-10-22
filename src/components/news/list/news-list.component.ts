@@ -1,5 +1,5 @@
 import './news-list.component.css';
-import template from './news-list.component.html';
+import template = require('./news-list.component.html');
 import { NewsListController } from './news-list.component.controller';
 
 const directive = () => {

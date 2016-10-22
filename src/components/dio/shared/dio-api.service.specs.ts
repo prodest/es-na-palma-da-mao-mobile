@@ -1,4 +1,3 @@
-import 'angular';
 import { DioApiService } from './dio-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 import { SearchFilter } from '../shared/models/index';

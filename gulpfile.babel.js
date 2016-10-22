@@ -14,9 +14,7 @@ import innerGulp from 'gulp';
 import gulpHelp from 'gulp-help';
 import yargs from 'yargs';
 import runSequence from 'run-sequence';
-import gulpHelpers from './gulp/helpers';
 import fs from 'fs';
-import path from 'path';
 import git from 'gulp-git';
 import tap from 'gulp-tap';
 import gutil from 'gulp-util';
@@ -28,46 +26,33 @@ import bump from 'gulp-bump';
 import inquirer from 'inquirer';
 import github from 'octonode';
 import gulpExec from 'gulp-exec';
-import config from './config/gulp.config';
 import del from 'del';
-import spawn from 'win-spawn';
 import semver from 'semver';
-import Bundler from '@prodest/angular-lazy-bundler';
-import ts from 'gulp-typescript';
-import sourcemaps from 'gulp-sourcemaps';
-import karma from 'karma';
 import cheerio from 'gulp-cheerio';
 import shell from 'gulp-shell';
 
-
-//import 'gulp-cordova-build-android';
-
-const gulp = gulpHelp( innerGulp ); // wrap in gulp help
-const taskMaker = gulpHelpers.taskMaker( gulp );
-const environment = gulpHelpers.environment();
+const gulp = gulpHelp( innerGulp );
 const Promise = bluebird;
+
+let paths = {
+    packageJson: './package.json',
+    cordovaConfig: './config.xml',
+    changelog: './CHANGELOG.md'
+};
+
+let config = {
+    repository: 'https://github.com/prodest/es-na-palma-da-mao-mobile',
+    paths: paths,
+    masterBranch: 'master',
+    developBranch: 'develop'
+};
 
 /**
  * Realiza o parse dos argumentos da linha de comando
  */
-let argv = yargs.alias( 't', 'transpile' )
-                .alias( 'w', 'watch' )
-                .alias( 's', 'serve' )
-                .alias( 'e', 'emulate' )
-                .alias( 'r', 'run' )
-                .alias( 'h', 'htmlmin' )
-                .alias( 'j', 'jsmin' )
-                .alias( 'b', 'bundle' )
-                .alias( 'p', 'password' )
-                .default( 'jsmin', false )
-                .default( 'bundle', false )
-                .default( 'htmlmin', false )
-                .default( 'watch', false )
-                .default( 'emulate', false )
-                .default( 'run', false )
-                .default( 'serve', false )
-                .default( 'transpile', false )
-                .default( 'password', '' ).argv;
+let argv = yargs.alias( 'p', 'password' )
+                .default( 'password', '' )
+                .argv;
 
 
 ////////////////////////////////////////// HELPERS /////////////////////////////////////////////////
@@ -216,211 +201,9 @@ const authenticateAsync = ( tokenOrCredentials ) => {
     } );
 };
 
-/**
- * Executa um comando do ionic. Pressupõe o ionic instalado localmente.
- *
- * @param {String} command - O comando do Ionic CLI sendo executado
- * @param {String[]} args - Array de strings contendo os argumentos para command
- * @param {Function} cb - Callback a ser executado quando o command finalizar
- *
- * @returns {void}
- */
-const ionic = ( command, args, cb ) => {
-
-    const script = path.resolve( './node_modules/ionic/bin/', 'ionic' );
-    const flags = process.argv.splice( 3 );
-    const ionicArgs = [ command ].concat( args || [] ).concat( flags );
-
-    const child = spawn( script, ionicArgs, { stdio: 'inherit' } );
-
-    child.on( 'close', ( code ) => {
-        cb( !!code );
-    } );
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////// TASKS ////////////////////////////////////////////////////
-
-gulp.task( 'ionic:serve', ( cb ) => {
-    ionic( 'serve', [ '--flag' ], cb );
-} );
-
-gulp.task( 'ionic:emulate', ( cb ) => {
-
-    if ( argv.emulate === true ) {
-        argv.emulate = 'android'; // usa android por default
-    }
-
-    ionic( `emulate ${argv.emulate}`, [ '--livereload', '--consolelogs' ], cb );
-} );
-
-gulp.task( 'ionic:run', ( cb ) => {
-
-    if ( argv.run === true ) {
-        argv.run = 'android'; // usa android por default
-    }
-
-    ionic( `run ${argv.run}`, [], cb );
-} );
-
-taskMaker.defineTask( 'css', {
-    taskName: 'css',
-    src: config.paths.css,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'clean', {
-    taskName: 'clean',
-    src: config.paths.output.temp,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'babel', {
-    taskName: 'transpile-app-js',
-    src: config.paths.js.app,
-    dest: config.paths.output.app,
-    ngAnnotate: true,
-    compilerOptions: config.babelOptions,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'app-js',
-    src: config.paths.js.app,
-    dest: config.paths.output.app,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'app-ts',
-    src: config.paths.ts.app,
-    dest: config.paths.output.app,
-    changed: { extension: '.ts' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'html',
-    src: config.paths.html,
-    dest: config.paths.output.app,
-    changed: { extension: '.html' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'packageJson',
-    src: config.paths.packageJson,
-    dest: config.paths.output.root,
-    changed: { extension: '.json' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'systemConfig',
-    src: config.paths.systemConfig,
-    dest: config.paths.output.root,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'system.yuml',
-    src: config.paths.systemYuml,
-    dest: config.paths.output.root,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'assets',
-    src: config.paths.assets,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'json',
-    src: config.paths.json,
-    dest: config.paths.output.app,
-    changed: { extension: '.json' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'index.html',
-    src: config.paths.index.src,
-    dest: config.paths.output.root,
-    rename: 'index.html',
-    changed: { extension: '.html' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'htmlMinify', {
-    taskName: 'htmlmin',
-    src: config.paths.html,
-    dest: config.paths.output.app,
-    debug: config.debugOptions,
-    minimize: config.htmlMinOptions
-} );
-
-taskMaker.defineTask( 'htmlHint', {
-    taskName: 'html-hint',
-    src: config.paths.html,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'minify', {
-    taskName: 'jsmin',
-    src: config.paths.js.output,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
-} );
-
-
-taskMaker.defineTask( 'tslint', {
-    taskName: 'tslint-src',
-    src: config.paths.ts.src,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint-src',
-    src: config.paths.js.src,
-    dest: './src',
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint',
-    src: config.paths.js.all,
-    dest: './',
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint-gulp',
-    src: config.paths.gulp,
-    base: './',
-    dest: './',
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'watch', {
-    taskName: 'watch',
-    src: config.paths.watch,
-    tasks: [ 'compile' ]
-} );
-
-taskMaker.defineTask( 'browserSync', {
-    taskName: 'serve',
-    browserSyncConfig: config.browserSyncConfig
-} );
 
 // no-op = empty function
-gulp.task( 'noop', ( cb ) => {
+gulp.task( 'noop', false, ( cb ) => {
     cb();
 } );
 
@@ -606,7 +389,7 @@ gulp.task( 'push-tags', false, [ 'ensures-master' ], ( cb ) => {
     } );
 } );
 
-gulp.task( 'create-release-branch', false, [ 'ensures-develop', 'bump' ], ( cb ) => {
+gulp.task( 'create-release-branch', true, [ 'ensures-develop', 'bump' ], ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const branchName = `release-v${pkg.version}`;
 
@@ -618,7 +401,7 @@ gulp.task( 'create-release-branch', false, [ 'ensures-develop', 'bump' ], ( cb )
     } );
 } );
 
-gulp.task( 'changelog', false, ( cb ) => {
+gulp.task( 'changelog', true, ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
     const version = options.version || pkg.version;
@@ -675,19 +458,6 @@ gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authentic
                } ) );
 } );
 
-gulp.task( 'transpile-app-ts', function() {
-
-    let tsProject = ts.createProject( 'tsconfig.json', {
-        typescript: require( 'typescript' )
-    } );
-
-    return gulp.src( [ 'node_modules/@types/**/*.d.ts', config.paths.ts.app ] )
-               .pipe( sourcemaps.init() )
-               .pipe( tsProject( ts.reporter.defaultReporter() ) )
-               .pipe( sourcemaps.write() )
-               .pipe( gulp.dest( config.paths.output.app ) );
-} );
-
 gulp.task( 'delay', false, ( cb ) => {
     setTimeout( cb, 3000 );
 } );
@@ -696,173 +466,10 @@ gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz up
     return runSequence( 'ensures-master', 'test', 'changelog', 'tag', 'push', 'push-tags', 'delay', 'github:create-release', cb );
 } );
 
-gulp.task( 'tree-shaking', false, shell.task( [
-    'find ./www/jspm_packages -type f -not -regex ".*\\.css$" -not -regex ".*\\.woff$" -not -regex ".*\\.woff2$" -not -regex ".*\\/system.js$" -not -regex ".*\\/system-polyfills.js$" -not -regex ".*\\/system-csp-production.js$" -delete -or -type f -regex ".*/angular.*/.*" -delete'
-] ) );
+gulp.task( 'tree-shaking', false, shell.task( [ 'find ./www -regex ".*\\.ttf$" -delete -or -regex ".*\\.svg$" -delete -or -regex ".*\\.eot$" -delete -or -regex ".*\\.map$" -delete' ] ) );
 
-gulp.task( 'create-apk', false, shell.task( [
+gulp.task( 'create-apk', true, shell.task( [
     'cordova build android --release -- --keystore=espm.keystore --storePassword=' + argv.password + ' --alias=espm --password=' + argv.password
 ] ) );
 
-gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
 
-    // Se flag argv.transpile seja informado, realiza o transpile do js e copia o resultado para
-    // a pasta de onde a app será executada. Caso argv.transpile NÃO seja informado, copia o código
-    // js como está a "transpilation" será delegada automaticamente para o systemJS, o que é bom
-    // em tempo de desenvolvimento mas que aumenta significativamente número e o tamanho das
-    // requisições.
-    const transpile = argv.transpile || environment.isProduction();
-    const jsmin = argv.jsmin || environment.isProduction();
-    const htmlmin = argv.htmlmin || environment.isProduction();
-    const bundle = argv.bundle || environment.isProduction();
-
-	// tasks que transformam/copiam arquivos para a pasta de distribuição
-    let compileTasks = [
-        'eslint-src',
-        'tslint-src',
-        'css',
-        'json',
-        'assets',
-        'system.yuml',
-        'packageJson',
-        'systemConfig',
-        'index.html',
-        transpile ? 'transpile-app-ts' : 'app-ts',
-        transpile ? 'transpile-app-js' : 'app-js',
-        htmlmin ? 'htmlmin' : 'html'
-    ];
-
-	// tasks executadas nos arquivos copiados na pasta de distribuição.
-    if ( jsmin ) {
-        compileTasks.push( [ 'jsmin' ] );
-    }
-
-    if ( bundle ) {
-        compileTasks.push( 'bundle' );
-        compileTasks.push( 'tree-shaking' );
-    }
-
-    compileTasks.push( cb );   // adiciona callback no fim de copy tasks
-
-    runSequence.apply( null, compileTasks );
-} );
-
-gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', ( cb ) => {
-    runSequence( 'clean', [ 'compile' ], cb );
-} );
-
-gulp.task( 'run', 'Executa a aplicação', ( cb ) => {
-    if ( environment.isProduction() ) {
-        runSequence( 'recompile', 'serve', cb );
-    } else if ( environment.isDevelopment() ) {
-
-        let serveTasks = [ 'noop' ];
-
-        if ( argv.emulate ) {
-            serveTasks.push( 'ionic:emulate' );
-        }
-
-        if ( argv.run ) {
-            serveTasks.push( 'ionic:run' );
-        }
-
-        if ( argv.serve ) {
-            serveTasks.push( 'serve' );
-        }
-
-        runSequence( 'recompile', serveTasks, argv.watch ? 'watch' : 'noop', cb );
-    } else {
-        gutil.log( gutil.colors.yellow( `Nenhuma task configurada para o ENV: ${environment.name}` ) );
-    }
-} );
-
-gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
-
-gulp.task( 'analyze', 'Analiza o código', ( cb ) => {
-    runSequence( 'eslint-src', 'tslint-src', 'transpile-app-ts', cb );
-} );
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-gulp.task( 'bundle', ( done ) => {
-    const bundler = new Bundler( {
-        baseUrl: 'www',
-        source: 'www',
-        dest: 'www/bundles',
-        sourceMaps: false,
-        cssOptimize: true,
-        systemJsConfig: 'www/system.config.js'
-    } );
-    bundler.bundle( {
-        components: [
-            'shared/authentication',
-            'shared/toast',
-            'shared/loader',
-            'shared/routes',
-            'shared/http',
-            'shared/dialog',
-            'shared/fabric',
-            'shared/permissions',
-            'shared/push',
-            'shared/settings',
-            'shared/directives',
-            'shared',
-            'layout/menu',
-            'layout/messages/message',
-            'layout/messages/highlight',
-            'layout/messages/remark',
-            'layout/messages/error-message',
-            'layout/spinner',
-            'layout',
-            'home',
-            'login',
-            'dashboard',
-            'news/shared',
-            'news/highlights',
-            'news',
-            'calendar/shared',
-            'calendar',
-            'detran/shared/models',
-            'detran/shared',
-            'detran',
-            'app'
-        ],
-        packages: [
-            'ionic', // carrega angular e ui-router junto
-            'ionic-native',
-            'angular-i18n/pt-br',
-            'angular-material',
-            'ionic-native-transitions',
-            'ngstorage',
-            'angular-ui-router',
-            'ui-router-extras',
-            'oclazyload',
-            'moment',
-            'moment/locale/pt-br.js',
-            'roboto',
-            'font-awesome',
-            'calendar',
-            'text',
-            'css',
-            'image',
-            'json'
-        ]
-    }, 'principal' )
-    .then( () => bundler.bundleRemainingComponents() )
-    .then( () => bundler.saveConfig() )
-    .then( () => done() )
-    .catch( ( err ) => done( err ) );
-} );
-
-
-
-/**
- * Run test once and exit
- */
-gulp.task( 'test', ( cb ) => {
-    new karma.Server( {
-        configFile: `${__dirname}/config/karma.conf.js`,
-        singleRun: true
-    }, cb ).start();
-} );

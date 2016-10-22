@@ -1,9 +1,9 @@
 import { VehiclesController } from './vehicles.component.controller';
 import VehiclesComponent from './vehicles.component';
-import VehiclesTemplate from './vehicles.component.html';
+import VehiclesTemplate = require('./vehicles.component.html');
 import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo, VehicleData } from '../shared/index';
 import { TransitionService } from '../../shared/index';
-import addVehicleTemplate from './add-vehicle/add-vehicle.html';
+import addVehicleTemplate = require('./add-vehicle/add-vehicle.html');
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
 import { environment, $mdDialogMock, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
 let expect = chai.expect;
@@ -42,7 +42,7 @@ describe( 'Detran/vehicles', () => {
         // models
         let vehicle: Vehicle;
         let vehicleInfo: VehicleInfo;
-        let vehicleData = VehicleData;
+        let vehicleData: VehicleData;
         let vehicleStorage: VehicleStorage;
 
         beforeEach(() => {

@@ -1,7 +1,7 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import { IScope, IPromise, IQService } from 'angular';
 import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService, DriverLicenseStorage, DriverLicense } from '../shared/index';
-import registerLicenseTemplate from '../shared/add-license/add-license.html';
+import registerLicenseTemplate = require('../shared/add-license/add-license.html');
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 
 /**

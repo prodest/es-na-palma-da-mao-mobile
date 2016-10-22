@@ -1,5 +1,5 @@
 import 'angular-ui-router';
-import angular from 'angular';
+
 
 import dashBoardComponent from './dashboard.component';
 

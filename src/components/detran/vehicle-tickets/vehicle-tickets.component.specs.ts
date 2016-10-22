@@ -1,6 +1,6 @@
 import { VehicleTicketsController } from './vehicle-tickets.component.controller';
 import VehicleTicketsComponent from './vehicle-tickets.component';
-import VehicleTicketsTemplate from './vehicle-tickets.component.html';
+import VehicleTicketsTemplate = require('./vehicle-tickets.component.html');
 import { DetranApiService, TicketColorService, Ticket } from '../shared/index';
 import { environment, $stateParamsMock } from '../../shared/tests/index';
 

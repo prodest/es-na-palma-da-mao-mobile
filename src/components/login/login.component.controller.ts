@@ -1,4 +1,4 @@
-import { IWindowService, IPromise } from 'angular';
+import { IPromise } from 'angular';
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
 import { ToastService, DialogService, TransitionService } from '../shared/index';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
@@ -20,7 +20,6 @@ export class LoginController {
         'authenticationService',
         'dialog',
         'toast',
-        '$window',
         'pushService',
         'transitionService'
     ];
@@ -38,7 +37,6 @@ export class LoginController {
      * @param {AuthenticationService} authenticationService
      * @param {DialogService} dialog
      * @param {ToastService} toast
-     * @param {IWindowService} $window
      * @param {PushConfig} pushConfig
      * 
      * @memberOf LoginController
@@ -46,7 +44,6 @@ export class LoginController {
     constructor( private authenticationService: AuthenticationService,
         private dialog: DialogService,
         private toast: ToastService,
-        private $window: IWindowService,
         private pushService: PushService,
         private transitionService: TransitionService ) {
     }

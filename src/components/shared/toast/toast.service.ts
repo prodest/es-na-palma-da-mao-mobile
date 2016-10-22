@@ -1,5 +1,5 @@
 import { IPromise } from 'angular';
-import template from './toast.html';
+import template = require('./toast.html');
 import { ToastOptions } from './models/index';
 
 /**

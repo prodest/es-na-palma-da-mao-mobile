@@ -1,5 +1,5 @@
 import './search.component.css';
-import template from './search.component.html';
+import template = require('./search.component.html');
 import { SearchController } from './search.component.controller';
 
 const directive = () => {

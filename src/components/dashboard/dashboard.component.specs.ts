@@ -1,7 +1,8 @@
 ﻿import { DashBoardController } from './dashboard.component.controller';
 import DashBoardComponent from './dashboard.component';
-import DashBoardTemplate from './dashboard.component.html';
+import DashBoardTemplate = require('./dashboard.component.html');
 import { environment } from '../shared/tests/index';
+import { TransitionService } from '../shared/index';
 
 let expect = chai.expect;
 
@@ -13,9 +14,12 @@ describe( 'Dashboard', () => {
 
     describe( 'Controller', () => {
         let controller: DashBoardController;
+        let $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate;
+        let transitionService: TransitionService;
+
         beforeEach(() => {
             environment.refresh();
-            controller = new DashBoardController( environment.$scope );
+            controller = new DashBoardController( environment.$scope, $ionicTabsDelegate, transitionService );
         });
 
         describe( 'on instantiation', () => {

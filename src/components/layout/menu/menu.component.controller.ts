@@ -1,7 +1,7 @@
 import { IRootScopeService } from 'angular';
 
 import { AuthenticationStorageService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
-import defaultAvatar from './img/user.png!image';
+import defaultAvatarSrc = require('./img/user.png');
 import { ToastService, TransitionService } from '../../shared/index';
 import { Route } from '../../shared/routes/index';
 import { DriverLicenseStorage } from '../../detran/shared/index';
@@ -15,7 +15,6 @@ export default class MenuController {
         '$rootScope',
         '$mdSidenav',
         '$ionicHistory',
-        '$ionicNativeTransitions',
         '$ionicPlatform',
         '$mdDialog',
         '$mdBottomSheet',
@@ -34,22 +33,22 @@ export default class MenuController {
      * @param {IRootScopeService} $rootScope
      * @param {angular.material.ISidenavService} $mdSidenav
      * @param {ionic.navigation.IonicHistoryService} $ionicHistory
-     * @param {any} $ionicNativeTransitions
      * @param {ionic.platform.IonicPlatformService} $ionicPlatform
      * @param {angular.material.IDialogService} $mdDialog
      * @param {angular.material.IBottomSheetService} $mdBottomSheet
      * @param {angular.material.IMenuService} $mdMenu
      * @param {*} $mdSelect
-     * @param {GoogleService} googleService
      * @param {AuthenticationService} authenticationService
+     * @param {AuthenticationStorageService} authenticationStorageService
      * @param {ToastService} toast
      * @param {DriverLicenseStorage} driverLicenseStorage
      * @param {TransitionService} transitionService
+     * 
+     * @memberOf MenuController
      */
     constructor( private $rootScope: IRootScopeService,
         private $mdSidenav: angular.material.ISidenavService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $ionicNativeTransitions,
         private $ionicPlatform: ionic.platform.IonicPlatformService,
         private $mdDialog: angular.material.IDialogService,
         private $mdBottomSheet: angular.material.IBottomSheetService,
@@ -153,7 +152,7 @@ export default class MenuController {
      * @type {string}
      */
     public get avatarUrl(): string {
-        return this.authenticationStorageService.googleAvatarUrl || this.authenticationStorageService.facebookAvatarUrl || defaultAvatar.src;
+        return this.authenticationStorageService.googleAvatarUrl || this.authenticationStorageService.facebookAvatarUrl || defaultAvatarSrc;
     }
 
     /**

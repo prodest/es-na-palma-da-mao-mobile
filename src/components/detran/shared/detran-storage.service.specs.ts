@@ -1,4 +1,3 @@
-import 'angular';
 import { DetranStorage } from './detran-storage.service';
 import { Vehicle, DriverLicense, VehicleData } from './models/index';
 import { AuthenticationService } from '../../shared/authentication/index';

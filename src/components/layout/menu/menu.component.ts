@@ -1,5 +1,5 @@
 import './menu.component.css';
-import template from './menu.component.html';
+import template = require('./menu.component.html');
 import MenuController from './menu.component.controller';
 
 const directive = () => {

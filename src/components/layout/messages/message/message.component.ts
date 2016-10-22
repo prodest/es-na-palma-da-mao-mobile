@@ -1,5 +1,5 @@
 import './message.component.css';
-import template from './message.component.html';
+import template = require('./message.component.html');
 import { MessageController } from './message.component.controller';
 
 const directive = () => {

@@ -1,5 +1,5 @@
 import './vehicle-tickets.component.css';
-import template from './vehicle-tickets.component.html';
+import template = require('./vehicle-tickets.component.html');
 import { VehicleTicketsController } from './vehicle-tickets.component.controller';
 
 const directive = () => {

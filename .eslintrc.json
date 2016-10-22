@@ -14,7 +14,7 @@
   },
   "rules": {
     "linebreak-style": [
-      2,
+      0,
       "unix"
     ],
     "angular/controller-name": [

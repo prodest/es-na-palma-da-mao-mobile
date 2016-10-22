@@ -1,5 +1,5 @@
 import './about.component.css';
-import template from './about.component.html';
+import template = require('./about.component.html');
 import { AboutController } from './about.component.controller';
 
 const directive = () => {

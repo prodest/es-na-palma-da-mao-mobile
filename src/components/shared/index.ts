@@ -16,8 +16,6 @@ import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import run from './run';
 import runNetwork from './run.network';
-import loader from './loader/index';
-import routes from './routes/index';
 import authentication from './authentication/index';
 import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
@@ -29,8 +27,6 @@ import { TransitionService } from './transition.service';
 let dependencies = [
     toast.name,
     dialog.name,
-    loader.name,
-    routes.name,
     authentication.name,
     directives.name,
     pushModule.name,

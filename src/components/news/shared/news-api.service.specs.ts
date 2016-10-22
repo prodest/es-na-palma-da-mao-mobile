@@ -1,4 +1,3 @@
-import 'angular';
 import { NewsApiService } from './news-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 import { Filter, Pagination } from '../shared/models/index';

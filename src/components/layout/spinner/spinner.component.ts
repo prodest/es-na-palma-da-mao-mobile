@@ -1,5 +1,5 @@
 import './spinner.component.css';
-import template from './spinner.component.html';
+import template = require('./spinner.component.html');
 import { SpinnerController } from './spinner.component.controller';
 
 const directive = () => {

@@ -1,6 +1,6 @@
 import { LatestController } from './latest.component.controller';
 import LatestComponent from './latest.component';
-import LatestTemplate from './latest.component.html';
+import LatestTemplate = require('./latest.component.html');
 import { Edition, DioApiService } from '../shared/index';
 import { environment, $windowMock } from '../../shared/tests/index';
 let expect = chai.expect;

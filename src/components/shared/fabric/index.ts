@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import { CrashlyticsService } from './crashlytics.service';
 import { AnswersService } from './answers.service';
 

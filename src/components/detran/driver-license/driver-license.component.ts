@@ -1,5 +1,5 @@
 import './driver-license.component.css';
-import template from './driver-license.component.html';
+import template = require('./driver-license.component.html');
 import { DriverLicenseController } from './driver-license.component.controller';
 
 const directive = () => {

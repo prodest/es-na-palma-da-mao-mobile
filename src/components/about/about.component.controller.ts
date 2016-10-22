@@ -1,7 +1,6 @@
 import { IScope, IPromise, IWindowService } from 'angular';
 import { TeamsApiService, TeamMember, Project } from './shared/index';
-import packageJson from '../../package.json!';
-import logoProdest from '../shared/img/prodest-logo.png!image';
+import packageJson = require('../../../package.json');
 
 export class AboutController {
 
@@ -23,15 +22,6 @@ export class AboutController {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {string}
-     */
-    public get logoUrl(): string {
-        return logoProdest.src;
-    }
 
     /**
      * Ativa o component

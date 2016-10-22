@@ -1,7 +1,7 @@
 import { WarningListController } from './warning-list.component.controller';
 import WarningListComponent from './warning-list.component';
-import WarningListTemplate from './warning-list.component.html';
-import { CbmesApiService, Warning } from '../shared/index';
+import WarningListTemplate = require('./warning-list.component.html');
+import { CbmesApiService, Warning, WarningLevelService } from '../shared/index';
 import { environment, $windowMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
@@ -15,50 +15,57 @@ describe( 'cmbes/warning-list', () => {
     describe( 'Controller', () => {
         let controller: WarningListController;
         let cbmesApiService: CbmesApiService;
+        let warningLevelService: WarningLevelService;
 
         // mocka data
         let warnings: Warning[] =
             [ {
-                level: 'alto',
+                id: '1',
+                level: 5,
                 title: 'Incêndio',
                 message: 'Princípio de incendio no centro',
                 beginDate: new Date(),
                 endDate: new Date(),
                 region: {
-                    type: 'circle',
-                    center: { latitude: -20, longitude: -40 },
+                    type: 1,
+                    center: { lat: -20, lon: -40 },
                     radius: 2000
-                }
+                },
+                insertedAt: new Date()
             },
             {
-                level: 'medio',
+                id: '2',
+                level: 3,
                 title: 'Incêndio',
                 message: 'Princípio de incendio no centro',
                 beginDate: new Date(),
                 endDate: new Date(),
                 region: {
-                    type: 'circle',
-                    center: { latitude: -20, longitude: -40 },
+                    type: 2,
+                    center: { lat: -20, lon: -40 },
                     radius: 2000
-                }
+                },
+                insertedAt: new Date()
             },
             {
-                level: 'baixo',
+                id: '3',
+                level: 1,
                 title: 'Incêndio',
                 message: 'Princípio de incendio no centro',
                 beginDate: new Date(),
                 endDate: new Date(),
                 region: {
-                    type: 'circle',
-                    center: { latitude: -20, longitude: -40 },
+                    type: 3,
+                    center: { lat: -20, lon: -40 },
                     radius: 2000
-                }
+                },
+                insertedAt: new Date()
             }];
 
         beforeEach(() => {
             environment.refresh();
             cbmesApiService = <CbmesApiService>{ getLastWarnings() { } };
-            controller = new WarningListController( environment.$scope, $windowMock, cbmesApiService );
+            controller = new WarningListController( environment.$scope, $windowMock, cbmesApiService, warningLevelService );
         });
 
         describe( 'on instantiation', () => {

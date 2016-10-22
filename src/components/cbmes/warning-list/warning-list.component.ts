@@ -1,5 +1,5 @@
 import './warning-list.component.css';
-import template from './warning-list.component.html';
+import template = require('./warning-list.component.html');
 import { WarningListController } from './warning-list.component.controller';
 
 const directive = () => {

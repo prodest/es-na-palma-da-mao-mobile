@@ -1,9 +1,9 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import DriverLicenseStatusComponent from './driver-license-status.component';
-import DriverLicenseStatusTemplate from './driver-license-status.component.html';
+import DriverLicenseStatusTemplate = require('./driver-license-status.component.html');
 import { DriverLicenseStatusController } from './driver-license-status.component.controller';
 import { DriverData, Ticket, DriverStatus, DriverLicense, DetranApiService, TicketColorService, DriverLicenseStorage } from '../shared/index';
-import registerLicenseTemplate from '../shared/add-license/add-license.html';
+import registerLicenseTemplate = require('../shared/add-license/add-license.html');
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 import { environment, $qMock, $mdDialogMock } from '../../shared/tests/index';
 

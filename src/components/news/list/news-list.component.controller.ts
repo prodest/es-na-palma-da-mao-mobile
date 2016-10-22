@@ -1,6 +1,6 @@
 import { IScope, IPromise } from 'angular';
 import { SourcesFilterController, sourcesFilterTemplate } from '../../layout/sources-filter/index';
-import datesFilterTemplate from './dates-filter/dates-filter.html';
+import datesFilterTemplate = require('./dates-filter/dates-filter.html');
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { News, NewsApiService, Filter, Pagination } from '../shared/index';
 import { TransitionService } from '../../shared/index';

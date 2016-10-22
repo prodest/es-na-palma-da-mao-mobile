@@ -5,7 +5,6 @@
  angular/di: 0,
  no-unused-expressions: 0
  */
-import 'angular';
 import { CalendarApiService } from './calendar-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 

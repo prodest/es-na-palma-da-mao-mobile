@@ -1,6 +1,6 @@
 import { HomeController } from './home.component.controller';
 import HomeComponent from './home.component';
-import HomeTemplate from './home.component.html';
+import HomeTemplate = require('./home.component.html');
 import { TransitionService } from '../shared/index';
 
 let expect = chai.expect;

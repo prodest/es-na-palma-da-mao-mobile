@@ -1,7 +1,7 @@
 import { NewsDetailController } from './news-detail.component.controller';
 import { NewsApiService, News, NewsDetail } from '../shared/index';
 import NewsDetailComponent from './news-detail.component';
-import NewsDetailTemplate from './news-detail.component.html';
+import NewsDetailTemplate = require('./news-detail.component.html');
 import { environment, $stateMock } from '../../shared/tests/index';
 import { SocialSharing } from 'ionic-native';
 

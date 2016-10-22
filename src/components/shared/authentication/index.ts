@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationStorageService } from './authentication-storage.service';
 import { AcessoCidadaoService } from './acesso-cidadao.service';

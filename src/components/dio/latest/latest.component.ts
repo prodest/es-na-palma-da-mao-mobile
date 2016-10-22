@@ -1,5 +1,5 @@
 import './latest.component.css';
-import template from './latest.component.html';
+import template = require('./latest.component.html');
 import { LatestController } from './latest.component.controller';
 
 const directive = () => {

@@ -1,4 +1,4 @@
-import template from './app.component.html';
+import template = require('./app.component.html');
 import './app.component.css';
 
 let appComponent = () => {

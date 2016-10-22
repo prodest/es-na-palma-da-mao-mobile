@@ -1,7 +1,7 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import { CalendarController } from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
-import CalendarTemplate from './calendar.component.html';
+import CalendarTemplate = require('./calendar.component.html');
 import { CalendarApiService } from './shared/calendar-api.service';
 import { environment, $mdDialogMock } from '../shared/tests/index';
 import { SourcesFilterController, sourcesFilterTemplate } from '../layout/sources-filter/index';

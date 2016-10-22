@@ -1,7 +1,6 @@
-import 'core-js/modules/es6.string.includes';
 import { BusLinesController } from './bus-lines.component.controller';
 import BusLinesComponent from './bus-lines.component';
-import BusLinesTemplate from './bus-lines.component.html';
+import BusLinesTemplate = require('./bus-lines.component.html');
 import { BusLine, CeturbApiService, CeturbStorage, FavoriteLinesData } from '../shared/index';
 import { environment } from '../../shared/tests/index';
 import { TransitionService } from '../../shared/index';

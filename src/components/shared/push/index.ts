@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import { PushService } from './push.service';
 
 export default angular.module( 'shared.push', [ 'authentication.shared' ] )

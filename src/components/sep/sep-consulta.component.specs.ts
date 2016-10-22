@@ -1,5 +1,5 @@
 import SepConsultaComponent from './sep-consulta.component';
-import SepConsultaTemplate from './sep-consulta.component.html';
+import SepConsultaTemplate = require('./sep-consulta.component.html');
 import { SepApiService, Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
 import { environment, toastServiceMock, $stateParamsMock } from '../shared/tests/index';

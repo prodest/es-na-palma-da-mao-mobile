@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import SpinnerComponent from './spinner.component';
 
 export default angular.module( 'spinner.component', [] )

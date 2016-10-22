@@ -4,7 +4,7 @@ import { Warning } from './models/index';
 
 export class CbmesApiService {
 
-    public static $inject: string[] = [ '$http', 'settings', '$q' ];
+    public static $inject: string[] = [ '$http', 'settings' ];
 
 
     /**
@@ -13,7 +13,7 @@ export class CbmesApiService {
      * @param {IHttpService} $http
      * @param {ISettings} settings
      */
-    constructor( private $http: IHttpService, private settings: ISettings, private $q ) {
+    constructor( private $http: IHttpService, private settings: ISettings ) {
     }
 
     /**

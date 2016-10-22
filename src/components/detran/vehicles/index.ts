@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import 'angular-ui-router';
 
 import VehiclesComponent from './vehicles.component';

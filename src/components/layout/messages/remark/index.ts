@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import RemarkComponent from './remark.component';
 
 export default angular.module( 'remark.component', [] )

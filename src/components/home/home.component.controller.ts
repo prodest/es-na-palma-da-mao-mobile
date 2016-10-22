@@ -11,7 +11,7 @@ export class HomeController {
      * @param {IWindowService} $window
      * @param {ISettings} settings
      */
-    constructor( private transitionService: TransitionService, ) {
+    constructor( private transitionService: TransitionService ) {
     }
 
     /**

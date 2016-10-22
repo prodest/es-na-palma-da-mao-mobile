@@ -8,9 +8,15 @@ export class DashBoardController {
     /**
      * Creates an instance of DashBoardController.
      * 
-     * @param {angular.ui.IStateService} $state
+     * @param {IScope} $scope
+     * @param {ionic.tabs.IonicTabsDelegate} $ionicTabsDelegate
+     * @param {TransitionService} transitionService
+     * 
+     * @memberOf DashBoardController
      */
-    constructor( private $scope: IScope, private $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate, private transitionService: TransitionService ) {
+    constructor( private $scope: IScope,
+                 private $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate,
+                 private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

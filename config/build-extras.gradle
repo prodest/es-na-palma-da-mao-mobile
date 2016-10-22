@@ -1,5 +1,0 @@
-// After create android platform in cordova, copy this file to platform/android/.
-
-dependencies { 
-    compile ("com.google.android.gms:play-services-auth:9.0.2") {force = true} 
-} 

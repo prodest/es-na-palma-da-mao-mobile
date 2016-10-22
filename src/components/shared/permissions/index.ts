@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import { CordovaPermissions } from './cordova-permissions';
 
 export default angular.module( 'shared.permissions', [] )

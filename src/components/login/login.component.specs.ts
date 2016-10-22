@@ -2,7 +2,7 @@ import { LoginController } from './login.component.controller';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
 import { PushService } from '../shared/push/index';
 import { TransitionService } from '../shared/index';
-import { environment, $windowMock, dialogServiceMock, toastServiceMock } from '../shared/tests/index';
+import { environment, dialogServiceMock, toastServiceMock, $windowMock } from '../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -22,9 +22,6 @@ describe( 'Login', () => {
         let dialogConfirmPromise: Sinon.SinonPromise;
         let toastInfo: Sinon.SinonStub;
         let toastError: Sinon.SinonStub;
-
-        // angular
-        let $windowOpen: Sinon.SinonStub;
 
         // api
         let authenticationService: AuthenticationService;
@@ -59,14 +56,12 @@ describe( 'Login', () => {
                 authenticationService,
                 dialogServiceMock,
                 toastServiceMock,
-                $windowMock,
                 pushService,
                 transitionService );
 
             // setup stubs
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
             dialogConfirmPromise = dialogConfirm.returnsPromise();
-            $windowOpen = sandbox.stub( $windowMock, 'open' );
             toastInfo = sandbox.stub( toastServiceMock, 'info' );
             toastError = sandbox.stub( toastServiceMock, 'error' );
 
@@ -136,7 +131,9 @@ describe( 'Login', () => {
                 expect( $windowOpen.calledWithExactly( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' ) ).to.be.true;
             });*/
 
+            // TODO: não usa mais windows open, usa inAppBrowser 
             it( 'should not open acesso cidadão web site on dialog cancel', () => {
+                let $windowOpen = sandbox.stub( $windowMock, 'open' ); // replace original activate
                 dialogConfirmPromise.rejects();
 
                 controller.showDialogAccountNotLinked();

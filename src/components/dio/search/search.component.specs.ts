@@ -1,8 +1,8 @@
 import { SearchController } from './search.component.controller';
 import SearchComponent from './search.component';
-import SearchTemplate from './search.component.html';
+import SearchTemplate = require('./search.component.html');
 import { Hit, SearchResult, DioApiService, SearchFilter } from '../shared/index';
-import filterTemplate from './filter/filter.html';
+import filterTemplate = require('./filter/filter.html');
 import { FilterController } from './filter/filter.controller';
 import { environment, $windowMock, $mdDialogMock } from '../../shared/tests/index';
 import { SocialSharing } from 'ionic-native';

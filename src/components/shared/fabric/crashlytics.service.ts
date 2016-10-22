@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import { NonFatal } from './models/index';
 import { Error } from '../http/models/index';
 

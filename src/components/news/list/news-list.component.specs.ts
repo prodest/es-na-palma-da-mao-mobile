@@ -1,9 +1,9 @@
-import moment from 'moment';
+import * as moment from 'moment';
 import { NewsListController } from './news-list.component.controller';
 import { NewsApiService, News, Filter } from '../shared/index';
 import NewsListComponent from './news-list.component';
-import NewsListTemplate from './news-list.component.html';
-import datesFilterTemplate from './dates-filter/dates-filter.html';
+import NewsListTemplate = require('./news-list.component.html');
+import datesFilterTemplate = require('./dates-filter/dates-filter.html');
 import { SourcesFilterController, sourcesFilterTemplate } from '../../layout/sources-filter/index';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { environment, $mdDialogMock } from '../../shared/tests/index';
@@ -104,69 +104,69 @@ describe( 'News/news-list', () => {
         });
 
 
-        describe.skip( 'getNews(filter)', () => {
+        // describe.skip( 'getNews(filter)', () => {
 
-            let freshNews: News[];
-            let alreadyLoadedNews: News[];
+        //     let freshNews: News[];
+        //     let alreadyLoadedNews: News[];
 
-            beforeEach(() => {
-                alreadyLoadedNews = <News[]>[ { title: 'Notícia A' }, { title: 'Notícia B' }];
-                freshNews = <News[]>[ { title: 'Notícia C' }, { title: 'Notícia D' }];
-                sandbox.stub( newsApiService, 'getNews' ).returnsPromise().resolves( freshNews );
+        //     beforeEach(() => {
+        //         alreadyLoadedNews = <News[]>[ { title: 'Notícia A' }, { title: 'Notícia B' }];
+        //         freshNews = <News[]>[ { title: 'Notícia C' }, { title: 'Notícia D' }];
+        //         sandbox.stub( newsApiService, 'getNews' ).returnsPromise().resolves( freshNews );
 
-                // configure controller
-                controller.news = alreadyLoadedNews;
-                controller.filter = {
-                    origins: [ 'SESA', 'SECOM' ],
-                    dateMin: new Date(),
-                    dateMax: new Date()
-                };
-                controller.pagination = {
-                    pageNumber: 5,
-                    pageSize: 12
-                };
-            });
+        //         // configure controller
+        //         controller.news = alreadyLoadedNews;
+        //         controller.filter = {
+        //             origins: [ 'SESA', 'SECOM' ],
+        //             dateMin: new Date(),
+        //             dateMax: new Date()
+        //         };
+        //         controller.pagination = {
+        //             pageNumber: 5,
+        //             pageSize: 12
+        //         };
+        //     });
 
-            it( 'should append returned news to existing news list if paginating', () => {
-                controller.getNews( controller.filter, controller.pagination );
+        //     it( 'should append returned news to existing news list if paginating', () => {
+        //         controller.getNews( controller.filter, controller.pagination );
 
-                expect( controller.news ).to.deep.equal( alreadyLoadedNews.concat( freshNews ) );
-            });
+        //         expect( controller.news ).to.deep.equal( alreadyLoadedNews.concat( freshNews ) );
+        //     });
 
-            it( 'should replace existing news with freshing ones if is not paginating', () => {
-                controller.pagination.pageNumber = 1; // not paginating
+        //     it( 'should replace existing news with freshing ones if is not paginating', () => {
+        //         controller.pagination.pageNumber = 1; // not paginating
 
-                controller.getNews( controller.filter, controller.pagination );
+        //         controller.getNews( controller.filter, controller.pagination );
 
-                expect( controller.news ).to.deep.equal( freshNews );
-            });
+        //         expect( controller.news ).to.deep.equal( freshNews );
+        //     });
 
-            it( 'should unset hasMoreNews if returned a partial page list', () => {
-                controller.hasMoreNews = true;
-                controller.pagination.pageSize = 10; // freshNews.length < pagination.pageSize
+        //     it( 'should unset hasMoreNews if returned a partial page list', () => {
+        //         controller.hasMoreNews = true;
+        //         controller.pagination.pageSize = 10; // freshNews.length < pagination.pageSize
 
-                controller.getNews( controller.filter, controller.pagination );
+        //         controller.getNews( controller.filter, controller.pagination );
 
-                expect( controller.hasMoreNews ).to.be.false;
-            });
+        //         expect( controller.hasMoreNews ).to.be.false;
+        //     });
 
-            it( 'should set hasMoreNews if returned a full page list', () => {
-                controller.hasMoreNews = false;
-                controller.pagination.pageSize = 2; // pageSize == freshNews.length
+        //     it( 'should set hasMoreNews if returned a full page list', () => {
+        //         controller.hasMoreNews = false;
+        //         controller.pagination.pageSize = 2; // pageSize == freshNews.length
 
-                controller.getNews( controller.filter, controller.pagination );
+        //         controller.getNews( controller.filter, controller.pagination );
 
-                expect( controller.hasMoreNews ).to.be.true;
-            });
+        //         expect( controller.hasMoreNews ).to.be.true;
+        //     });
 
-            it( 'should broadcast scroll.infiniteScrollComplete event', () => {
-                let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
+        //     it( 'should broadcast scroll.infiniteScrollComplete event', () => {
+        //         let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
 
-                controller.getNews( controller.filter, controller.pagination );
+        //         controller.getNews( controller.filter, controller.pagination );
 
-                expect( $broadcast.called ).to.be.true;
-            });
-        });
+        //         expect( $broadcast.called ).to.be.true;
+        //     });
+        // });
 
         describe( 'Filters:', () => {
             let $mdDialogShow: Sinon.SinonStub;

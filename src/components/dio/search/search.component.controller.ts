@@ -1,7 +1,7 @@
 import { IScope, IPromise, IWindowService } from 'angular';
 import { SocialSharing } from 'ionic-native';
 
-import filterTemplate from './filter/filter.html';
+import filterTemplate = require('./filter/filter.html');
 import { FilterController } from './filter/filter.controller';
 import {
     SearchFilter,
@@ -136,8 +136,6 @@ export class SearchController {
                 this.search( filter );
             });
     }
-
-
 
     /**
     * 

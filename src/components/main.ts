@@ -1,8 +1,6 @@
 // tslint:disable-next-line
 /// <reference path="./module.augmentation.d.ts" /> 
 /// <reference path="./module.declaration.d.ts" /> 
-
-import angular from 'angular';
 import app from './app/index';
 
 /*
@@ -13,8 +11,9 @@ import app from './app/index';
 angular.element( document ).ready( function () {
     angular.bootstrap( document, [ app.name ], {
         strictDi: true
-    } );
-} );
+    });
+});
+
 
 
 

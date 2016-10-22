@@ -4,6 +4,9 @@
 		<!-- Meta section -->
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<meta name="mobile-web-app-capable" content="yes">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="format-detection" content="telephone=no"> <!-- To disable phone number typing.-->
 		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
 		<!-- end Meta section -->
@@ -14,15 +17,17 @@
 		<script src="cordova.js"></script>
 		<!-- end Cordova script -->
 
-		<script src="jspm_packages/system.js"></script>
-		<script src="system.config.js"></script>
-		<script src="system.yuml.js"></script>
+		<style type="text/css">
+			body{
+				font-family: "RobotoDraft, Roboto, Helvetica Neue, sans-serif";
+			    background-color: rgb(32, 139, 170);
+				height: 100vh;
+			}
+		</style>
 	</head>
 
 	<body class="hide-native-scroll-y">
-		<app></app>
-		<script>
-			System[ 'import' ]( 'components/main' );
-		</script>
+		<app>
+		</app>
 	</body>
 </html>

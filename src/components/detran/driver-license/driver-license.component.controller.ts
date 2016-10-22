@@ -1,7 +1,7 @@
 import { IScope } from 'angular';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
-import imgDriverLicense from './img/cnh-frente.png!image';
-import registerLicenseTemplate from '../shared/add-license/add-license.html';
+import driverLicenseImgUrl = require('./img/cnh-frente.jpg');
+import registerLicenseTemplate = require('../shared/add-license/add-license.html');
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 import { TransitionService } from '../../shared/index';
 /**
@@ -37,8 +37,7 @@ export class DriverLicenseController {
      */
     public activate(): void {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-
-        this.imgLicense = imgDriverLicense.src;
+        this.imgLicense = driverLicenseImgUrl;
         if ( this.hasDriverLicense ) {
             this.navigateTo( 'app.driverLicenseStatus' );
         }

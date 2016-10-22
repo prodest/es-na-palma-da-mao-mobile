@@ -1,8 +1,6 @@
-import routesConfig from './routes.config';
-import statesJson from './states.json';
+import statesJson = require( './states.json' );
 
-export default angular.module( 'shared.routes', [] )
-                      .config( routesConfig );
+export default angular.module( 'shared.routes', [] );
 
 export * from './model/index';
 export { statesJson };

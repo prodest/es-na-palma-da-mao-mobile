@@ -5,7 +5,6 @@
  angular/di: 0,
  no-unused-expressions: 0
  */
-import 'angular';
 import { SepApiService } from './sep-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 

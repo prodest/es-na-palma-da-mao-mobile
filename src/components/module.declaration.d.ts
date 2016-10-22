@@ -1,5 +1,4 @@
-
-// // tslint:disable-next-line
+/* tslint:disable */
 
 declare var sinon: Sinon.SinonStatic;
 declare var angular: angular.IAngularStatic;
@@ -13,7 +12,7 @@ declare module 'rxjs/Rx' {
 
 declare module '*.html' {
     const content: string;
-    export default content;
+    export = content;
 }
 
 declare module '*.json' {
@@ -21,12 +20,23 @@ declare module '*.json' {
     export = content;
 }
 
-declare module '*!image' {
+declare module '*.png' {
     const content: any;
     export = content;
 }
 
-declare module 'calendar' {
+declare module '*.jpg' {
     const content: any;
+    export = content;
+}
+
+declare module '*.gif' {
+    const content: any;
+    export = content;
+}
+
+
+declare module 'ionic-calendar' {
+    const content: string;
     export = content;
 }

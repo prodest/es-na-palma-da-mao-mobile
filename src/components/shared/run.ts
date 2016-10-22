@@ -1,5 +1,4 @@
-import moment from 'moment';
-import 'moment/locale/pt-br';
+import * as moment from 'moment';
 import { Keyboard, Splashscreen } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';

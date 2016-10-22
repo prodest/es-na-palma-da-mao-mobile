@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 import 'angular-ui-router';
 
 import driverLicenseComponent from './driver-license.component';

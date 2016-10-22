@@ -1,5 +1,5 @@
 import './login.component.css';
-import template from './login.component.html';
+import template = require('./login.component.html');
 import { LoginController } from './login.component.controller';
 
 const directive = () => {

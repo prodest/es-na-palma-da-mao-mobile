@@ -1,11 +1,10 @@
 import { AboutController } from './about.component.controller';
 import AboutComponent from './about.component';
-import AboutTemplate from './about.component.html';
+import AboutTemplate = require('./about.component.html');
 import { TeamsApiService, TeamMember } from './shared/index';
 import { $windowMock, environment } from '../shared/tests/index';
 
-import packageJson from '../../package.json!';
-import logoProdest from '../shared/img/prodest-logo.png!image';
+import packageJson = require('../../../package.json');
 
 let expect = chai.expect;
 
@@ -59,13 +58,6 @@ describe( 'About', () => {
 
             it( 'should fill team members list', () => {
                 expect( controller.teamMembers ).to.equal( teamMembers );
-            });
-        });
-
-
-        describe( 'logoUrl', () => {
-            it( 'should return logoProdest.src', () => {
-                expect( controller.logoUrl ).to.equal( logoProdest.src );
             });
         });
 

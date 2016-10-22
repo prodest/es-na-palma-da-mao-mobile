@@ -1,13 +1,13 @@
-import angular from 'angular';
+
 import 'angular-ui-router';
-import rcalendar from 'calendar';
-import 'calendar/css/calendar.css!';
+import 'ionic-calendar';
+import 'ionic-calendar-css';
 
 import calendarComponent from './calendar.component';
 import calendarShared from './shared/index';
 
 const dependencies = [
-    'ui.router', rcalendar, calendarShared.name
+    'ui.router', 'ui.rCalendar', calendarShared.name
 ];
 
 export default angular.module( 'calendar.component', dependencies )

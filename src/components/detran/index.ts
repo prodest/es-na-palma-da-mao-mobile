@@ -12,4 +12,4 @@ let dependencies = [
     vehicles.name
 ];
 
-export default angular.module( 'ceturb', dependencies );
+export default angular.module( 'detran', dependencies );

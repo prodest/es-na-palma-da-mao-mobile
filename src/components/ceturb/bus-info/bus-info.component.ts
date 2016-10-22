@@ -1,5 +1,5 @@
 import './bus-info.component.css';
-import template from './bus-info.component.html';
+import template = require('./bus-info.component.html');
 import { BusInfoController } from './bus-info.component.controller';
 
 const directive = () => {
