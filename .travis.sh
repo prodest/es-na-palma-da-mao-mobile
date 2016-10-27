@@ -7,4 +7,4 @@ wget https://gist.github.com/vizeke/$SETTINGS_ID
 cd ../../../..
 wget https://gist.github.com/vizeke/$CONFIG_ID
 
-npm run test:coverage
+yarn run test:coverage

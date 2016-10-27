@@ -1,17 +1,5 @@
-// 3th party
-// import 'angular-i18n/pt-br';   // on pt-br you can use your locale
-import 'angular-material'; // importa o angular
-import 'angular-material-css';
-import 'angular-sanitize';
-import 'angular-ui-router';
-import 'ionic';
-import 'ionic-css';
-import 'ionic-angular';
-import 'ionic-native';
-import 'ionic-native-transitions';
-import 'ngstorage';
-import 'roboto-fontface';
-import 'font-awesome';
+// vendors
+import './vendors';
 
 // shared
 import shared from '../shared/index';

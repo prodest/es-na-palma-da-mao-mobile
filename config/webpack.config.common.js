@@ -9,26 +9,28 @@ const ForkCheckerPlugin = require( 'awesome-typescript-loader' ).ForkCheckerPlug
 
 const PATHS = {
     src: helpers.root( 'src' ),
-    entry: helpers.root( 'src/components/main' ),
+    entry: helpers.root( 'src/main' ),
     build: helpers.root( 'www' )
 };
 
-
-/*
- * Webpack Constants
- */
-const METADATA = {
-  title: 'ES na palma da mão',
-  baseUrl: '/',
-  isDevServer: helpers.isWebpackDevServer()
-};
 
 /*
  * Webpack configuration
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-const config = (options) => {
+const config = options => {
+
+    /*
+    * Webpack Constants
+    */
+    const METADATA = {
+        title: 'ES na palma da mão',
+        baseUrl: '/',
+        isDevServer: helpers.isWebpackDevServer(),
+        isDev: options.env === 'development'
+    };
+
     return {
 
         /*
@@ -52,9 +54,10 @@ const config = (options) => {
             rules: [
                 {
                     enforce: 'pre',
-                    test: /\.html$/, 
+                    test: /\.html$/,
                     loader: 'htmlhint-loader',
-                    include: [ PATHS.src ]
+                    include: [ PATHS.src ],
+                    exclude: [ helpers.root( 'src/index.html' ) ]
                 },
                 {
                     enforce: 'pre',
@@ -65,7 +68,7 @@ const config = (options) => {
                 {
                     test: /\.ts$/,
                     loader: 'awesome-typescript-loader',
-                    include: [ PATHS.src ], 
+                    include: [ PATHS.src ],
                     options: {
                         forkChecker: true,
                         useCache: true
@@ -73,8 +76,9 @@ const config = (options) => {
                 },
                 {
                     test: /\.html$/,
+                    loader: 'html-loader',
                     include: [ PATHS.src ],
-                    loader: 'html-loader'
+                    exclude: [ helpers.root( 'src/index.html' ) ]
                 },
                 {
                     test: /\.(jpg|png)$/,
@@ -125,14 +129,6 @@ const config = (options) => {
         */
         plugins: [
 
-             /**
-            * Plugin: IgnorePlugin
-            * Description: Don’t generate modules for requests matching the provided RegExp.
-            *
-            * See: http://webpack.github.io/docs/list-of-plugins.html#ignoreplugin
-            */
-            // new webpack.IgnorePlugin(/\.ttf|\.eot|\.svg/),
-
             /*
              * Plugin: ForkCheckerPlugin
              * Description: Do type checking in a separate process, so webpack don't need to wait.
@@ -147,20 +143,11 @@ const config = (options) => {
             new HtmlWebpackPlugin( {
                 template: helpers.root( 'src/index.html' ),
                 title: METADATA.title,
+                filename: helpers.root( 'www/index.html' ),
                 chunksSortMode: 'dependency',
                 metadata: METADATA,
                 inject: 'body',
                 hash: true
-            }),
-
-            // Automatically move all modules defined outside of application directory to vendor bundle.
-            // If you are using more complicated project structure, consider to specify common chunks manually.
-            new webpack.optimize.CommonsChunkPlugin( {
-                name: 'vendor',
-                minChunks: ( mod ) => {
-                    return mod.resource && mod.resource.indexOf( PATHS.src ) === -1 &&
-                        mod.resource.indexOf( 'package.json' ) === -1;
-                }
             }),
 
             // ref: http://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
@@ -180,6 +167,7 @@ const config = (options) => {
                 'font-awesome': helpers.root( 'node_modules/font-awesome/css/font-awesome.css' ),
                 'roboto-fontface': helpers.root( 'node_modules/roboto-fontface/css/roboto/sass/roboto-fontface-regular.scss' ),
                 'angular-material-css': helpers.root( 'node_modules/angular-material/angular-material.css' ),
+                'angular-material': helpers.root( 'node_modules/angular-material/angular-material.js' ),
                 'ionic': helpers.root( 'node_modules/ionic-angular/release/js/ionic.js' ),
                 'ionic-angular': helpers.root( 'node_modules/ionic-angular/release/js/ionic-angular.js' ),
                 'ionic-css': helpers.root( 'node_modules/ionic-angular/release/css/ionic.css' ),

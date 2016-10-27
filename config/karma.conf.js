@@ -17,7 +17,7 @@ if ( process.env.TRAVIS ) {
 
 module.exports = config => {
 
-    const testWebpackConfig = require( './webpack.test.js' )( { env: 'test' });
+    const testWebpackConfig = require( './webpack.config.test.js' )( { env: 'test' });
 
     const configuration = {
         /**
@@ -72,7 +72,7 @@ module.exports = config => {
             'text-summary': null,
             json: './coverage/coverage.json',
             html: './coverage/html',
-            lcovonly: './coverage/coverage.lcov'
+            lcovonly: './coverage/lcov.info'
         },
         /**
          * Only Phantom is used in this example.

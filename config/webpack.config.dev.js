@@ -1,28 +1,22 @@
 /* eslint-disable angular/json-functions */
-
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
 const merge = require( 'webpack-merge' ); // used to merge webpack configs
-const commonConfig = require( './webpack.common.js' ); // the settings that are common to prod and dev
-
-/**
- * Webpack Plugins
- */
-const WebpackMd5Hash = require( 'webpack-md5-hash' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
+const commonConfig = require( './webpack.config.common' ); // the settings that are common to prod and dev
 
 /**
  * Webpack Constants
  */
-const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
+const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
+const HMR = helpers.hasProcessFlag( 'hot' );
+
 const METADATA = merge( commonConfig( { env: ENV }).metadata, {
     host: HOST,
     port: PORT,
     ENV: ENV,
-    HMR: false
+    HMR: HMR
 });
 
 /**
@@ -30,7 +24,7 @@ const METADATA = merge( commonConfig( { env: ENV }).metadata, {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = (options) => {
+module.exports = options => {
     return merge( commonConfig( { env: ENV }), {
         /**
          * Developer tool to enhance debugging
@@ -38,7 +32,7 @@ module.exports = (options) => {
          * See: http://webpack.github.io/docs/configuration.html#devtool
          * See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
          */
-        devtool: 'source-map',
+        devtool: 'cheap-module-source-map',
 
         /**
          * Options affecting the output of the compilation.
@@ -60,7 +54,7 @@ module.exports = (options) => {
              *
              * See: http://webpack.github.io/docs/configuration.html#output-filename
              */
-            filename: '[name].[chunkhash].bundle.js',
+            filename: '[name].bundle.js',
 
             /**
              * The filename of the SourceMaps for the JavaScript files.
@@ -68,49 +62,58 @@ module.exports = (options) => {
              *
              * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
              */
-            sourceMapFilename: '[name].[chunkhash].bundle.map',
+            sourceMapFilename: '[name].map',
 
             /** The filename of non-entry chunks as relative path
              * inside the output.path directory.
              *
              * See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
              */
-            chunkFilename: '[id].[chunkhash].chunk.js'
+            chunkFilename: '[id].chunk.js'
         },
+
         module: {
             rules: [
-                // Extract CSS during build
                 {
                     test: /\.css$/,
-                    loader: ExtractTextPlugin.extract( {
-                        fallbackLoader: 'style-loader',
-                        loader: 'css-loader'
-                    })
+                    loaders: [ 'style-loader', 'css-loader' ]
                 }
             ]
         },
         plugins: [
-            
-            // Output extracted CSS to a file
-            new ExtractTextPlugin( '[name].[chunkhash].css' ),
+            // // Enable multi-pass compilation for enhanced performance
+            // // in larger projects. Good default.
+            // new webpack.HotModuleReplacementPlugin( {
+            //     multiStep: true
+            // }),
+
+            new webpack.DllReferencePlugin( {
+                manifest: require( helpers.root( 'www/vendors-manifest.json' ) )
+            } ),
 
             /**
-             * Plugin: WebpackMd5Hash
-             * Description: Plugin to replace a standard webpack chunkhash with md5.
+             * Plugin LoaderOptionsPlugin (experimental)
              *
-             * See: https://www.npmjs.com/package/webpack-md5-hash
+             * See: https://gist.github.com/sokra/27b24881210b56bbaff7
              */
-            new WebpackMd5Hash(),
+            new webpack.LoaderOptionsPlugin( {
+                debug: true,
+                options: {
 
-            /**
-             * Plugin: DedupePlugin
-            * Description: Prevents the inclusion of duplicate code into your bundle
-            * and instead applies a copy of the function at runtime.
-            *
-            * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            * See: https://github.com/webpack/docs/wiki/optimization#deduplication
-            */
-            new webpack.optimize.DedupePlugin(), // see: https://github.com/angular/angular-cli/issues/1587
+                    /**
+                     * Static analysis linter for TypeScript advanced options configuration
+                     * Description: An extensible linter for the TypeScript language.
+                     *
+                     * See: https://github.com/wbuchwalter/tslint-loader
+                     */
+                    tslint: {
+                        emitErrors: false,
+                        failOnHint: false,
+                        resourcePath: 'src'
+                    }
+                }
+            }),
+
             /**
              * Plugin: DefinePlugin
              * Description: Define free variables.
@@ -129,52 +132,28 @@ module.exports = (options) => {
                     'NODE_ENV': JSON.stringify( METADATA.ENV ),
                     'HMR': METADATA.HMR
                 }
-            }),
-            
-
-            /**
-            * Plugin: UglifyJsPlugin
-            * Description: Minimize all JavaScript output of chunks.
-            * Loaders are switched into minimizing mode.
-            *
-            * See: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-            */
-            // NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
-            new webpack.optimize.UglifyJsPlugin( {
-                // beautify: true, //debug
-                // mangle: false, //debug
-                // dead_code: false, //debug
-                // unused: false, //debug
-                // deadCode: false, //debug
-                // compress: {
-                //   screw_ie8: true,
-                //   keep_fnames: true,
-                //   drop_debugger: false,
-                //   dead_code: false,
-                //   unused: false
-                // }, // debug
-                // comments: true, //debug
-                beautify: false, //prod
-                mangle: {
-                    screw_ie8: true,
-                    keep_fnames: true
-                }, //prod
-                compress: {
-                    screw_ie8: true
-                }, //prod
-                comments: false //prod
-            }),
-
-            /**
-            * Plugin LoaderOptionsPlugin (experimental)
-            *
-            * See: https://gist.github.com/sokra/27b24881210b56bbaff7
-            */
-            new webpack.LoaderOptionsPlugin( {
-                debug: false,
-                minimize: true
             })
         ],
+
+        /**
+        * Webpack Development Server configuration
+        * Description: The webpack-dev-server is a little node.js Express server.
+        * The server emits information about the compilation state to the client,
+        * which reacts to those events.
+        *
+        * See: https://webpack.github.io/docs/webpack-dev-server.html
+        */
+        devServer: {
+            port: METADATA.port,
+            host: METADATA.host,
+            historyApiFallback: true,
+            watchOptions: {
+                aggregateTimeout: 300,
+                poll: 1000
+            },
+            outputPath: helpers.root( 'www/' )
+        },
+
         /*
         * Include polyfills or mocks for various node stuff
         * Description: Node configuration
