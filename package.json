@@ -42,7 +42,7 @@
     "server:hmr:start": "yarn build:vendor && yarn server:hmr:restart",
     "show:build": "serveur -L -cbJS -o www -p 3000",
     "show:coverage": "serveur -L -cbJS -o coverage/html -p 8080",
-    "github-release": "sh ./release.sh"
+    "github:release": "sh ./release.sh"
   },
   "config": {
     "ghooks": {
