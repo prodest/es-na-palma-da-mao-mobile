@@ -45,11 +45,15 @@
 	width: 100%;
 }
 
+#toggle-menu-left-content span.not-authenticated {
+	color: #a0a0a0
+}
+
 #toggle-menu-left-content md-list md-list-item.menu-list-item i {
 	margin-right: 30px;
 	margin-left: 22px;
 	font-size: 19px;
-	color: gray;
+	color: #808080;
 	width: 20px;
 }
 
@@ -64,7 +68,7 @@
 #toggle-menu-left-content .menu-list .menu-item .col-25 {
 	text-align: center;
 	font-size: 22px;
-	color: gray;
+	color: #808080;
 }
 
 #toggle-menu-left-content .menu-list .menu-item .col-75 {

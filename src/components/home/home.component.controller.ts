@@ -1,17 +1,17 @@
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
-import { TransitionService } from '../shared/index';
+import { TransitionService, AuthenticationService } from '../shared/index';
 
 export class HomeController {
 
-    public static $inject: string[] = [ 'transitionService' ];
+    public static $inject: string[] = [ 'transitionService', 'authenticationService' ];
 
     /**
      * Creates an instance of HomeController.
      * 
      * @param {IWindowService} $window
-     * @param {ISettings} settings
+     * @param {AuthenticationService} authenticationService
      */
-    constructor( private transitionService: TransitionService ) {
+    constructor( private transitionService: TransitionService, private authenticationService: AuthenticationService ) {
     }
 
     /**
@@ -19,6 +19,17 @@ export class HomeController {
      */
     public navigateToLogin(): void {
         this.transitionService.changeState( 'login' );
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf HomeController
+     */
+    public anonymousLogin(): void {
+        this.authenticationService.anonymousLogin = true;
+        this.transitionService.changeRootState( 'app.dashboard.newsHighlights' );
     }
 
     /**
@@ -32,7 +43,7 @@ export class HomeController {
             if ( event.url === 'https://acessocidadao.es.gov.br/' ) {
                 browser.close();
             }
-        } );
+        });
         browser.on( 'loaderror' ).subscribe(( event: InAppBrowserEvent ) => browser.close() );
     }
 }

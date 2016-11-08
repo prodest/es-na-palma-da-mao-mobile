@@ -26,6 +26,12 @@ let httpInterceptorsConfig = $httpProvider => {
                 return authenticationService.refreshTokenIfNeeded()
                     .then(( token: Token ) => {
                         return addAuthorizationHeader( config, token.access_token );
+                    })
+                    .catch( error => {
+                        if ( error.message === 'no-token' ) {
+                            return config;
+                        }
+                        throw error;
                     });
             },
             'responseError': ( rejection ) => {

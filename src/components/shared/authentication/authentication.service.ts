@@ -255,4 +255,20 @@ export class AuthenticationService {
     public get hasToken(): boolean {
         return !!this.acessoCidadaoService.token && !!this.acessoCidadaoService.tokenClaims;
     }
+
+    /**
+     * 
+     * @memberOf AuthenticationService
+     */
+    public set anonymousLogin( value: boolean ) {
+        this.authenticationStorageService.anonymousLogin = value;
+    }
+
+    /**
+     * 
+     * @memberOf AuthenticationService
+     */
+    public get anonymousLogin() {
+        return this.authenticationStorageService.anonymousLogin;
+    }
 }

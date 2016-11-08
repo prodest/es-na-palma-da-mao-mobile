@@ -1,7 +1,7 @@
 import { IRootScopeService } from 'angular';
 
 import { AuthenticationStorageService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
-import defaultAvatarSrc = require('./img/user.png');
+import defaultAvatarSrc = require( './img/user.png' );
 import { ToastService, TransitionService } from '../../shared/index';
 import { Route } from '../../shared/routes/index';
 import { DriverLicenseStorage } from '../../detran/shared/index';
@@ -62,6 +62,8 @@ export default class MenuController {
         this.activate();
     }
 
+    private mdSideNaveId = 'left';
+
     /**
      * Ativa o controller
      *
@@ -100,7 +102,7 @@ export default class MenuController {
                 ionic.Platform.exitApp();
             }
 
-            const sidenavIsOpen = this.$mdSidenav( 'left' ).isOpen();
+            const sidenavIsOpen = this.$mdSidenav( this.mdSideNaveId ).isOpen();
             const bottomSheetIsOpen = angular.element( document.querySelectorAll( 'md-bottom-sheet' ) ).length > 0;
             const dialogIsOpen = angular.element( document.querySelectorAll( '[id^=dialog]' ) ).length > 0;
             const menuContentIsOpen = angular.element( document.querySelectorAll( 'md-template-content' ) ).length > 0;
@@ -108,7 +110,7 @@ export default class MenuController {
             const previousStateIsEmpty = !this.$ionicHistory.backView();
 
             if ( sidenavIsOpen ) {
-                this.$mdSidenav( 'left' ).close();
+                this.$mdSidenav( this.mdSideNaveId ).close();
             } else if ( bottomSheetIsOpen ) {
                 this.$mdBottomSheet.cancel();
             } else if ( dialogIsOpen ) {
@@ -152,7 +154,10 @@ export default class MenuController {
      * @type {string}
      */
     public get avatarUrl(): string {
-        return this.authenticationStorageService.googleAvatarUrl || this.authenticationStorageService.facebookAvatarUrl || defaultAvatarSrc;
+        if ( this.authenticationService.isAuthenticated ) {
+            return this.authenticationStorageService.googleAvatarUrl || this.authenticationStorageService.facebookAvatarUrl || defaultAvatarSrc;
+        }
+        return defaultAvatarSrc;
     }
 
     /**
@@ -183,7 +188,9 @@ export default class MenuController {
      *  @returns {void}
      */
     public closeSideNav(): void {
-        this.$mdSidenav( 'left' ).close();
+        if ( this.$mdSidenav( this.mdSideNaveId ).isOpen() ) {
+            this.$mdSidenav( this.mdSideNaveId ).close();
+        }
     }
 
     /**
@@ -192,7 +199,7 @@ export default class MenuController {
      * @returns {void}
      */
     public toggleLeft(): void {
-        this.$mdSidenav( 'left' ).toggle();
+        this.$mdSidenav( this.mdSideNaveId ).toggle();
     }
 
     /**
@@ -203,10 +210,17 @@ export default class MenuController {
      * @returns {void}
      */
     public navigateTo( route: Route ): void {
+        this.closeSideNav();
+
         let stateName = route.name;
         if ( route.menuName === 'Situação CNH' ) {
-            stateName = this.hasDriverLicense ? 'app.driverLicenseStatus' : 'app.driverLicense';
+            stateName = this.authenticationService.isAuthenticated && this.hasDriverLicense ? 'app.driverLicenseStatus' : 'app.driverLicense';
         }
+
+        if ( !this.authenticationService.isAuthenticated && route.secure ) {
+            stateName = 'app.signup';
+        }
+
         this.transitionService.changeMenuState( stateName );
     }
 
@@ -214,10 +228,16 @@ export default class MenuController {
      * Desloga usuário do sistema
      */
     public signOut(): void {
-        this.authenticationService.signOut(() => {
-            this.transitionService.changeRootState( 'home' );
-        });
+        this.closeSideNav();
+        this.authenticationService.signOut(() => this.navigateToHome() );
+    }
+
+    /**
+     * 
+     * @memberOf MenuController
+     */
+    public navigateToHome() {
+        this.closeSideNav();
+        this.transitionService.changeRootState( 'home' );
     }
 }
-
-

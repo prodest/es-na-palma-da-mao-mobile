@@ -144,8 +144,11 @@ export class LoginController {
     }
 
     /**
-    *
-    */
+     * 
+     * 
+     * 
+     * @memberOf LoginController
+     */
     public showDialogAccountNotLinked(): void {
         this.dialog.confirm( {
             title: 'Conta não vinculada',
@@ -180,6 +183,14 @@ export class LoginController {
         this.openInAppBrowser('https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha');
     }
 
+    /**
+     * 
+     * 
+     * @private
+     * @param {string} url
+     * 
+     * @memberOf LoginController
+     */
     private openInAppBrowser( url: string ): void {
         let options = 'toolbar=no,location=no,clearcache=yes,clearsessioncache=yes,closebuttoncaption=Cancelar';
         let browser = new InAppBrowser( url + '?espmplatform=' + ionic.Platform.platform(), '_blank', options );

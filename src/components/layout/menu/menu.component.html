@@ -12,11 +12,10 @@
 		<ion-content id="toggle-menu-left-content">
 			<div class="material-background" id="toggle-menu-left-header">
 				<!--template header section-->
-				<div class="menu-left-header" ng-if="vm.authenticated">
-					<img class="user-img" ng-src="{{::vm.avatarUrl}}">
-
+				<div class="menu-left-header">
+					<img class="user-img" ng-src="{{vm.avatarUrl}}">
 					<p>
-						<span class="title">{{::vm.user.nome}}</span>
+						<span class="title" ng-if="vm.authenticated">{{::vm.user.nome}}</span>
 						<!--<br/>
 					<span class="sub-title">{{vm.perfil}}</span>-->
 					</p>
@@ -24,20 +23,20 @@
 				<!--end template header section-->
 			</div>
 			<md-list md-no-ink>
-				<md-list-item class="menu-list-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
+				<md-list-item class="menu-list-item" ng-click="vm.navigateToHome()" ng-hide="vm.authenticated">
 					<i class="fa fa-sign-in"></i>
-					<span>Login</span>
+					<span>Login / Cadastre-se</span>
 				</md-list-item>
-				<div ng-if="vm.authenticated">
+				<div>
 					<div ng-repeat="group in menu.groups">
 						<md-subheader class="md-accent">{{::group[0].group}}</md-subheader>
 						<md-list-item class="menu-list-item" ng-repeat="route in group" ng-click="::vm.navigateTo(route)">
 							<i class="{{::route.icon}}"></i>
-							<span>{{::route.menuName}}</span>
+							<span ng-class="{ 'not-authenticated': !vm.authenticated && route.secure }">{{::route.menuName}}</span>
 						</md-list-item>
 					</div>
 					<md-divider></md-divider>
-					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
+					<md-list-item class="menu-list-item" ng-click="vm.signOut()" ng-if="vm.authenticated">
 						<i class="ion-android-exit"></i>
 						<span>Sair</span>
 					</md-list-item>

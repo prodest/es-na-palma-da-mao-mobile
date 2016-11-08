@@ -37,6 +37,7 @@ let dependencies = [
 export * from './toast/index';
 export * from './dialog/index';
 export * from './transition.service';
+export * from './authentication/index';
 
 export default angular.module( 'shared', dependencies )
     .constant( 'settings', Settings.getInstance() )

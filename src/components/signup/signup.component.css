@@ -1,0 +1,48 @@
+#signup-component {
+    background-color: #208baa;
+}
+
+#signup-component > div {
+	display: flex;
+    flex-direction: column;
+}
+
+#signup-component > div > .text-content {
+    color: #ffffff;
+    font-size: 1.3em;
+    text-align: center;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+}
+
+#signup-component .espm-home-logo {
+    flex: 2 1 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#signup-component img {
+	max-width: 200px;
+    max-height: 167px;
+    height: 100%;
+}
+
+#signup-component .wrap-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    flex: 2 1 auto;
+}
+
+#signup-component button {
+	width: 75%;
+	font-size: 1.1em;
+	font-weight: 500;
+	color: #fff;
+    height: 56px;
+    min-width: 200px;
+}

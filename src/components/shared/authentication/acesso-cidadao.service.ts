@@ -1,4 +1,4 @@
-import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
+import { IWindowService, IHttpService, IPromise, IQService, IRequestConfig } from 'angular';
 
 import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity } from './models/index';
 import { Settings } from '../settings/index';
@@ -91,6 +91,7 @@ export class AcessoCidadaoService {
     public signIn( data: Identity ): IPromise<AcessoCidadaoClaims> {
         return this.getToken( data )
             .then( token => {
+                this.$localStorage.anonymousLogin = false;
                 this.sendAnswers( data, true );
                 this.saveTokenOnLocaStorage( token );
                 return this.getAcessoCidadaoUserClaims();
@@ -180,7 +181,7 @@ export class AcessoCidadaoService {
         let currentDate = new Date();
         return this.$q(( resolve, reject ) => {
             if ( !this.tokenClaims || !this.token ) {
-                return reject();
+                return reject( { message: 'no-token' });
             }
 
             if ( this.tokenIsNotExpiredIn( currentDate ) ) {
@@ -190,7 +191,7 @@ export class AcessoCidadaoService {
             if ( this.tokenIsExpiringIn( currentDate ) ) {
                 return this.refreshToken()
                     .then(() => resolve( this.token ) )
-                    .catch(() => reject() );
+                    .catch(( error ) => reject( error ) );
             }
         });
     }
@@ -304,7 +305,7 @@ export class AcessoCidadaoService {
     private getRequestTokenOptions( data ) {
         let getTokenUrl = `${this.identityServerUrl}/connect/token`;
 
-        let options: ng.IRequestConfig = {
+        let options: IRequestConfig = {
             url: getTokenUrl,
             method: 'POST',
             headers: {

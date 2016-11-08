@@ -34,3 +34,10 @@
 	font-weight: 500;
 	color: #fff;
 }
+
+#home-component .anonymous-access {
+	padding: 18px;
+	color: #ffffff;
+	text-decoration: underline;
+	font-size: 1.1em;
+}

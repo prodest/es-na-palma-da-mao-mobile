@@ -8,4 +8,5 @@ export interface Route {
     icon: string;
     group: string;
     editable: boolean;
+    secure: boolean;
 }

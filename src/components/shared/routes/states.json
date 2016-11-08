@@ -95,7 +95,8 @@
     "editable": true,
     "menuName": "Consulta Processo",
     "group": "Principal",
-    "icon": "fa fa-search"
+    "icon": "fa fa-search",
+    "secure": true
   },
   {
     "name": "app.driverLicenseStatus",
@@ -106,7 +107,8 @@
     "editable": true,
     "menuName": "Situação CNH",
     "group": "Detran",
-    "icon": "fa fa-car"
+    "icon": "fa fa-car",
+    "secure": true
   },
   {
     "name": "app.driverLicense",
@@ -117,7 +119,8 @@
     "menuName": "Situação CNH",
     "editable": false,
     "group": "Detran",
-    "icon": "fa fa-car"
+    "icon": "fa fa-car",
+    "secure": true
   },
   {
     "name": "app.vehicles",
@@ -128,14 +131,16 @@
     "menuName": "Multas por veículo",
     "menu": true,
     "editable": true,
-    "icon": "fa fa-car"
+    "icon": "fa fa-car",
+    "secure": true
   },
   {
     "name": "app.vehicleTickets/:plate/:renavam",
     "url": "detran/vehicle/tickets/:plate/:renavam",
     "type": "load",
     "src": "components/detran/vehicle-tickets/index",
-    "menu": false
+    "menu": false,
+    "secure": true
   },
   {
     "name": "app.busLines",
@@ -146,7 +151,8 @@
     "menuName": "Consulta Ônibus",
     "menu": true,
     "editable": true,
-    "icon": "fa fa-bus"
+    "icon": "fa fa-bus",
+    "secure": true
   },
   {
     "name": "app.busInfo/:id",
@@ -154,7 +160,8 @@
     "type": "load",
     "src": "components/ceturb/bus-info/index",
     "menu": false,
-    "editable": false
+    "editable": false,
+    "secure": true
   },
   {
     "name": "app.dioSearch",
@@ -199,5 +206,13 @@
     "menuName": "Sobre",
     "group": "Outros",
     "icon": "ion-information-circled"
+  },
+  {
+    "name": "app.signup",
+    "url": "signup",
+    "type": "load",
+    "src": "components/signup/index",
+    "menu": false,
+    "editable": true
   }
 ]

@@ -85,8 +85,17 @@ function run( $rootScope: any,
         });
 
         // here is where the cleanup happens
-        $rootScope.$on( '$destroy', function () {
-            rootWatch();
+        $rootScope.$on( '$destroy', () => rootWatch() );
+
+        $rootScope.$transitionService = transitionService;
+
+        // Check unautorized access and redirect to home if it's the case
+        $rootScope.$on( '$stateChangeStart', ( event, toState, toParams, fromState, fromParams, options ) => {
+            let nextMenuState = statesJson.filter( state => state.name === toState.name );
+            if ( !authenticationService.isAuthenticated && nextMenuState.length === 1 && nextMenuState[ 0 ].secure ) {
+                event.preventDefault();
+                transitionService.changeRootState( 'home' );
+            }
         });
     }
 
@@ -122,7 +131,11 @@ function run( $rootScope: any,
                 transitionService.changeRootState( 'app.dashboard.newsHighlights' );
             })
             .catch(() => {
-                authenticationService.signOut(() => transitionService.changeRootState( 'home' ) );
+                if ( authenticationService.anonymousLogin ) {
+                    transitionService.changeRootState( 'app.dashboard.newsHighlights' );
+                } else {
+                    authenticationService.signOut(() => transitionService.changeRootState( 'home' ) );
+                }
             })
             .finally(() => {
                 Splashscreen.hide();

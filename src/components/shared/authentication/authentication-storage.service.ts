@@ -52,8 +52,18 @@ export class AuthenticationStorageService {
     }
 
     public get facebookAvatarUrl() {
-        if ( angular.isDefined( this.$localStorage.facebookAuthResponse ) ) {
-            return `https://graph.facebook.com/v2.7/${this.$localStorage.facebookAuthResponse.userID}/picture?type=normal`;
+        if ( angular.isDefined( this.facebookAuthResponse ) ) {
+            return `https://graph.facebook.com/v2.7/${this.facebookAuthResponse.authResponse.userID}/picture?type=normal`;
         }
+    }
+
+    /** Anonymous */
+
+    public get anonymousLogin(): boolean {
+        return this.$localStorage.anonymousLogin;
+    }
+
+    public set anonymousLogin( value: boolean ) {
+        this.$localStorage.anonymousLogin = value;
     }
 }

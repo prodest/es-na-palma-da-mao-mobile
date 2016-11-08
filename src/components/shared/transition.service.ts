@@ -7,23 +7,34 @@ export class TransitionService {
         '$state',
         '$timeout',
         '$ionicHistory',
-        '$ionicNativeTransitions',
-        '$mdSidenav'
+        '$ionicNativeTransitions'
     ];
 
-    private sideMenuId = 'left';
-    private hasSideMenu: boolean = false;
+    /**
+     * 
+     * 
+     * @private
+     * @type {(string | undefined)}
+     * @memberOf TransitionService
+     */
+    private currentState: string | undefined = undefined;
 
+    /**
+     * Creates an instance of TransitionService.
+     * 
+     * @param {IScope} $rootScope
+     * @param {angular.ui.IStateService} $state
+     * @param {ITimeoutService} $timeout
+     * @param {ionic.navigation.IonicHistoryService} $ionicHistory
+     * @param {any} $ionicNativeTransitions
+     * 
+     * @memberOf TransitionService
+     */
     constructor( private $rootScope: IScope,
         private $state: angular.ui.IStateService,
         private $timeout: ITimeoutService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $ionicNativeTransitions,
-        private $mdSidenav: angular.material.ISidenavService ) {
-
-        this.$mdSidenav( this.sideMenuId, true ).then(() => {
-            this.hasSideMenu = true;
-        });
+        private $ionicNativeTransitions ) {
     }
 
     /**
@@ -61,7 +72,17 @@ export class TransitionService {
         this.changeState( stateName, {}, options, { root: false, tabs: true });
     }
 
+    /**
+     * 
+     * Save the new currentState and call $ionicGoBack
+     * 
+     * @memberOf TransitionService
+     */
     public goBack() {
+        let backView = this.$ionicHistory.backView();
+        if ( backView ) {
+            this.currentState = backView.stateName;
+        }
         this.$rootScope.$ionicGoBack();
     }
 
@@ -71,20 +92,16 @@ export class TransitionService {
      * @param {string} stateName
      * @param {*} [routeParameters={}]
      * @param {*} [options={}]
-     * @param {#} [serviceOptions={}]
+     * @param {any} [{ root = false, tabs = false, reload = false, noBack = false }={}]
+     * @returns {void}
      * 
      * @memberOf TransitionService
      */
-    public changeState( stateName: string, routeParameters: any = {}, options: any = {}, serviceOptions: any = {}): void {
-        if ( this.hasSideMenu ) {
-            this.$mdSidenav( this.sideMenuId ).close();
-            this.executeTransition( stateName, routeParameters, options, serviceOptions );
-        } else {
-            this.executeTransition( stateName, routeParameters, options, serviceOptions );
+    public changeState( newState: string, routeParameters: any = {}, options: any = {}, { root = false, tabs = false, reload = false, noBack = false } = {}): void {
+        if ( newState === this.currentState ) {
+            return;
         }
-    }
 
-    private executeTransition( stateName: string, routeParameters: any = {}, options: any = {}, { root = false, tabs = false, reload = false, noBack = false } = {}) {
         let allOptions: any = {};
         angular.extend( allOptions, options );
 
@@ -98,10 +115,12 @@ export class TransitionService {
             }
         }
 
-        if ( angular.equals(allOptions, {}) ) {
-            this.$state.go( stateName, routeParameters, { reload: reload } );
+        this.currentState = newState;
+
+        if ( angular.equals( allOptions, {}) ) {
+            this.$state.go( newState, routeParameters, { reload: reload });
         } else {
-            this.$ionicNativeTransitions.stateGo( stateName, routeParameters, { reload: reload }, allOptions );
+            this.$ionicNativeTransitions.stateGo( newState, routeParameters, { reload: reload }, allOptions );
         }
     }
 

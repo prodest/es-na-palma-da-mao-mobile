@@ -18,6 +18,7 @@ import dioComponent from '../dio/index';
 import newsComponent from '../news/index';
 import sepComponent from '../sep/index';
 import calendarComponent from '../calendar/index';
+import signupComponent from '../signup/index';
 
 let dependencies = [
     'ionic',
@@ -42,7 +43,8 @@ let dependencies = [
     newsComponent.name,
     dioComponent.name,
     sepComponent.name,
-    calendarComponent.name
+    calendarComponent.name,
+    signupComponent.name
 ];
 
 export default angular.module( 'app', dependencies )
