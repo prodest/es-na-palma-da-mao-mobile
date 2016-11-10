@@ -96,7 +96,7 @@
     "menuName": "Consulta Processo",
     "group": "Principal",
     "icon": "fa fa-search",
-    "secure": true
+    "secure": false
   },
   {
     "name": "app.driverLicenseStatus",
@@ -208,10 +208,10 @@
     "icon": "ion-information-circled"
   },
   {
-    "name": "app.signup",
-    "url": "signup",
+    "name": "app.secureWarning",
+    "url": "secureWarning",
     "type": "load",
-    "src": "components/signup/index",
+    "src": "components/layout/secure-warning/index",
     "menu": false,
     "editable": true
   }

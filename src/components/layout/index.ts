@@ -4,6 +4,7 @@ import highlightModule from './messages/highlight/index';
 import messageModule from './messages/message/index';
 import spinnerModule from './spinner/index';
 import menuModule from './menu/index';
+import SecureWarningController from './secure-warning/index';
 
 export default angular.module( 'layout', [
     errorMessageModule.name,
@@ -11,4 +12,6 @@ export default angular.module( 'layout', [
     remarkModule.name,
     highlightModule.name,
     spinnerModule.name,
-    menuModule.name ] );
+    menuModule.name,
+    SecureWarningController.name
+] );

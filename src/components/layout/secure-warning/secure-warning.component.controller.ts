@@ -1,7 +1,7 @@
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
-import { TransitionService } from '../shared/index';
+import { TransitionService } from '../../shared/index';
 
-export class SignUpController {
+export class SecureWarningController {
 
     public static $inject: string[] = [ 'transitionService', '$scope' ];
 

@@ -218,7 +218,7 @@ export default class MenuController {
         }
 
         if ( !this.authenticationService.isAuthenticated && route.secure ) {
-            stateName = 'app.signup';
+            stateName = 'app.secureWarning';
         }
 
         this.transitionService.changeMenuState( stateName );
