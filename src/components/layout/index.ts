@@ -5,6 +5,7 @@ import messageModule from './messages/message/index';
 import spinnerModule from './spinner/index';
 import menuModule from './menu/index';
 import secureWarningModule from './secure-warning/index';
+import modalModule from './modal/index';
 import backButtonModule from './back-button/index';
 
 export default angular.module( 'layout', [
@@ -15,5 +16,6 @@ export default angular.module( 'layout', [
     spinnerModule.name,
     menuModule.name,
     secureWarningModule.name,
+    modalModule.name,
     backButtonModule.name
 ] );
