@@ -7,41 +7,5 @@
 		</ion-nav-bar>
 		<ion-nav-view name="content"></ion-nav-view>
 	</ion-side-menu-content>
-	<md-sidenav md-component-id="left" on-swipe-left="vm.closeSideNav()" on-drag-left="vm.closeSideNav()">
-		<!--template content section-->
-		<ion-content id="toggle-menu-left-content">
-			<div class="material-background" id="toggle-menu-left-header">
-				<!--template header section-->
-				<div class="menu-left-header">
-					<img class="user-img" ng-src="{{vm.avatarUrl}}">
-					<p>
-						<span class="title" ng-if="vm.authenticated">{{::vm.user.nome}}</span>
-						<!--<br/>
-					<span class="sub-title">{{vm.perfil}}</span>-->
-					</p>
-				</div>
-				<!--end template header section-->
-			</div>
-			<md-list md-no-ink>
-				<md-list-item class="menu-list-item" ng-click="vm.navigateToHome()" ng-hide="vm.authenticated">
-					<i class="fa fa-sign-in"></i>
-					<span>Login / Cadastre-se</span>
-				</md-list-item>
-				<div>
-					<div ng-repeat="group in menu.groups">
-						<md-subheader class="md-accent">{{::group[0].group}}</md-subheader>
-						<md-list-item class="menu-list-item" ng-repeat="route in group" ng-click="::vm.navigateTo(route)">
-							<i class="{{::route.icon}}"></i>
-							<span ng-class="{ 'not-authenticated': !vm.authenticated && route.secure }">{{::route.menuName}}</span>
-						</md-list-item>
-					</div>
-					<md-divider></md-divider>
-					<md-list-item class="menu-list-item" ng-click="vm.signOut()" ng-if="vm.authenticated">
-						<i class="ion-android-exit"></i>
-						<span>Sair</span>
-					</md-list-item>
-				</div>
-			</md-list>
-		</ion-content>
-	</md-sidenav>
+	<div id="nlDrawer"></div>
 </ion-side-menus>

@@ -20,6 +20,8 @@ import sepComponent from '../sep/index';
 import calendarComponent from '../calendar/index';
 import secureWarningController from '../layout/secure-warning/index';
 
+import drawer from '../layout/drawer/factories/index'
+
 let dependencies = [
     'ionic',
     'ionic.native',
@@ -44,7 +46,9 @@ let dependencies = [
     dioComponent.name,
     sepComponent.name,
     calendarComponent.name,
-    secureWarningController.name
+    secureWarningController.name,
+    
+    drawer.name
 ];
 
 export default angular.module( 'app', dependencies )

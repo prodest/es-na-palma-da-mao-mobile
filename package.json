@@ -46,10 +46,7 @@
   },
   "config": {
     "ghooks": {
-      "commit-msg": "validate-commit-msg",
-      "pre-push": "yarn test",
-      "post-merge": "yarn install",
-      "post-rewrite": "yarn install"
+      "commit-msg": "validate-commit-msg"
     },
     "validate-commit-msg": {
       "types": [
@@ -197,7 +194,7 @@
     "style-loader": "^0.13.1",
     "stylus-loader": "^2.3.1",
     "supports-color": "^3.1.2",
-    "tslint": "^4.0.0-dev.0",
+    "tslint": "4.0.0-dev.0",
     "tslint-loader": "^2.1.5",
     "typescript": "^2.0.3",
     "ui-router-extras": "^0.1.2",
@@ -223,6 +220,7 @@
     "angular-sanitize": "^1.5.8",
     "angular-ui-router": "^0.3.1",
     "font-awesome": "^4.6.3",
+    "hammerjs": "^2.0.8",
     "ionic-angular": "^1.3.1",
     "ionic-calendar": "github:hoisel/ionic-calendar#v1.0.5",
     "ionic-native": "^1.3.24",
@@ -232,4 +230,3 @@
     "roboto-fontface": "^0.6.0"
   }
 }
-
