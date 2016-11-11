@@ -29,6 +29,15 @@ export class DashBoardController {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).addClass( 'espm-header-tabs' );
     }
 
+    /**
+     * 
+     * 
+     * @param {string} stateName
+     * @param {string} direction
+     * @param {number} tabIndex
+     * 
+     * @memberOf DashBoardController
+     */
     public navigateToTab( stateName: string, direction: string, tabIndex: number ) {
         if ( tabIndex !== this.$ionicTabsDelegate.selectedIndex() ) {
             this.transitionService.changeTab( stateName, direction );

@@ -20,3 +20,5 @@ import 'font-awesome';
 import 'moment';
 import 'ionic-calendar';
 import 'ionic-calendar-css';
+import 'chart.js';
+import 'angular-chart.js';

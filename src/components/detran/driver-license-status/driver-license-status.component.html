@@ -3,12 +3,10 @@
 		Situação CNH
 	</ion-nav-title>
 	<ion-nav-buttons side="right">
-		<div class="espm-ion-nav-buttons">
-			<md-button class="md-icon-button" ng-click="vm.editDriverLicense()" aria-label="Editar">
-				<md-icon md-font-icon="ion-compose">
-				</md-icon>
-			</md-button>
-		</div>
+		<md-button class="md-icon-button" ng-click="vm.editDriverLicense()" aria-label="Editar">
+			<md-icon md-font-icon="ion-compose">
+			</md-icon>
+		</md-button>
 	</ion-nav-buttons>
 	<spinner ng-if="uiState.loading && !vm.isRefreshing"></spinner>
 	<ion-content id="state-driver-license-status" overflow-scroll="false">

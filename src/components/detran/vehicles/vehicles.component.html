@@ -3,14 +3,12 @@
         Multas por Veículo
     </ion-nav-title>
     <ion-nav-buttons side="right">
-        <div class="espm-ion-nav-buttons">
-            <md-button ng-if="vm.vehicles.length" class="md-icon-button" ng-click="vm.editing = !vm.editing" aria-label="Editar">
-                <md-icon ng-if="!vm.editing" md-font-icon="ion-compose">
-                </md-icon>
-                <md-icon ng-if="vm.editing" md-font-icon="ion-checkmark">
-                </md-icon>
-            </md-button>
-        </div>
+        <md-button ng-if="vm.vehicles.length" class="md-icon-button" ng-click="vm.editing = !vm.editing" aria-label="Editar">
+            <md-icon ng-if="!vm.editing" md-font-icon="ion-compose">
+            </md-icon>
+            <md-icon ng-if="vm.editing" md-font-icon="ion-checkmark">
+            </md-icon>
+        </md-button>
     </ion-nav-buttons>
     <md-button id="detran-btn-add-car" class="md-fab md-primary" aria-label="Adicionar novo veículo" ng-if="!vm.editing" ng-click="vm.openAddVehicleModal()">
         <i class="fa fa-plus" aria-hidden="true"></i>
@@ -24,13 +22,13 @@
             </md-subheader>
             <md-list-item class="md-2-line md-padding" ng-repeat="vehicle in vm.vehicles">
                 <div class="md-list-item-text md-padding" layout="column">
-					<div flex style="margin-bottom:7px">
-						<h4>
+                    <div flex style="margin-bottom:7px">
+                        <h4>
                             <i class="fa fa-car" aria-hidden="true"></i> &nbsp;
                             <strong>{{::vehicle.info.model}} - {{::vehicle.info.color}} </strong>
                         </h4>
-					</div>
-					<div layout="row">
+                    </div>
+                    <div layout="row">
                         <div flex>
                             <h5><small>Placa: </small>{{::vehicle.plate}}</h5>
                             <h5><small>RENAVAM: </small>{{::vehicle.renavam}}</h5>
@@ -44,7 +42,7 @@
                                 REMOVER
                             </md-button>
                         </div>
-				    </div>
+                    </div>
                 </div>
                 <md-divider></md-divider>
             </md-list-item>

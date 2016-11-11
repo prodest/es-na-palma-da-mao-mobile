@@ -1,0 +1,124 @@
+.expenses .report-component .r-item-percentage,
+.expenses .report-component .r-item-value,
+.expenses .report-component .summary-header-total {
+    color: #b14139;
+}
+.revenues .report-component .r-item-percentage,
+.revenues .report-component .r-item-value,
+.revenues .report-component .summary-header-total {
+    color: #73905a;
+}
+
+.report-component .md-subheader + .md-subheader {
+    border-top: 1px solid #e1e1e1;
+}
+
+/* Sem labels */
+.report-component .summary-header-total,
+.report-component .r-item-percentage,
+.report-component .r-item-value {
+    color: #c86673;
+    margin: 0;
+}
+.report-component {
+    position: relative;
+}
+
+.report-component .r-item {
+    padding: 0 16px;
+    height: auto;
+    min-height: 72px;
+}
+.report-component .r-item > * {
+    flex: 0;
+}
+.report-component .r-item-details {
+    flex: 1;
+}
+.report-component .r-item-color {
+    display: none;
+}
+.report-component .r-item-label {
+    font-size: 1.1em;
+    white-space: normal;
+    margin: 0;
+    color: #333;
+}
+.report-component .r-item-percentage {
+    font-weight: bold;
+    font-size: 1.6em;
+    margin-left: 8px;
+}
+
+.report-component .summary-items{
+    display: flex;
+    flex-direction: column;
+}
+
+.report-component .summary-items.desc {
+    flex-direction: column-reverse;
+}
+
+/* com labels */
+.report-component .summary-items.labeled .r-item{
+    border:none !important;
+    padding: 0 8px 0 0;
+    min-height: 72px;
+}
+
+.report-component .summary-items.labeled .r-item-color{
+    margin-right: 8px;
+    display: inline-block;
+    min-height: 72px;
+}
+
+.report-component .summary-header .md-subheader-inner {
+    padding: 8px;
+}
+.report-component .summary-header .md-subheader-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 8px;
+    min-height: 40px;
+}
+.report-component .summary-header .summary-header-total {
+    flex:1;
+    font-size: 20px;
+}
+
+.report-component .summary-header-button{
+    margin: 0;
+    margin-left: auto;
+    width: 40px;
+}
+
+.report-component .summary-header-button.summary-header-button-info {
+    font-size: 20px;
+}
+
+.report-component .summary-header-button md-icon{
+    color: #999;
+}
+
+.report-component .summary-filter {
+    background-color: #f5f5f5;
+}
+
+.report-component .summary-header-info .md-subheader-content {
+    font-weight: normal !important;
+}
+
+.report-component #doughnut {
+    padding: 10px 0;
+}
+
+.report-component .last-update{
+    font-weight: normal;
+    text-align: center;
+    font-size: 12px;
+    background: #fff;
+    color: #333;
+    margin: 10px 0;
+}
+

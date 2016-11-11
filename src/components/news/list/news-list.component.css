@@ -52,16 +52,6 @@ body.platform-ios #state-news-list md-list-item .md-list-item-inner md-card-titl
 	width: 70%;
 }
 
-#news-list-nav-buttons md-icon[md-font-icon] {
-	font-size: 24px;
-	color: #fff;
-}
-
-#news-list-nav-buttons .md-button.md-icon-button {
-	height: 20px;
-	line-height: 20px;
-	padding: 0 8px;
-}
 
 #dates-filter-modal .cb-dialog-content-label {
 	display: block;

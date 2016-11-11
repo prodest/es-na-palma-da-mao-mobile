@@ -1,0 +1,62 @@
+<ion-view>
+    <ion-nav-title>
+        <span>Transparência ES</span>
+    </ion-nav-title>
+
+    <ion-nav-buttons side="left">
+        <back-button></back-button>
+    </ion-nav-buttons>
+
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+
+    <spinner ng-if="uiState.loading"></spinner>
+    <ion-content id="transparency-dashboard-component">
+
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">O que é o Portal?</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>O Portal da Transparência é uma iniciativa do Governo do Estado do Espírito Santo para divulgar dados e informações
+                    da gestão governamental, possibilitando que a sociedade participe e acompanhe a aplicação dos recursos
+                    públicos. </p>
+                <p>O objetivo é dar maior transparência aos atos administrativos e contribuir para o aumento do controle social,
+                    da gestão democrática na Administração Pública estadual e do combate à corrupção. </p>
+                <p>No Portal, as consultas estão disponíveis aos usuários tanto em formato de tabelas como de gráficos, em linguagem
+                    simples, com navegação amigável, podendo as informações ser assimiladas por qualquer pessoa, independente
+                    de familiaridade com o sistema financeiro-orçamentário brasileiro. </p>
+            </md-card-content>
+        </md-card>
+
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Quais as informações disponíveis no app?</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>No Portal da Transparência o cidadão tem acesso às receitas arrecadadas, às despesas realizadas pelo Estado,
+                    às transferências recebidas da União, aos gastos do governo por áreas, entre outras informações. Tudo
+                    isso de forma clara e objetiva (linguagem cidadã), sendo acessível a qualquer pessoa. Existem consultas
+                    disponíveis aos usuários, tanto em formato de tabelas como de gráficos. </p>
+            </md-card-content>
+        </md-card>
+
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Qual é a origem dos dados apresentados?</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>As informações divulgadas no Portal são provenientes das mais variadas fontes: das Secretarias do Governo,
+                    dos Órgãos da Administração Indireta, do Sistema Integrado de Gestão Administrativa, do Sistema Integrado
+                    de Gestão das Finanças Públicas do Espírito Santo - SIGEFES, entre outros. </p>
+            </md-card-content>
+        </md-card>
+        <error-message error="uiState.error"></error-message>
+    </ion-content>
+</ion-view>

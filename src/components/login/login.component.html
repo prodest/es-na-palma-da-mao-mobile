@@ -28,11 +28,8 @@
 
 			<a href="" ng-click="vm.openUrlForgotPassword()" class="espm-forgot-password">Esqueceu a Senha?</a>
 
-			<md-button ng-click="vm.loginWithCredentials(vm.username, vm.password)"
-					   ng-disabled="vm.processingLogin"
-					   class="espm-login-button md-raised"
-					   md-colors="::{color: 'primary'}"
-					   md-no-ink="isAndroid">ENTRAR
+			<md-button ng-click="vm.loginWithCredentials(vm.username, vm.password)" ng-disabled="vm.processingLogin" class="espm-login-button md-raised"
+				md-colors="::{color: 'primary'}" md-no-ink="isAndroid">ENTRAR
 			</md-button>
 		</form>
 		<!--login form section-->
@@ -50,22 +47,16 @@
 		</div>
 
 		<div class="espm-social-button-wrapper">
-			<md-button class="espm-social-button md-whiteframe-1dp"
-					   md-no-ink="isAndroid"
-					   md-colors="::{backgroundColor: 'primary-300'}"
-					   ng-click="vm.googleLogin()">
+			<md-button class="espm-social-button md-whiteframe-1dp" md-no-ink="isAndroid" md-colors="::{backgroundColor: 'primary-300'}"
+				ng-click="vm.googleLogin()">
 				<i class="icon ion-social-google"></i>Google
 			</md-button>
-			<md-button class="espm-social-button md-whiteframe-1dp"
-					   md-no-ink="isAndroid"
-					   md-colors="::{backgroundColor: 'primary-300'}"
-					   ng-click="vm.facebookLogin()">
+			<md-button class="espm-social-button md-whiteframe-1dp" md-no-ink="isAndroid" md-colors="::{backgroundColor: 'primary-300'}"
+				ng-click="vm.facebookLogin()">
 				<i class="icon ion-social-facebook"></i>Facebook
 			</md-button>
-			<md-button class="espm-social-button md-whiteframe-1dp"
-					   md-no-ink="isAndroid"
-					   md-colors="::{backgroundColor: 'primary-300'}"
-					   ng-click="vm.digitsLogin()">
+			<md-button class="espm-social-button md-whiteframe-1dp" md-no-ink="isAndroid" md-colors="::{backgroundColor: 'primary-300'}"
+				ng-click="vm.digitsLogin()">
 				<i class="icon ion-iphone"></i>SMS
 			</md-button>
 		</div>

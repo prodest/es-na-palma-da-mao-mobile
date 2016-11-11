@@ -1,15 +1,3 @@
-#states-calendar-component-nav-buttons md-icon[md-font-icon] {
-	font-size: 24px;
-	color: #fff;
-}
-
-#states-calendar-component-nav-buttons .md-button.md-icon-button {
-	height: 20px;
-	line-height: 20px;
-	padding: 0 8px;
-}
-
-
 .ion-calendar.dynamic:after {
     content: attr(data-date);
     font-size: 11px;

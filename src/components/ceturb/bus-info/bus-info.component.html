@@ -5,14 +5,12 @@
 	</ion-nav-buttons>
 
 	<ion-nav-buttons side="right">
-		<div id="bus-info-buttons">
-			<md-button class="md-icon-button" ng-click="vm.toggleFavorite()" aria-label="Filtrar">
-				<md-icon md-font-icon="ion-android-star" ng-if="vm.isFavorite">
-				</md-icon>
-				<md-icon md-font-icon="ion-android-star-outline" ng-if="!vm.isFavorite">
-				</md-icon>
-			</md-button>
-		</div>
+		<md-button class="md-icon-button" ng-click="vm.toggleFavorite()" aria-label="Filtrar">
+			<md-icon md-font-icon="ion-android-star" ng-if="vm.isFavorite">
+			</md-icon>
+			<md-icon md-font-icon="ion-android-star-outline" ng-if="!vm.isFavorite">
+			</md-icon>
+		</md-button>
 	</ion-nav-buttons>
 
 	<spinner ng-if="uiState.loading"></spinner>

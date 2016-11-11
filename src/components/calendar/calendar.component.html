@@ -4,7 +4,7 @@
 		<span ng-if="!vm.calendar.eventSources">Agenda ES</span>
 	</ion-nav-title>
 	<ion-nav-buttons side="right">
-		<div id="states-calendar-component-nav-buttons" ng-if="vm.calendar.eventSources">
+		<div ng-if="vm.calendar.eventSources">
 			<md-button class="md-icon-button" ng-disabled="vm.isToday()" ng-click="vm.today()" aria-label="Hoje">
 				<md-icon md-font-icon="ion-calendar" class="dynamic" data-date="{{vm.currentDay}}">
 				</md-icon>

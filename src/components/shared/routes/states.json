@@ -15,7 +15,7 @@
     "menu": false,
     "editable": false
   },
-   {
+  {
     "name": "app.dashboard.newsHighlights",
     "url": "news/highlights",
     "type": "load",
@@ -97,6 +97,104 @@
     "group": "Principal",
     "icon": "fa fa-search",
     "secure": false
+  },
+  {
+    "name": "app.transparency",
+    "url": "transparency/",
+    "type": "load",
+    "src": "components/secont/transparency/index",
+    "menu": false,
+    "editable": false,
+    "groupMenu": false,
+    "group": "Transparência"
+  },
+  {
+    "name": "app.transparency.revenues",
+    "url": "revenues",
+    "type": "load",
+    "src": "components/secont/transparency/revenues/index",
+    "editable": false,
+    "menu": false,
+    "group": "Transparência",
+    "groupMenu": true,
+    "menuName": "Receitas",
+    "icon": "fa fa-line-chart"
+  },
+  {
+    "name": "app.transparency.budgets",
+    "url": "budgets",
+    "type": "load",
+    "src": "components/secont/transparency/budgets/index",
+    "editable": false,
+    "menu": false,
+    "group": "Transparência",
+    "groupMenu": true,
+    "menuName": "Orçamentos",
+    "icon": "fa fa-bar-chart"
+  },
+  {
+    "name": "app.transparency.expenseDetail",
+    "url": "expense/:id/:label/:from/:to",
+    "type": "load",
+    "src": "components/secont/transparency/expense-detail/index",
+    "menu": false,
+    "groupMenu": false,
+    "group": "Transparência"
+  },
+  {
+    "name": "app.transparency.revenueDetail",
+    "url": "revenue/:id/:label/:from/:to",
+    "type": "load",
+    "src": "components/secont/transparency/revenue-detail/index",
+    "menu": false,
+    "groupMenu": false,
+    "group": "Transparência"
+  },
+  {
+    "name": "app.transparency.expensesByArea",
+    "url": "expenses-by-area",
+    "type": "load",
+    "src": "components/secont/transparency/expenses-by-area/index",
+    "menu": false,
+    "editable": false,
+    "group": "Transparência",
+    "groupMenu": true,
+    "menuName": "Despesas por Área",
+    "icon": "fa fa-line-chart"
+  },
+  {
+    "name": "app.transparency.expensesByOrigin",
+    "url": "expenses-by-origin",
+    "type": "load",
+    "src": "components/secont/transparency/expenses-by-origin/index",
+    "menu": false,
+    "editable": false,
+    "group": "Transparência",
+    "groupMenu": true,
+    "menuName": "Despesas por Órgão",
+    "icon": "fa fa-line-chart"
+  },
+  {
+    "name": "app.transparency.dashboard",
+    "url": "dashboard",
+    "type": "load",
+    "src": "components/secont/transparency/dashboard/index",
+    "menu": true,
+    "group": "Transparência",
+    "groupMenu": false,
+    "editable": false,
+    "menuName": "Portal Transparência",
+    "icon": "fa fa-pie-chart"
+  },
+  {
+    "name": "app.transparency.about",
+    "url": "about",
+    "type": "load",
+    "group": "Transparência",
+    "menu": false,
+    "groupMenu": false,
+    "src": "components/secont/transparency/about/index",
+    "editable": false
   },
   {
     "name": "app.driverLicenseStatus",

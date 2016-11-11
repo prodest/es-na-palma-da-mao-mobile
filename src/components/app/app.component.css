@@ -19,60 +19,34 @@ body {
 	font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif;
 }
 
-.text-center { text-align: center; }
-
-/*.spinner {
-    margin-top: calc(100vh/2 - 30px);
-    width: 30px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-.component-spinner{ text-align: center; padding:15px;}*/
-
-
-.spinner-container {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    /*position: absolute;
-    margin-left: calc(100vw/2 - 15px);
-    margin-top: calc(100vh/2 - 30px);*/
-    z-index: 13;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    align-items: center;
-    -webkit-transition: 0.2s opacity linear;
-    transition: 0.2s opacity linear;
-}
-
-.spinner-container .spinner {
-    border-radius: 40px;
-    background-color: rgb(255, 255, 255);
-    text-align: center;
-    text-overflow: ellipsis;
-    font-size: 15px;
-    box-shadow: 0 1px 5px 0 rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.12);
-    height: 35px;
-    width: 35px;
+/* App Header */
+.platform-android .bar .title {
     margin: 0;
+}
+
+ion-header-bar .back-button .ion-android-arrow-back {
+	font-size: 1.8em;
+}
+
+ion-header-bar {
+	border-style: none;
+	color: white;
+    background-size: 100% 0px !important;
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+ion-header-bar .buttons .md-button.md-icon-button{
+    margin-right: 0;
     padding: 0;
-    padding-top: 3px
+    width: 32px;
+    height: auto;
+    font-size: 24px;
+}
+
+ion-header-bar a.button-icon,
+ion-header-bar a.button,
+ion-header-bar .buttons .md-button.md-icon-button > md-icon{
+    color: #fff !important;
 }
 
 ion-content {
@@ -81,6 +55,9 @@ ion-content {
     height: auto !important;
     /*position: static;*/
 }
+
+
+.text-center { text-align: center; }
 
 .material-background {
 	background-color: #208baa !important;
@@ -100,38 +77,17 @@ ion-content {
 	color: #208baa !important;
 }
 
-ion-header-bar {
-	background-size: 100% 0px !important;
-	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-}
-
 .capitalize {
    text-transform: capitalize;
 }
 
+/* Inputs */
 md-input-container input[type=tel], md-input-container input[type=number] {
     border: solid;
     border-width: 0 0 1px;
 }
 
-
-/*.keyboard-body .hide-with-keyboard{
-	display:none !important;
-}
-*/
-
-/* ============================== */
-
-.spinner-android {
-	stroke: #208baa !important;
-}
-
-ion-nav-bar .ion-android-arrow-back {
-	font-size: 2em;
-}
-
 /* Tabs */
-
 .espm-header-tabs {
     box-shadow: none !important;
 }
@@ -161,7 +117,6 @@ ion-tabs.espm-tabs-color-active-material .tab-item.activated {
 }
 
 /* Tabs - Android Specific */
-
 body.platform-android ion-tabs.espm-tabs-color-active-material .tab-item.tab-item-active,
 body.platform-android ion-tabs.espm-tabs-color-active-material .tab-item.active,
 body.platform-android ion-tabs.espm-tabs-color-active-material .tab-item.activated {
@@ -171,71 +126,26 @@ body.platform-android ion-tabs.espm-tabs-color-active-material .tab-item.activat
 body.platform-android ion-content.espm-has-tabs-top {
 	top: 0px;
 }
-
 /* Tabs - end */
 
 loading-container .loading {
     background: none !important;
 }
 
-/* Nav Buttons */
-
-.espm-ion-nav-buttons .md-button.md-icon-button {
-    height: 20px;
-    line-height: 20px;
-    padding: 0 8px;
-}
-
-.espm-ion-nav-buttons md-icon[md-font-icon] {
-    font-size: 24px;
-    color: #fff;
-}
-
 ion-content md-list { padding: 0 }
-
-ion-header-bar {
-	border-style: none;
-	color: white;
-}
-
-ion-header-bar a.button.button {
-	color: white;
-}
 
 .hide-native-scroll-y {
 	overflow-y: hidden !important;
 }
 
-.toolbar-medium {
-	/*max-height: 160px !important;
-	height: 160px !important;*/
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
-
-.toolbar-medium div {
-	padding: 26px 10px 10px 10px;
-	text-align: center;
-	height: inherit !important; }
-
-.toolbar-medium h1 {
-	color: white;
-	font-size: 34px; }
-
-.toolbar-medium h2 {
-	color: white;
-	font-size: 18px; }
-
-.md-button.md-accent.md-fab.fab-toolbar-medium {
-	float: right;
-	right: 25px;
-	padding: 15px;
-	line-height: 0 !important;
-	margin-top: -29px; }
-
-.md-button.md-accent.md-fab.fab-toolbar-medium i {
-	vertical-align: text-top;
-	font-size: x-large;
-	color: white; }
-
-md-toolbar.md-tall .md-button.md-accent.md-fab.fab-toolbar-medium {
-	margin-top: 43px;
+.md-subheader-content { font-weight: bold;}
+.md-subheader.md-espm-theme {
+    background-color: #f5f5f5;
 }
+
+.fs-12 { font-size:12px;}
+.fs-13 { font-size:13px;}
+.fs-14 { font-size:14px;}
+.fs-15 { font-size:15px;}
+.fs-16 { font-size:16px;}
+

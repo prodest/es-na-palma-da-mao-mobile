@@ -3,16 +3,14 @@
 		Consulta DIO
 	</ion-nav-title>
 	<ion-nav-buttons side="right">
-		<div id="dio-search-buttons">
-			<md-button class="md-icon-button" ng-click="vm.openFilter()" aria-label="Filtrar">
-				<md-icon md-font-icon="ion-android-funnel">
-				</md-icon>
-			</md-button>
-		</div>
+		<md-button class="md-icon-button" ng-click="vm.openFilter()" aria-label="Filtrar">
+			<md-icon md-font-icon="ion-android-funnel">
+			</md-icon>
+		</md-button>
 	</ion-nav-buttons>
 
 	<spinner ng-if="uiState.loading && vm.filter.pageNumber === 0"></spinner>
-	
+
 	<ion-content id="dio-search">
 		<md-list ng-if="vm.searched && vm.totalHits">
 			<md-subheader class="md-no-sticky">{{ vm.totalHits }} resultados encontrados para <span class="accent">"{{ vm.lastQuery }}"</span></md-subheader>
@@ -37,7 +35,7 @@
 				<md-divider></md-divider>
 			</md-list-item>
 		</md-list>
-		
+
 		<message ng-if="!vm.searched" text="Consulta ao Diário Oficial do ES ">
 			<remark>
 				Para consultar, selecione um
@@ -56,10 +54,8 @@
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar o DIO/ES</remark>
 		</error-message>
 
-		<ion-infinite-scroll ng-if="!uiState.error && vm.searched && vm.hasMoreHits"
-							 on-infinite="vm.search( { pageNumber: vm.filter.pageNumber + 1  })"
-							 immediate-check="false"
-							 distance="20%">
+		<ion-infinite-scroll ng-if="!uiState.error && vm.searched && vm.hasMoreHits" on-infinite="vm.search( { pageNumber: vm.filter.pageNumber + 1  })"
+			immediate-check="false" distance="20%">
 		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

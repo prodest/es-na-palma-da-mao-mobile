@@ -1,0 +1,47 @@
+<div class="report-component">
+	<div ng-if="vm.total">
+		<md-subheader class="summary-header" ng-if="vm.title">
+		   <span style="flex:1">{{vm.title}}</span>
+		   <md-button class="md-icon-button summary-header-button summary-header-button-info" ng-click="vm.showInfo = !vm.showInfo">
+				<md-icon md-font-icon="fa fa-info-circle">
+				</md-icon>
+			</md-button>
+		</md-subheader>
+		<md-subheader ng-if="vm.showInfo" class="summary-header-info">
+			{{vm.info}}
+		</md-subheader>
+		<div id="doughnut" ng-if="vm.showChart">
+			<canvas class="chart chart-pie" chart-options="{animation:{ duration: 0}}" chart-data="vm.chart.values" chart-labels="vm.chart.labels"
+				chart-colors="vm.chart.colors">
+			</canvas>
+		</div>
+		<md-subheader class="summary-header md-no-sticky">
+			<div class="summary-header-total">
+				{{vm.total | currency}}
+			</div>
+			<md-button class="md-icon-button summary-header-button summary-header-sort-button" ng-click="vm.toggleSort()" ng-if="vm.items.length > 1">
+				<md-icon md-font-icon="fa fa-sort-amount-desc" ng-if="vm.sortDesc"></md-icon>
+				<md-icon md-font-icon="fa fa-sort-amount-asc" ng-if="!vm.sortDesc"></md-icon>
+			</md-button>
+		</md-subheader>
+		<md-list class="summary-items" ng-if="vm.items.length" ng-class="{labeled: vm.showChart, desc: vm.sortDesc }">
+			<md-list-item class="r-item" ng-repeat="item in vm.items">
+				<span class="r-item-color" ng-style="{'border-left': '20px solid {{item.color}}'}"></span>
+				<div class="r-item-details" ng-click="vm.onClick(item)">
+					<h3 class="r-item-label capitalize">{{item.label}}</h3>
+					<p class="r-item-value">{{item.value | currency}}</p>
+				</div>
+				<div class="r-item-percentage" ng-if="item.percentage < 1">
+					&lt;1%
+				</div>
+				<div class="r-item-percentage" ng-if="item.percentage >= 1">
+					{{item.percentage}}%
+				</div>
+				<md-divider></md-divider>
+			</md-list-item>
+		</md-list>
+		<div ng-if="vm.lastUpdate" class="last-update">
+			Atualizado em: {{vm.lastUpdate| date: 'dd/MM/yyyy HH:mm'}}h
+		</div>
+	</div>
+</div>

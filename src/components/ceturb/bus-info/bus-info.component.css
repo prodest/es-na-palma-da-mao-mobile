@@ -40,11 +40,6 @@
 	color: #afafaf;
 }
 
-#bus-info-buttons md-icon[md-font-icon] {
-    font-size: 24px;
-    color: #fff;
-}
-
 .bus-info-title {
     padding: 3px 0;
     display: block;

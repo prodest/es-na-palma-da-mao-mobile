@@ -7,6 +7,7 @@ export interface Route {
     menuName: string;
     icon: string;
     group: string;
+    groupMenu: boolean;
     editable: boolean;
     secure: boolean;
 }

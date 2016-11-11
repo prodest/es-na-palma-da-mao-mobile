@@ -19,6 +19,7 @@ import newsComponent from '../news/index';
 import sepComponent from '../sep/index';
 import calendarComponent from '../calendar/index';
 import secureWarningComponent from '../layout/secure-warning/index';
+import transparencyComponent from '../secont/transparency/index';
 
 let dependencies = [
     'ionic',
@@ -28,6 +29,7 @@ let dependencies = [
     'ngAnimate',
     'ionic-native-transitions',
     'ui.router',
+    'chart.js',
 
     // components
     shared.name,
@@ -45,6 +47,7 @@ let dependencies = [
     sepComponent.name,
     calendarComponent.name,
     secureWarningComponent.name,
+    transparencyComponent.name
 ];
 
 export default angular.module( 'app', dependencies )

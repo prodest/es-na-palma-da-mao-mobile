@@ -3,23 +3,21 @@
 		Notícias
 	</ion-nav-title>
 	<ion-nav-buttons side="right">
-		<div id="news-list-nav-buttons">
-			<md-button class="md-icon-button"  ng-click="::vm.openDateFilter($event)" aria-label="Filtrar">
-				<md-icon ng-if="isAndroid" md-font-icon="ion-android-calendar">
-				</md-icon>
-				<md-icon ng-if="isIOS" md-font-icon="ion-ios-calendar-outline">
-				</md-icon>
-			</md-button>
+		<md-button class="md-icon-button" ng-click="::vm.openDateFilter($event)" aria-label="Filtrar">
+			<md-icon ng-if="isAndroid" md-font-icon="ion-android-calendar">
+			</md-icon>
+			<md-icon ng-if="isIOS" md-font-icon="ion-ios-calendar-outline">
+			</md-icon>
+		</md-button>
 
-			<md-button class="md-icon-button" ng-click="::vm.openOriginsFilter($event)" aria-label="Filtrar">
-				<md-icon md-font-icon="ion-android-funnel">
-				</md-icon>
-			</md-button>
-		</div>
+		<md-button class="md-icon-button" ng-click="::vm.openOriginsFilter($event)" aria-label="Filtrar">
+			<md-icon md-font-icon="ion-android-funnel">
+			</md-icon>
+		</md-button>
 	</ion-nav-buttons>
-	
+
 	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1"></spinner>
-	
+
 	<ion-content id="state-news-list">
 		<md-list>
 			<md-list-item ng-click="vm.goToNews(news.id)" ng-repeat="news in vm.news track by $index">
@@ -36,7 +34,8 @@
 				</md-card-title-text>
 				<md-card-title-media>
 					<div class="md-media-md card-media">
-						<img alt="" ng-if="news.image" ng-src="{{news.image}}" onload="this.style.display='inline'" onerror="this.style.display='none'" />
+						<img alt="" ng-if="news.image" ng-src="{{news.image}}" onload="this.style.display='inline'" onerror="this.style.display='none'"
+						/>
 					</div>
 				</md-card-title-media>
 				<md-divider></md-divider>
@@ -47,8 +46,7 @@
 		</message>
 
 		<error-message error="uiState.error"></error-message>
-		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && vm.hasMoreNews" on-infinite="vm.doPaginate()"
-			distance="20%">
+		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && vm.hasMoreNews" on-infinite="vm.doPaginate()" distance="20%">
 		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>
