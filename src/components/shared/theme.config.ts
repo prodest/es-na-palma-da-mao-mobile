@@ -7,7 +7,9 @@
  *
  * @returns {void}
  */
-function themeConfig( $mdThemingProvider ) {
+function themeConfig( $mdThemingProvider, $mdAriaProvider ) {
+
+    $mdAriaProvider.disableWarnings();
 
     const customPrimary = {
         '50': '#67c7e2',
@@ -115,5 +117,7 @@ function themeConfig( $mdThemingProvider ) {
 }
 
 export default [
-    '$mdThemingProvider', themeConfig
+    '$mdThemingProvider',
+    '$mdAriaProvider',
+    themeConfig
 ];
