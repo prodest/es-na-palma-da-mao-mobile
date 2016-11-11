@@ -6,6 +6,7 @@ import spinnerModule from './spinner/index';
 import menuModule from './menu/index';
 import secureWarningModule from './secure-warning/index';
 import modalModule from './modal/index';
+import dateRangeFilterModule from './date-range-filter/index';
 import backButtonModule from './back-button/index';
 
 export default angular.module( 'layout', [
@@ -17,5 +18,9 @@ export default angular.module( 'layout', [
     menuModule.name,
     secureWarningModule.name,
     modalModule.name,
+    dateRangeFilterModule.name,
     backButtonModule.name
 ] );
+
+export * from './date-range-filter/index';
+

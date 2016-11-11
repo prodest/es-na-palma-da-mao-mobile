@@ -1,0 +1,18 @@
+<div layout="column" class="summary-filter">
+    <div class="summary-filter-header">Selecione o período a ser consultado</div>
+    <label class="item item-input">
+            <span class="summary-filter-label">De:</span>
+            <input class="summary-filter-date" type="month" ng-model="vm.from" flex>
+            <md-button class="md-icon-button summary-filter-caret">
+                <md-icon md-font-icon="fa fa-caret-down"></md-icon>
+            </md-button>
+    </label>
+    <label class="item item-input">
+            <span class="summary-filter-label">Até:</span>
+            <input class="summary-filter-date" type="month" ng-model="vm.to" flex>
+            <md-button class="md-icon-button summary-filter-caret">
+                <md-icon md-font-icon="fa fa-caret-down"></md-icon>
+            </md-button>
+    </label>
+    <md-button class="md-raised md-accent" ng-click="vm.selectFilter(vm.from,vm.to)">Filtrar</md-button>
+</div>
