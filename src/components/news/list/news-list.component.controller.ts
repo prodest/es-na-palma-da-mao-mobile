@@ -1,6 +1,6 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 import { SourcesFilterController, sourcesFilterTemplate } from '../../layout/sources-filter/index';
-import datesFilterTemplate = require('./dates-filter/dates-filter.html');
+import datesFilterTemplate = require( './dates-filter/dates-filter.html' );
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { News, NewsApiService, Filter, Pagination } from '../shared/index';
 import { TransitionService } from '../../shared/index';
@@ -44,9 +44,9 @@ export class NewsListController {
     /**
      * Ativa o controller
      */
-    public activate(): void {
-        this.getAvailableOrigins()
-            .then(() => this.getFirstPage() );
+    public async activate() {
+        await this.getAvailableOrigins();
+        await this.getFirstPage();
     }
 
     /**
@@ -65,30 +65,38 @@ export class NewsListController {
      *
      * @returns {*}
      */
-    public getAvailableOrigins(): IPromise<string[]> {
-        return this.newsApiService.getAvailableOrigins()
-            .then( origins => {
-                this.availableOrigins = origins || [];
-                this.filter.origins = this.filter.origins || angular.copy( this.availableOrigins );
-                return origins;
-            });
+    public async getAvailableOrigins() {
+        this.availableOrigins = await this.newsApiService.getAvailableOrigins() || [];
+        this.filter.origins = this.filter.origins || angular.copy( this.availableOrigins );
+    }
+
+    /**
+    * 
+    * 
+    * @returns {Promise<News[]>}
+    * 
+    * @memberOf NewsListController
+    */
+    private async getFirstPage(): Promise<News[]> {
+        this.hasMoreNews = true;
+        this.pagination.pageNumber = 1;
+        return await this.getNews( this.filter, this.pagination );
     }
 
     /**
      * Obtém uma lista de notícias
      */
-    private getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
-        return this.newsApiService.getNews( filter, pagination )
-            .then( nextNews => {
-                // Check whether it has reached the end
-                this.hasMoreNews = nextNews.length >= this.pagination.pageSize;
-                this.news = this.isFirstPage ? nextNews : this.news!.concat( nextNews );
+    private async getNews( filter: Filter, pagination: Pagination ): Promise<News[]> {
+        const nextNews = await this.newsApiService.getNews( filter, pagination );
 
-                // increment page for the next query
-                this.pagination.pageNumber += 1;
+        // Check whether it has reached the end
+        this.hasMoreNews = nextNews.length >= this.pagination.pageSize;
+        this.news = this.isFirstPage ? nextNews : this.news!.concat( nextNews );
 
-                return nextNews;
-            });
+        // increment page for the next query
+        this.pagination.pageNumber += 1;
+
+        return nextNews;
     }
 
     /**
@@ -97,12 +105,12 @@ export class NewsListController {
      * 
      * @memberOf NewsListController
      */
-    public doPaginate(): IPromise<News[]> {
-        return this.getNews( this.filter, this.pagination )
-            .then( nextNews => {
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-                return nextNews;
-            });
+    public async doPaginate(): Promise<News[]> {
+        try {
+            return await this.getNews( this.filter, this.pagination );
+        } finally {
+            this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+        }
     }
 
     /**
@@ -112,22 +120,9 @@ export class NewsListController {
      * 
      * @memberOf NewsListController
      */
-    public doFilter( filter ): IPromise<News[]> {
-        angular.extend( this.filter, filter );
-        return this.getFirstPage();
-    }
-
-    /**
-    * 
-    * 
-    * @returns {IPromise<News[]>}
-    * 
-    * @memberOf NewsListController
-    */
-    private getFirstPage(): IPromise<News[]> {
-        this.hasMoreNews = true;
-        this.pagination.pageNumber = 1;
-        return this.getNews( this.filter, this.pagination );
+    public async doFilter( filter ): Promise<News[]> {
+        Object.assign( this.filter, filter );
+        return await this.getFirstPage();
     }
 
     /**
@@ -144,8 +139,8 @@ export class NewsListController {
     /**
      * Abre filtro(popup) por fonte da notícia
      */
-    public openOriginsFilter(): void {
-        this.$mdDialog.show( {
+    public async openOriginsFilter() {
+        const options = {
             controller: SourcesFilterController,
             template: sourcesFilterTemplate,
             bindToController: true,
@@ -154,15 +149,17 @@ export class NewsListController {
                 availableOrigins: this.availableOrigins,
                 selectedOrigins: this.filter.origins
             }
-        })
-            .then( filter => this.doFilter( filter ) );
+        };
+
+        const filter = await this.$mdDialog.show( options );
+        await this.doFilter( filter );
     }
 
     /**
      * Abre o filtro (popup) por data
      */
-    public openDateFilter(): void {
-        this.$mdDialog.show( {
+    public async openDateFilter() {
+        const options = {
             controller: DatesFilterController,
             template: datesFilterTemplate,
             bindToController: true,
@@ -171,8 +168,10 @@ export class NewsListController {
                 dateMin: this.filter.dateMin,
                 dateMax: this.filter.dateMax
             }
-        })
-            .then( filter => this.doFilter( filter ) );
+        };
+
+        const filter = await this.$mdDialog.show( options );
+        await this.doFilter( filter );
     }
 
 

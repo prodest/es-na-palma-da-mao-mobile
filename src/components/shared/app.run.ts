@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { IQService } from 'angular';
 import { Keyboard, Splashscreen } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
@@ -12,6 +13,7 @@ import { TransitionService } from './transition.service';
  * 
  * 
  * @param {*} $rootScope
+ * @param {IQService} $q
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
  * @param {angular.material.IDialogService} $mdDialog
@@ -21,9 +23,11 @@ import { TransitionService } from './transition.service';
  * @param {HttpErrorSnifferService} httpErrorSnifferService
  * @param {ISettings} settings
  * @param {CordovaPermissions} cordovaPermissions
+ * @param {PushService} pushService
  * @param {TransitionService} transitionService
  */
-function run( $rootScope: any,
+function appRun( $rootScope: any,
+    $q: IQService,
     $state: angular.ui.IStateService,
     $ionicPlatform: ionic.platform.IonicPlatformService,
     $mdDialog: angular.material.IDialogService,
@@ -111,7 +115,7 @@ function run( $rootScope: any,
     }
 
 
-    $ionicPlatform.ready(() => {
+    $ionicPlatform.ready( async () => {
         Keyboard.hideKeyboardAccessoryBar( true );
         Keyboard.disableScroll( true );
 
@@ -125,33 +129,34 @@ function run( $rootScope: any,
         // Check coarse location permissions
         cordovaPermissions.RequestCoarseLocationPermission();
 
-        authenticationService.refreshTokenIfNeeded()
-            .then(() => {
-                pushService.init();
+        try {
+            await authenticationService.refreshTokenIfNeeded();
+            pushService.init();
+            transitionService.changeRootState( 'app.dashboard.newsHighlights' );
+        }
+        catch ( error ) {
+            if ( authenticationService.anonymousLogin ) {
                 transitionService.changeRootState( 'app.dashboard.newsHighlights' );
-            })
-            .catch(() => {
-                if ( authenticationService.anonymousLogin ) {
-                    transitionService.changeRootState( 'app.dashboard.newsHighlights' );
-                } else {
-                    authenticationService.signOut(() => transitionService.changeRootState( 'home' ) );
-                }
-            })
-            .finally(() => {
-                Splashscreen.hide();
-            });
+            } else {
+                authenticationService.logout(() => transitionService.changeRootState( 'home' ) );
+            }
+        }
+        finally {
+            Splashscreen.hide();
+        }
     });
 
     $ionicPlatform.on( 'resume', () => {
         if ( authenticationService.hasToken ) {
             authenticationService.refreshTokenIfNeeded()
-                .catch(() => authenticationService.signOut(() => transitionService.changeRootState( 'home' ) ) );
+                .catch(() => authenticationService.logout(() => transitionService.changeRootState( 'home' ) ) );
         }
     });
 }
 
-run.$inject = [
+appRun.$inject = [
     '$rootScope',
+    '$q',
     '$state',
     '$ionicPlatform',
     '$mdDialog',
@@ -165,4 +170,4 @@ run.$inject = [
     'transitionService'
 ];
 
-export default run;
+export default appRun;

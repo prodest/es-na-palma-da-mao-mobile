@@ -1,9 +1,9 @@
 import { BusInfoController } from './bus-info.component.controller';
 import BusInfoComponent from './bus-info.component';
-import BusInfoTemplate = require('./bus-info.component.html');
+import BusInfoTemplate = require( './bus-info.component.html' );
 import { CeturbApiService, CeturbStorage } from '../shared/index';
 import { BusRoute, BusSchedule } from '../shared/index';
-import { environment, $stateParamsMock, $qMock, $windowMock, toastServiceMock } from '../../shared/tests/index';
+import { environment, $stateParamsMock, $windowMock, toastServiceMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -33,7 +33,6 @@ describe( 'Ceturb/bus-info', () => {
             };
             controller = new BusInfoController( environment.$scope,
                 $stateParamsMock,
-                $qMock,
                 $windowMock,
                 environment.$ionicTabsDelegateMock,
                 toastServiceMock,
@@ -66,13 +65,22 @@ describe( 'Ceturb/bus-info', () => {
         });
 
         describe( 'activate()', () => {
-
-            let getSchedule: Sinon.SinonStub;
-            let getRoute: Sinon.SinonStub;
+            let getRoutePromise: Sinon.SinonPromise;
+            let route: BusRoute;
+            let getSchedulePromise: Sinon.SinonPromise;
+            let schedule: BusSchedule;
 
             beforeEach(() => {
-                getSchedule = sandbox.stub( controller, 'getSchedule' );
-                getRoute = sandbox.stub( controller, 'getRoute' );
+                schedule = <BusSchedule><any>{ line: '500' };
+                controller.schedule = undefined;
+                getSchedulePromise = sandbox.stub( ceturbApiService, 'getSchedule' ).returnsPromise();
+                getSchedulePromise.resolves( schedule );
+
+                route = <BusRoute><any>{ line: '600' };
+                controller.route = undefined;
+                getRoutePromise = sandbox.stub( ceturbApiService, 'getRoute' ).returnsPromise();
+                getRoutePromise.resolves( route );
+
                 $stateParamsMock[ 'id' ] = 123;
             });
 
@@ -80,20 +88,41 @@ describe( 'Ceturb/bus-info', () => {
                 delete $stateParamsMock[ 'id' ];
             });
 
-            it( 'should fetch line schedule', () => {
-                controller.activate();
 
-                expect( getSchedule.calledWithExactly( $stateParamsMock[ 'id' ] ) ).to.be.true;
+            it( 'should fill bus schedule', async () => {
+
+                await controller.activate();
+
+                expect( controller.schedule ).to.deep.equal( schedule );
             });
 
-            it( 'should fetch line route', () => {
-                controller.activate();
+            it( 'should clear schedule on error', async () => {
+                getSchedulePromise.rejects();
+                controller.schedule = schedule;
 
-                expect( getRoute.calledWithExactly( $stateParamsMock[ 'id' ] ) ).to.be.true;
+                await controller.activate();
+
+                expect( controller.schedule ).to.be.undefined;
             });
 
-            it( 'should fill current time', () => {
-                controller.activate();
+            it( 'should fill route', async () => {
+
+                await controller.activate();
+
+                expect( controller.route ).to.deep.equal( route );
+            });
+
+            it( 'should clear route on error', async () => {
+                getRoutePromise.rejects();
+                controller.route = route;
+
+                await controller.activate();
+
+                expect( controller.route ).to.be.undefined;
+            });
+
+            it( 'should fill current time', async () => {
+                await controller.activate();
 
                 expect( controller.currentTime ).to.be.equal( new Date().toTimeString().slice( 0, 5 ) );
             });
@@ -123,63 +152,6 @@ describe( 'Ceturb/bus-info', () => {
             });
         });
 
-        describe( 'getRoute(id)', () => {
-
-            let getRoutePromise: Sinon.SinonPromise;
-            let route: BusRoute;
-
-            beforeEach(() => {
-                route = <BusRoute><any>{ line: '600' };
-                controller.route = undefined;
-                getRoutePromise = sandbox.stub( ceturbApiService, 'getRoute' ).returnsPromise();
-            });
-
-            it( 'should fill bus route', () => {
-                getRoutePromise.resolves( route );
-
-                controller.getRoute( '123' );
-
-                expect( controller.route ).to.deep.equal( route );
-            });
-
-            it( 'should clear route on error', () => {
-                getRoutePromise.rejects();
-                controller.route = route;
-
-                controller.getRoute( '123' );
-
-                expect( controller.route ).to.be.undefined;
-            });
-        });
-
-        describe( 'getSchedule(id)', () => {
-
-            let getSchedulePromise: Sinon.SinonPromise;
-            let schedule: BusSchedule;
-
-            beforeEach(() => {
-                schedule = <BusSchedule><any>{ line: '500' };
-                controller.schedule = undefined;
-                getSchedulePromise = sandbox.stub( ceturbApiService, 'getSchedule' ).returnsPromise();
-            });
-
-            it( 'should fill bus schedule', () => {
-                getSchedulePromise.resolves( schedule );
-
-                controller.getSchedule( '123' );
-
-                expect( controller.schedule ).to.deep.equal( schedule );
-            });
-
-            it( 'should clear schedule on error', () => {
-                getSchedulePromise.rejects();
-                controller.schedule = schedule;
-
-                controller.getSchedule( '123' );
-
-                expect( controller.schedule ).to.be.undefined;
-            });
-        });
 
         describe( 'openMapLink()', () => {
             it( 'should open map on gmaps if on android', () => {
@@ -251,7 +223,7 @@ describe( 'Ceturb/bus-info', () => {
             });
 
             it( 'should remove unfavorited line from local storage', () => {
-                  sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
+                sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
 
                 controller.toggleFavorite();
 

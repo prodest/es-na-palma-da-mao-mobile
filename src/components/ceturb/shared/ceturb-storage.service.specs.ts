@@ -9,21 +9,13 @@ describe( 'CeturbStorage', () => {
     beforeEach(() => sandbox = sinon.sandbox.create() );
     afterEach(() => sandbox.restore() );
 
+    // SUT 
     let ceturbStorage: CeturbStorage;
-    let $localStorage: any;
-    let authenticationService: AuthenticationService;
 
     beforeEach(() => {
-        $localStorage = {};
-        authenticationService = <AuthenticationService><any>{
-            user: {
-                cfp: '12345678912',
-                cnhNumero: '77777777777',
-                cnhCedula: '88888888888'
-            }
-        };
+        const $localStorage = {};
+        const authenticationService = <AuthenticationService>{};
         ceturbStorage = new CeturbStorage( $localStorage, authenticationService );
-
         ceturbStorage.favoriteLines = { id: 9232, favoriteLines: [ '678', '400' ], date: new Date() };
     });
 

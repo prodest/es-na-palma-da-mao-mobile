@@ -1,5 +1,4 @@
 import { IScope } from 'angular';
-
 import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
 import { TransitionService } from '../../shared/index';
 
@@ -51,15 +50,13 @@ export class BusLinesController {
      * 
      * @memberOf BusLinesController
      */
-    public getLines(): Promise<BusLine[]> {
-        return Promise.all( [
+    public async getLines() {
+        const [ , lines ] = await Promise.all( [
             this.ceturbApiService.syncFavoriteLinesData(),
             this.ceturbApiService.getLines()
-        ] )
-            .then(( [ , lines ] ) => this.mapLines( lines ) )
-            .then( lines => {
-                this.filteredLines = this.lines = lines;
-            });
+        ] );
+
+        this.filteredLines = this.lines = this.mapLines( lines );
     }
 
     /**

@@ -27,9 +27,9 @@ export class NewsDetailController {
      *
      * @returns {void}
      */
-    public activate(): void {
+    public async activate() {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-        this.getNewsById( this.$stateParams[ 'id' ] );
+        this.news = await this.newsApiService.getNewsById( this.$stateParams[ 'id' ] );
     }
 
     /**
@@ -43,23 +43,9 @@ export class NewsDetailController {
         let shareOptions = {
             message: news.title,
             subject: news.title,
-            // files: [ news.image ],
             url: news.url
         };
 
-        // shareOptions.files = shareOptions.files.map(( value ) => value.indexOf( '?' ) >= 0 ? value.substr( 0, news.image.indexOf( '?' ) ) : value );
-        // shareOptions.files = shareOptions.files.map(( value ) => value.replace( 'https', 'http' ) );
-
         SocialSharing.shareWithOptions( shareOptions );
-    }
-
-    /**
-     * Carrega um notícia
-     * 
-     * @param {string} id
-     */
-    public getNewsById( id: string ): void {
-        this.newsApiService.getNewsById( id )
-            .then( news => this.news = news );
     }
 }

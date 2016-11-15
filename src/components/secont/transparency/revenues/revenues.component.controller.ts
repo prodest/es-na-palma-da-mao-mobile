@@ -1,24 +1,25 @@
-import { IScope, IPromise } from 'angular';
-import { Summary, TransparencyService, MoneyFlowController } from '../shared/index';
+import { IScope } from 'angular';
+import { Summary, TransparencyApiService, MoneyFlowController } from '../shared/index';
 import { TransitionService } from '../../../shared/index';
 import { DateRangeFilter } from '../../../layout/index';
 
 export class RevenuesController extends MoneyFlowController {
 
-    public static $inject: string[] = [ '$scope', 'transparencyService', 'transitionService' ];
+    public static $inject: string[] = [ '$scope', 'transparencyApiService', 'transitionService' ];
 
     /**
      * Creates an instance of RevenuesController.
      * 
      * @param {IScope} $scope
+     * @param {TransparencyApiService} transparencyApiService
      * @param {TransitionService} transitionService
      * 
      * @memberOf RevenuesController
      */
     constructor( $scope: IScope,
-                 transparencyService: TransparencyService,
-                 transitionService: TransitionService ) {
-         super( $scope, transparencyService, transitionService );
+        transparencyApiService: TransparencyApiService,
+        transitionService: TransitionService ) {
+        super( $scope, transparencyApiService, transitionService );
     }
 
     /**
@@ -28,7 +29,7 @@ export class RevenuesController extends MoneyFlowController {
      * 
      * @memberOf RevenuesController
      */
-    public getSummary( filter: DateRangeFilter ): IPromise<Summary> {
-        return this.transparencyService.getRevenues( filter ).then( summary => this.summary = summary );
+    public getSummary( filter: DateRangeFilter ): Promise<Summary> {
+        return this.transparencyApiService.getRevenues( filter );
     }
 }

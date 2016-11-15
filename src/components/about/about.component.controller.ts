@@ -1,6 +1,6 @@
-import { IScope, IPromise, IWindowService } from 'angular';
+import { IScope, IWindowService } from 'angular';
 import { TeamsApiService, TeamMember, Project } from './shared/index';
-import packageJson = require('../../../package.json');
+import packageJson = require( '../../../package.json' );
 
 export class AboutController {
 
@@ -17,8 +17,8 @@ export class AboutController {
      * @param {TeamsApiService} teamsApiService
      */
     constructor( private $scope: IScope,
-                 private $window: IWindowService,
-                 private teamsApiService: TeamsApiService ) {
+        private $window: IWindowService,
+        private teamsApiService: TeamsApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
@@ -28,21 +28,8 @@ export class AboutController {
      *
      * @returns {void}
      */
-    public activate(): void {
-        this.getTeamMembers();
-    }
-
-    /**
-     * 
-     * 
-     * @returns {IPromise<string[]>}
-     */
-    public getTeamMembers(): IPromise<TeamMember[]> {
-        return this.teamsApiService.getTeamMembers()
-                                   .then( teamMembers => {
-                                        this.teamMembers = teamMembers;
-                                        return this.teamMembers;
-                                    } );
+    public async activate() {
+        this.teamMembers = await this.teamsApiService.getTeamMembers();
     }
 
     /**

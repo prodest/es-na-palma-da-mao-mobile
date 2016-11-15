@@ -1,6 +1,6 @@
 import { LatestController } from './latest.component.controller';
 import LatestComponent from './latest.component';
-import LatestTemplate = require('./latest.component.html');
+import LatestTemplate = require( './latest.component.html' );
 import { Edition, DioApiService } from '../shared/index';
 import { environment, $windowMock } from '../../shared/tests/index';
 let expect = chai.expect;
@@ -41,23 +41,11 @@ describe( 'Dio/latest', () => {
 
         describe( 'activate()', () => {
 
-            it( 'should call getLatestEditions()', () => {
-                let getLatestEditions = sandbox.stub( controller, 'getLatestEditions' );
-
-                controller.activate();
-
-                expect( getLatestEditions.calledOnce ).to.be.true;
-            });
-        });
-
-
-        describe( 'getLatestEditions()', () => {
-            it( 'should fill latest editions list', () => {
+            it( 'should call getLatestEditions()', async () => {
                 let latestEditions = <Edition[]>[ { description: '2016-01-01' }, { description: '2015-01-01' }];
-
                 sandbox.stub( dioApiService, 'getLatestEditions' ).returnsPromise().resolves( latestEditions );
 
-                controller.getLatestEditions();
+                await controller.activate();
 
                 expect( controller.latestEditions ).to.deep.equal( latestEditions );
             });

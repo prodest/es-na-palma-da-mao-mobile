@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { CalendarController } from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
-import CalendarTemplate = require('./calendar.component.html');
+import CalendarTemplate = require( './calendar.component.html' );
 import { CalendarApiService } from './shared/calendar-api.service';
 import { environment, $mdDialogMock } from '../shared/tests/index';
 import { SourcesFilterController, sourcesFilterTemplate } from '../layout/sources-filter/index';
@@ -15,25 +15,15 @@ describe( 'Calendar', () => {
     afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
+        // SUT
         let controller: CalendarController;
+        //  test doubles
         let calendarApiService: CalendarApiService;
 
-        // mocka data
-        let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' }];
-        let availableCalendarsNames = availableCalendars.map( calendar => calendar.name );
-        let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
-        let fullCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' }, { name: 'SECOM' }];
-
-        // stubs
-        let getAvailableCalendarsApi: Sinon.SinonPromise;
-        let getFullCalendarsApi: Sinon.SinonPromise;
-
+        // create SUT
         beforeEach(() => {
             environment.refresh();
             calendarApiService = <CalendarApiService>{ getAvailableCalendars() { }, getFullCalendars() { } };
-            getAvailableCalendarsApi = sandbox.stub( calendarApiService, 'getAvailableCalendars' ).returnsPromise();
-            getFullCalendarsApi = sandbox.stub( calendarApiService, 'getFullCalendars' ).returnsPromise();
-
             controller = new CalendarController( environment.$scope, $mdDialogMock, calendarApiService );
         });
 
@@ -62,53 +52,56 @@ describe( 'Calendar', () => {
         });
 
         describe( 'activate()', () => {
+            let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' }];
+            let availableCalendarsNames = [ 'SEFAZ', 'SEGER', 'SEJUS' ];
+            let fullCalendars = [
+                { name: 'SEFAZ', color: '#111' },
+                { name: 'SEGER', color: '#222' },
+                { name: 'SEJUS', color: '#333' }
+            ];
 
-            let getAvailableCalendars: Sinon.SinonSpy;
-            let loadCalendars: Sinon.SinonSpy;
-
+            // configure test doubles
             beforeEach(() => {
-                getAvailableCalendars = sandbox.spy( controller, 'getAvailableCalendars' );
-                loadCalendars = sandbox.spy( controller, 'loadCalendars' );
+                sandbox.stub( calendarApiService, 'getAvailableCalendars' )
+                    .returnsPromise()
+                    .resolves( availableCalendars );
 
-                getAvailableCalendarsApi.resolves( availableCalendars );
-                getFullCalendarsApi.resolves( fullCalendars );
-
-                controller.activate();
+                sandbox.stub( calendarApiService, 'getFullCalendars' )
+                    .withArgs( availableCalendars )
+                    .returnsPromise()
+                    .resolves( fullCalendars );
             });
 
-            it( 'should call getAvailableCalendars()', () => {
-                expect( getAvailableCalendars.calledOnce ).to.be.true;
-            });
-
-            it( 'should call loadCalendars( availableCalendars )', () => {
-                expect( loadCalendars.calledWith( availableCalendarsNames ) ).to.be.true;
-            });
-        });
-
-
-        describe( 'getAvailableCalendars()', () => {
-
-            beforeEach(() => {
-                getAvailableCalendarsApi.resolves( availableCalendars );
-                controller.getAvailableCalendars();
-            });
-
-            it( 'should fill available calendars list with calendars names', () => {
+            it( 'should fill available calendars list with available calendars names', async () => {
+                await controller.activate();
                 expect( controller.availableCalendars ).to.deep.equal( availableCalendarsNames );
             });
 
-            it( 'should select all available calendars', () => {
+            it( 'should select all available calendars', async () => {
+                await controller.activate();
                 expect( controller.selectedCalendars ).to.deep.equal( availableCalendarsNames );
+            });
+
+            it( 'should load all available calendars', async () => {
+                const loadCalendars = sandbox.stub( controller, 'loadCalendars' );
+
+                await controller.activate();
+                expect( loadCalendars.calledWithExactly( availableCalendarsNames ) ).to.true;
             });
         });
 
         describe( 'loadCalendars( selectedCalendars )', () => {
-            beforeEach(() => {
-                getFullCalendarsApi.resolves( fullCalendars );
-                controller.loadCalendars( selectedCalendars );
-            });
+            it( 'should fill calendar.eventSources', async () => {
+                let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
+                let fullCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }];
 
-            it( 'should fill calendar.eventSources', () => {
+                sandbox.stub( calendarApiService, 'getFullCalendars' )
+                    .withArgs( selectedCalendars )
+                    .returnsPromise()
+                    .resolves( fullCalendars );
+
+                await controller.loadCalendars( selectedCalendars );
+
                 expect( controller.calendar.eventSources ).to.equal( fullCalendars );
             });
         });
@@ -178,17 +171,22 @@ describe( 'Calendar', () => {
         });
 
         describe( 'openFilter()', () => {
-
             let $mdDialogShow: Sinon.SinonStub;
+            let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
+            let sourceFilter = {
+                origins: [ 'SEDU', 'SEFAZ', 'SEAMA' ]
+            };
 
             beforeEach(() => {
+                controller.availableCalendars = [ 'SEDU', 'SEFAZ', 'SEAMA', 'SECON', 'SEGER' ];
+                controller.selectedCalendars = selectedCalendars;
                 $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
-                $mdDialogShow.returnsPromise();
+                $mdDialogShow.returnsPromise().resolves( sourceFilter );
             });
 
             it( 'should open sources filter', () => {
-                controller.availableCalendars = availableCalendarsNames;
-                controller.selectedCalendars = selectedCalendars;
+                // copy because openFilter() execution changes controller.selectedCalendars
+                const selectedCalendarsBeforeFilter = angular.copy( controller.selectedCalendars );
 
                 controller.openFilter();
 
@@ -199,22 +197,17 @@ describe( 'Calendar', () => {
                     controllerAs: 'vm',
                     locals: {
                         availableOrigins: controller.availableCalendars,
-                        selectedOrigins: controller.selectedCalendars
+                        selectedOrigins: selectedCalendarsBeforeFilter
                     }
                 }) ).to.be.true;
             });
 
             describe( 'on sources filter edited:', () => {
-                it( 'should load selected calendars', () => {
-                    let sourceFilter = {
-                        origins: [ 'SEDU', 'SEFAZ', 'SEAMA' ]
-                    };
-                    $mdDialogShow.returnsPromise().resolves( sourceFilter );
-                    let loadCalendars = sandbox.stub( controller, 'loadCalendars' );
+                it( 'should selected calendars', () => {
 
                     controller.openFilter();
 
-                    expect( loadCalendars.calledWithExactly( sourceFilter.origins ) ).to.be.true;
+                    expect( controller.selectedCalendars ).to.be.deep.equal( sourceFilter.origins );
                 });
             });
         });

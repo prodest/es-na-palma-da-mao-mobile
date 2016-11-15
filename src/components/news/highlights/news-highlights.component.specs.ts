@@ -1,7 +1,7 @@
 import { NewsHighlightsController } from './news-highlights.component.controller';
 import { NewsApiService, News } from '../shared/index';
 import NewsHighlightsComponent from './news-highlights.component';
-import NewsHighlightsTemplate = require('./news-highlights.component.html');
+import NewsHighlightsTemplate = require( './news-highlights.component.html' );
 import { environment } from '../../shared/tests/index';
 import { TransitionService } from '../../shared/index';
 
@@ -46,22 +46,13 @@ describe( 'News/news-highlights', () => {
         });
 
         describe( 'activate()', () => {
-            it( 'should call getHighlightNews', () => {
-                let getHighlightNews = sandbox.stub( controller, 'getHighlightNews' );
-
-                controller.activate();
-
-                expect( getHighlightNews.called ).to.be.true;
-            });
-        });
-
-        describe( 'getHighlightNews()', () => {
-            it( 'should fill highlights', () => {
-                controller.getHighlightNews();
+            it( 'should call getHighlightNews', async () => {
+                await controller.activate();
 
                 expect( controller.highlights ).to.deep.equal( highlights );
             });
         });
+
 
         describe( 'goToNews( id )', () => {
             it( 'should show highlight news', () => {

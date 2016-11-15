@@ -1,7 +1,6 @@
-import { IPromise } from 'angular';
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
 import { ToastService, DialogService, TransitionService } from '../shared/index';
-import { AuthenticationService, Identity } from '../shared/authentication/index';
+import { AuthenticationService } from '../shared/authentication/index';
 import { PushService } from '../shared/push/index';
 
 /**
@@ -55,75 +54,72 @@ export class LoginController {
      * 
      * @memberOf LoginController
      */
-    public onEnterPressed() {
-        if ( !this.username || !this.password ) {
-            return;
-        }
-        this.loginWithCredentials( this.username, this.password );
+    public async onEnterPressed() {
+        await this.login( this.username, this.password );
     }
 
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
      */
-    public loginWithCredentials( username: string, password: string ): void {
-
-        this.processingLogin = true;
+    public async login( username?: string, password?: string ) {
 
         if ( !username || !password ) {
             this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
-        this.authenticationService.signInWithCredentials( username, password )
-            .then(() => this.onAcessoCidadaoLoginSuccess() )
-            .catch( error => this.onAcessoCidadaoLoginError( error ) )
-            .finally(() => this.processingLogin = false );
-    }
-
-
-    /**
-     * Efetua login no acesso cidadão usando um identity.
-     * 
-     * @param {Identity} identity
-     */
-    public loginWithIdentity( identity: Identity ): IPromise<void> {
-        return this.authenticationService.signInWithIdentity( identity )
-            .then(() => this.onAcessoCidadaoLoginSuccess() )
-            .catch( error => this.onAcessoCidadaoLoginError( error ) );
+        await this.loginWith(() => this.authenticationService.acessoCidadaoLogin( username, password ) );
     }
 
     /**
      * Realiza o login usando o facebook
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
-    public facebookLogin(): Promise<void> {
-        return this.authenticationService.facebookLogin()
-            .then(( identity ) => this.loginWithIdentity( identity ) )
-            .catch(() => this.toast.error( { title: '[Facebook] Falha no login' }) );
+    public async facebookLogin() {
+        await this.loginWith(() => this.authenticationService.facebookLogin() );
     }
 
     /**
      * Realiza o login usando conta do google
      */
-    public googleLogin(): Promise<void> {
-        return this.authenticationService.googleLogin()
-            .then( identity => this.loginWithIdentity( identity ) )
-            .catch(() => this.toast.error( { title: '[Google] Falha no login' }) );
+    public async googleLogin() {
+        await this.loginWith(() => this.authenticationService.googleLogin() );
     }
 
     /**
      * Realiza login digits
      */
-    public digitsLogin(): IPromise<void> {
-        return this.authenticationService.digitsLogin()
-            .then(( identity ) => this.loginWithIdentity( identity ) )
-            .catch(() => this.toast.error( { title: '[SMS] Falha no login' }) );
+    public async digitsLogin() {
+        await this.loginWith(() => this.authenticationService.digitsLogin() );
+    }
+
+    /**
+     * Abre a janela(no browser) de recuperar senha do acesso cidadão.
+     */
+    public openUrlForgotPassword(): void {
+        this.openInAppBrowser( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha' );
+    }
+
+
+    /************************************* Private API *************************************/
+
+    private async loginWith( loginMethod: Function ) {
+        try {
+            this.processingLogin = true;
+            await loginMethod();
+            this.onLoginSuccess();
+        } catch ( error ) {
+            this.onLoginError( error );
+        }
+        finally {
+            this.processingLogin = false;
+        }
     }
 
 
     /**
      * Callback de sucesso no login no acesso cidadão.
      */
-    public onAcessoCidadaoLoginSuccess(): void {
+    private onLoginSuccess(): void {
         this.pushService.init();
         this.username = undefined;
         this.password = undefined;
@@ -135,8 +131,8 @@ export class LoginController {
      * 
      * @param {{ data: { error: string } }} error
      */
-    public onAcessoCidadaoLoginError( error: { data: { error: string } }): void {
-        if ( this.isAccountNotLinked( error.data ) ) {
+    private onLoginError( error: { data?: { error: string } }): void {
+        if ( error.data && this.isAccountNotLinkedError( error.data ) ) {
             this.showDialogAccountNotLinked();
         } else {
             this.toast.error( { title: 'Falha no Login' });
@@ -149,13 +145,15 @@ export class LoginController {
      * 
      * @memberOf LoginController
      */
-    public showDialogAccountNotLinked(): void {
-        this.dialog.confirm( {
+    private showDialogAccountNotLinked(): void {
+        const options = {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
             ok: 'Criar conta'
-        }).then(() => {
-            this.openInAppBrowser('https://acessocidadao.es.gov.br/Conta/VerificarCPF');
+        };
+
+        this.dialog.confirm( options ).then(() => {
+            this.openInAppBrowser( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF' );
         });
     }
 
@@ -165,22 +163,16 @@ export class LoginController {
      * @param {any} data
      * @returns {boolean}
      */
-    public isAccountNotLinked( data ): boolean {
+    private isAccountNotLinkedError( data ): boolean {
         return data.error === this.errorMsgs.accountNotLinked;
     }
+
 
     /**
      * Redireciona usuário para o dashboard
      */
-    public goToDashboard(): void {
+    private goToDashboard(): void {
         this.transitionService.changeRootState( 'app.dashboard.newsHighlights' );
-    }
-
-    /**
-     * Abre a janela(no browser) de recuperar senha do acesso cidadão.
-     */
-    public openUrlForgotPassword(): void {
-        this.openInAppBrowser('https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha');
     }
 
     /**
@@ -199,7 +191,7 @@ export class LoginController {
             if ( event.url === 'https://acessocidadao.es.gov.br/' ) {
                 browser.close();
             }
-        } );
+        });
         browser.on( 'loaderror' ).subscribe(( event: InAppBrowserEvent ) => browser.close() );
     }
 }

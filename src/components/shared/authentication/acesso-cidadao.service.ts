@@ -1,5 +1,4 @@
-import { IWindowService, IHttpService, IPromise, IQService, IRequestConfig } from 'angular';
-
+import { IWindowService, IHttpService, IRequestConfig, IHttpPromiseCallbackArg } from 'angular';
 import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity } from './models/index';
 import { Settings } from '../settings/index';
 import { AnswersService } from '../fabric/index';
@@ -13,7 +12,7 @@ import { AnswersService } from '../fabric/index';
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'settings', 'answersService' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage', 'settings', 'answersService' ];
     private identityServerUrl: string;
     private static refreshingToken: boolean = false;
 
@@ -23,21 +22,25 @@ export class AcessoCidadaoService {
      * @param {IWindowService} $window
      * @param {IHttpService} $http
      * @param {any} $localStorage
-     * @param {IQService} $q
      * @param {Settings} settings
      * @param {AnswersService} answersService
+     * 
+     * @memberOf AcessoCidadaoService
      */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
         private $localStorage,
-        private $q: IQService,
         private settings: Settings,
         private answersService: AnswersService ) {
     }
 
+
     /**
      * 
-     * @param identityServerUrl
+     * 
+     * @param {string} identityServerUrl
+     * 
+     * @memberOf AcessoCidadaoService
      */
     public initialize( identityServerUrl: string ): void {
         this.identityServerUrl = identityServerUrl;
@@ -48,6 +51,7 @@ export class AcessoCidadaoService {
      * 
      * @readonly
      * @type {Token}
+     * @memberOf AcessoCidadaoService
      */
     public get token(): Token {
         return this.$localStorage.token;
@@ -79,27 +83,132 @@ export class AcessoCidadaoService {
      * @type {boolean}
      */
     public get authenticated(): boolean {
-        return !!this.token && !!this.tokenClaims && this.tokenIsNotExpiredIn( new Date() );
+        return !!this.token && !!this.tokenClaims && !this.tokenIsExpiredIn( new Date() );
     }
 
     /**
      * Autentica o usuário no acesso cidadão
      * 
-     * @param {Identity} data
-     * @returns {IPromise<AcessoCidadaoClaims>}
+     * @param {Identity} identity
+     * @returns {Promise<AcessoCidadaoClaims>}
      */
-    public signIn( data: Identity ): IPromise<AcessoCidadaoClaims> {
-        return this.getToken( data )
-            .then( token => {
-                this.$localStorage.anonymousLogin = false;
-                this.sendAnswers( data, true );
-                this.saveTokenOnLocaStorage( token );
-                return this.getAcessoCidadaoUserClaims();
-            })
-            .catch(( error ) => {
-                this.sendAnswers( data, false );
-                throw error;
+    public async login( identity: Identity ): Promise<AcessoCidadaoClaims> {
+        try {
+            const token = await this.getToken( identity );
+            this.$localStorage.anonymousLogin = false;
+            this.sendAnswers( identity, true );
+            this.saveTokenOnLocalStorage( token );
+            return await this.getAcessoCidadaoUserClaims();
+        } catch ( error ) {
+            this.sendAnswers( identity, false );
+            throw error;
+        }
+    }
+
+    /**
+     * Faz logout do usuário. Remove o token do localstore e os claims salvos.
+     */
+    public logout( success: () => {}): void {
+        this.$localStorage.$reset();
+        success();
+    }
+
+    /**
+     * Atualiza o access token quando necessário baseado em sua data de expiração.
+     * 
+     * @returns {Promise<{}>}
+     */
+    public async refreshTokenIfNeeded(): Promise<Token> {
+
+        let currentDate = new Date();
+
+        if ( !this.tokenClaims || !this.token ) {
+            return Promise.reject( { message: 'no-token' });
+        }
+
+        // Usa o token ainda válido e faz um refresh token em background (não-bloqueante)
+        if ( this.tokenIsExpiringIn( currentDate )  ) {
+            this.refreshToken();
+            return Promise.resolve( this.token );
+        }
+
+        // Faz um refresh token e espera pra retornar o novo token "refreshado"
+        if ( this.tokenIsExpiredIn( currentDate ) ) {
+            return await this.refreshToken();
+        }
+
+        return Promise.resolve( this.token );
+    }
+
+    /**
+     * Obtém as claims do usuário no acesso cidadão.
+     * 
+     * @returns
+     */
+    public getAcessoCidadaoUserClaims(): Promise<AcessoCidadaoClaims> {
+        let userClaimsUrl = `${this.identityServerUrl}/connect/userinfo`;
+
+        return this.$http.get( userClaimsUrl )
+            .then(( response: IHttpPromiseCallbackArg<AcessoCidadaoClaims> ) => {
+                if ( angular.isDefined( response.data!.sub ) ) {
+                    this.$localStorage.userClaims = response.data;
+                }
+                return response.data;
             });
+    }
+
+
+
+
+    /************************************* Private API *************************************/
+
+    /**
+     * 
+     * 
+     * @param {Identity} data
+     * @returns {Promise<Token>}
+     */
+    private async refreshToken(): Promise<Token> {
+
+        if ( !this.token || AcessoCidadaoService.refreshingToken ) {
+            return Promise.reject( new Error( 'Usuário não logado' ) );
+        }
+
+        AcessoCidadaoService.refreshingToken = true;
+
+        try {
+            await this.login( this.createRefreshTokenIdentity() );
+            return this.token;
+        } finally {
+            AcessoCidadaoService.refreshingToken = false;
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @returns {AcessoCidadaoIdentity}
+     * 
+     * @memberOf AcessoCidadaoService
+     */
+    private createRefreshTokenIdentity(): AcessoCidadaoIdentity {
+        let identity: AcessoCidadaoIdentity = {
+            client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
+            client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
+            grant_type: 'refresh_token',
+            scope: this.settings.identityServer.defaultScopes
+        };
+
+
+        if ( this.tokenClaims.client_id === 'espm' ) {
+            identity.client_id = this.settings.identityServer.clients.espm.id;
+            identity.client_secret = this.settings.identityServer.clients.espm.secret;
+        }
+
+        identity.refresh_token = this.token.refresh_token;
+
+        return identity;
     }
 
     /**
@@ -108,6 +217,8 @@ export class AcessoCidadaoService {
      * @private
      * @param {*} data
      * @param {boolean} success
+     * 
+     * @memberOf AcessoCidadaoService
      */
     private sendAnswers( data: any, success: boolean ) {
         if ( !!data.provider ) {
@@ -118,84 +229,18 @@ export class AcessoCidadaoService {
     }
 
     /**
-     * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
-     */
-    protected getToken( data: Identity ): IPromise<Token> {
-        return this.$http( this.getRequestTokenOptions( data ) )
-            .then(( response: { data: Token }) => {
-                return response.data;
-            });
-    }
-
-    /**
+     *  Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos
      * 
-     * 
+     * @private
      * @param {Identity} data
-     * @returns {IPromise<AcessoCidadaoClaims>}
-     */
-    public refreshToken(): IPromise<AcessoCidadaoClaims> {
-        if ( this.token && !AcessoCidadaoService.refreshingToken ) {
-            AcessoCidadaoService.refreshingToken = true;
-            try {
-
-                let identity: AcessoCidadaoIdentity = {
-                    client_id: '',
-                    client_secret: '',
-                    grant_type: 'refresh_token',
-                    scope: this.settings.identityServer.defaultScopes
-                };
-
-                if ( this.tokenClaims.client_id === 'espm' ) {
-                    identity.client_id = this.settings.identityServer.clients.espm.id;
-                    identity.client_secret = this.settings.identityServer.clients.espm.secret;
-                } else {
-                    identity.client_id = this.settings.identityServer.clients.espmExternalLoginAndroid.id;
-                    identity.client_secret = this.settings.identityServer.clients.espmExternalLoginAndroid.secret;
-                }
-
-                identity.refresh_token = this.token.refresh_token;
-                return this.getToken( identity )
-                    .then( token => {
-                        this.saveTokenOnLocaStorage( token );
-                        return this.getAcessoCidadaoUserClaims();
-                    })
-                    .finally(() => {
-                        AcessoCidadaoService.refreshingToken = false;
-                    });
-            } catch ( err ) {
-                AcessoCidadaoService.refreshingToken = false;
-                throw err;
-            }
-        } else {
-            return this.$q.reject( new Error( 'Usuário não logado' ) );
-        }
-    }
-
-
-    /**
-     * Atualiza o access token quando necessário baseado em sua data de expiração.
+     * @returns {Promise<Token>}
      * 
-     * @returns {IPromise<{}>}
+     * @memberOf AcessoCidadaoService
      */
-    public refreshTokenIfNeeded(): IPromise<{}> {
-        let currentDate = new Date();
-        return this.$q(( resolve, reject ) => {
-            if ( !this.tokenClaims || !this.token ) {
-                return reject( { message: 'no-token' });
-            }
-
-            if ( this.tokenIsNotExpiredIn( currentDate ) ) {
-                resolve( this.token );
-            }
-
-            if ( this.tokenIsExpiringIn( currentDate ) ) {
-                return this.refreshToken()
-                    .then(() => resolve( this.token ) )
-                    .catch(( error ) => reject( error ) );
-            }
-        });
+    private getToken( identity: Identity ): Promise<Token> {
+        return this.$http( this.getRequestTokenOptions( identity ) )
+            .then(( response: IHttpPromiseCallbackArg<Token> ) => response.data );
     }
-
 
     /**
      * 
@@ -204,8 +249,8 @@ export class AcessoCidadaoService {
      * @param {Date} date
      * @returns
      */
-    private tokenIsNotExpiredIn( date: Date ) {
-        return this.tokenClaims.exp * 1000 - date.getTime() > 0;
+    private tokenIsExpiredIn( date: Date ) {
+        return this.tokenClaims.exp * 1000 - date.getTime() <= 0;
     }
 
     /**
@@ -218,26 +263,7 @@ export class AcessoCidadaoService {
     private tokenIsExpiringIn( date: Date ) {
         // Check if it's time to refresh the token based on the token expiration date.
         // token.expires_in * 500 = ( token expiration time * 1000 / 2 )
-        return this.tokenClaims.exp * 1000 - date.getTime() < this.token.expires_in * 500;
-    }
-
-    /**
-     * Obtém as claims do usuário no acesso cidadão.
-     * 
-     * @returns
-     */
-    public getAcessoCidadaoUserClaims(): IPromise<AcessoCidadaoClaims> {
-        let userClaimsUrl = `${this.identityServerUrl}/connect/userinfo`;
-
-        return this.$http.get( userClaimsUrl )
-            .then(( response: { data: AcessoCidadaoClaims }) => {
-                // Check if the object is correct (This request can return the Acesso Cidadão login page)
-                if ( angular.isDefined( response.data.sub ) ) {
-                    this.$localStorage.userClaims = response.data;
-                }
-
-                return response.data;
-            });
+        return !this.tokenIsExpiredIn( date ) && this.tokenClaims.exp * 1000 - date.getTime() < this.token.expires_in * 500;
     }
 
     /**
@@ -245,17 +271,9 @@ export class AcessoCidadaoService {
      * 
      * @param {Token} token
      */
-    protected saveTokenOnLocaStorage( token: Token ) {
+    private saveTokenOnLocalStorage( token: Token ) {
         this.$localStorage.token = token;
         this.$localStorage.tokenClaims = this.getTokenClaims( token );
-    }
-
-    /**
-     * Faz logout do usuário. Remove o token do localstore e os claims salvos.
-     */
-    public signOut( success ): void {
-        this.$localStorage.$reset();
-        success();
     }
 
     /**
@@ -263,7 +281,7 @@ export class AcessoCidadaoService {
     * 
     * @return {Claim} Claims do usuário
     */
-    protected getTokenClaims( token: Token ): LowLevelProtocolClaims | undefined {
+    private getTokenClaims( token: Token ): LowLevelProtocolClaims | undefined {
         let claims: LowLevelProtocolClaims | undefined = undefined;
 
         if ( angular.isDefined( token ) ) {
@@ -276,7 +294,7 @@ export class AcessoCidadaoService {
     /**
      * Decodifica uma url Base64
      */
-    protected urlBase64Decode( encoded: string ): string {
+    private urlBase64Decode( encoded: string ): string {
 
         let output = encoded.replace( '-', '+' ).replace( '_', '/' );
 

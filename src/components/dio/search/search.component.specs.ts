@@ -1,8 +1,8 @@
 import { SearchController } from './search.component.controller';
 import SearchComponent from './search.component';
-import SearchTemplate = require('./search.component.html');
+import SearchTemplate = require( './search.component.html' );
 import { Hit, SearchResult, DioApiService, SearchFilter } from '../shared/index';
-import filterTemplate = require('./filter/filter.html');
+import filterTemplate = require( './filter/filter.html' );
 import { FilterController } from './filter/filter.controller';
 import { environment, $windowMock, $mdDialogMock } from '../../shared/tests/index';
 import { SocialSharing } from 'ionic-native';
@@ -102,68 +102,68 @@ describe( 'Dio/search', () => {
                     controller.hits = alreadyLoadedHits;
                 });
 
-                it( 'should append returned hits to already loaded ones (if paginating)', () => {
+                it( 'should append returned hits to already loaded ones (if paginating)', async () => {
                     controller.filter.pageNumber = 2;
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( controller.hits ).to.deep.equal( alreadyLoadedHits.concat( freshHits ) );
                 });
 
-                it( 'should replace existing hits with freshing ones (on initial load)', () => {
+                it( 'should replace existing hits with freshing ones (on initial load)', async () => {
                     controller.filter.pageNumber = 0;
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( controller.hits ).to.deep.equal( freshHits );
                 });
 
-                it( 'should fill totalHits', () => {
-                    controller.search( controller.filter );
+                it( 'should fill totalHits', async () => {
+                    await controller.search( controller.filter );
 
                     expect( controller.totalHits ).to.be.equal( searchResult.totalHits );
                 });
 
-                it( 'should set searched flag to true', () => {
+                it( 'should set searched flag to true', async () => {
                     controller.searched = false;
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( controller.searched ).to.be.true;
                 });
 
-                it( 'should copy filter.query to lastQuery property', () => {
+                it( 'should copy filter.query to lastQuery property', async () => {
                     controller.lastQuery = 'hoisel';
                     controller.filter.query = 'SECOM';
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( controller.filter.query ).to.be.equal( controller.lastQuery );
                 });
 
-                it( 'should have no more hits if no hits returned', () => {
+                it( 'should have no more hits if no hits returned', async () => {
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( controller.hasMoreHits ).to.be.true;
 
                     searchApi.resolves( { hits: [], totalHits: 1000 });
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( controller.hasMoreHits ).to.be.false;
                 });
 
-                it( 'should broadcast scroll.infiniteScrollComplete event', () => {
+                it( 'should broadcast scroll.infiniteScrollComplete event', async () => {
                     let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
 
-                    controller.search( controller.filter );
+                    await controller.search( controller.filter );
 
                     expect( $broadcast.called ).to.be.true;
                 });
             });
 
-             describe( 'on error:', () => {
+            describe( 'on error:', () => {
                 let searchApi: Sinon.SinonPromise;
 
                 beforeEach(() => {
@@ -171,49 +171,49 @@ describe( 'Dio/search', () => {
                     searchApi.rejects();
                 });
 
-                it( 'should unload hits', () => {
-                    controller.search( controller.filter );
+                it( 'should unload hits', async () => {
+                    await controller.search( controller.filter );
 
                     expect( controller.hits ).to.be.undefined;
                 });
 
-                it( 'should clear lasQuery property', () => {
-                    controller.search( controller.filter );
+                it( 'should clear lasQuery property', async () => {
+                    await controller.search( controller.filter );
 
                     expect( controller.lastQuery ).to.be.undefined;
                 });
 
-                it( 'should have total hits === 0', () => {
-                    controller.search( controller.filter );
+                it( 'should have total hits === 0', async () => {
+                    await controller.search( controller.filter );
 
                     expect( controller.totalHits ).to.be.equal( 0 );
                 });
 
-                it( 'should has no more hits', () => {
-                    controller.search( controller.filter );
+                it( 'should has no more hits', async () => {
+                    await controller.search( controller.filter );
 
                     expect( controller.hasMoreHits ).to.be.false;
                 });
             });
         });
 
-        describe( 'openFilter()', () => {
+        describe( 'openFilter()', async () => {
 
             let $mdDialogShow: Sinon.SinonStub;
 
             beforeEach(() => {
                 $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
-                $mdDialogShow.returnsPromise();
+                $mdDialogShow.returnsPromise().resolves( { pageNumber: 20, sort: 'date' });
             });
 
-            it( 'should open filter', () => {
+            it( 'should open filter', async () => {
 
                 controller.filter = {
                     pageNumber: 1,
                     sort: 'date'
                 };
 
-                controller.openFilter();
+                await controller.openFilter();
 
                 expect( $mdDialogShow.calledWithExactly( {
                     controller: FilterController,
@@ -229,7 +229,7 @@ describe( 'Dio/search', () => {
                 let userFilter: SearchFilter;
                 let search: Sinon.SinonStub;
 
-                beforeEach(() => {
+                beforeEach( async () => {
                     userFilter = {
                         pageNumber: 100,
                         sort: 'date'
@@ -237,11 +237,11 @@ describe( 'Dio/search', () => {
                     search = sandbox.stub( controller, 'search' );
                     $mdDialogShow.returnsPromise().resolves( userFilter );
 
-                    controller.openFilter();
+                    await controller.openFilter();
                 });
 
                 it( 'should search DIO with the provided filter', () => {
-                    expect( search.calledWith( userFilter ) ).to.be.true;
+                    expect( search.calledWithExactly( userFilter ) ).to.be.true;
                 });
 
                 it( 'should reset pagination to first page', () => {

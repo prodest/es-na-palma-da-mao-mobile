@@ -2,6 +2,14 @@ import { IRootScopeService, IRootElementService } from 'angular';
 
 modalComponent.$inject = [ '$rootScope', '$ionicModal' ];
 
+/**
+ * Ref: https://gist.github.com/mlegenhausen/1043c6d12bc596032e3f
+ * 
+ * @export
+ * @param {IRootScopeService} $rootScope
+ * @param {ionic.modal.IonicModalService} $ionicModal
+ * @returns
+ */
 export function modalComponent( $rootScope: IRootScopeService, $ionicModal: ionic.modal.IonicModalService ) {
     return {
         restrict: 'E',
@@ -25,6 +33,7 @@ export function modalComponent( $rootScope: IRootScopeService, $ionicModal: ioni
         // Get original html code before angular processes it
         const innerTemplate = element.children()[ 0 ].outerHTML;
 
+        /* tslint:disable */
         let modalTemplate = `<ion-modal-view>
 				<ion-header-bar align-title="center" class="material-background-nav-bar capitalize">
 					<div class="title">
@@ -44,7 +53,7 @@ export function modalComponent( $rootScope: IRootScopeService, $ionicModal: ioni
                     <INNER-MODAL-TEMPLATE>
 				</ion-content>
 			</ion-modal-view>`;
-
+        /* tslint:enable */
         element.empty();
 
         return modalTemplate.replace( '<INNER-MODAL-TEMPLATE>', innerTemplate );

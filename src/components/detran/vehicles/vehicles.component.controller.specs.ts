@@ -1,9 +1,9 @@
 import { VehiclesController } from './vehicles.component.controller';
 import VehiclesComponent from './vehicles.component';
-import VehiclesTemplate = require('./vehicles.component.html');
-import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo, VehicleData } from '../shared/index';
+import VehiclesTemplate = require( './vehicles.component.html' );
+import { Vehicle, VehicleStorage, VehicleInfo } from '../shared/index';
 import { TransitionService } from '../../shared/index';
-import addVehicleTemplate = require('./add-vehicle/add-vehicle.html');
+import addVehicleTemplate = require( './add-vehicle/add-vehicle.html' );
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
 import { environment, $mdDialogMock, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
 let expect = chai.expect;
@@ -16,6 +16,7 @@ describe( 'Detran/vehicles', () => {
 
     describe( 'Controller', () => {
         let controller: VehiclesController;
+        let vehicles: Vehicle[];
 
         // dialogs
         let dialogConfirm: Sinon.SinonStub;
@@ -25,15 +26,7 @@ describe( 'Detran/vehicles', () => {
         let $mdDialogShowPromise: Sinon.SinonPromise;
 
         // storage
-        let storageRemoveVehicle: Sinon.SinonStub;
-        let storageExistsVehicle: Sinon.SinonStub;
-        let storageAddVehicle: Sinon.SinonStub;
-
-        // api
-        let getVehicleInfoApi: Sinon.SinonStub;
-        let getVehicleInfoApiPromise: Sinon.SinonPromise;
-        let syncVehicleDataApi: Sinon.SinonStub;
-        let syncVehicleDataApiPromise: Sinon.SinonPromise;
+        let vehicleStorage: VehicleStorage;
 
         // Services
         let transitionService: TransitionService;
@@ -42,37 +35,26 @@ describe( 'Detran/vehicles', () => {
         // models
         let vehicle: Vehicle;
         let vehicleInfo: VehicleInfo;
-        let vehicleData: VehicleData;
-        let vehicleStorage: VehicleStorage;
 
         beforeEach(() => {
             environment.refresh();
             vehicleStorage = <VehicleStorage><any>{
-                existsVehicle() { },
+                containsVehicle() { },
                 removeVehicle() { },
-                addVehicle() { }
-            };
-
-            let detranApiService = <DetranApiService><any>{
-                getVehicleInfo() { },
-                syncVehicleData() { }
+                addVehicle() { },
+                sync() { }
             };
 
             transitionService = <TransitionService><any>{
                 changeState: () => { }
             };
 
-            controller = new VehiclesController( environment.$scope, $mdDialogMock, detranApiService, toastServiceMock, dialogServiceMock, vehicleStorage, transitionService );
+            controller = new VehiclesController( environment.$scope, $mdDialogMock, toastServiceMock, dialogServiceMock, vehicleStorage, transitionService );
 
             // setup stubs
             vehicle = { plate: '123456', renavam: 333333 };
             vehicleInfo = { color: 'red', model: 'Idea' };
-            vehicleData = { id: 9232, vehicles: [ vehicle, vehicle ], date: new Date() };
-            vehicleStorage.vehiclesData = vehicleData;
-
-            storageExistsVehicle = sandbox.stub( vehicleStorage, 'existsVehicle' );
-            storageAddVehicle = sandbox.stub( vehicleStorage, 'addVehicle' );
-            storageRemoveVehicle = sandbox.stub( vehicleStorage, 'removeVehicle' ).returns( vehicleData );
+            vehicles = [ vehicle, vehicle ];
 
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
             dialogConfirmPromise = dialogConfirm.returnsPromise();
@@ -80,13 +62,7 @@ describe( 'Detran/vehicles', () => {
             $mdDialogShowPromise = $mdDialogShow.returnsPromise();
             toastError = sandbox.stub( toastServiceMock, 'error' );
 
-            getVehicleInfoApi = sandbox.stub( detranApiService, 'getVehicleInfo' );
-            getVehicleInfoApiPromise = getVehicleInfoApi.returnsPromise();
-
             changeState = sandbox.stub( transitionService, 'changeState' );
-
-            syncVehicleDataApi = sandbox.stub( detranApiService, 'syncVehicleData' );
-            syncVehicleDataApiPromise = syncVehicleDataApi.returnsPromise();
         });
 
         describe( 'on instantiation', () => {
@@ -105,60 +81,64 @@ describe( 'Detran/vehicles', () => {
         });
 
         describe( 'on activate()', () => {
-            it( 'should call syncVehicleData', () => {
+            it( 'should sync vehicle data', () => {
+                const storageSync = sandbox.stub( vehicleStorage, 'sync' );
+
                 controller.activate();
 
-                expect( syncVehicleDataApi.calledOnce ).to.be.true;
+                expect( storageSync.calledOnce ).to.be.true;
             });
         });
 
         describe( 'vehicles', () => {
-            it( 'should return vehicles from local storage', () => {
-                expect( controller.vehicles ).to.be.deep.equal( vehicleStorage.vehiclesData.vehicles );
+            it( 'should return vehicles from storage', () => {
+                expect( controller.vehicles ).to.be.deep.equal( vehicleStorage.vehicles );
             });
         });
 
         describe( 'openRemoveVehicleModal(vehicle)', () => {
-            it( 'should show confirm dialog', () => {
-                controller.openRemoveVehicleModal( vehicle );
-
-                expect( dialogConfirm.calledWith( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` }) ).to.be.true;
-            });
-
-            it( 'should remove vehicle if confirm exclusion', () => {
-                let removeVehicle = sandbox.stub( controller, 'removeVehicle' ); // 
+            it( 'should show confirm dialog', async () => {
                 dialogConfirmPromise.resolves();
 
-                controller.openRemoveVehicleModal( vehicle );
+                await controller.openRemoveVehicleModal( vehicle );
+
+                expect( dialogConfirm.calledWithExactly( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` }) ).to.be.true;
+            });
+
+            it( 'should remove vehicle if confirm exclusion', async () => {
+                let removeVehicle = sandbox.stub( controller, 'removeVehicle' );
+                dialogConfirmPromise.resolves( true );
+
+                await controller.openRemoveVehicleModal( vehicle );
 
                 expect( removeVehicle.calledWithExactly( vehicle ) ).to.be.true;
             });
 
-            it( 'should not remove vehicle on cancel', () => {
+            it( 'should not remove vehicle on cancel', async () => {
                 let removeVehicle = sandbox.stub( controller, 'removeVehicle' );
-                $mdDialogShowPromise.rejects();
+                dialogConfirmPromise.resolves( false );
 
-                controller.openRemoveVehicleModal( vehicle );
+                await controller.openRemoveVehicleModal( vehicle );
 
-                expect( removeVehicle.notCalled );
+                expect( removeVehicle.notCalled ).to.be.true;
             });
         });
 
         describe( 'removeVehicle(vehicle)', () => {
+
+            let storageRemoveVehicle: Sinon.SinonStub;
+
             beforeEach(() => {
-                controller.editing = true;
+                storageRemoveVehicle = sandbox.stub( vehicleStorage, 'removeVehicle' );
+                storageRemoveVehicle.returns( vehicles );
             });
 
-            it( 'should remove vehicle from local storage if in edit mode', () => {
+            it( 'should remove vehicle from storage if in edit mode', () => {
+                controller.editing = true;
+
                 controller.removeVehicle( vehicle );
 
                 expect( storageRemoveVehicle.calledWithExactly( vehicle ) ).to.be.true;
-            });
-
-            it( 'should sync with backend after remove', () => {
-                controller.removeVehicle( vehicle );
-
-                expect( syncVehicleDataApi.calledWithExactly( true ) ).to.be.true;
             });
 
             it( 'should not remove vehicle from local storage if not in edit mode', () => {
@@ -170,10 +150,8 @@ describe( 'Detran/vehicles', () => {
             });
 
             it( 'should exit edit mode if no vehicles remains stored', () => {
-                let vehicleDataEmpty = vehicleData;
-                vehicleDataEmpty.vehicles = [];
-
-                storageRemoveVehicle.returns( vehicleDataEmpty );
+                controller.editing = true;
+                storageRemoveVehicle.returns( [] );
 
                 controller.removeVehicle( vehicle );
 
@@ -181,7 +159,8 @@ describe( 'Detran/vehicles', () => {
             });
 
             it( 'should not exit edit mode if some vehicles remains stored', () => {
-                storageRemoveVehicle.returns( vehicleData );
+                controller.editing = true;
+                storageRemoveVehicle.returns( vehicles );
 
                 controller.removeVehicle( vehicle );
 
@@ -199,6 +178,9 @@ describe( 'Detran/vehicles', () => {
 
         describe( 'openAddVehicleModal()', () => {
             it( 'should open add vehicle modal', () => {
+                sandbox.stub( controller, 'addVehicle' );
+                $mdDialogShowPromise.resolves( vehicle );
+
                 controller.openAddVehicleModal();
 
                 expect( $mdDialogShow.calledWithExactly( {
@@ -206,7 +188,7 @@ describe( 'Detran/vehicles', () => {
                     template: addVehicleTemplate,
                     bindToController: true,
                     controllerAs: 'vm'
-                }) );
+                }) ).to.be.true;
             });
 
             it( 'should add new vehicle on confirm', () => {
@@ -215,7 +197,7 @@ describe( 'Detran/vehicles', () => {
 
                 controller.openAddVehicleModal();
 
-                expect( addVehicle.calledWithExactly( vehicle ) );
+                expect( addVehicle.calledWithExactly( vehicle ) ).to.be.true;
             });
 
             it( 'should not add new vehicle on cancel', () => {
@@ -224,54 +206,45 @@ describe( 'Detran/vehicles', () => {
 
                 controller.openAddVehicleModal();
 
-                expect( addVehicle.notCalled );
+                expect( addVehicle.notCalled ).to.be.true;
             });
         });
 
         describe( 'addVehicle(vehicle)', () => {
-            it( 'should show error if vehicle is already stored', () => {
-                storageExistsVehicle.returns( true );
 
-                controller.addVehicle( vehicle );
+            let storageContainsVehicle: Sinon.SinonStub;
+            let storageAddVehicle: Sinon.SinonStub;
+
+            beforeEach(() => {
+                storageContainsVehicle = sandbox.stub( vehicleStorage, 'containsVehicle' );
+                storageAddVehicle = sandbox.stub( vehicleStorage, 'addVehicle' );
+            });
+
+            it( 'should show error if vehicle is already stored', async () => {
+                storageContainsVehicle.returns( true );
+                storageAddVehicle.returnsPromise().resolves( vehicles );
+
+                await controller.addVehicle( vehicle );
 
                 expect( toastError.calledWithExactly( { title: 'Placa ou RENAVAM já cadastrado(s)' }) ).to.be.true;
-                expect( getVehicleInfoApi.notCalled ).to.be.true;
+                expect( storageAddVehicle.notCalled ).to.be.true;
 
             });
 
-            it( 'should sync with backend after add', () => {
-                storageExistsVehicle.returns( false );
-                getVehicleInfoApiPromise.resolves( vehicleInfo );
+            it( 'should show message on error', async () => {
+                storageContainsVehicle.returns( false );
+                storageAddVehicle.returnsPromise().rejects( { status: 500 });
 
-                controller.addVehicle( vehicle );
-
-                expect( syncVehicleDataApi.calledWithExactly( true ) ).to.be.true;
-            });
-
-            it( 'should fill vehicle info and add it to local storage if not stored', () => {
-                storageExistsVehicle.returns( false );
-                getVehicleInfoApiPromise.resolves( vehicleInfo );
-
-                controller.addVehicle( vehicle );
-
-                expect( vehicle.info ).to.be.deep.equal( vehicleInfo );
-                expect( storageAddVehicle.calledWithExactly( vehicle ) ).to.be.true;
-            });
-
-            it( 'should show message on error', () => {
-                storageExistsVehicle.returns( false );
-                getVehicleInfoApiPromise.rejects( { status: 500 });
-
-                controller.addVehicle( vehicle );
+                await controller.addVehicle( vehicle );
 
                 expect( toastError.calledWithExactly( { title: 'Erro ao salvar veículo. Tente novamente' }) ).to.be.true;
             });
 
-            it( 'should show error message if vehicle info not founded', () => {
-                storageExistsVehicle.returns( false );
-                getVehicleInfoApiPromise.rejects( { status: 404 });
+            it( 'should show error message if vehicle info not founded', async () => {
+                storageContainsVehicle.returns( false );
+                storageAddVehicle.returnsPromise().rejects( { status: 404 });
 
-                controller.addVehicle( vehicle );
+                await controller.addVehicle( vehicle );
 
                 expect( toastError.calledWithExactly( { title: 'Veículo não encontrado na base do DETRAN.' }) ).to.be.true;
             });

@@ -1,4 +1,4 @@
-import { IScope, IPromise, IWindowService } from 'angular';
+import { IScope, IWindowService } from 'angular';
 import { Edition, DioApiService } from '../shared/index';
 
 export class LatestController {
@@ -28,22 +28,10 @@ export class LatestController {
     /**
      * Ativa o controller
      */
-    public activate(): void {
-        this.getLatestEditions();
+    public async activate() {
+        this.latestEditions = await this.dioApiService.getLatestEditions();
     }
 
-    /**
-     * Carrega lista de origins disponíveis
-     *
-     * @returns {*}
-     */
-    public getLatestEditions(): IPromise<Edition[]> {
-        return this.dioApiService.getLatestEditions()
-            .then( editions => {
-                this.latestEditions = editions;
-                return editions;
-            } );
-    }
 
     /**
      * 

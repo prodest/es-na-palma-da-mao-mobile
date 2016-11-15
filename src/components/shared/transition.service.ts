@@ -130,10 +130,10 @@ export class TransitionService {
      * 
      * @memberOf TransitionService
      */
-    public clearCache(): Promise<void> {
+    public clearCache(): Promise<{}> {
         // limpa view caches do ionic
         // ref: http://stackoverflow.com/questions/29593018/ionic-there-is-a-way-to-delete-the-cache-in-controller-method
-        return new Promise(( resolve ) => {
+        return new Promise( resolve => {
             this.$timeout(() => {
                 this.$ionicHistory.clearCache();
                 this.$ionicHistory.clearHistory();

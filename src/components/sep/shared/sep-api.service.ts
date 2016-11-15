@@ -1,5 +1,4 @@
-import { IHttpService, IPromise } from 'angular';
-
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { Process } from './models/index';
 import { ISettings } from '../../shared/settings/index';
 
@@ -13,20 +12,23 @@ export class SepApiService {
      * @param {IHttpService} $http
      * @param {ISettings} settings
      */
-    constructor( private $http: IHttpService, private settings: ISettings ) {
-    }
+    constructor( private $http: IHttpService, private settings: ISettings ) { }
 
     /**
-     *
-     * @param {string} procNumber - process number
-     * @returns {IPromise<Process[]>}
+     * 
+     * 
+     * @param {number} procNumber
+     * @returns {Promise<Process>}
+     * 
+     * @memberOf SepApiService
      */
-    public getProcessByNumber( procNumber: string = '' ): IPromise<Process> {
-        return this.$http
-                   .get( `${this.settings.api.sep}/${procNumber}` )
-                   .then( ( response: { data: Process } ) => {
-                       response.data.updates = response.data.updates || [];
-                       return response.data;
-                   } );
+    public getProcessByNumber( procNumber: number ): Promise<Process> {
+        return this.$http.get( `${this.settings.api.sep}/${procNumber}` )
+            .then(( response: IHttpPromiseCallbackArg<Process> ) => {
+                if ( response.data ) {
+                    response.data.updates = response.data.updates || [];
+                }
+                return response.data;
+            });
     }
 }

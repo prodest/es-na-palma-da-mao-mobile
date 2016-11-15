@@ -19,8 +19,7 @@ export class CeturbStorage {
      * @param {*} $localStorage
      * @param {AuthenticationService} authenticationService
      */
-    constructor( private $localStorage: any,
-        private authenticationService: AuthenticationService ) {
+    constructor( private $localStorage: any, private authenticationService: AuthenticationService ) {
     }
 
     /**

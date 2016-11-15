@@ -1,6 +1,6 @@
 import { BusLinesController } from './bus-lines.component.controller';
 import BusLinesComponent from './bus-lines.component';
-import BusLinesTemplate = require('./bus-lines.component.html');
+import BusLinesTemplate = require( './bus-lines.component.html' );
 import { BusLine, CeturbApiService, CeturbStorage, FavoriteLinesData } from '../shared/index';
 import { environment } from '../../shared/tests/index';
 import { TransitionService } from '../../shared/index';
@@ -96,21 +96,17 @@ describe( 'Ceturb/bus-lines', () => {
                 controller.lines = [];
                 sandbox.stub( ceturbApiService, 'getLines' ).returnsPromise().resolves( lines );
                 sandbox.stub( ceturbApiService, 'syncFavoriteLinesData' ).returnsPromise().resolves( favoriteLinesData );
-                sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
+                sandbox.stub( ceturbStorage, 'isFavoriteLine' );
             });
 
-            it( 'should fill lines', ( done ) => {
-                controller.getLines().then(() => {
-                    done();
-                    expect( controller.lines ).to.deep.equal( lines );
-                });
+            it( 'should fill lines', async () => {
+                await controller.getLines();
+                expect( controller.lines ).to.deep.equal( lines );
             });
 
-            it( 'should fill filtered lines with all lines', ( done ) => {
-                controller.getLines().then(() => {
-                    done();
-                    expect( controller.lines ).to.deep.equal( controller.filteredLines );
-                });
+            it( 'should fill filtered lines with all lines', async () => {
+                await controller.getLines();
+                expect( controller.lines ).to.deep.equal( controller.filteredLines );
             });
         });
 

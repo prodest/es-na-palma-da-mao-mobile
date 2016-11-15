@@ -1,4 +1,4 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 import { SourcesFilterController, sourcesFilterTemplate } from '../layout/sources-filter/index';
 import { CalendarApiService } from './shared/calendar-api.service';
 import { Calendar } from './shared/models/index';
@@ -31,34 +31,19 @@ export class CalendarController {
      *
      * @returns {void}
      */
-    public activate(): void {
-        this.getAvailableCalendars()
-            .then( availableCalendars => this.loadCalendars( availableCalendars ) );
-    }
+    public async activate() {
+        let availableCalendars = await this.calendarApiService.getAvailableCalendars();
+        this.availableCalendars = availableCalendars.map( calendar => calendar.name );
+        this.selectedCalendars = angular.copy( this.availableCalendars );
 
-    /**
-     * Carrega lista de calendários disponíveis
-     *
-     * @returns {*}
-     */
-    public getAvailableCalendars(): IPromise<string[]> {
-        return this.calendarApiService.getAvailableCalendars()
-            .then( calendars => {
-                this.availableCalendars = calendars.map( calendar => calendar.name );
-                this.selectedCalendars = angular.copy( this.availableCalendars );
-                return this.selectedCalendars;
-            });
+        this.loadCalendars( this.availableCalendars );
     }
 
     /**
      * Carrega os eventos dos calendários selecionados
      */
-    public loadCalendars( selectedCalendars: string[] ): IPromise<Calendar[]> {
-        return this.calendarApiService.getFullCalendars( selectedCalendars )
-            .then( calendars => {
-                this.calendar.eventSources = calendars;
-                return calendars;
-            });
+    public async loadCalendars( selectedCalendars: string[] ) {
+        this.calendar.eventSources = await this.calendarApiService.getFullCalendars( selectedCalendars );
     }
 
     /**
@@ -113,8 +98,8 @@ export class CalendarController {
     /**
    * Abre filtro(popup) por fonte da notícia
    */
-    public openFilter(): void {
-        this.$mdDialog.show( {
+    public openFilter() {
+        const options = {
             controller: SourcesFilterController,
             template: sourcesFilterTemplate,
             bindToController: true,
@@ -123,11 +108,11 @@ export class CalendarController {
                 availableOrigins: this.availableCalendars,
                 selectedOrigins: this.selectedCalendars
             }
-        })
-            .then(( filter: { origins: string[] }) => {
-                this.selectedCalendars = filter.origins;
-                this.loadCalendars( this.selectedCalendars );
-            });
+        };
+        this.$mdDialog.show( options ).then( filter => {
+            this.selectedCalendars = filter.origins;
+            this.loadCalendars( this.selectedCalendars );
+        });
     }
 }
 

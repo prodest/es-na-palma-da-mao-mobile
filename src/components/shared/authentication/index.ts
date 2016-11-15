@@ -4,6 +4,7 @@ import { AuthenticationStorageService } from './authentication-storage.service';
 import { AcessoCidadaoService } from './acesso-cidadao.service';
 import { DigitsService } from './digits.service';
 
+// public
 export default angular
     .module( 'authentication.shared', [] )
     .service( 'acessoCidadaoService', AcessoCidadaoService )
@@ -11,8 +12,6 @@ export default angular
     .service( 'authenticationService', AuthenticationService )
     .service( 'authenticationStorageService', AuthenticationStorageService );
 
-export * from './acesso-cidadao.service';
-export * from './digits.service';
-export * from './models/index';
+export { AcessoCidadaoClaims, Token } from './models/index';
 export * from './authentication.service';
 export * from './authentication-storage.service';

@@ -90,21 +90,21 @@ describe( 'News/news-list', () => {
                 sandbox.stub( newsApiService, 'getAvailableOrigins' ).returnsPromise().resolves( availableOrigins );
             });
 
-            it( 'should fill list of available sources', () => {
-                controller.getAvailableOrigins();
+            it( 'should fill list of available sources', async () => {
+                await controller.getAvailableOrigins();
 
                 expect( controller.availableOrigins ).to.deep.equal( availableOrigins );
             });
 
-            it( 'should select all filter sources', () => {
-                controller.getAvailableOrigins();
+            it( 'should select all filter sources', async () => {
+                await controller.getAvailableOrigins();
 
                 expect( controller.filter.origins ).to.deep.equal( availableOrigins );
             });
         });
 
 
-        // describe.skip( 'getNews(filter)', () => {
+        // describe.skip( 'getNews(filter, pagination)', () => {
 
         //     let freshNews: News[];
         //     let alreadyLoadedNews: News[];
@@ -127,42 +127,42 @@ describe( 'News/news-list', () => {
         //         };
         //     });
 
-        //     it( 'should append returned news to existing news list if paginating', () => {
-        //         controller.getNews( controller.filter, controller.pagination );
+        //     it( 'should append returned news to existing news list if paginating', async () => {
+        //         await controller.getNews( controller.filter, controller.pagination );
 
         //         expect( controller.news ).to.deep.equal( alreadyLoadedNews.concat( freshNews ) );
         //     });
 
-        //     it( 'should replace existing news with freshing ones if is not paginating', () => {
+        //     it( 'should replace existing news with freshing ones if is not paginating', async () => {
         //         controller.pagination.pageNumber = 1; // not paginating
 
-        //         controller.getNews( controller.filter, controller.pagination );
+        //         await controller.getNews( controller.filter, controller.pagination );
 
         //         expect( controller.news ).to.deep.equal( freshNews );
         //     });
 
-        //     it( 'should unset hasMoreNews if returned a partial page list', () => {
+        //     it( 'should unset hasMoreNews if returned a partial page list', async () => {
         //         controller.hasMoreNews = true;
         //         controller.pagination.pageSize = 10; // freshNews.length < pagination.pageSize
 
-        //         controller.getNews( controller.filter, controller.pagination );
+        //         await controller.getNews( controller.filter, controller.pagination );
 
         //         expect( controller.hasMoreNews ).to.be.false;
         //     });
 
-        //     it( 'should set hasMoreNews if returned a full page list', () => {
+        //     it( 'should set hasMoreNews if returned a full page list', async () => {
         //         controller.hasMoreNews = false;
         //         controller.pagination.pageSize = 2; // pageSize == freshNews.length
 
-        //         controller.getNews( controller.filter, controller.pagination );
+        //         await controller.getNews( controller.filter, controller.pagination );
 
         //         expect( controller.hasMoreNews ).to.be.true;
         //     });
 
-        //     it( 'should broadcast scroll.infiniteScrollComplete event', () => {
+        //     it( 'should broadcast scroll.infiniteScrollComplete event', async () => {
         //         let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
 
-        //         controller.getNews( controller.filter, controller.pagination );
+        //         await controller.getNews( controller.filter, controller.pagination );
 
         //         expect( $broadcast.called ).to.be.true;
         //     });

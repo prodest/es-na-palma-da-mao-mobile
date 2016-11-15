@@ -1,4 +1,4 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 import { Ticket, Vehicle, DetranApiService, TicketColorService } from '../shared/index';
 
 
@@ -33,20 +33,25 @@ export class VehicleTicketsController {
         private ticketColorService: TicketColorService,
         private detranApiService: DetranApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
-
-        this.vehicle = {
-            plate: this.$stateParams[ 'plate' ],
-            renavam: this.$stateParams[ 'renavam' ]
-        };
     }
 
 
     /**
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
-    public activate(): void {
+    public async activate() {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-        this.getVehicleTickets( this.vehicle );
+
+        this.vehicle = {
+            plate: this.$stateParams[ 'plate' ],
+            renavam: this.$stateParams[ 'renavam' ]
+        };
+
+        try {
+            this.tickets = await this.detranApiService.getVehicleTickets( this.vehicle );
+        } catch ( error ) {
+            this.tickets = undefined;
+        }
     }
 
     /**
@@ -79,30 +84,5 @@ export class VehicleTicketsController {
      */
     public getTicketLevelColor( level: string ): string {
         return this.ticketColorService.getTicketLevelColor( level );
-    }
-
-    /**
-     * 
-     * 
-     * @param {Vehicle} vehicle
-     * @returns {IPromise<Ticket[]>}
-     */
-    public getVehicleTickets( vehicle: Vehicle ): IPromise<Ticket[]> {
-        return this.detranApiService.getVehicleTickets( vehicle )
-            .then( tickets => {
-                return this.tickets = tickets;
-            })
-            .catch(( error ) => this.handleError( error ) );
-    }
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {*} error
-     */
-    private handleError( error: any ): any {
-        this.tickets = undefined;
-        return error;
     }
 }

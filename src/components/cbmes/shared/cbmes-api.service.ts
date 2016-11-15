@@ -1,4 +1,4 @@
-import { IHttpService, IPromise } from 'angular';
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { ISettings } from '../../shared/settings/index';
 import { Warning } from './models/index';
 
@@ -19,10 +19,10 @@ export class CbmesApiService {
     /**
      * 
      * 
-     * @returns {IPromise<Warning[]>}
+     * @returns {Promise<Warning[]>}
      */
-    public getLastWarnings(): IPromise<Warning[]> {
+    public getLastWarnings(): Promise<Warning[]> {
         return this.$http.get( `${this.settings.api.cbmes}/alerts` )
-            .then(( response: { data: Warning[] }) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<Warning[]> ) => response.data );
     }
 }

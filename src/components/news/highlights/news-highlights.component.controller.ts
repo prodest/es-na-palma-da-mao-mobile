@@ -28,16 +28,8 @@ export class NewsHighlightsController {
      *
      * @returns {void}
      */
-    public activate(): void {
-        this.getHighlightNews();
-    }
-
-    /**
-     * Obtém a lista de notícias em destaque
-     */
-    public getHighlightNews(): void {
-        this.newsApiService.getHighlightNews()
-            .then( highlights => this.highlights = highlights );
+    public async activate() {
+        this.highlights = await this.newsApiService.getHighlightNews();
     }
 
     /**

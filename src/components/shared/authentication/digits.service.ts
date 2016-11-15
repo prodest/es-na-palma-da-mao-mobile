@@ -1,4 +1,4 @@
-import { IPromise, IWindowService, IQService } from 'angular';
+import { IWindowService } from 'angular';
 
 import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
 import { AnswersService } from '../fabric/index';
@@ -8,7 +8,7 @@ import { AnswersService } from '../fabric/index';
  */
 export class DigitsService {
 
-    public static $inject: string[] = [ '$window', '$localStorage', '$q', 'answersService' ];
+    public static $inject: string[] = [ '$window', '$localStorage', 'answersService' ];
 
     /**
      * Creates an instance of DigitsService.
@@ -22,7 +22,6 @@ export class DigitsService {
      */
     constructor( private $window: IWindowService,
         private $localStorage: any,
-        private $q: IQService,
         private answersService: AnswersService ) {
     }
 
@@ -30,11 +29,11 @@ export class DigitsService {
      * 
      * 
      * @param {*} options
-     * @returns {IPromise<DigitsAuthResponse>}
+     * @returns {Promise<DigitsAuthResponse>}
      * 
      * @memberOf DigitsService
      */
-    public login( options: any ): IPromise<DigitsAuthResponse> {
+    public login( options: any ): Promise<DigitsAuthResponse> {
 
         let defaultOptions = {
             accentColor: '#ff0000',
@@ -57,7 +56,7 @@ export class DigitsService {
                                                      oauth_version="1.0""
             }
          */
-        return this.$q(( resolve, reject ) => {
+        return new Promise(( resolve, reject ) => {
             this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
                 this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
                 this.answersService.sendLogin( 'Digits', true, undefined );

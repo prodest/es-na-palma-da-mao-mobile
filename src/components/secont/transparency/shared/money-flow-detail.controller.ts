@@ -1,5 +1,5 @@
-import { IPromise, IScope } from 'angular';
-import { Summary, TransparencyService } from './index';
+import { IScope } from 'angular';
+import { Summary, TransparencyApiService } from './index';
 import { DateRangeFilter } from '../../../layout/index';
 
 
@@ -14,14 +14,14 @@ export abstract class MoneyFlowDetailController {
      * Creates an instance of ExpenseDetailController.
      * 
      * @param {IScope} $scope
-     * @param {TransparencyService} transparencyService
+     * @param {TransparencyService} transparencyApiService
      * @param {angular.ui.IStateParamsService} $stateParams
      * 
      * @memberOf ExpenseDetailController
      */
     constructor( protected $scope: IScope,
         protected $stateParams: angular.ui.IStateParamsService,
-        protected transparencyService: TransparencyService ) {
+        protected transparencyApiService: TransparencyApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
         this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
@@ -32,9 +32,9 @@ export abstract class MoneyFlowDetailController {
      *
      * @returns {void}
      */
-    public activate(): void {
+    public async activate() {
         this.hydrateFromParams();
-        this.getSummary( this.id, this.filter );
+        await this.doFillSummary( this.id, this.filter );
     }
 
     /**
@@ -53,9 +53,20 @@ export abstract class MoneyFlowDetailController {
     /**
      * 
      * 
+     * @param {DateRangeFilter} filter
+     * 
+     * @memberOf MoneyFlowDetailController
+     */
+    public async doFillSummary( id: string, filter: DateRangeFilter ) {
+        this.summary = await this.getSummary( id, filter );
+    }
+
+    /**
+     * 
+     * 
      * @returns {Promise<Summary>}
      * 
      * @memberOf ExpensesController
      */
-    public abstract getSummary( id: string, filter: DateRangeFilter ): IPromise<Summary>;
+    public abstract getSummary( id: string, filter: DateRangeFilter ): Promise<Summary>;
 }

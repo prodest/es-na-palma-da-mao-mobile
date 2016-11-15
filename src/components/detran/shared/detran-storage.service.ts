@@ -1,5 +1,6 @@
 import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage, VehicleData } from './models/index';
 import { AuthenticationService } from '../../shared/authentication/index';
+import { DetranApiService } from './index';
 
 /**
  * Serviço que trata local storage no contexto do detran
@@ -11,7 +12,10 @@ import { AuthenticationService } from '../../shared/authentication/index';
  */
 export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
-    public static $inject: string[] = [ '$localStorage', 'authenticationService' ];
+    public static $inject: string[] = [ '$localStorage', 'authenticationService', 'detranApiService' ];
+
+
+    /************************************** Vehicle **************************************/
 
     private vehiclesStorageKey: string = 'detranVehicles';
 
@@ -24,23 +28,36 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @memberOf DetranStorage
      */
     constructor( private $localStorage: any,
-        private authenticationService: AuthenticationService ) {
+        private authenticationService: AuthenticationService,
+        private detranApiService: DetranApiService ) {
     }
-
 
     /**
      * 
      * 
-     * @type {VehicleData}
+     * @param {boolean} [hasNewData=false]
+     * 
      * @memberOf DetranStorage
      */
-    public get vehiclesData(): VehicleData {
-        this.$localStorage[ this.vehiclesStorageKey ] = this.$localStorage[ this.vehiclesStorageKey ] || { vehicles: [] };
-        return this.$localStorage[ this.vehiclesStorageKey ] as VehicleData;
+    public async sync( hasNewData: boolean = false ) {
+
+        if ( hasNewData ) {
+            this.vehiclesData.date = new Date();
+        }
+
+        this.vehiclesData = await this.detranApiService.saveVehicleData( this.vehiclesData );
     }
 
-    public set vehiclesData( vehicles: VehicleData ) {
-        this.$localStorage[ this.vehiclesStorageKey ] = vehicles;
+    /**
+     * 
+     * 
+     * @readonly
+     * @private
+     * @type {Vehicle[]}
+     * @memberOf DetranStorage
+     */
+    public get vehicles(): Vehicle[] {
+        return this.vehiclesData.vehicles;
     }
 
     /**
@@ -49,12 +66,12 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @param {Vehicle} vehicle
      * @returns {boolean}
      */
-    public existsVehicle( vehicle: Vehicle ): boolean {
-        const existsPlaca = this.vehiclesData.vehicles
+    public containsVehicle( vehicle: Vehicle ): boolean {
+        const existsPlaca = this.vehicles
             .map( v => v.plate.toUpperCase() )
             .indexOf( vehicle.plate.toUpperCase() );
 
-        const existsRENAVAM = this.vehiclesData.vehicles
+        const existsRENAVAM = this.vehicles
             .map( v => v.renavam )
             .indexOf( vehicle.renavam );
 
@@ -65,37 +82,44 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * 
      * 
      * @param {Vehicle} vehicle
-     * @returns {VehicleData}
+     * @returns {Vehicle[]}
      * 
      * @memberOf DetranStorage
      */
-    public removeVehicle( vehicle: Vehicle ): VehicleData {
-        this.vehiclesData.vehicles = this.vehiclesData.vehicles.filter(( v1: Vehicle ) => {
+    public removeVehicle( vehicle: Vehicle ): Vehicle[] {
+        this.vehiclesData.vehicles = this.vehicles.filter(( v1: Vehicle ) => {
             return v1.plate !== vehicle.plate && v1.renavam !== vehicle.renavam;
         });
 
-        return this.vehiclesData;
+        this.sync( true );
+
+        return this.vehiclesData.vehicles;
     }
 
     /**
      * 
      * 
      * @param {Vehicle} vehicle
-     * @returns {VehicleData}
+     * @returns {Promise<Vehicle[]>}
      * 
      * @memberOf DetranStorage
      */
-    public addVehicle( vehicle: Vehicle ): VehicleData {
-        if ( !this.existsVehicle( vehicle ) ) {
+    public async addVehicle( vehicle: Vehicle ): Promise<Vehicle[]> {
+        if ( !this.containsVehicle( vehicle ) ) {
+            vehicle.info = await this.detranApiService.getVehicleInfo( vehicle );
             vehicle.plate = vehicle.plate.toUpperCase();
             vehicle.renavam = vehicle.renavam;
 
-            this.vehiclesData.vehicles.push( vehicle );
+            this.vehicles.push( vehicle );
+
+            this.sync( true );
         }
-        return this.vehiclesData;
+        return this.vehicles;
     }
 
-    /******** DriverLicense *******************/
+
+
+    /************************************** DriverLicense **************************************/
     /**
      * 
      * 
@@ -130,5 +154,31 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      */
     public get hasDriverLicense(): boolean {
         return !!this.driverLicense.registerNumber && !!this.driverLicense.ballot;
+    }
+
+
+
+
+    /************************************** Private api **************************************/
+
+    /**
+     * 
+     * 
+     * @type {VehicleData}
+     * @memberOf DetranStorage
+     */
+    private get vehiclesData(): VehicleData {
+        this.$localStorage[ this.vehiclesStorageKey ] = this.$localStorage[ this.vehiclesStorageKey ] || { vehicles: [] };
+        return this.$localStorage[ this.vehiclesStorageKey ] as VehicleData;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf DetranStorage
+     */
+    private set vehiclesData( vehicleData: VehicleData ) {
+        this.$localStorage[ this.vehiclesStorageKey ] = vehicleData;
     }
 }

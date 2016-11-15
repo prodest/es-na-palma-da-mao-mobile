@@ -1,6 +1,5 @@
-import { SummaryItem } from './models/summary-item';
-import { IHttpService, IPromise } from 'angular';
-import { Summary } from './models/index';
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
+import { Summary, SummaryItem } from './models/index';
 import { ISettings } from '../../../shared/settings/index';
 import { DateRangeFilter } from '../../../layout/index';
 
@@ -71,7 +70,7 @@ const budgets = {
     ]
 };
 
-export class TransparencyService {
+export class TransparencyApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
@@ -92,42 +91,42 @@ export class TransparencyService {
     /**
     * 
     * 
-    * @returns {IPromise<Summary>}
+    * @returns {Promise<Summary>}
     * 
     * @memberOf TransparencyService
     */
-    public getRevenues( filter: DateRangeFilter ): IPromise<Summary> {
+    public getRevenues( filter: DateRangeFilter ): Promise<Summary> {
         return this.getMoneyFlow( `${this.settings.api.transparency}/revenues/area`, filter );
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<Edition[]>}
+     * @returns {Promise<Edition[]>}
      */
-    public getRevenueDetail( id: string, filter: DateRangeFilter ): IPromise<Summary> {
+    public getRevenueDetail( id: string, filter: DateRangeFilter ): Promise<Summary> {
         return this.getMoneyFlow( `${this.settings.api.transparency}/revenues/detail/${id}`, filter );
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<Summary>}
+     * @returns {Promise<Summary>}
      * 
      * @memberOf TransparencyService
      */
-    public getExpensesByArea( filter: DateRangeFilter ): IPromise<Summary> {
+    public getExpensesByArea( filter: DateRangeFilter ): Promise<Summary> {
         return this.getMoneyFlow( `${this.settings.api.transparency}/expenses/area`, filter );
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<Summary>}
+     * @returns {Promise<Summary>}
      * 
      * @memberOf TransparencyService
      */
-    public getExpensesByOrigin( filter: DateRangeFilter ): IPromise<Summary> {
+    public getExpensesByOrigin( filter: DateRangeFilter ): Promise<Summary> {
         return this.getMoneyFlow( `${this.settings.api.transparency}/expenses/origin`, filter );
     }
 
@@ -135,11 +134,11 @@ export class TransparencyService {
      * 
      * 
      * @param {string} revenueId
-     * @returns {IPromise<Summary>}
+     * @returns {Promise<Summary>}
      * 
      * @memberOf TransparencyService
      */
-    public getExpenseDetail( id: string, filter: DateRangeFilter ): IPromise<Summary> {
+    public getExpenseDetail( id: string, filter: DateRangeFilter ): Promise<Summary> {
         return this.getMoneyFlow( `${this.settings.api.transparency}/expenses/detail/${id}`, filter );
     }
 
@@ -149,14 +148,14 @@ export class TransparencyService {
      * @private
      * @param {string} endpoint
      * @param {DateRangeFilter} filter
-     * @returns {IPromise<Summary>}
+     * @returns {Promise<Summary>}
      * 
      * @memberOf TransparencyService
      */
-    private getMoneyFlow( endpoint: string, filter: DateRangeFilter ): IPromise<Summary> {
+    private getMoneyFlow( endpoint: string, filter: DateRangeFilter ): Promise<Summary> {
         return this.$http
             .get( endpoint, { params: Object.assign( {}, filter ) })
-            .then(( response: { data: Summary }) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<Summary> ) => response.data );
     }
 }
 

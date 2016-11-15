@@ -1,4 +1,4 @@
-import { IHttpService, IPromise } from 'angular';
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { Calendar } from './models/calendar';
 import { ISettings } from '../../shared/settings/index';
 
@@ -13,17 +13,17 @@ export class CalendarApiService {
      * @param {ISettings} settings
      */
     constructor( private $http: IHttpService,
-                 private settings: ISettings ) {
+        private settings: ISettings ) {
     }
 
     /**
      *
      * @returns {*}
      */
-    public getAvailableCalendars(): IPromise<{ name: string, color: string}[]> {
+    public getAvailableCalendars(): Promise<{ name: string, color: string }[]> {
         return this.$http
-                   .get( this.settings.api.calendars )
-                   .then( response => response.data );
+            .get( this.settings.api.calendars )
+            .then(( response: IHttpPromiseCallbackArg<{ name: string, color: string }[]> ) => response.data );
     }
 
     /**
@@ -32,7 +32,7 @@ export class CalendarApiService {
      * @param filter
      * @returns {Array}
      */
-    public getFullCalendars( calendars: string[] = [], filter = {} ): IPromise<Calendar[]> {
+    public getFullCalendars( calendars: string[] = [], filter = {}): Promise<Calendar[]> {
         let today = new Date();
         let defaults = {
             singleEvents: true,
@@ -42,8 +42,8 @@ export class CalendarApiService {
             timeZone: 'America/Sao_Paulo',
             calendars: calendars
         };
-        return this.$http.get( `${this.settings.api.calendars}/events`, { params: angular.extend( defaults, filter ) } )
-                   .then( response => response.data );
+        return this.$http.get( `${this.settings.api.calendars}/events`, { params: angular.extend( defaults, filter ) })
+            .then(( response: IHttpPromiseCallbackArg<Calendar[]> ) => response.data );
     }
 }
 

@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 import DriverLicenseStatusComponent from './driver-license-status.component';
-import DriverLicenseStatusTemplate = require('./driver-license-status.component.html');
+import DriverLicenseStatusTemplate = require( './driver-license-status.component.html' );
 import { DriverLicenseStatusController } from './driver-license-status.component.controller';
 import { DriverData, Ticket, DriverStatus, DriverLicense, DetranApiService, TicketColorService, DriverLicenseStorage } from '../shared/index';
-import registerLicenseTemplate = require('../shared/add-license/add-license.html');
+import registerLicenseTemplate = require( '../shared/add-license/add-license.html' );
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
-import { environment, $qMock, $mdDialogMock } from '../../shared/tests/index';
+import { environment, $mdDialogMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -112,7 +112,7 @@ describe( 'Detran/driver-license-status', () => {
 
             ticketColorService = new TicketColorService();
 
-            controller = new DriverLicenseStatusController( environment.$scope, $qMock, ticketColorService, detranApiService, driverLicenseStorage, $mdDialogMock );
+            controller = new DriverLicenseStatusController( environment.$scope, ticketColorService, detranApiService, driverLicenseStorage, $mdDialogMock );
         });
 
         describe( 'on instantiation', () => {
@@ -130,7 +130,7 @@ describe( 'Detran/driver-license-status', () => {
             });
 
             it( 'tickets should be "undefined"', () => {
-                expect( controller.tickets ).to.be.undefined;
+                expect( controller.driverTickets ).to.be.undefined;
             });
 
             it( 'expirationDate should be "undefined"', () => {
@@ -156,21 +156,38 @@ describe( 'Detran/driver-license-status', () => {
 
         describe( 'activate()', () => {
 
-            let getDriverDataController: Sinon.SinonStub;
-            let getDriverTicketsController: Sinon.SinonStub;
+            let getDriverDataApi: Sinon.SinonPromise;
+            let getDriverTicketsApi: Sinon.SinonPromise;
 
             beforeEach(() => {
-                getDriverDataController = sandbox.stub( controller, 'getDriverData' );
-                getDriverTicketsController = sandbox.stub( controller, 'getDriverTickets' );
-                controller.activate();
+                getDriverDataApi = sandbox.stub( detranApiService, 'getDriverData' ).returnsPromise();
+                getDriverDataApi.resolves( driverDataOk );
+
+                getDriverTicketsApi = sandbox.stub( detranApiService, 'getDriverTickets' ).returnsPromise();
+                getDriverTicketsApi.resolves( tickets );
             });
 
-            it( 'should call getDriverData()', () => {
-                expect( getDriverDataController.called ).to.be.true;
+            it( 'should populate driverData and driver tickets property', async () => {
+
+                await controller.activate();
+
+                expect( controller.driverData ).to.not.be.undefined;
+                expect( controller.driverData ).to.be.deep.equal( driverDataOk );
+
+                expect( controller.driverTickets ).to.not.be.undefined;
+                expect( controller.driverTickets ).to.be.deep.equal( tickets );
             });
 
-            it( 'should call getDriverTickets() ', () => {
-                expect( getDriverTicketsController.called ).to.be.true;
+            it( 'should clear driverData property on error', async () => {
+                controller.driverData = driverDataOk;
+                controller.driverTickets = tickets;
+
+                getDriverDataApi.rejects();
+
+                await controller.activate();
+
+                expect( controller.driverData ).to.be.undefined;
+                expect( controller.driverTickets ).to.be.undefined;
             });
         });
 
@@ -226,78 +243,23 @@ describe( 'Detran/driver-license-status', () => {
                     $mdDialogShow.returnsPromise().resolves( addedDriverLicense );
                 });
 
-                it( 'should save edited license on server', () => {
-                    controller.editDriverLicense();
+                it( 'should save edited license on server', async () => {
+                    await controller.editDriverLicense();
                     expect( saveLicense.calledWith( addedDriverLicense ) ).to.be.true;
                 });
 
-                it( 'should save edited license on local storage', () => {
-                    controller.editDriverLicense();
+                it( 'should save edited license on local storage', async () => {
+                    await controller.editDriverLicense();
                     expect( driverLicenseStorage.driverLicense ).to.be.deep.equal( addedDriverLicense );
                 });
 
-                it( 'should re-activate screen', () => {
-                    controller.editDriverLicense();
+                it( 'should re-activate screen', async () => {
+                    await controller.editDriverLicense();
                     expect( activate.calledOnce ).to.be.true;
                 });
             });
         });
 
-        describe( 'getDriverData()', () => {
-
-            let getDriverDataApi: Sinon.SinonStub;
-
-            beforeEach(() => {
-                getDriverDataApi = sandbox.stub( detranApiService, 'getDriverData' );
-                getDriverDataApi.returnsPromise().resolves( driverDataOk );
-                controller.getDriverData();
-            });
-
-            it( 'should call "detranApiService.getDriverData()"', () => {
-                expect( getDriverDataApi.calledOnce ).to.be.true;
-            });
-
-            it( 'should populate driverData property', () => {
-                expect( controller.driverData ).to.not.be.undefined;
-                expect( controller.driverData ).to.be.equal( driverDataOk );
-            });
-
-            it( 'should not populate driverData property on error', () => {
-                controller.driverData = driverDataOk;
-                getDriverDataApi.returnsPromise().rejects();
-                controller.getDriverData().then(() => {
-                    expect( controller.driverData ).to.be.undefined;
-                });
-            });
-        });
-
-        describe( 'getDriverTickets()', () => {
-
-            let getDriverTicketsApi: Sinon.SinonStub;
-
-            beforeEach(() => {
-                getDriverTicketsApi = sandbox.stub( detranApiService, 'getDriverTickets' );
-                getDriverTicketsApi.returnsPromise().resolves( tickets );
-                controller.getDriverTickets();
-            });
-
-            it( 'should call "detranApiService.getDriverTickets()"', () => {
-                expect( getDriverTicketsApi.calledOnce ).to.be.true;
-            });
-
-            it( 'should populate tickets property', () => {
-                expect( controller.tickets ).to.not.be.undefined;
-                expect( controller.tickets ).to.be.equal( tickets );
-            });
-
-            it( 'should not populate tickets property on error', () => {
-                controller.tickets = tickets;
-                getDriverTicketsApi.returnsPromise().rejects();
-                controller.getDriverTickets().then(() => {
-                    expect( controller.tickets ).to.be.undefined;
-                });
-            });
-        });
 
         describe( 'Properties', () => {
 
@@ -388,12 +350,12 @@ describe( 'Detran/driver-license-status', () => {
 
             describe( 'hasTickets', () => {
                 it( 'should return true if has tickets', () => {
-                    controller.tickets = tickets;
+                    controller.driverTickets = tickets;
                     expect( controller.hasTickets ).to.be.true;
                 });
 
                 it( 'should return false if has no tickets', () => {
-                    controller.tickets = undefined;
+                    controller.driverTickets = undefined;
                     expect( controller.hasTickets ).to.be.false;
                 });
             });

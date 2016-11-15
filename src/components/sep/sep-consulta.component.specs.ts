@@ -17,7 +17,7 @@ describe( 'SEP/sep-consulta', () => {
         let controller: SepConsultaController;
         let sepApiService: SepApiService;
         let $ionicScrollDelegate;
-        let processNumber = '68985037';
+        let processNumber = 68985037;
 
         let process: Process = <Process>{
             number: '68985037',
@@ -40,7 +40,7 @@ describe( 'SEP/sep-consulta', () => {
 
         beforeEach(() => {
             environment.refresh();
-            $ionicScrollDelegate = {
+            $ionicScrollDelegate = <ionic.scroll.IonicScrollDelegate><any> {
                 scrollTo: sandbox.stub().returnsPromise().resolves()
             };
 
@@ -64,71 +64,69 @@ describe( 'SEP/sep-consulta', () => {
 
         describe( 'activate()', () => {
             let getProcess: Sinon.SinonStub;
-            let getProcessByNumber: Sinon.SinonStub;
 
             beforeEach(() => {
                 getProcess = sandbox.stub( controller, 'getProcess' );
-                getProcessByNumber = sandbox.stub( sepApiService, 'getProcessByNumber' );
             });
 
-            it( 'should have an undefined process', () => {
-                controller.activate();
+            it( 'should have an undefined process', async () => {
+                await controller.activate();
 
                 expect( controller.process ).to.be.undefined;
             });
 
-            it( 'should have empty process number', () => {
-                controller.activate();
+            it( 'should have empty process number', async () => {
+                await controller.activate();
 
                 expect( controller.processNumber ).to.be.empty;
             });
 
-            it( 'should have empty last process number', () => {
-                controller.activate();
+            it( 'should have empty last process number', async () => {
+                await controller.activate();
 
                 expect( controller.lastProcessNumber ).to.be.empty;
             });
 
-            it( 'should hot have been searched', () => {
-                controller.activate();
+            it( 'should hot have been searched', async () => {
+                await controller.activate();
 
                 expect( controller.searched ).to.be.false;
             });
 
-            it( 'should hide all updates', () => {
-                controller.activate();
+            it( 'should hide all updates', async () => {
+                await controller.activate();
 
                 expect( controller.showAllUpdates ).to.be.false;
             });
 
-            it( 'should get process if has stateParam processNumber', () => {
+            it( 'should get process if has stateParam processNumber', async () => {
                 $stateParamsMock[ 'processNumber' ] = '4545';
 
-                controller.activate();
+                await controller.activate();
 
                 delete $stateParamsMock[ 'processNumber' ];
 
                 expect( getProcess.called ).to.be.true;
             });
 
-            it( 'should set processNumber if has stateParam processNumber', () => {
+            it( 'should set processNumber if has stateParam processNumber', async () => {
                 $stateParamsMock[ 'processNumber' ] = '4545';
 
-                controller.activate();
+                await controller.activate();
 
                 delete $stateParamsMock[ 'processNumber' ];
 
                 expect( controller.processNumber ).to.be.equal( 4545 );
             });
 
-            it( 'should not get process if stateParam empty', () => {
-                controller.activate();
+            it( 'should not get process if stateParam empty', async () => {
+                await controller.activate();
 
                 expect( getProcess.called ).to.be.false;
             });
 
-            it( 'should not set processNumber if stateParam empty', () => {
-                controller.activate();
+            it( 'should not set processNumber if stateParam empty', async () => {
+                await controller.activate();
 
                 expect( controller.processNumber ).to.be.equal( undefined );
             });
@@ -136,33 +134,37 @@ describe( 'SEP/sep-consulta', () => {
 
         describe( 'scanBarcode()', () => {
 
-            it( 'should get process with readed code', () => {
-                let objCode = { text: '984651981' };
-                let getProcess = sandbox.stub( controller, 'getProcess' );
-                let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
-                scan.resolves( objCode );
+            let getProcess: Sinon.SinonStub;
+            let scan: Sinon.SinonStub;
+            let scanPromise: Sinon.SinonPromise;
 
-                controller.scanBarcode();
+            beforeEach( () => {
+                getProcess = sandbox.stub( controller, 'getProcess' );
+                scan = sandbox.stub( BarcodeScanner, 'scan' );
+                scanPromise = scan.returnsPromise();
+                scanPromise.resolves();
+            });
+
+            it( 'should get process with readed code', async () => {
+                let objCode = { text: '984651981' };
+                scanPromise.resolves( objCode );
+
+                await controller.scanBarcode();
 
                 expect( getProcess.calledWithExactly( objCode.text ) ).to.be.true;
             });
 
-            it( 'should not get process when returned text is empty', () => {
+            it( 'should not get process when returned text is empty', async () => {
                 let objCode = { text: '' };
-                let getProcess = sandbox.stub( controller, 'getProcess' );
-                let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
-                scan.resolves( objCode );
+                scanPromise.resolves( objCode );
 
-                controller.scanBarcode();
+                await controller.scanBarcode();
 
                 expect( getProcess.called ).to.be.false;
             });
 
-            it( 'should open scan with provided options', () => {
-                let scan = sandbox.stub( BarcodeScanner, 'scan' );
-                scan.returnsPromise();
-
-                controller.scanBarcode();
+            it( 'should open scan with provided options', async () => {
+                await controller.scanBarcode();
 
                 expect( scan.calledWithExactly( {
                     'preferFrontCamera': false, // iOS and Android
@@ -171,12 +173,12 @@ describe( 'SEP/sep-consulta', () => {
                 }) ).to.be.true;
             });
 
-            it( 'should show error message on error', () => {
+            it( 'should show error message on error', async () => {
                 let error = sandbox.stub( toastServiceMock, 'error' );
-                let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
-                scan.rejects();
 
-                controller.scanBarcode();
+                scanPromise.rejects();
+
+                await controller.scanBarcode();
 
                 expect( error.calledWithExactly( { title: 'Não foi possível ler o código do processo' }) ).to.be.true;
             });
@@ -191,29 +193,30 @@ describe( 'SEP/sep-consulta', () => {
                 getProcessByNumber.returnsPromise().resolves( process );
             });
 
-            it( 'should show validation message if no process number is provided', () => {
+            it( 'should show validation message if no process number is provided', async () => {
                 let info = sandbox.stub( toastServiceMock, 'info' ); // replace original activate
 
-                controller.getProcess( '' );
+                await controller.getProcess( undefined );
+
                 expect( info.calledWith( { title: 'N° do processo é obrigatório' }) ).to.be.true;
                 expect( getProcessByNumber.notCalled ).to.be.true;
             });
 
             describe( 'on success:', () => {
-                it( 'should fill process property', () => {
-                    controller.getProcess( processNumber );
+                it( 'should fill process property', async () => {
+                    await controller.getProcess( processNumber );
                     expect( controller.process ).to.deep.equal( process );
                 });
 
-                it( 'should set searched to true', () => {
-                    controller.getProcess( processNumber );
+                it( 'should set searched to true', async () => {
+                    await controller.getProcess( processNumber );
                     expect( controller.searched ).to.be.true;
                 });
 
-                it( 'should clear last process searched number', () => {
-                    controller.lastProcessNumber = '1232344';
+                it( 'should clear last process searched number', async () => {
+                    controller.lastProcessNumber = 1232344;
 
-                    controller.getProcess( processNumber );
+                    await controller.getProcess( processNumber );
 
                     expect( controller.lastProcessNumber ).to.be.empty;
                 });
@@ -225,18 +228,18 @@ describe( 'SEP/sep-consulta', () => {
                     getProcessByNumber.returnsPromise().rejects();
                 });
 
-                it( 'should unset process', () => {
+                it( 'should unset process', async () => {
                     controller.process = process;
 
-                    controller.getProcess( processNumber );
+                    await controller.getProcess( processNumber );
 
                     expect( controller.process ).to.be.undefined;
                 });
 
-                it( 'should fill last process searched number', () => {
-                    controller.lastProcessNumber = '9999999999';
+                it( 'should fill last process searched number', async () => {
+                    controller.lastProcessNumber = 9999999999;
 
-                    controller.getProcess( processNumber );
+                    await controller.getProcess( processNumber );
 
                     expect( controller.lastProcessNumber ).to.be.equal( processNumber );
                 });

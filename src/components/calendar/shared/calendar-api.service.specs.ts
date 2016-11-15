@@ -7,26 +7,26 @@
  */
 import { CalendarApiService } from './calendar-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
+import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
 describe( 'CalendarApiService', () => {
 
     let sandbox: Sinon.SinonSandbox;
+    beforeEach(() => sandbox = sinon.sandbox.create() );
+    afterEach(() => sandbox.restore() );
+
     let calendarApiService: CalendarApiService;
     let settings: ISettings;
     let $httpGet: Sinon.SinonStub;
 
-    beforeEach(() => sandbox = sinon.sandbox.create() );
-    afterEach(() => sandbox.restore() );
-
     beforeEach(() => {
-        let $http: any = { get() { } };
-        $httpGet = sandbox.stub( $http, 'get' );
-        $httpGet.returnsPromise();
-
+        $httpGet = sandbox.stub( $httpMock, 'get' );
+        $httpGet.returnsPromise().resolves( [ 'SESA', 'SEDU', 'SETUR' ] );
         settings = Settings.getInstance();
-        calendarApiService = new CalendarApiService( $http, settings );
+
+        calendarApiService = new CalendarApiService( $httpMock, settings );
     });
 
     describe( 'getAvailableCalendars()', () => {
@@ -77,7 +77,7 @@ describe( 'CalendarApiService', () => {
 
         describe( 'with no provided calendars', () => {
 
-            it( 'should use defaut empty calendar list', () => {
+            it( 'should use default empty calendar list', () => {
 
                 calendarApiService.getFullCalendars();
                 calendarApiService.getFullCalendars( undefined );

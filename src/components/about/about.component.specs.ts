@@ -1,10 +1,10 @@
 import { AboutController } from './about.component.controller';
 import AboutComponent from './about.component';
-import AboutTemplate = require('./about.component.html');
-import { TeamsApiService, TeamMember } from './shared/index';
+import AboutTemplate = require( './about.component.html' );
+import { TeamsApiService } from './shared/index';
 import { $windowMock, environment } from '../shared/tests/index';
 
-import packageJson = require('../../../package.json');
+import packageJson = require( '../../../package.json' );
 
 let expect = chai.expect;
 
@@ -16,22 +16,13 @@ describe( 'About', () => {
 
     describe( 'Controller', () => {
         let controller: AboutController;
-        let teamsApiService: TeamsApiService;
-        let teamMembers = <TeamMember[]>[
-            { login: 'login1', avatar_url: 'avatar_url1' },
-            { login: 'login2', avatar_url: 'avatar_url2' }
-        ];
-
+        let teamsApiService = <TeamsApiService><any>{ getTeamMembers: () => { } };
         beforeEach(() => {
             environment.refresh();
-            teamsApiService = <TeamsApiService>{ getTeamMembers: () => { } };
-            sandbox.stub( teamsApiService, 'getTeamMembers' ).returnsPromise().resolves( teamMembers );
-
             controller = new AboutController( environment.$scope, $windowMock, teamsApiService );
         });
 
         describe( 'on instantiation', () => {
-
             it( 'should have a empty team members list', () => {
                 expect( controller.teamMembers ).to.be.empty;
             });
@@ -52,12 +43,15 @@ describe( 'About', () => {
         });
 
         describe( 'activate()', () => {
-            beforeEach(() => {
-                controller.activate();
-            });
+            it( 'should fill team members list', async () => {
+                let teamMembers = [
+                    { login: 'login1', avatar_url: 'avatar_url1' },
+                    { login: 'login2', avatar_url: 'avatar_url2' }
+                ];
+                sandbox.stub( teamsApiService, 'getTeamMembers' ).returnsPromise().resolves( teamMembers );
 
-            it( 'should fill team members list', () => {
-                expect( controller.teamMembers ).to.equal( teamMembers );
+                await controller.activate();
+                expect( controller.teamMembers ).to.be.deep.equal( teamMembers );
             });
         });
 

@@ -1,5 +1,4 @@
 import { IScope, IWindowService } from 'angular';
-
 import { CbmesApiService, Warning, WarningLevelService } from '../shared/index';
 
 export class WarningListController {
@@ -32,28 +31,33 @@ export class WarningListController {
     /**
      * Ativa o controller
      */
-    public activate(): void {
+    public async activate() {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-        this.getWarnings();
+
+        // Retorna os alertas dos últimos 7 dias 
+        this.warnings = await this.cbmesApiService.getLastWarnings();
     }
 
     /**
-     * Retorna os alertas dos últimos 7 dias 
      * 
-     * @returns {IPromise<Warning[]>}
+     * 
+     * @param {number} levelId
+     * @returns
+     * 
+     * @memberOf WarningListController
      */
-    public getWarnings(): void {
-        this.cbmesApiService.getLastWarnings()
-            .then( warnings => {
-                this.warnings = warnings || [];
-                return this.warnings;
-            });
-    }
-
     public getLevelName( levelId: number ) {
         return this.warningLevelService.getLevelName( levelId );
     }
 
+    /**
+     * 
+     * 
+     * @param {number} levelId
+     * @returns
+     * 
+     * @memberOf WarningListController
+     */
     public getLevelDescription( levelId: number ) {
         return this.warningLevelService.getLevelDescription( levelId );
     }

@@ -7,39 +7,39 @@
  */
 import { SepApiService } from './sep-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
+import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
 describe( 'SepApiService', () => {
 
     let sandbox;
+    beforeEach(() => sandbox = sinon.sandbox.create() );
+    afterEach(() => sandbox.restore() );
+
     let sepApiService;
-    let $http;
     let settings: ISettings = Settings.getInstance();
-
     let processNumber = 68985037;
+    let $httpGet: Sinon.SinonStub;
 
-    beforeEach( () => {
-        sandbox = sinon.sandbox.create();
+    beforeEach(() => {
+        $httpGet = sandbox.stub( $httpMock, 'get' );
+        sepApiService = new SepApiService( $httpMock, settings );
+    });
 
-        $http = {
-            get: sandbox.stub().returnsPromise()
-        };
-
-        sepApiService = new SepApiService( $http, settings );
-    } );
-
-    afterEach( () => {
+    afterEach(() => {
         sandbox.restore();
-    } );
+    });
 
     describe( 'getProcessByNumber( processNumber )', () => {
 
         it( 'should call sep api endpoint with process number', () => {
+            $httpGet.returnsPromise();
+
             sepApiService.getProcessByNumber( processNumber );
 
-            expect( $http.get.calledWith( settings.api.sep + '/' + processNumber ) ).to.be.true;
-        } );
+            expect( $httpGet.calledWith( settings.api.sep + '/' + processNumber ) ).to.be.true;
+        });
 
         it( 'should normalize response to response.data property', () => {
             let response = {
@@ -64,12 +64,12 @@ describe( 'SepApiService', () => {
                 }
             };
 
-            $http.get.resolves( response );
+            $httpGet.returnsPromise().resolves( response );
 
-            sepApiService.getProcessByNumber( processNumber ).then( ( process ) => {
+            sepApiService.getProcessByNumber( processNumber ).then(( process ) => {
                 expect( process ).to.deep.equal( response.data );
-            } );
-        } );
-    } );
-} );
+            });
+        });
+    });
+});
 

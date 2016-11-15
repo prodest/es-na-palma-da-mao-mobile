@@ -1,9 +1,9 @@
 import { AuthenticationService, Token } from '../authentication/index';
 import { IQService } from 'angular';
 
-let httpInterceptorsConfig = $httpProvider => {
+let httpAuthInterceptorConfig = $httpProvider => {
 
-    let authorizationInterceptor = ( $q: IQService, $injector: any ) => {
+    let authInterceptor = ( $q: IQService, $injector: any ) => {
 
         // Add Bearer token Authorization header to the config (request object)
         let addAuthorizationHeader = ( config, token ) => {
@@ -41,16 +41,16 @@ let httpInterceptorsConfig = $httpProvider => {
 
                 // A api retorna 498 caso a validação no acesso cidadão tenha falhado 
                 if ( rejection.status === 498 ) {
-                    authenticationService.signOut(() => $state.go( 'home' ) );
+                    authenticationService.logout(() => $state.go( 'home' ) );
                 }
                 return $q.reject( rejection );
             }
         };
     };
 
-    $httpProvider.interceptors.push( [ '$q', '$injector', authorizationInterceptor ] );
+    $httpProvider.interceptors.push( [ '$q', '$injector', authInterceptor ] );
 };
 
-httpInterceptorsConfig.$inject = [ '$httpProvider' ];
+httpAuthInterceptorConfig.$inject = [ '$httpProvider' ];
 
-export default httpInterceptorsConfig;
+export default httpAuthInterceptorConfig;

@@ -1,4 +1,4 @@
-import { IHttpService, IPromise } from 'angular';
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 
 import { Edition, SearchResult, SearchFilter } from './models/index';
 import { ISettings } from '../../shared/settings/index';
@@ -19,26 +19,26 @@ export class DioApiService {
     /**
      * 
      * 
-     * @returns {IPromise<Edition[]>}
+     * @returns {Promise<Edition[]>}
      */
-    public getLatestEditions(): IPromise<Edition[]> {
+    public getLatestEditions(): Promise<Edition[]> {
         return this.$http
             .get( `${this.settings.api.dio}/latest` )
-            .then(( response: { data: Edition[] }) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<Edition[]> ) => response.data );
     }
 
     /**
      * 
      * 
      * @param {SearchFilter} [filter={ pageNumber: 0, sort: 'date' }]
-     * @returns {IPromise<SearchResult>}
+     * @returns {Promise<SearchResult>}
      */
-    public search( filter: SearchFilter ): IPromise<SearchResult> {
+    public search( filter: SearchFilter ): Promise<SearchResult> {
 
         let params = angular.extend( { pageNumber: this.settings.pagination.pageNumber, sort: 'date' }, filter );
 
         return this.$http.get( `${this.settings.api.dio}/search`, { params: params })
-            .then(( response: { data: SearchResult }) => {
+            .then(( response: IHttpPromiseCallbackArg<SearchResult> ) => {
                 return response.data;
             });
     }

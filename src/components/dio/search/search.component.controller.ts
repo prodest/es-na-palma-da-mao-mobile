@@ -1,7 +1,7 @@
-import { IScope, IPromise, IWindowService } from 'angular';
+import { IScope, IWindowService } from 'angular';
 import { SocialSharing } from 'ionic-native';
 
-import filterTemplate = require('./filter/filter.html');
+import filterTemplate = require( './filter/filter.html' );
 import { FilterController } from './filter/filter.controller';
 import {
     SearchFilter,
@@ -70,20 +70,43 @@ export class SearchController {
     }
 
     /**
+     * Abre o filtro (popup) por data
+     */
+    public async openFilter() {
+        const options = {
+            controller: FilterController,
+            template: filterTemplate,
+            bindToController: true,
+            controllerAs: 'vm',
+            locals: this.filter
+        };
+        const filter = await this.$mdDialog.show( options );
+        filter.pageNumber = 0;
+        this.search( filter );
+    }
+
+    /**
      * 
      * 
      * @param {SearchFilter} options
-     * @returns {IPromise<SearchResult[]>}
+     * @returns {Promise<SearchResult[]>}
      */
-    public search( filter: SearchFilter ): IPromise<SearchResult> {
-        angular.extend( this.filter, filter || {}); // atualiza o filtro
+    public async search( filter: SearchFilter ) {
+        Object.assign( this.filter, filter || {}); // atualiza o filtro
 
-        return this.dioApiService.search( this.filter )
-            .then(( nextResults: SearchResult ) => this.onSearchSuccess( nextResults ), () => this.onSearchError() )
-            .finally(() => {
-                this.searched = true;
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-            });
+        try {
+            const nextResults = await this.dioApiService.search( this.filter );
+            this.onSearchSuccess( nextResults );
+        } catch ( error ) {
+            this.hits = undefined;
+            this.hasMoreHits = false;
+            this.lastQuery = undefined;
+            this.totalHits = 0;
+        }
+        finally {
+            this.searched = true;
+            this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+        };
     }
 
     /**
@@ -103,39 +126,7 @@ export class SearchController {
         this.hits = this.hits!.concat( nextResults.hits );
         this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
         this.lastQuery = angular.copy( this.filter.query );
-        return nextResults;
     };
-
-    /**
-     * 
-     * 
-     * @private
-     * 
-     * @memberOf SearchController
-     */
-    private onSearchError() {
-        this.hits = undefined;
-        this.hasMoreHits = false;
-        this.lastQuery = undefined;
-        this.totalHits = 0;
-    };
-
-    /**
-     * Abre o filtro (popup) por data
-     */
-    public openFilter(): void {
-        this.$mdDialog.show( {
-            controller: FilterController,
-            template: filterTemplate,
-            bindToController: true,
-            controllerAs: 'vm',
-            locals: this.filter
-        })
-            .then( filter => {
-                filter.pageNumber = 0;
-                this.search( filter );
-            });
-    }
 
     /**
     * 

@@ -120,7 +120,7 @@
 		<error-message error="uiState.error">
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar o SEP</remark>
 			<div ng-if="uiState.error.status === 404">
-				<highlight>"{{::vm.lastProcessNumber}}"</highlight>
+				<highlight>"{{vm.lastProcessNumber}}"</highlight>
 				<remark>Verifique o número informado</remark>
 			</div>
 		</error-message>

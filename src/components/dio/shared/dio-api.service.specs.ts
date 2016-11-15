@@ -1,6 +1,7 @@
 import { DioApiService } from './dio-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 import { SearchFilter } from '../shared/models/index';
+import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -20,12 +21,11 @@ describe( 'DioApiService', () => {
     };
 
     beforeEach(() => {
-        let $http: any = { get() { }, post() { } };
-        $httpGet = sandbox.stub( $http, 'get' );
+        $httpGet = sandbox.stub( $httpMock, 'get' );
         $httpGet.returnsPromise().resolves( fakeResponse );
         settings = Settings.getInstance();
 
-        dioApiService = new DioApiService( $http, settings );
+        dioApiService = new DioApiService( $httpMock, settings );
     });
 
     describe( 'getLatestEditions()', () => {

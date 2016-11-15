@@ -1,4 +1,4 @@
-import { IScope, IPromise, IWindowService, IQService } from 'angular';
+import { IScope, IWindowService } from 'angular';
 
 import { ToastService } from '../../shared/index';
 import { CeturbApiService, CeturbStorage } from '../shared/index';
@@ -9,7 +9,6 @@ export class BusInfoController {
     public static $inject: string[] = [
         '$scope',
         '$stateParams',
-        '$q',
         '$window',
         '$ionicTabsDelegate',
         'toast',
@@ -27,7 +26,6 @@ export class BusInfoController {
      * 
      * @param {IScope} $scope
      * @param {angular.ui.IStateParamsService} $stateParams
-     * @param {IQService} $q
      * @param {IWindowService} $window
      * @param {ionic.tabs.IonicTabsDelegate} $ionicTabsDelegate
      * @param {ToastService} toast
@@ -38,7 +36,6 @@ export class BusInfoController {
      */
     constructor( private $scope: IScope,
         private $stateParams: angular.ui.IStateParamsService,
-        private $q: IQService,
         private $window: IWindowService,
         private $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate,
         private toast: ToastService,
@@ -50,14 +47,22 @@ export class BusInfoController {
     /**
      *
      */
-    public activate(): void {
+    public async activate() {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).addClass( 'espm-header-tabs' );
         this.lineId = this.$stateParams[ 'id' ];
         this.currentTime = new Date().toTimeString().slice( 0, 5 );
-        this.$q.all( [
-            this.getSchedule( this.lineId ),
-            this.getRoute( this.lineId )
-        ] );
+
+        try {
+            let [ schedule, route ] = await Promise.all( [
+                this.ceturbApiService.getSchedule( this.lineId ),
+                this.ceturbApiService.getRoute( this.lineId )
+            ] );
+
+            this.schedule = schedule;
+            this.route = route;
+        } catch ( error ) {
+            this.schedule = this.route = undefined;
+        }
     }
 
     /**
@@ -97,29 +102,6 @@ export class BusInfoController {
         if ( tabIndex !== this.$ionicTabsDelegate.selectedIndex() ) {
             this.$ionicTabsDelegate.select( tabIndex );
         }
-    }
-
-    /**
-     * 
-     * 
-     * @param {string} id
-     */
-    public getRoute( id: string ): IPromise<BusRoute | undefined> {
-        return this.ceturbApiService.getRoute( id )
-            .then( route => this.route = route )
-            .catch(() => this.route = undefined );
-    }
-
-
-    /**
-     * 
-     * 
-     * @param {string} id
-     */
-    public getSchedule( id: string ): IPromise<BusSchedule | undefined> {
-        return this.ceturbApiService.getSchedule( id )
-            .then( schedule => this.schedule = schedule )
-            .catch(() => this.schedule = undefined );
     }
 
     /**

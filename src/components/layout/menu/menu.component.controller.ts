@@ -229,7 +229,7 @@ export default class MenuController {
      */
     public signOut(): void {
         this.closeSideNav();
-        this.authenticationService.signOut(() => this.navigateToHome() );
+        this.authenticationService.logout(() => this.navigateToHome() );
     }
 
     /**

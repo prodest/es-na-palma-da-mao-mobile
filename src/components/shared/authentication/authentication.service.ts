@@ -1,12 +1,9 @@
-import { IPromise } from 'angular';
 import { GooglePlus, Facebook, FacebookLoginResponse } from 'ionic-native';
 import { AnswersService } from '../fabric/index';
-
+import { AuthenticationStorageService } from './authentication-storage.service';
+import { AcessoCidadaoService } from './acesso-cidadao.service';
+import { DigitsService } from './digits.service';
 import {
-    AuthenticationStorageService,
-    AcessoCidadaoService,
-    DigitsService,
-    Identity,
     AcessoCidadaoIdentity,
     SocialNetworkIdentity,
     PhoneIdentity,
@@ -14,7 +11,7 @@ import {
     GoogleAuthResponse,
     AcessoCidadaoClaims,
     Token
-} from './index';
+} from './models/index';
 import { ISettings } from '../settings/index';
 
 /**
@@ -53,11 +50,14 @@ export class AuthenticationService {
         this.activate();
     }
 
+
     /**
      * 
-     * @private
+     * 
+     * 
+     * @memberOf AuthenticationService
      */
-    private activate(): void {
+    public activate(): void {
         this.acessoCidadaoService.initialize( this.settings.identityServer.url );
     }
 
@@ -66,11 +66,11 @@ export class AuthenticationService {
      * 
      * @param {string} username
      * @param {string} password
-     * @returns {IPromise<AcessoCidadaoClaims>}
+     * @returns {Promise<AcessoCidadaoClaims>}
      * 
      * @memberOf AuthenticationService
      */
-    public signInWithCredentials( username: string, password: string ): IPromise<AcessoCidadaoClaims> {
+    public acessoCidadaoLogin( username: string, password: string ): Promise<AcessoCidadaoClaims> {
 
         let identity: AcessoCidadaoIdentity = {
             client_id: this.settings.identityServer.clients.espm.id,
@@ -81,16 +81,7 @@ export class AuthenticationService {
             password: password
         };
 
-        return this.signInWithIdentity( identity );
-    }
-
-    /**
-     * Efetua login no acesso cidadão usando um identity.
-     * 
-     * @param {Identity} identity
-     */
-    public signInWithIdentity( identity: Identity ): IPromise<AcessoCidadaoClaims> {
-        return this.acessoCidadaoService.signIn( identity );
+        return this.acessoCidadaoService.login( identity );
     }
 
 
@@ -100,121 +91,129 @@ export class AuthenticationService {
      * @param {*} success
      * @returns {void}
      */
-    public signOut( success: any ): void {
+    public logout( success: any ): void {
         Facebook.logout();
         GooglePlus.logout();
         this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
-
-        return this.acessoCidadaoService.signOut( success );
+        this.acessoCidadaoService.logout( success );
     }
 
     /**
      * Realiza o login usando o facebook
      * https://github.com/jeduan/cordova-plugin-facebook4
      * 
-     * @returns {IPromise<SocialNetworkIdentity>}
+     * @returns {Promise<AcessoCidadaoClaims>}
      * 
      * @memberOf AuthenticationService
      */
-    public facebookLogin(): Promise<SocialNetworkIdentity> {
-        return Facebook.login( [ 'email', 'public_profile' ] )
-            .then(( loginResponse: FacebookLoginResponse ) => {
-                this.authenticationStorageService.facebookAuthResponse = loginResponse;
-                this.answersService.sendLogin( 'Facebook', true, undefined );
+    public async facebookLogin(): Promise<AcessoCidadaoClaims> {
 
-                let identity: SocialNetworkIdentity = {
-                    client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-                    client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-                    grant_type: 'customloginexterno',
-                    scope: this.settings.identityServer.defaultScopes,
-                    provider: 'Facebook',
-                    accesstoken: loginResponse.authResponse.accessToken
-                };
+        let identity: SocialNetworkIdentity;
 
-                return identity;
-            }).catch( error => {
-                this.answersService.sendLogin( 'Facebook', false, undefined );
-                throw error;
-            });
+        try {
+            // autentica no faceboook provider
+            const loginResponse: FacebookLoginResponse = await Facebook.login( [ 'email', 'public_profile' ] );
+
+            // salva resposta no local storage
+            this.authenticationStorageService.facebookAuthResponse = loginResponse;
+
+            // efetua log
+            this.answersService.sendLogin( 'Facebook', true, undefined );
+
+            identity = {
+                client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
+                client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
+                grant_type: 'customloginexterno',
+                scope: this.settings.identityServer.defaultScopes,
+                provider: 'Facebook',
+                accesstoken: loginResponse.authResponse.accessToken
+            };
+        } catch ( error ) {
+            this.answersService.sendLogin( 'Facebook', false, undefined );
+            throw error;
+        }
+
+        return this.acessoCidadaoService.login( identity );
     }
 
     /**
      * Realiza o login usando conta do google
      * 
-     * @returns {IPromise<SocialNetworkIdentity>}
+     * @returns {Promise<AcessoCidadaoClaims>}
      * 
      * @memberOf AuthenticationService
      */
-    public googleLogin(): Promise<SocialNetworkIdentity> {
-        let options = {
-            scopes: 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-            webClientId: this.settings.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
-            offline: true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
-        };
+    public async googleLogin(): Promise<AcessoCidadaoClaims> {
 
-        return GooglePlus.login( options )
-            .then(( authResponse: GoogleAuthResponse ) => {
-                this.authenticationStorageService.googleAuthResponse = authResponse;
-                this.answersService.sendLogin( 'Google', true, undefined );
+        let identity: SocialNetworkIdentity;
 
-                let identity: SocialNetworkIdentity = {
-                    client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-                    client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-                    grant_type: 'customloginexterno',
-                    scope: this.settings.identityServer.defaultScopes,
-                    provider: 'Google',
-                    accesstoken: authResponse.idToken
-                };
+        try {
 
-                return identity;
-            }).catch( error => {
-                this.answersService.sendLogin( 'Google', false, undefined );
-                throw error;
-            });
-    }
+            let options = {
+                scopes: 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+                webClientId: this.settings.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+                offline: true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+            };
 
-    /**
-     * Realiza login digits
-     * 
-     * @returns {IPromise<PhoneIdentity>}
-     * 
-     * @memberOf AuthenticationService
-     */
-    public digitsLogin(): IPromise<PhoneIdentity> {
-        return this.digitsService.login( {}).then(( authResponse: DigitsAuthResponse ) => {
+            // autentica no google provider
+            const authReponse: GoogleAuthResponse = await GooglePlus.login( options );
 
-            let identity: PhoneIdentity = {
+            // salva resposta no local storage
+            this.authenticationStorageService.googleAuthResponse = authReponse;
+
+            // efetua log
+            this.answersService.sendLogin( 'Google', true, undefined );
+
+            identity = {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
                 scope: this.settings.identityServer.defaultScopes,
-                provider: 'Celular',
-                accesstoken: 'token',
-                apiUrl: authResponse[ 'X-Auth-Service-Provider' ],
-                authHeader: authResponse[ 'X-Verify-Credentials-Authorization' ]
+                provider: 'Google',
+                accesstoken: authReponse.idToken
             };
+        } catch ( error ) {
+            this.answersService.sendLogin( 'Google', false, undefined );
+            throw error;
+        }
 
-            return identity;
-        });
+        return this.acessoCidadaoService.login( identity );
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<{}>}
+     * @returns {Promise<AcessoCidadaoClaims>}
+     * 
+     * @memberOf AuthenticationService
      */
-    public refreshTokenIfNeeded(): IPromise<{}> {
+    public async digitsLogin(): Promise<AcessoCidadaoClaims> {
+
+        const authResponse: DigitsAuthResponse = await this.digitsService.login( {});
+
+        let identity: PhoneIdentity = {
+            client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
+            client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
+            grant_type: 'customloginexterno',
+            scope: this.settings.identityServer.defaultScopes,
+            provider: 'Celular',
+            accesstoken: 'token',
+            apiUrl: authResponse[ 'X-Auth-Service-Provider' ],
+            authHeader: authResponse[ 'X-Verify-Credentials-Authorization' ]
+        };
+
+        return this.acessoCidadaoService.login( identity );
+    }
+
+    /**
+     * 
+     * 
+     * @returns {Promise<{}>}
+     */
+    public refreshTokenIfNeeded(): Promise<Token> {
         return this.acessoCidadaoService.refreshTokenIfNeeded();
     }
 
-    /**
-     * 
-     * 
-     * @returns {IPromise<{}>}
-     */
-    public refreshToken(): IPromise<{}> {
-        return this.acessoCidadaoService.refreshToken();
-    }
 
     /**
      * 
@@ -233,16 +232,6 @@ export class AuthenticationService {
      */
     public get user(): AcessoCidadaoClaims {
         return this.acessoCidadaoService.userClaims;
-    }
-
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {Token}
-     */
-    public get token(): Token {
-        return this.acessoCidadaoService.token;
     }
 
     /**

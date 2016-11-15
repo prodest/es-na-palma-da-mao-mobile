@@ -1,9 +1,9 @@
-import { Vehicle } from './vehicle';
-import { VehicleData } from './vehicle-data';
+import { Vehicle } from './index';
 
 export interface VehicleStorage {
-    removeVehicle( vehicle: Vehicle ): VehicleData;
-    addVehicle( vehicle: Vehicle ): VehicleData;
-    existsVehicle( vehicle: Vehicle ): boolean;
-    vehiclesData: VehicleData;
+    removeVehicle( vehicle: Vehicle ): Vehicle[];
+    addVehicle( vehicle: Vehicle ): Promise<Vehicle[]>;
+    containsVehicle( vehicle: Vehicle ): boolean;
+    sync();
+    vehicles: Vehicle[];
 }

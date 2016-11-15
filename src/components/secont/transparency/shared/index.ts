@@ -1,11 +1,11 @@
 import reportComponent from './report/report.component';
-import { TransparencyService } from './transparency.service';
+import { TransparencyApiService } from './transparency-api.service';
 
 export default angular.module( 'graph.shared', [] )
-    .service( 'transparencyService', TransparencyService )
+    .service( 'transparencyApiService', TransparencyApiService )
     .component( 'report', reportComponent );
 
-export * from './transparency.service';
+export * from './transparency-api.service';
 export * from './models/index';
 export * from './money-flow.controller';
 export * from './money-flow-detail.controller';

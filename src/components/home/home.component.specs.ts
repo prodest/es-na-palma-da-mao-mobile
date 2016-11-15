@@ -1,7 +1,7 @@
 import { HomeController } from './home.component.controller';
 import HomeComponent from './home.component';
 import HomeTemplate = require('./home.component.html');
-import { TransitionService } from '../shared/index';
+import { TransitionService, AuthenticationService } from '../shared/index';
 
 let expect = chai.expect;
 
@@ -13,14 +13,16 @@ describe( 'Home', () => {
     describe( 'Controller', () => {
         let controller: HomeController;
         let transitionService: TransitionService;
-
+        let authenticationService: AuthenticationService;
 
         beforeEach(() => {
             transitionService = <TransitionService><any>{
                 changeState: () => { }
             };
 
-            controller = new HomeController( transitionService );
+            authenticationService = <AuthenticationService>{};
+
+            controller = new HomeController( transitionService, authenticationService );
         });
 
         describe( 'navigateToLogin()', () => {
@@ -32,16 +34,6 @@ describe( 'Home', () => {
                 expect( changeState.calledWith( 'login' ) ).to.be.true;
             });
         });
-
-        /* TODO
-        describe( 'createAccount()', () => {
-            it( 'should open aceso cidadão', () => {
-
-                controller.createAccount();
-
-                // expect( $windowOpen.calledWith( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' ) ).to.be.true;
-            });
-        });*/
     });
 
     describe( 'Component', () => {

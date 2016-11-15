@@ -1,7 +1,7 @@
 import { NewsDetailController } from './news-detail.component.controller';
 import { NewsApiService, News, NewsDetail } from '../shared/index';
 import NewsDetailComponent from './news-detail.component';
-import NewsDetailTemplate = require('./news-detail.component.html');
+import NewsDetailTemplate = require( './news-detail.component.html' );
 import { environment, $stateMock } from '../../shared/tests/index';
 import { SocialSharing } from 'ionic-native';
 
@@ -43,18 +43,8 @@ describe( 'News/news-detail', () => {
         });
 
         describe( 'activate()', () => {
-            it( 'should call getNewsById', () => {
-                let getNewsById = sandbox.stub( controller, 'getNewsById' );
-
-                controller.activate();
-
-                expect( getNewsById.calledWith( $stateMock[ 'id' ] ) ).to.be.true;
-            });
-        });
-
-        describe( 'getNewsById( id )', () => {
-            it( 'should fill news', () => {
-                controller.getNewsById( 'any string' );
+            it( 'should call getNewsById', async () => {
+                await controller.activate();
 
                 expect( controller.news ).to.deep.equal( news );
             });

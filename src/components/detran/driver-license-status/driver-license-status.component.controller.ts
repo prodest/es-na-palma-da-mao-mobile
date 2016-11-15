@@ -1,15 +1,15 @@
-import * as moment from 'moment';
-import { IScope, IPromise, IQService } from 'angular';
+import moment = require( 'moment' );
+import { IScope } from 'angular';
 import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService, DriverLicenseStorage, DriverLicense } from '../shared/index';
-import registerLicenseTemplate = require('../shared/add-license/add-license.html');
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
+import registerLicenseTemplate = require( '../shared/add-license/add-license.html' );
 
 /**
  * @class DriverLicenseStatusController
  */
 export class DriverLicenseStatusController {
 
-    public static $inject: string[] = [ '$scope', '$q', 'ticketColorService', 'detranApiService', 'detranStorage', '$mdDialog' ];
+    public static $inject: string[] = [ '$scope', 'ticketColorService', 'detranApiService', 'detranStorage', '$mdDialog' ];
 
     /**
      * Informações sobre a carteira de motorista do condutor
@@ -17,21 +17,19 @@ export class DriverLicenseStatusController {
      * @type {DriverData}
      */
     public driverData: DriverData | undefined = undefined;
-    public tickets: Ticket[] | undefined = undefined;
+    public driverTickets: Ticket[] | undefined = undefined;
     public isRefreshing: boolean = false;
 
     /**
      * Creates an instance of DriverLicenseStatusController.
      * 
      * @param {IScope} $scope
-     * @param {IQService} $q
      * @param {TicketColorService} ticketColorService
      * @param {DetranApiService} detranApiService
      * @param {DriverLicenseStorage} driverLicenseStorage
      * @param {angular.material.IDialogService} $mdDialog
      */
     constructor( private $scope: IScope,
-        private $q: IQService,
         private ticketColorService: TicketColorService,
         private detranApiService: DetranApiService,
         private driverLicenseStorage: DriverLicenseStorage,
@@ -44,8 +42,17 @@ export class DriverLicenseStatusController {
     /**
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
-    public activate(): IPromise<any>[] {
-        return [ this.getDriverData(), this.getDriverTickets() ];
+    public async activate() {
+        try {
+            const [ driverData, driverTickets ] = await Promise.all( [
+                this.detranApiService.getDriverData(),
+                this.detranApiService.getDriverTickets()
+            ] );
+            this.driverData = driverData;
+            this.driverTickets = driverTickets;
+        } catch ( error ) {
+            this.driverTickets = this.driverData = undefined;
+        }
     }
 
     /**
@@ -54,11 +61,15 @@ export class DriverLicenseStatusController {
      * 
      * @memberOf DriverLicenseStatusController
      */
-    public doRefresh() {
-        this.isRefreshing = true;
-        this.$q.all( this.activate() )
-            .then(() => this.isRefreshing = false )
-            .finally(() => this.$scope.$broadcast( 'scroll.refreshComplete' ) );
+    public async doRefresh() {
+        try {
+            this.isRefreshing = true;
+            await this.activate();
+            this.isRefreshing = false;
+        }
+        finally {
+            this.$scope.$broadcast( 'scroll.refreshComplete' );
+        }
     }
 
     /**
@@ -124,7 +135,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get hasTickets(): boolean {
-        return !!this.tickets && this.tickets.length > 0;
+        return !!this.driverTickets && this.driverTickets.length > 0;
     }
 
 
@@ -133,51 +144,22 @@ export class DriverLicenseStatusController {
      * 
      * @param {string} level
      * @returns {string}
+     * 
+     * @memberOf DriverLicenseStatusController
      */
     public getTicketLevelColor( level: string ): string {
         return this.ticketColorService.getTicketLevelColor( level );
     }
 
-    /**
-     * Obtem dados da carteira de motorista do condutor autenticado no sistema.
-     * 
-     * @returns {void}
-     */
-    public getDriverData(): IPromise<DriverData> {
-        return this.detranApiService.getDriverData()
-            .then(( driverData ) => {
-                this.driverData = driverData;
-                return driverData;
-            })
-            .catch(( error ) => {
-                this.eraseData();
-                return error;
-            });
-    }
-
-    /**
-     * Obtem as eventuais multas pertencentes ao condutor autenticado no sistema.
-     * 
-     * @returns {void}
-     */
-    public getDriverTickets(): IPromise<Ticket[]> {
-        return this.detranApiService.getDriverTickets()
-            .then( tickets => {
-                this.tickets = tickets || [];
-                return this.tickets;
-            })
-            .catch(( error ) => {
-                this.eraseData();
-                return error;
-            });
-    }
-
 
     /**
      * 
+     * 
+     * 
+     * @memberOf DriverLicenseStatusController
      */
-    public editDriverLicense(): void {
-        this.$mdDialog.show( {
+    public async editDriverLicense() {
+        const options = {
             controller: AddLicenseController,
             template: registerLicenseTemplate,
             bindToController: true,
@@ -186,24 +168,10 @@ export class DriverLicenseStatusController {
                 registerNumber: Number( this.driverLicenseStorage.driverLicense.registerNumber ),
                 ballot: Number( this.driverLicenseStorage.driverLicense.ballot )
             }
-        })
-            .then(( license: DriverLicense ) => {
-                return this.detranApiService.saveLicense( license ).then(() => license );
-            })
-            .then(( license: DriverLicense ) => {
-                this.driverLicenseStorage.driverLicense = license;
-                return this.$q.all( this.activate() ); // atualiza a página
-            });
-    }
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {number} status
-     */
-    private eraseData() {
-        this.tickets = undefined;
-        this.driverData = undefined;
+        };
+        const license: DriverLicense = await this.$mdDialog.show( options );
+        await this.detranApiService.saveLicense( license );
+        this.driverLicenseStorage.driverLicense = license;
+        await this.activate();
     }
 }

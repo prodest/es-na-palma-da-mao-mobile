@@ -1,9 +1,8 @@
 import { IScope } from 'angular';
-import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo } from '../shared/index';
+import { Vehicle, VehicleStorage } from '../shared/index';
 import { DialogService, ToastService, TransitionService } from '../../shared/index';
-
-import addVehicleTemplate = require('./add-vehicle/add-vehicle.html');
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
+import addVehicleTemplate = require( './add-vehicle/add-vehicle.html' );
 
 /**
  * 
@@ -13,7 +12,7 @@ import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
  */
 export class VehiclesController {
 
-    public static $inject: string[] = [ '$scope', '$mdDialog', 'detranApiService', 'toast', 'dialog', 'detranStorage', 'transitionService' ];
+    public static $inject: string[] = [ '$scope', '$mdDialog', 'toast', 'dialog', 'detranStorage', 'transitionService' ];
 
     public editing: boolean = false;
 
@@ -21,17 +20,15 @@ export class VehiclesController {
      * Creates an instance of VehiclesController.
      * 
      * @param {IScope} $scope
-     * @param {angular.material.IDialogService} $mdDialog
-     * @param {DetranApiService} detranApiService
+     * @param {angular.material.IDialogService} $mdDialog,
      * @param {ToastService} toast
      * @param {DialogService} dialog
-     * @param {VehicleStorage} vehicleStorage
+     * @param {} vehicleStorage
      * 
      * @memberOf VehiclesController
      */
     constructor( private $scope: IScope,
         private $mdDialog: angular.material.IDialogService,
-        private detranApiService: DetranApiService,
         private toast: ToastService,
         private dialog: DialogService,
         private vehicleStorage: VehicleStorage,
@@ -42,9 +39,9 @@ export class VehiclesController {
     /**
      * 
      */
-    public activate(): void {
+    public activate() {
         angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-        this.detranApiService.syncVehicleData();
+        this.vehicleStorage.sync();
     }
 
     /**
@@ -55,53 +52,8 @@ export class VehiclesController {
      * @memberOf VehiclesController
      */
     public get vehicles(): Vehicle[] {
-        return this.vehicleStorage.vehiclesData.vehicles;
+        return this.vehicleStorage.vehicles;
     }
-
-    /**
-     * 
-     * 
-     * @param {Vehicle} vehicle
-     */
-    public openRemoveVehicleModal( vehicle: Vehicle ) {
-        this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` })
-            .then(() => this.removeVehicle( vehicle ) );
-    }
-
-    /**
-     * 
-     * 
-     * @param {Vehicle} vehicle
-     * 
-     * @memberOf VehiclesController
-     */
-    public removeVehicle( vehicle: Vehicle ) {
-        if ( !this.editing ) {
-            return;
-        }
-
-        let vehicles = this.vehicleStorage.removeVehicle( vehicle );
-        this.detranApiService.syncVehicleData( true );
-
-        // sai do modo de edição se não resta nenhum veículo
-        if ( !vehicles.vehicles.length ) {
-            this.editing = false;
-        }
-    }
-
-    /**
-     * 
-     */
-    public openAddVehicleModal(): void {
-        this.$mdDialog.show( {
-            controller: AddVehicleController,
-            template: addVehicleTemplate,
-            bindToController: true,
-            controllerAs: 'vm'
-        })
-            .then(( vehicle: Vehicle ) => this.addVehicle( vehicle ) );
-    }
-
 
     /**
      * 
@@ -111,33 +63,81 @@ export class VehiclesController {
      * 
      * @memberOf VehiclesController
      */
-    public addVehicle( vehicle: Vehicle ) {
-        if ( this.vehicleStorage.existsVehicle( vehicle ) ) {
-            this.toast.error( { title: 'Placa ou RENAVAM já cadastrado(s)' }); return;
-        }
+    public removeVehicle( vehicle: Vehicle ) {
+        if ( !this.editing ) { return; }
 
-        this.detranApiService
-            .getVehicleInfo( vehicle )
-            .then(( info: VehicleInfo ) => {
-                vehicle.info = info;
-                this.vehicleStorage.addVehicle( vehicle );
-                this.detranApiService.syncVehicleData( true );
-                return vehicle;
-            })
-            .catch(( error ) => {
-                // Caso o veículo não exista 404
-                if ( error.status === 404 ) {
-                    this.toast.error( { title: 'Veículo não encontrado na base do DETRAN.' }); return;
-                } else {
-                    this.toast.error( { title: 'Erro ao salvar veículo. Tente novamente' }); return;
-                }
+        try {
+            let vehicles = this.vehicleStorage.removeVehicle( vehicle );
+            this.editing = vehicles.length > 0; // sai do modo de edição se não resta nenhum veículo
+        } catch ( error ) {
+            this.toast.error( { title: 'Erro ao remover veículo.' });
+        };
+    }
+
+    /**
+     * 
+     * 
+     * @param {Vehicle} vehicle
+     * @returns
+     * 
+     * @memberOf VehiclesController
+     */
+    public async addVehicle( vehicle: Vehicle ) {
+        try {
+            // todo
+            if ( this.vehicleStorage.containsVehicle( vehicle ) ) {
+                this.toast.error( { title: 'Placa ou RENAVAM já cadastrado(s)' }); return;
+            }
+            await this.vehicleStorage.addVehicle( vehicle );
+        } catch ( error ) {
+            if ( error.status === 404 ) {
+                this.toast.error( { title: 'Veículo não encontrado na base do DETRAN.' });
+            } else {
+                this.toast.error( { title: 'Erro ao salvar veículo. Tente novamente' });
+            }
+        };
+    }
+
+    /**
+     * 
+     * 
+     * @param {Vehicle} vehicle
+     * 
+     * @memberOf VehiclesController
+     */
+    public viewTickets( vehicle: Vehicle ) {
+        this.transitionService.changeState( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'left' });
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf VehiclesController
+     */
+    public openAddVehicleModal() {
+        const options = {
+            controller: AddVehicleController,
+            template: addVehicleTemplate,
+            bindToController: true,
+            controllerAs: 'vm'
+        };
+        this.$mdDialog.show( options )
+            .then( vehicle => {
+                this.addVehicle( vehicle );
             });
     }
 
     /**
      * 
+     * 
+     * @param {Vehicle} vehicle
      */
-    public viewTickets( vehicle: Vehicle ) {
-        this.transitionService.changeState( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'left' });
+    public async openRemoveVehicleModal( vehicle: Vehicle ) {
+        const confirm = await this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` });
+
+        if ( confirm ) {
+            this.removeVehicle( vehicle );
+        }
     }
 }

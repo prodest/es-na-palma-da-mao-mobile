@@ -1,4 +1,4 @@
-import { IHttpService, IPromise } from 'angular';
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { ISettings } from '../../shared/settings/index';
 import { News, NewsDetail, Filter, Pagination } from '../shared/models/index';
 
@@ -19,20 +19,20 @@ export class NewsApiService {
      *
      * @returns {*}
      */
-    public getNewsById( id: string ): IPromise<NewsDetail> {
+    public getNewsById( id: string ): Promise<NewsDetail> {
         return this.$http
             .get( `${this.settings.api.news}/${id}` )
-            .then(( response: { data: NewsDetail }) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<NewsDetail> ) => response.data );
     }
 
     /**
      *
      * @returns {*}
      */
-    public getHighlightNews(): IPromise<News[]> {
+    public getHighlightNews(): Promise<News[]> {
         return this.$http
             .get( `${this.settings.api.news}/highlights` )
-            .then(( response: { data: News[] }) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<News[]> ) => response.data );
     }
 
     /**
@@ -41,7 +41,7 @@ export class NewsApiService {
      * @param options
      * @returns {Array}
      */
-    public getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
+    public getNews( filter: Filter, pagination: Pagination ): Promise<News[]> {
         let defaults = {
             origins: [],
             pageNumber: this.settings.pagination.pageNumber,
@@ -51,7 +51,7 @@ export class NewsApiService {
         let params = angular.extend( {}, defaults, filter, pagination );
 
         return this.$http.get( this.settings.api.news, { params: params })
-            .then(( response: { data: News[] }) => {
+            .then(( response: IHttpPromiseCallbackArg<News[]> ) => {
                 return response.data;
             });
     }
@@ -60,9 +60,9 @@ export class NewsApiService {
      *
      * @returns {*}
      */
-    public getAvailableOrigins(): IPromise<string[]> {
+    public getAvailableOrigins(): Promise<string[]> {
         return this.$http
             .get( `${this.settings.api.news}/origins` )
-            .then(( response: { data: string[] }) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<string[]> ) => response.data );
     }
 }

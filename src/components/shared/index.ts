@@ -13,9 +13,11 @@ import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
 // import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
 import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
 import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config';
+import httpDecoratorConfig from './http/http-decorator.config';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
-import run from './run';
-import runNetwork from './run.network';
+import appRun from './app.run';
+import networkRun from './network.run';
+import awaiterRun from './awaiter.run';
 import authentication from './authentication/index';
 import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
@@ -46,6 +48,7 @@ export default angular.module( 'shared', dependencies )
     .service( 'transitionService', TransitionService )
     .config( ionicConfig )
     .config( themeConfig )
+    .config( httpDecoratorConfig )
     .config( httpSnifferInterceptorConfig )
     .config( httpErrorInterceptorConfig )
     // .config( httpDelayInterceptorConfig )
@@ -57,5 +60,6 @@ export default angular.module( 'shared', dependencies )
     .filter( 'calendar', calendarFilter )
     .filter( 'capitalize', capitalizeFilter )
     .filter( 'hrefToJs', hrefToJsFilter )
-    .run( run )
-    .run( runNetwork );
+    .run( appRun )
+    .run( awaiterRun )
+    .run( networkRun );

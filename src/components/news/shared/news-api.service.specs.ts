@@ -1,6 +1,7 @@
 import { NewsApiService } from './news-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 import { Filter, Pagination } from '../shared/models/index';
+import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -21,14 +22,13 @@ describe( 'NewsApiService', () => {
     };
 
     beforeEach(() => {
-        let $http: any = { get() { }, post() { } };
-        $httpGet = sandbox.stub( $http, 'get' );
+        $httpGet = sandbox.stub( $httpMock, 'get' );
         $httpGet.returnsPromise().resolves( fakeResponse );
-        $httpPost = sandbox.stub( $http, 'post' );
+        $httpPost = sandbox.stub( $httpMock, 'post' );
         $httpPost.returnsPromise().resolves( fakeResponse );
         settings = Settings.getInstance();
 
-        newsApiService = new NewsApiService( $http, settings );
+        newsApiService = new NewsApiService( $httpMock, settings );
     });
 
     describe( 'getNewsById(id)', () => {

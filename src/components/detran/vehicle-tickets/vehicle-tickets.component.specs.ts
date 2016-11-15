@@ -1,6 +1,6 @@
 import { VehicleTicketsController } from './vehicle-tickets.component.controller';
 import VehicleTicketsComponent from './vehicle-tickets.component';
-import VehicleTicketsTemplate = require('./vehicle-tickets.component.html');
+import VehicleTicketsTemplate = require( './vehicle-tickets.component.html' );
 import { DetranApiService, TicketColorService, Ticket } from '../shared/index';
 import { environment, $stateParamsMock } from '../../shared/tests/index';
 
@@ -47,22 +47,7 @@ describe( 'Detran/vehicle-tickets', () => {
             it( 'tickets should be "undefined"', () => {
                 expect( controller.tickets ).to.be.undefined;
             });
-
-            it( 'should fill vehicle with params data', () => {
-                expect( controller.vehicle ).to.be.deep.equal( $stateParamsMock );
-            });
         });
-
-        describe( 'activate()', () => {
-            it( 'should get vehicle tickets', () => {
-                let getVehicleTickets = sandbox.stub( controller, 'getVehicleTickets' );
-
-                controller.activate();
-
-                expect( getVehicleTickets.calledWithExactly( controller.vehicle ) ).to.be.true;
-            });
-        });
-
 
         describe( 'getTicketLevelColor()', () => {
             it( 'should call "ticketColorService.getTicketLevelColor()"', () => {
@@ -75,9 +60,9 @@ describe( 'Detran/vehicle-tickets', () => {
             });
         });
 
-        describe( 'getVehicleTickets()', () => {
+        describe( 'activate()', () => {
 
-            let getVehicleTicketsApi: Sinon.SinonPromise;
+            let getVehicleTickets: Sinon.SinonStub;
             let tickets: Ticket[] = [ {
                 classification: 'MÉDIA',
                 date: new Date(),
@@ -90,21 +75,27 @@ describe( 'Detran/vehicle-tickets', () => {
             }];
 
             beforeEach(() => {
-                getVehicleTicketsApi = sandbox.stub( detranApiService, 'getVehicleTickets' ).returnsPromise();
-                getVehicleTicketsApi.resolves( tickets );
+                getVehicleTickets = sandbox.stub( detranApiService, 'getVehicleTickets' );
+                getVehicleTickets.returnsPromise().resolves( tickets );
             });
 
-            it( 'should populate tickets property', () => {
-                controller.getVehicleTickets( controller.vehicle );
+            it( 'should fill vehicle with params data', async () => {
+                await controller.activate();
+                expect( controller.vehicle ).to.be.deep.equal( $stateParamsMock );
+            });
+
+            it( 'should populate tickets property', async () => {
+                await controller.activate();
                 expect( controller.tickets ).to.be.deep.equal( tickets );
             });
 
-            it( 'should set tickets property to undefined on error', () => {
+            it( 'should set tickets property to undefined on error', async () => {
                 controller.tickets = tickets;
-                getVehicleTicketsApi.rejects();
-                controller.getVehicleTickets( controller.vehicle ).then(() => {
-                    expect( controller.tickets ).to.be.undefined;
-                });
+                getVehicleTickets.returnsPromise().rejects();
+
+                await controller.activate();
+
+                expect( controller.tickets ).to.be.undefined;
             });
         });
 

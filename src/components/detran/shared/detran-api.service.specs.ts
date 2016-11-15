@@ -8,7 +8,7 @@
 import { DetranApiService } from './detran-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
 import { Vehicle, DriverLicense } from './models/index';
-import { DetranStorage } from './index';
+import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -18,7 +18,6 @@ describe( 'DetranApiService', () => {
     beforeEach( () => sandbox = sinon.sandbox.create() );
     afterEach( () => sandbox.restore() );
 
-    let detranStorage: DetranStorage;
     let detranApiService: DetranApiService;
     let $httpGet: Sinon.SinonStub;
     let $httpPost: Sinon.SinonStub;
@@ -30,14 +29,13 @@ describe( 'DetranApiService', () => {
     };
 
     beforeEach( () => {
-        let $http: any = { get() {}, post() {} };
-        $httpGet = sandbox.stub( $http, 'get' );
+        $httpGet = sandbox.stub( $httpMock, 'get' );
         $httpGet.returnsPromise().resolves( fakeResponse );
-        $httpPost = sandbox.stub( $http, 'post' );
+        $httpPost = sandbox.stub( $httpMock, 'post' );
         $httpPost.returnsPromise().resolves( fakeResponse );
         settings = Settings.getInstance();
 
-        detranApiService = new DetranApiService( $http, settings, detranStorage );
+        detranApiService = new DetranApiService( $httpMock, settings );
     } );
 
     describe( 'getDriverData()', () => {

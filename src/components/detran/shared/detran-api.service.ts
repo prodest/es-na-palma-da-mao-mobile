@@ -1,106 +1,82 @@
-import { IHttpService, IPromise } from 'angular';
-
+import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { ISettings } from '../../shared/settings/index';
-import { DetranStorage } from './index';
 import { DriverData, Ticket, Vehicle, DriverLicense, VehicleInfo, VehicleData } from './models/index';
 
 
 export class DetranApiService {
 
-    public static $inject: string[] = [ '$http', 'settings', 'detranStorage' ];
+    public static $inject: string[] = [ '$http', 'settings' ];
 
     /**
      * Creates an instance of DetranApiService.
      * 
      * @param {IHttpService} $http
      * @param {ISettings} settings
-     * @param {DetranStorage} detranStorage
      * 
      * @memberOf DetranApiService
      */
-    constructor( private $http: IHttpService,
-        private settings: ISettings,
-        private detranStorage: DetranStorage ) {
-    }
+    constructor( private $http: IHttpService, private settings: ISettings ) { }
 
 
     /**
      * 
-     * @returns {IPromise<DriverData>}
+     * @returns {Promise<DriverData>}
      */
-    public getDriverData(): IPromise<DriverData> {
-        return this.$http
-            .get( `${this.settings.api.detran}/driver` )
-            .then( ( response: { data: DriverData } ) => response.data );
+    public getDriverData(): Promise<DriverData> {
+        return this.$http.get( `${this.settings.api.detran}/driver` )
+            .then(( response: IHttpPromiseCallbackArg<DriverData> ) => response.data );
     }
 
     /**
      * 
-     * @returns {IPromise<Ticket[]>}
+     * @returns {Promise<Ticket[]>}
      */
-    public getDriverTickets(): IPromise<Ticket[]> {
-        return this.$http
-            .get( `${this.settings.api.detran}/driver/tickets` )
-            .then( ( response: { data: Ticket[] } ) => response.data );
-    }
-
-
-    /**
-     * 
-     * @param {Vehicle} vehicle
-     * @returns {IPromise<Ticket[]>}
-     */
-    public getVehicleTickets( vehicle: Vehicle ): IPromise<Ticket[]> {
-        return this.$http
-            .get( `${this.settings.api.detran}/vehicle/tickets`, { params: vehicle } )
-            .then( ( response: { data: Ticket[] } ) => response.data );
+    public getDriverTickets(): Promise<Ticket[]> {
+        return this.$http.get( `${this.settings.api.detran}/driver/tickets` )
+            .then(( response: IHttpPromiseCallbackArg<Ticket[]> ) => response.data );
     }
 
     /**
      * 
      * @param {Vehicle} vehicle
-     * @returns {IPromise<VehicleInfo>}
+     * @returns {Promise<Ticket[]>}
      */
-    public getVehicleInfo( vehicle: Vehicle ): IPromise<VehicleInfo> {
-        return this.$http
-            .get( `${this.settings.api.detran}/vehicle`, { params: vehicle } )
-            .then( ( response: { data: VehicleInfo } ) => response.data );
+    public getVehicleTickets( vehicle: Vehicle ): Promise<Ticket[]> {
+        return this.$http.get( `${this.settings.api.detran}/vehicle/tickets`, { params: vehicle })
+            .then(( response: IHttpPromiseCallbackArg<Ticket[]> ) => response.data );
+    }
+
+    /**
+     * 
+     * @param {Vehicle} vehicle
+     * @returns {Promise<VehicleInfo>}
+     */
+    public getVehicleInfo( vehicle: Vehicle ): Promise<VehicleInfo> {
+        return this.$http.get( `${this.settings.api.detran}/vehicle`, { params: vehicle })
+            .then(( response: IHttpPromiseCallbackArg<VehicleInfo> ) => response.data );
     }
 
     /**
      * 
      * 
-     * @param {boolean} [hasNewData=false]
-     * @returns
+     * @param {VehicleData} vehicleData
+     * @returns {Promise<VehicleData>}
      * 
      * @memberOf DetranApiService
      */
-    public syncVehicleData( hasNewData: boolean = false ) {
-        if (hasNewData) {
-            this.detranStorage.vehiclesData.date = new Date();
-        }
-        return this.$http
-            .post( `${this.settings.api.espm}/data/vehicles`, this.detranStorage.vehiclesData)
-            .then(( response: { data: VehicleData }) => {
-                this.detranStorage.vehiclesData = response.data;
-                return response.data;
-            })
-            .catch(( error ) => {
-                if ( this.detranStorage.existsVehicle ) {
-                    return this.detranStorage.vehiclesData;
-                }
-                throw error;
-            });
+    public saveVehicleData( vehicleData: VehicleData ): Promise<VehicleData> {
+        return this.$http.post( `${this.settings.api.espm}/data/vehicles`, vehicleData )
+            .then(( response: IHttpPromiseCallbackArg<VehicleData> ) => response.data );
     }
 
     /**
      * 
      * @param {DriverLicense} license
-     * @returns {IPromise<any>}
+     * @returns {Promise<any>}
      */
-    public saveLicense( license: DriverLicense ): IPromise<any> {
-        return this.$http
-            .post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, { numero: license.registerNumber, cedula: license.ballot } )
-            .then( ( response: { data: any } ) => response.data );
+    public saveLicense( license: DriverLicense ): Promise<any> {
+        const params = { numero: license.registerNumber, cedula: license.ballot };
+        return this.$http.post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, params )
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 }
