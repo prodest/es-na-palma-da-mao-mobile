@@ -199,7 +199,7 @@
     "supports-color": "^3.1.2",
     "tslint": "^4.0.0-dev.0",
     "tslint-loader": "^2.1.5",
-    "typescript": "^2.0.3",
+    "typescript": "^2.1.1",
     "ui-router-extras": "^0.1.2",
     "url-loader": "^0.5.7",
     "validate-commit-msg": "^2.8.2",
