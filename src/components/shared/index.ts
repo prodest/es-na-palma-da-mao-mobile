@@ -9,6 +9,7 @@ import hrefToJsFilter from './hrefToJs.filter';
 import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
+import charjsConfig from './chartjs.config';
 import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
 // import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
 import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
@@ -47,6 +48,7 @@ export default angular.module( 'shared', dependencies )
     .service( 'httpErrorSnifferService', HttpErrorSnifferService )
     .service( 'transitionService', TransitionService )
     .config( ionicConfig )
+    .config( charjsConfig )
     .config( themeConfig )
     .config( httpDecoratorConfig )
     .config( httpSnifferInterceptorConfig )

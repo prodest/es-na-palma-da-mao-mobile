@@ -1,7 +1,7 @@
 
 import 'angular-ui-router';
-import 'ionic-calendar';
-import 'ionic-calendar-css';
+import '@hoisel/ionic-calendar';
+import '@hoisel/ionic-calendar-css';
 
 import calendarComponent from './calendar.component';
 import calendarShared from './shared/index';
