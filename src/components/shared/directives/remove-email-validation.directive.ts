@@ -1,4 +1,4 @@
-export function removeEmailValidation() {
+export function removeEmailValidationDirective() {
     return {
         require: 'ngModel',
         link: function ( $scope, element, attrs, ngModel ) {

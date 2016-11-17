@@ -26,7 +26,6 @@ export class DashboardController {
      * @returns {void}
      */
     public activate(): void {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.buildMenuFromRoutes();
     }
 
@@ -70,7 +69,7 @@ export class DashboardController {
      * 
      * @param {Route} item
      * @returns {boolean}
-     * 
+     *
      * @memberOf DashboardController
      */
     public isRevenue( item: Route ): boolean {

@@ -42,17 +42,13 @@ export class SearchController {
     constructor( private $scope: IScope,
         private $window: IWindowService,
         private $mdDialog: angular.material.IDialogService,
-        private dioApiService: DioApiService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
-    }
+        private dioApiService: DioApiService ) {}
 
 
     /**
      * Ativa o controller
      */
-    public activate(): void {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-    }
+    public activate(): void {}
 
     /**
     * 

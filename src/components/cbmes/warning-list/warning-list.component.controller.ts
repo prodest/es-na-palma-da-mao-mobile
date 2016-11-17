@@ -32,8 +32,6 @@ export class WarningListController {
      * Ativa o controller
      */
     public async activate() {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-
         // Retorna os alertas dos últimos 7 dias 
         this.warnings = await this.cbmesApiService.getLastWarnings();
     }

@@ -23,7 +23,6 @@ export abstract class MoneyFlowDetailController {
         protected $stateParams: angular.ui.IStateParamsService,
         protected transparencyApiService: TransparencyApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
-        this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
 
 

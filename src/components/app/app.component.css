@@ -88,7 +88,7 @@ md-input-container input[type=tel], md-input-container input[type=number] {
 }
 
 /* Tabs */
-.espm-header-tabs {
+.espm-header-no-shadow ion-header-bar {
     box-shadow: none !important;
 }
 

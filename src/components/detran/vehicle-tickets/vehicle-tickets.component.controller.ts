@@ -40,8 +40,6 @@ export class VehicleTicketsController {
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
     public async activate() {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
-
         this.vehicle = {
             plate: this.$stateParams[ 'plate' ],
             renavam: this.$stateParams[ 'renavam' ]

@@ -35,7 +35,6 @@ export class DriverLicenseStatusController {
         private driverLicenseStorage: DriverLicenseStorage,
         private $mdDialog: angular.material.IDialogService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
-        this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
 
 

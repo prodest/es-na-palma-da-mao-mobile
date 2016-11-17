@@ -28,7 +28,6 @@ export class NewsDetailController {
      * @returns {void}
      */
     public async activate() {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.news = await this.newsApiService.getNewsById( this.$stateParams[ 'id' ] );
     }
 

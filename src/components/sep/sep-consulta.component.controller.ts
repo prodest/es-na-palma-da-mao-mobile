@@ -34,7 +34,6 @@ export class SepConsultaController {
         private toast: ToastService,
         private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
-        this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
 
     /**

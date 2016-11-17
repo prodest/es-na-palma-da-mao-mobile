@@ -1,6 +1,6 @@
 import { Keyboard } from 'ionic-native';
 
-export function inputReturn() {
+export function inputReturnDirective() {
   const ENTER = 13;
   const TAB = 9;
 

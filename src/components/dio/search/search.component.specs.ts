@@ -53,15 +53,6 @@ describe( 'Dio/search', () => {
                     sort: 'date'
                 });
             });
-
-            it( 'should activate on $ionicView.beforeEnter event', () => {
-                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
-
-                // simulates ionic before event trigger
-                environment.onIonicBeforeEnterEvent();
-
-                expect( activate.called ).to.be.true;
-            });
         });
 
         describe( 'share( news )', () => {

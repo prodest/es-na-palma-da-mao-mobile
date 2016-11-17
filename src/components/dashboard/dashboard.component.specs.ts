@@ -19,31 +19,7 @@ describe( 'Dashboard', () => {
 
         beforeEach(() => {
             environment.refresh();
-            controller = new DashBoardController( environment.$scope, $ionicTabsDelegate, transitionService );
-        });
-
-        describe( 'on instantiation', () => {
-            it( 'should activate on $ionicView.beforeEnter event', () => {
-                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
-
-                // simulates ionic before event trigger
-                environment.onIonicBeforeEnterEvent();
-
-                expect( activate.called ).to.be.true;
-            });
-        });
-
-        describe( 'activate()', () => {
-            it( 'should apply "espm-header-tab" class to all "ion-header-bar" elements', () => {
-                let domElement = { addClass: sinon.spy() };
-                let querySelectorAll = sandbox.stub( document, 'querySelectorAll' );
-                sandbox.stub( angular, 'element' ).returns( domElement );
-
-                controller.activate();
-
-                expect( querySelectorAll.calledWith( 'ion-header-bar' ) ).to.be.true;
-                expect( domElement.addClass.calledWith( 'espm-header-tabs' ) ).to.be.true;
-            });
+            controller = new DashBoardController( $ionicTabsDelegate, transitionService );
         });
     });
 

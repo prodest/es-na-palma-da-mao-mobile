@@ -48,7 +48,6 @@ export class BusInfoController {
      *
      */
     public async activate() {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).addClass( 'espm-header-tabs' );
         this.lineId = this.$stateParams[ 'id' ];
         this.currentTime = new Date().toTimeString().slice( 0, 5 );
 

@@ -3,30 +3,17 @@ import { TransitionService } from '../../shared/index';
 
 export class SecureWarningController {
 
-    public static $inject: string[] = [ 'transitionService', '$scope' ];
+    public static $inject: string[] = [ 'transitionService' ];
 
 
     /**
      * Creates an instance of SignUpController.
      * 
      * @param {TransitionService} transitionService
-     * @param {angular.IScope} $scope
      * 
      * @memberOf SignUpController
      */
-    constructor( private transitionService: TransitionService, private $scope: angular.IScope ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
-    }
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf SignUpController
-     */
-    public activate(): void {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).addClass( 'espm-header-tabs' );
-    }
+    constructor( private transitionService: TransitionService) {}
 
     /**
      * 

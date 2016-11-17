@@ -40,7 +40,6 @@ export class VehiclesController {
      * 
      */
     public activate() {
-        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.vehicleStorage.sync();
     }
 

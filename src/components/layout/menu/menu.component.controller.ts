@@ -20,6 +20,7 @@ export default class MenuController {
         '$mdBottomSheet',
         '$mdMenu',
         '$mdSelect',
+        '$state',
         'authenticationService',
         'authenticationStorageService',
         'toast',
@@ -37,7 +38,8 @@ export default class MenuController {
      * @param {angular.material.IDialogService} $mdDialog
      * @param {angular.material.IBottomSheetService} $mdBottomSheet
      * @param {angular.material.IMenuService} $mdMenu
-     * @param {*} $mdSelect
+     * @param {*} $mdSelect,
+     * @param {angular.ui.IStateService} $state,
      * @param {AuthenticationService} authenticationService
      * @param {AuthenticationStorageService} authenticationStorageService
      * @param {ToastService} toast
@@ -54,6 +56,7 @@ export default class MenuController {
         private $mdBottomSheet: angular.material.IBottomSheetService,
         private $mdMenu: angular.material.IMenuService,
         private $mdSelect: any,
+        private $state: angular.ui.IStateService,
         private authenticationService: AuthenticationService,
         private authenticationStorageService: AuthenticationStorageService,
         private toast: ToastService,
@@ -65,11 +68,26 @@ export default class MenuController {
     private mdSideNaveId = 'left';
 
     /**
+     * 
+     * 
+     * @readonly
+     * @private
+     * 
+     * @memberOf MenuController
+     */
+    private noHeaderShadow = true;
+
+    /**
      * Ativa o controller
      *
      * @returns {void}
      */
     public activate(): void {
+
+        this.$rootScope.$on( '$stateChangeSuccess', ( event, toState, toParams, fromState, fromParams, options ) => {
+            this.noHeaderShadow = [ 'app.dashboard', 'app.busInfo' ].some( state => this.$state.current.name!.startsWith( state ) );
+        });
+
         //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
         //
         //  Register a hardware back button action. Only one action will execute
