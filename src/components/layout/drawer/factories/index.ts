@@ -12,15 +12,15 @@ import { NlFab } from './nl-fab.factory';
 let dependencies = [];
 
 export default angular.module( 'drawer-menu', dependencies )
-    .factory( '$nlFramework', [ '$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlFab', '$nlHelpers', '$nlElements', NlFramework ] )
-    .factory( '$nlElements', NlElements )
-    .factory( '$nlConfig', NlConfig)
-    .factory( '$nlHelpers', NlHelpers )
-    .factory( '$nlBurger', [ '$nlConfig', '$nlHelpers', '$nlElements', NlBurger ] )
-    .factory( '$nlDrawer', [ '$nlConfig', '$nlBurger', '$nlHelpers', '$nlElements', '$nlFab', NlDrawer ] )
-    .factory( '$nlRefresh', [ '$nlConfig', '$nlHelpers', '$nlElements', NlRefresh ] )
-    .factory( '$nlToast', [ '$nlConfig', '$nlHelpers', '$nlElements', NlToast ] )
-    .factory( '$nlMenu', [ '$nlConfig', '$nlHelpers', '$nlElements', NlMenu ] )
-    .factory( '$nlFab', [ '$nlConfig', '$nlHelpers', '$nlElements', NlFab ] );
+    .service( '$nlHelpers', NlHelpers )
+    .service( '$nlElements', NlElements )
+    .service( '$nlConfig', NlConfig )
+    .service( '$nlBurger', NlBurger )
+    .service( '$nlDrawer', NlDrawer )
+    .service( '$nlRefresh', NlRefresh )
+    .service( '$nlToast', NlToast )
+    .service( '$nlMenu', NlMenu )
+    .service( '$nlFab', NlFab  )
+    .service( '$nlFramework', NlFramework );
 
 export * from './nl-framework.factory';

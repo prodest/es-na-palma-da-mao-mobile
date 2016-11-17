@@ -20,7 +20,7 @@ import sepComponent from '../sep/index';
 import calendarComponent from '../calendar/index';
 import secureWarningController from '../layout/secure-warning/index';
 
-import drawer from '../layout/drawer/factories/index'
+import drawer from '../layout/drawer/index';
 
 let dependencies = [
     'ionic',
@@ -47,7 +47,6 @@ let dependencies = [
     sepComponent.name,
     calendarComponent.name,
     secureWarningController.name,
-    
     drawer.name
 ];
 

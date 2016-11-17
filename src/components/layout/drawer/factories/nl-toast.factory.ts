@@ -3,8 +3,12 @@ import { NlConfig } from './nl-config.factory';
 import { NlHelpers } from './nl-helpers.factory';
 
 export class NlToast {
+
+    public static $inject: string[] = [ '$nlConfig', '$nlHelpers', '$nlElements' ];
+
+
     constructor( private nlConfig: NlConfig, private nlHelpers: NlHelpers, private nlElements: NlElements ) {
-        this.init( this.nlConfig );
+        // this.init( this.nlConfig );
     }
 
     public init( config ) {
@@ -12,11 +16,10 @@ export class NlToast {
         this.nlConfig.options = this.nlHelpers.merge( this.nlConfig.options, config );
         // get references to all needed elements on page
         this.nlElements.toast = document.getElementById( 'nlToast' );
-        this.nlElements.toastH = new Hammer( this.nlElements.toast );
+        // this.nlElements.toastH = new Hammer( this.nlElements.toast );
         // listen for pan events on elements
-        this.nlElements.toastH.on( 'panleft panright', function ( ev ) {
-            this.move( ev );
-        });
+        window.ionic.onGesture( 'panleft panright', ( ev ) => this.move( ev ), this.nlElements.toast );
+        
         // register touch end listeners
         this.touchEnd( this.nlElements.toast );
     }

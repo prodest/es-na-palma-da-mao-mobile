@@ -1,7 +1,9 @@
-import framework from './factories/index'
+import framework from './factories/index';
+import DrawerComponent from './drawer.component';
 
-let dependencies = [
-    framework.name
-]
+const dependencies = [ framework.name ];
 
-export default angular.module( 'drawer', dependencies );
+export default angular.module( 'drawer', dependencies )
+                    .directive( 'drawerComponent', DrawerComponent );
+
+export * from './factories/index';

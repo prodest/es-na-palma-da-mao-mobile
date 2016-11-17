@@ -1,9 +1,11 @@
-import Hammer from 'hammerjs';
+import ionic from 'ionic';
 import { NlElements } from './nl-elements.factory';
 import { NlConfig } from './nl-config.factory';
 import { NlHelpers } from './nl-helpers.factory';
 
 export class NlRefresh {
+
+    public static $inject: string[] = [ '$nlConfig', '$nlHelpers', '$nlElements' ];
 
     constructor( private nlConfig: NlConfig, private nlHelpers: NlHelpers, private nlElements: NlElements ) {
         this.init();
@@ -22,8 +24,9 @@ export class NlRefresh {
             + 'C14.788,95.484,1.638,133,1.638,171.52c0,93.976,76.455,170.431,170.431,170.431c93.976,0,170.431-76.455,170.431-170.431'
             + 'C342.5,109.478,308.731,52.283,254.37,22.255z"/></svg></div>' );
 
-        this.nlElements.topbar = document.getElementById( 'nlTopbar' );
-        this.nlElements.topbarH = new Hammer( this.nlElements.topbar );
+        // this.nlElements.topbar = document.getElementById( 'nlTopbar' );
+        this.nlElements.topbar = document.getElementsByClassName( 'material-background-nav-bar' )[0];
+        // this.nlElements.topbarH = new Hammer( this.nlElements.topbar );
         this.nlElements.refEl = document.getElementById( 'nlRefresh' );
         this.nlElements.refIcon = document.getElementById( 'reload-icon' );
         this.nlElements.refIcon.style.transition = 'all ' + ( this.nlConfig.options.speed ) + 's ' + this.nlConfig.options.animation;
@@ -31,12 +34,11 @@ export class NlRefresh {
         this.nlConfig.syncTrue = false;
         this.nlConfig.scroll.top = 0;
         this.nlConfig.center = ( this.nlConfig.deviceW / 2 ) - ( this.nlElements.refEl.offsetWidth / 2 );
-        // move the element on pan
-        this.nlElements.topbarH.on( 'pan', function ( ev ) {
-            this.move( ev );
-        });
+        // move the element on pan]
+        window.ionic.onGesture( 'pan', ( ev ) => this.move( ev ), this.nlElements.topbar );
+
         // register touch end event
-        this.touchEnd( this.nlElements.body );
+        this.touchEnd( document.body );
     }
 
     public move( ev ) {

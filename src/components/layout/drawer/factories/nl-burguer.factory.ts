@@ -1,9 +1,11 @@
-import Hammer from 'hammerjs';
+import ionic from 'ionic';
 import { NlElements } from './nl-elements.factory';
 import { NlConfig } from './nl-config.factory';
 import { NlHelpers } from './nl-helpers.factory';
 
 export class NlBurger {
+
+    public static $inject: string[] = [ '$nlConfig', '$nlHelpers', '$nlElements' ];
 
     constructor( private nlConfig: NlConfig, private nlHelpers: NlHelpers, private nlElements: NlElements ) {
         this.init();
@@ -41,7 +43,7 @@ export class NlBurger {
         }
     }
 
-    public toggle( toggle ) {
+    public toggle( toggle? ) {
         // set transitions length for animation
         this.nlElements.burger.style.transition = 'all ' + this.nlConfig.options.speed + 's ' + this.nlConfig.options.animation;
         this.nlElements.burgerTop.style.transition = 'all ' + this.nlConfig.options.speed + 's ' + this.nlConfig.options.animation;
@@ -55,7 +57,7 @@ export class NlBurger {
             this.setOff();
         }
     }
-    
+
     public toggleEnd() {
         setTimeout( function () {
             this.nlElements.burger.style.transition = 'none';
@@ -69,7 +71,7 @@ export class NlBurger {
             }
         }, this.nlConfig.options.speed * 1000 );
     }
-    
+
     public setOn() {
         this.nlHelpers.translate( this.nlElements.burgerTop, 0, '', this.nlConfig.options.burger.endY, '', 45, '', '', this.nlConfig.options.burger.endScale );
         this.nlHelpers.translate( this.nlElements.burgerBottom, 0, '', this.nlConfig.options.burger.endY, '-', 45, '-', '', this.nlConfig.options.burger.endScale );
@@ -91,20 +93,19 @@ export class NlBurger {
         // reset burger state after the animation is done
         this.toggleEnd();
     }
-    
+
     public init() {
         // burger elements
         let burger = '<div id="nlBurger"><div id="burger-top"></div><div id="burger-center"></div><div id="burger-bottom"></div></div>';
         if ( document.getElementById( 'nlBurger' ) === undefined ) { document.body.insertAdjacentHTML( 'beforeend', burger ); };
         //
         this.nlElements.burger = document.getElementById( 'nlBurger' );
-        this.nlElements.burgerH = new Hammer( this.nlElements.burger );
+        // this.nlElements.burgerH = new Hammer( this.nlElements.burger );
         this.nlElements.burgerTop = document.getElementById( 'burger-top' );
         this.nlElements.burgerBottom = document.getElementById( 'burger-bottom' );
         if ( typeof this.nlConfig.options.drawer !== 'object' ) {
-            this.nlElements.burgerH.on( 'tap', function ( ev ) {
-                this.toggle();
-            });
+            let myGesture = window.ionic.onGesture( 'tap', ( ev ) => this.toggle(), this.nlElements.burger, {});
+            console.log( myGesture );
         }
     }
 }

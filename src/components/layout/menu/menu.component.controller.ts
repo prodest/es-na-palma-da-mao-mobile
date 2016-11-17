@@ -6,6 +6,8 @@ import { ToastService, TransitionService } from '../../shared/index';
 import { Route } from '../../shared/routes/index';
 import { DriverLicenseStorage } from '../../detran/shared/index';
 
+import { NlFramework } from '../drawer/index';
+
 /**
  * Controller raiz da aplicação
  */
@@ -13,7 +15,7 @@ export default class MenuController {
 
     public static $inject: string[] = [
         '$rootScope',
-        '$mdSidenav',
+        // '$mdSidenav',
         '$ionicHistory',
         '$ionicPlatform',
         '$mdDialog',
@@ -24,7 +26,8 @@ export default class MenuController {
         'authenticationStorageService',
         'toast',
         'detranStorage',
-        'transitionService'
+        'transitionService',
+        '$nlFramework'
     ];
 
     /**
@@ -47,7 +50,7 @@ export default class MenuController {
      * @memberOf MenuController
      */
     constructor( private $rootScope: IRootScopeService,
-        private $mdSidenav: angular.material.ISidenavService,
+        // private $mdSidenav: angular.material.ISidenavService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
         private $ionicPlatform: ionic.platform.IonicPlatformService,
         private $mdDialog: angular.material.IDialogService,
@@ -58,11 +61,12 @@ export default class MenuController {
         private authenticationStorageService: AuthenticationStorageService,
         private toast: ToastService,
         private driverLicenseStorage: DriverLicenseStorage,
-        private transitionService: TransitionService ) {
+        private transitionService: TransitionService/*,
+        private $nlFramework: NlFramework*/ ) {
         this.activate();
     }
 
-    private mdSideNaveId = 'left';
+    // private mdSideNaveId = 'left';
 
     /**
      * Ativa o controller
@@ -70,6 +74,8 @@ export default class MenuController {
      * @returns {void}
      */
     public activate(): void {
+        // this.$nlFramework.init( {} );
+
         //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
         //
         //  Register a hardware back button action. Only one action will execute
@@ -102,16 +108,16 @@ export default class MenuController {
                 ionic.Platform.exitApp();
             }
 
-            const sidenavIsOpen = this.$mdSidenav( this.mdSideNaveId ).isOpen();
+            // const sidenavIsOpen = this.$mdSidenav( this.mdSideNaveId ).isOpen();
             const bottomSheetIsOpen = angular.element( document.querySelectorAll( 'md-bottom-sheet' ) ).length > 0;
             const dialogIsOpen = angular.element( document.querySelectorAll( '[id^=dialog]' ) ).length > 0;
             const menuContentIsOpen = angular.element( document.querySelectorAll( 'md-template-content' ) ).length > 0;
             const selectMenuIsOpen = angular.element( document.querySelectorAll( 'div._md-select-menu-container._md-active' ) ).length > 0;
             const previousStateIsEmpty = !this.$ionicHistory.backView();
 
-            if ( sidenavIsOpen ) {
+            /*if ( sidenavIsOpen ) {
                 this.$mdSidenav( this.mdSideNaveId ).close();
-            } else if ( bottomSheetIsOpen ) {
+            } else*/ if ( bottomSheetIsOpen ) {
                 this.$mdBottomSheet.cancel();
             } else if ( dialogIsOpen ) {
                 this.$mdDialog.cancel();
@@ -187,20 +193,20 @@ export default class MenuController {
      *
      *  @returns {void}
      */
-    public closeSideNav(): void {
+    /*public closeSideNav(): void {
         if ( this.$mdSidenav( this.mdSideNaveId ).isOpen() ) {
             this.$mdSidenav( this.mdSideNaveId ).close();
         }
-    }
+    }*/
 
     /**
      * Alterna exibição do sidebar
      *
      * @returns {void}
      */
-    public toggleLeft(): void {
+    /*public toggleLeft(): void {
         this.$mdSidenav( this.mdSideNaveId ).toggle();
-    }
+    }*/
 
     /**
      * Navega para o state especificado
@@ -210,7 +216,7 @@ export default class MenuController {
      * @returns {void}
      */
     public navigateTo( route: Route ): void {
-        this.closeSideNav();
+        // this.closeSideNav();
 
         let stateName = route.name;
         if ( route.menuName === 'Situação CNH' ) {
@@ -228,7 +234,7 @@ export default class MenuController {
      * Desloga usuário do sistema
      */
     public signOut(): void {
-        this.closeSideNav();
+        // this.closeSideNav();
         this.authenticationService.signOut(() => this.navigateToHome() );
     }
 
@@ -237,7 +243,7 @@ export default class MenuController {
      * @memberOf MenuController
      */
     public navigateToHome() {
-        this.closeSideNav();
+        // this.closeSideNav();
         this.transitionService.changeRootState( 'home' );
     }
 }

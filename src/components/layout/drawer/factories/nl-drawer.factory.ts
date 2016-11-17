@@ -1,4 +1,4 @@
-import Hammer from 'hammerjs';
+import ionic from 'ionic';
 import { NlElements } from './nl-elements.factory';
 import { NlBurger } from './nl-burguer.factory';
 import { NlHelpers } from './nl-helpers.factory';
@@ -6,6 +6,8 @@ import { NlConfig } from './nl-config.factory';
 import { NlFab } from './nl-fab.factory';
 
 export class NlDrawer {
+
+    public static $inject: string[] = [ '$nlElements', '$nlBurger', '$nlHelpers', '$nlConfig', '$nlFab' ];
 
     constructor( private nlElements: NlElements, private nlBurger: NlBurger, private nlHelpers: NlHelpers, private nlConfig: NlConfig, private nlFab: NlFab ) {
         this.init( this.nlConfig );
@@ -15,43 +17,38 @@ export class NlDrawer {
         if ( config.openCb ) { this.on.show = config.openCb; };
         if ( config.closeCb ) { this.on.hide = config.closeCb; };
         // get options passed from initialization and merge them with default ones
-        this.nlConfig.options = this.nlHelpers.merge( this.nlConfig.options, config );
+        this.nlConfig = this.nlHelpers.merge( this.nlConfig, config );
         // get references to all needed elements on page
         this.nlElements.swipe = document.getElementById( 'nlSwipe' );
-        this.nlElements.swipeH = new Hammer( this.nlElements.swipe );
+        // this.nlElements.swipeH = new Hammer( this.nlElements.swipe );
         this.nlElements.drawer = document.getElementById( 'nlDrawer' );
-        this.nlElements.drawerH = new Hammer( this.nlElements.drawer );
+        // this.nlElements.drawerH = new Hammer( this.nlElements.drawer );
         this.nlElements.drawerDimm = document.getElementById( 'nlDimm' );
-        this.nlElements.drawerDimmH = new Hammer( this.nlElements.drawerDimm );
+        // this.nlElements.drawerDimmH = new Hammer( this.nlElements.drawerDimm );
         // get device width and height for proper scaling of drawer
         this.nlConfig.deviceW = Math.max( document.documentElement.clientWidth, window.innerWidth || 0 );
         this.nlConfig.deviceH = Math.max( document.documentElement.clientHeight, window.innerHeight || 0 );
         // set initial styles (position and size)
-        this.nlConfig.maxWidth = this.nlConfig.options.drawer.maxWidth > this.nlConfig.deviceW - 56 ? this.nlConfig.deviceW - 56 : this.nlConfig.options.drawer.maxWidth;
+        this.nlConfig.maxWidth = config.options.drawer.maxWidth > this.nlConfig.deviceW - 56 ? this.nlConfig.deviceW - 56 : this.nlConfig.options.drawer.maxWidth;
         this.nlHelpers.translate( this.nlElements.drawer, this.nlConfig.maxWidth, '-', 0, '', 0, '', this.nlConfig.maxWidth );
         // listen for pan and tap events on elements
-        this.nlElements.drawerH.on( 'panleft panright', function ( ev ) {
-            if ( this.openned ) { this.move( ev, true ); };
-        });
-        this.nlElements.drawerDimmH.on( 'panleft panright', function ( ev ) {
-            if ( this.openned ) { this.move( ev ); };
-        });
-        this.nlElements.swipeH.on( 'panleft panright', function ( ev ) {
-            this.move( ev );
-        });
-        this.nlElements.drawerH.on( 'tap', function ( ev ) {
-            this.hide();
-        });
-        this.nlElements.drawerDimmH.on( 'tap', function ( ev ) {
-            this.hide();
-        });
+        window.ionic.onGesture( 'panleft panright', ( ev ) => { if ( this.openned ) { this.move( ev, true ); } }, this.nlElements.drawer );
+
+        window.ionic.onGesture( 'panleft panright', ( ev ) => { if ( this.openned ) { this.move( ev ); } }, this.nlElements.drawerDimm );
+
+        window.ionic.onGesture( 'panleft panright', ( ev ) => this.move( ev ), this.nlElements.swipe );
+
+        window.ionic.onGesture( 'tap', ( ev ) => this.hide(), this.nlElements.drawer );
+
+        window.ionic.onGesture( 'tap', this.hide(), this.nlElements.drawerDimm );
+
         if ( this.nlConfig.options.burger ) {
             if ( this.nlConfig.options.burger.use ) {
-                this.nlElements.burgerH.on( 'tap', function ( ev ) {
+                window.ionic.onGesture( 'tap', ( ev ) => {
                     if ( !this.nlElements.burger.hasAttribute( 'ng-click' ) ) {
                         this.toggle();
                     }
-                });
+                }, this.nlElements.burger );
             }
         }
         // register touch end listeners
@@ -80,7 +77,7 @@ export class NlDrawer {
         if ( this.nlConfig.options.burger && this.nlConfig.options.burger.use ) {
             this.nlBurger.toggle( true );
         };
-        setTimeout( function () {
+        setTimeout( () => {
             this.on.show();
         }, this.nlConfig.options.speed * 1000 );
     }
@@ -100,7 +97,7 @@ export class NlDrawer {
         // set open state
         this.nlFab.toggle( true );
         this.openned = false;
-        setTimeout( function () {
+        setTimeout( () => {
             this.on.hide();
         }, this.nlConfig.options.speed * 1000 );
     }
@@ -114,7 +111,7 @@ export class NlDrawer {
         }
     }
 
-    public move( ev, hold ) {
+    public move( ev, hold?) {
         // check for direction
         this.nlConfig.options.direction = ev.type === 'panleft' ? 'left' : 'right';
         // figure out position, depending on wheter we are holding drawer itself somwhere in the middle

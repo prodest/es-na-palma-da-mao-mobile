@@ -1,4 +1,3 @@
-import Hammer from 'hammerjs';
 import { NlElements } from './nl-elements.factory';
 import { NlBurger } from './nl-burguer.factory';
 import { NlHelpers } from './nl-helpers.factory';
@@ -10,6 +9,9 @@ import { NlToast } from './nl-toast.factory';
 import { NlMenu } from './nl-menu.factory';
 
 export class NlFramework {
+
+    public static $inject: string[] = [ '$nlConfig', '$nlDrawer', '$nlBurger', '$nlRefresh', '$nlToast', '$nlMenu', '$nlFab', '$nlHelpers', '$nlElements' ];
+
     constructor( public config: NlConfig,
         public drawer: NlDrawer,
         public burger: NlBurger,
@@ -29,7 +31,7 @@ export class NlFramework {
         this.config.deviceH = Math.max( document.documentElement.clientHeight, window.innerHeight || 0 );
         // get body reference
         this.nlElements.body = document.body;
-        this.nlElements.bodyH = new Hammer( this.nlElements.body );
+        // this.nlElements.bodyH = new Hammer( this.nlElements.body );
         // add burger menu icon
         if ( config.burger && config.burger.use ) {
             this.burger.init();
@@ -37,7 +39,7 @@ export class NlFramework {
         // add dimmer
         document.body.insertAdjacentHTML( 'beforeend', '<div id="nlDimm"></div>' );
         this.nlElements.drawerDimm = document.getElementById( 'nlDimm' );
-        this.nlElements.drawerDimmH = new Hammer( this.nlElements.drawerDimm );
+        // this.nlElements.drawerDimmH = new Hammer( this.nlElements.drawerDimm );
         // add toast refresh
         if ( config.refresh ) {
             this.refresh.init();
@@ -64,7 +66,7 @@ export class NlFramework {
         // modify view-content?
         if ( config.content && config.content.modify ) {
             this.nlElements.viewContent = document.getElementById( 'nlContent' );
-            this.nlElements.viewContentH = new Hammer( this.nlElements.viewContent );
+            // this.nlElements.viewContentH = new Hammer( this.nlElements.viewContent );
             this.nlElements.viewContent.style[ 'margin-top' ] = this.config.options.content.topBarHeight + 'px';
             this.nlElements.viewContent.style[ 'min-height' ] = this.config.deviceH - this.config.options.content.topBarHeight + 'px';
             this.nlElements.viewContent.style.width = this.config.deviceW + 'px';

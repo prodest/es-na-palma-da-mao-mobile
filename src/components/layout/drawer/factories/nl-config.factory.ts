@@ -1,8 +1,10 @@
-import { NlRefresh } from './nl-refresh.factory';
+// import { NlRefresh } from './nl-refresh.factory';
 
 export class NlConfig {
 
-    constructor( nlRefresh: NlRefresh ){
+    // public static $inject: string[] = [ '$nlRefresh' ];
+
+    constructor( /*nlRefresh: NlRefresh*/ ) {
     }
 
     public openned = false;
@@ -10,7 +12,7 @@ export class NlConfig {
     public holdPos = undefined;
     public reverse = false;
     public scroll = {};
-    public nlRefresh = {};
+    // public nlRefresh = {};
     public options = {
         // global settings
         speed: 0.2,
@@ -50,8 +52,8 @@ export class NlConfig {
             callback: function () {
                 // after doing some stuff end syncing animation
                 console.info( '%c[≡]%c $nlRefresh: callback', 'color: #333;', 'color: #558844;' );
-                this.nlRefresh.syncEnd();
+                // this.nlRefresh.syncEnd();
             }
         }
-    }
+    };
 }

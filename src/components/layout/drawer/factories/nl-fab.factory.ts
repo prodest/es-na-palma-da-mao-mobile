@@ -1,28 +1,32 @@
-import Hammer from 'hammerjs';
+import ionic from 'ionic';
 import { NlElements } from './nl-elements.factory';
 import { NlConfig } from './nl-config.factory';
 
 export class NlFab {
 
+    public static $inject: string[] = [ '$nlConfig', '$nlElements' ];
+
+
     constructor( private nlConfig: NlConfig, private nlElements: NlElements ) {
-        this.init();
+        // this.init();
     }
 
     public openned: boolean = false;
 
     public init() {
         this.nlElements.actionPanel = document.getElementById( 'nlActionButton' );
-        this.nlElements.actionPanelH = new Hammer( this.nlElements.actionPanel );
+        // this.nlElements.actionPanelH = new Hammer( this.nlElements.actionPanel );
         this.nlElements.actionPlus = document.getElementById( 'nlPlus' );
-        this.nlElements.actionPlusH = new Hammer( this.nlElements.actionPlus );
-        this.nlElements.actionPanelH.on( 'tap', function ( ev ) {
+        // this.nlElements.actionPlusH = new Hammer( this.nlElements.actionPlus );
+
+        let myGesture = window.ionic.onGesture( 'tap', ( ev ) => {
             if ( !this.nlElements.actionPlus.hasAttribute( 'ng-click' ) ) {
                 this.toggle();
             }
-        });
+        }, this.nlElements.actionPanel, {});
     }
 
-    public toggle( hide ) {
+    public toggle( hide?) {
         // action button
         // used only if enabled in setting when initializing
         if ( this.nlConfig.options.actionButton ) {
