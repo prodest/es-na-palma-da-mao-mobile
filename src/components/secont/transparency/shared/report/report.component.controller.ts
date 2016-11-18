@@ -31,7 +31,7 @@ export class ReportController {
     public $onChanges( changes ): void {
 
         if ( changes.summary ) {
-            const summary = <Summary>changes.summary.currentValue;
+            const summary = angular.copy( <Summary>changes.summary.currentValue );
             if ( summary ) {
                 this.items = summary.items.filter( i => i.list );
                 this.total = summary.total;
@@ -41,7 +41,7 @@ export class ReportController {
             }
         }
         if ( changes.title ) {
-            this.title = changes.title.currentValue;
+            this.title = angular.copy( changes.title.currentValue );
         }
     }
 

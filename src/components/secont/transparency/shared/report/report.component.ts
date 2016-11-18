@@ -9,8 +9,8 @@ export default {
     bindings: {
         summary: '<',
         title: '<',
-        showChart: '=',
-        showInfo: '=',
+        showChart: '<',
+        showInfo: '<',
         onItemClick: '&'
     }
 };
