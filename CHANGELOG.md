@@ -1,3 +1,30 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v1.2.4...v2.0.0) (2016-11-18)
+
+
+### Bug Fixes
+
+* **calendar:** Alinha número no botão que seleciona dia corrente ([14acaae](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/14acaae))
+* **calendar:** Remove evento swipe-left do ion-content ([a6ad345](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/a6ad345))
+* **geral:** Ajusta referencia à dll.vendors.js ([0713124](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/0713124))
+* **geral:** Corrige erros de tipo ([a019a3a](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/a019a3a))
+* **push:** Corrige transição a partir do push notification ([1bf5363](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/1bf5363))
+
+
+### Features
+
+* **geral:** Atualiza typescript para v2.1RC ([faa9f92](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/faa9f92))
+* **geral:** Habilita acesso anônimo ([3decbb4](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/3decbb4))
+* **geral:** remove aria-warning do angular material ([8ead780](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/8ead780))
+* **geral:** Substitui npm por yarn ([e292185](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e292185))
+* **geral:** Substitui systemjs e jspm por webpack 2 ([f0f77fe](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/f0f77fe))
+* **layout:** Adiciona componente "date-range-filter" ([fc3964e](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fc3964e))
+* **layout:** Adiciona componente "modal" ([6d019be](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6d019be))
+* **menu:** Remove cabeçalho fixo ([716303d](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/716303d))
+* **transparency:** Adiciona telas de receitas e despesas ([6032b75](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6032b75))
+
+
+
 <a name="1.2.4"></a>
 ## [1.2.4](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v1.2.2...v1.2.4) (2016-10-21)
 
