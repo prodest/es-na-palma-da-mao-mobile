@@ -30,7 +30,7 @@
     "build:dev": "yarn build:vendor && yarn build:dev:app",
     "build:prod:app": "webpack --config config/webpack.config.prod.js --progress --profile",
     "prebuild:prod": "yarn clean:build",
-    "build:prod": "yarn build:vendor && yarn build:prod:app",
+    "build:prod": "yarn build:vendor && yarn build:prod:app && gulp tree-shaking",
     "build": "yarn build:prod",
     "preserver:restart": "opn http://localhost:3000/",
     "server:restart": "webpack-dev-server --config config/webpack.config.dev.js --progress --profile --watch --content-base www/",
