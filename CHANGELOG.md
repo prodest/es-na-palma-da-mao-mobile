@@ -1,5 +1,5 @@
-<a name="1.2.3"></a>
-## [1.2.3](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v1.2.2...v1.2.3) (2016-11-01)
+<a name="1.2.4"></a>
+## [1.2.4](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v1.2.2...v1.2.4) (2016-10-21)
 
 
 ### Bug Fixes
@@ -13,6 +13,7 @@
 
 ### Features
 
+* **bump:** Atualiza versão para 1.2.4 ([ba5730b](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/ba5730b))
 * **cbmes:** Adiciona ícone às mensagem de alertas não encontrados ([895264a](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/895264a))
 * **ceturb:** Adiciona btn de limpar filtro na consulta de linhas ([70af599](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/70af599))
 * **detran:** Adiciona ícone à mensagem de "Multas não encontradas" ([42c7d96](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/42c7d96))
@@ -20,8 +21,6 @@
 * **detran:** Adiciona validação no cadastro de CNH ([be05139](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/be05139))
 * **detran:** Ajusta visualização para tablets ([7178fd0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/7178fd0))
 * **geral:** Adiciona informações dos plugins e xwalk no config.xml ([6398064](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6398064))
-* **geral:** Substitui npm por yarn ([b3ace6a](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b3ace6a))
-* **geral:** Substitui systemjs e jspm por webpack 2 ([5723670](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/5723670))
 * **gulp:** Adicoina comando create-apk ([c26c37c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c26c37c))
 * **layout/menu:** Usa scroll nativo no menu ([847f602](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/847f602))
 * **layout/message:** Adiciona ícones ao componente de mensagem ([95db831](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/95db831))
