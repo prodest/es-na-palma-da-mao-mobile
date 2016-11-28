@@ -122,6 +122,18 @@
     "menuName": "Orçamentos",
     "icon": "fa fa-bar-chart"
   },
+   {
+    "name": "app.secontTransparencyBudgetDeviation",
+    "url": "budgets/deviation",
+    "type": "load",
+    "src": "app/secont/transparency/budget-deviation/index",
+    "editable": false,
+    "menu": false,
+    "group": "Transparência",
+    "groupMenu": true,
+    "menuName": "Orçado x Executado",
+    "icon": "fa fa-bar-chart"
+  },
   {
     "name": "app.secontTransparencyxpenseDetail",
     "url": "expense/:id/:label/:from/:to",

@@ -1,0 +1,47 @@
+<ion-view>
+	<ion-nav-title>
+		Orçado x Executado <span class="fs-15" ng-if="vm.filter.year">({{vm.filter.year}})</span>
+	</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<back-button></back-button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<md-button class="md-icon-button" ng-if="vm.budgetDeviation.items.length" ng-click="vm.showChart = !vm.showChart">
+			<md-icon md-font-icon="fa fa-pie-chart">
+			</md-icon>
+		</md-button>
+		<md-button class="md-icon-button" ng-click="vm.showFilter=true">
+			<md-icon md-font-icon="ion-android-funnel">
+			</md-icon>
+		</md-button>
+	</ion-nav-buttons>
+	<spinner ng-if="uiState.loading"></spinner>
+	<ion-content>
+		<div ng-if="vm.budgetDeviation" class="budget-deviation-report">
+			<!-- componenu subheader-->
+			<report-title title="vm.filter.description()" info="vm.budgetDeviation.info"></report-title>
+
+			<!--chart component-->
+			<horizontal-bar-chart data="vm.chart" ng-if="vm.showChart"></horizontal-bar-chart>
+
+			<!--report list component-->
+			<report-list ng-if="vm.budgetDeviation.items.length" sort="vm.sort">
+				<report-list-summary on-sort-click="vm.sort = $locals.sort">
+					<div id="summary-expected">Orçado: <span class="accent">{{vm.budgetDeviation.expected | currency}}</span></div>
+					<div id="summary-executed">Executado: <span class="accent">{{vm.budgetDeviation.executed | currency}}</span></div>
+				</report-list-summary>
+				<report-list-item ng-repeat="item in vm.budgetDeviation.items track by $index">
+					<budget-deviation-item item="item"></budget-deviation-item>
+				</report-list-item>
+			</report-list>
+
+			<!--last-update component-->
+			<last-update date="vm.budgetDeviation.lastUpdate"></last-update>
+		</div>
+
+		<modal show="vm.showFilter" title="Orçado x Executado">
+			<year-filter on-change="vm.doFilter(filter)"></year-filter>
+		</modal>
+		<error-message error="uiState.error"></error-message>
+	</ion-content>
+</ion-view>

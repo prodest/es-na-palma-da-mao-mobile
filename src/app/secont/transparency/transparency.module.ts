@@ -6,6 +6,10 @@ import { BudgetsComponent } from './budgets/budgets.component';
 import { RevenueDetailComponent } from './revenue-detail/revenue-detail.component';
 import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
 
+// budget-deviation
+import { BudgetDeviationComponent } from './budget-deviation/budget-deviation.component';
+import { BudgetDeviationItemComponent } from './budget-deviation/budget-deviation-item/budget-deviation-item.component';
+
 // main
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AboutComponent } from './about/about.component';
@@ -35,6 +39,7 @@ export default angular.module( 'secont.transparency.module', [] )
     .component( 'reportList', ReportListComponent )
     .component( 'reportListItem', ReportListItemComponent )
     .component( 'moneyFlowReport', MoneyFlowReportComponent )
+    .component( 'budgetDeviationItem', BudgetDeviationItemComponent )
 
     // routed components
     .directive( 'transparencyDashboard', DashboardComponent )
@@ -45,6 +50,7 @@ export default angular.module( 'secont.transparency.module', [] )
     .directive( 'expensesByArea', ExpensesByAreaComponent )
     .directive( 'expenseDetail', ExpenseDetailComponent )
     .directive( 'budgets', BudgetsComponent )
+    .directive( 'budgetDeviation', BudgetDeviationComponent )
 
     // routes 
     .config( [
@@ -112,6 +118,16 @@ export default angular.module( 'secont.transparency.module', [] )
                     url: 'secont/transparency/budgets', views: {
                         content: {
                             template: '<budgets></budgets>'
+                        }
+                    }
+                })
+
+                // budget deviation
+                .state( 'app.secontTransparencyBudgetDeviation', {
+                    url: 'transparency/budgets/deviation',
+                    views: {
+                        content: {
+                            template: '<budget-deviation></budget-deviation>'
                         }
                     }
                 });
