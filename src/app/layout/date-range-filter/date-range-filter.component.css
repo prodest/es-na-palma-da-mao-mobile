@@ -1,0 +1,23 @@
+.date-range-filter {
+    background: #f5f5f5;
+}
+
+.date-range-filter .date-range-filter-label {
+   margin-right: 10px;
+}
+.date-range-filter .date-range-filter-date {
+   margin: 0;
+}
+.date-range-filter .date-range-filter-caret {
+   position: absolute;
+   right: 0;
+}
+
+.date-range-filter .date-range-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+}
+
+

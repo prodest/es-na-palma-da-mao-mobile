@@ -4,7 +4,7 @@ const helpers = require( './helpers' );
 
 const PATHS = {
     src: helpers.root( 'src' ),
-    entry: helpers.root( 'src/components/main' ),
+    entry: helpers.root( 'src/app/main' ),
     build: helpers.root( 'www' )
 };
 

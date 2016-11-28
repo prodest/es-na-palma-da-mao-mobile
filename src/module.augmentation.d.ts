@@ -1,7 +1,7 @@
 /* tslint:disable */
 
 import * as angular from 'angular';
-import { TransitionService } from './components/shared/index';
+import { TransitionService } from './app/shared/shared.module';
 
 declare module 'angular' {
     /**
@@ -94,14 +94,6 @@ declare module 'angular' {
         $ionicGoBack: any;
         $transitionService: TransitionService;
     }
-
-    namespace storage {
-
-        interface IStorageProvider {
-            anonymousLogin: boolean;
-        }
-
-    }
 }
 
 declare global {
@@ -122,7 +114,17 @@ declare global {
     interface Window {
         plugins: any;
     }
+
+    interface Chart {
+        plugins: any;
+        helpers: any;
+    }
+
+    const Chart: Chart;
 }
+
+
+
 
 
 declare module '*';

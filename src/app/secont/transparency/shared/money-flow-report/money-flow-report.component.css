@@ -1,0 +1,33 @@
+.expenses .r-item .r-item-percentage,
+.expenses .r-item .r-item-value
+{
+    color: #b14139;
+}
+.revenues .r-item .r-item-percentage,
+.revenues .r-item .r-item-value
+ {
+    color: #73905a;
+}
+/* Sem labels */
+.r-item .r-item-percentage,
+.r-item .r-item-value {
+    color: #c86673;
+    margin: 0;
+}
+
+.r-item .r-item-label {
+    font-size: 1.1em;
+    white-space: normal;
+    margin: 0;
+    color: #333;
+}
+.r-item .r-item-percentage {
+    font-weight: bold;
+    font-size: 2em;
+    margin-left: 8px;
+    flex: 0;
+}
+
+.money-flow-report .rls-content {
+    font-size: 1.6em;
+}

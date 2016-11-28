@@ -1,0 +1,11 @@
+
+.r-item {
+    padding: 0 16px;
+    height: auto;
+    min-height: 72px;
+}
+.r-item > * {
+    flex: 1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

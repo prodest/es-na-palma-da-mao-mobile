@@ -1,0 +1,29 @@
+<md-dialog aria-label="List dialog" id="sources-filter-modal">
+	<md-dialog-content class="md-padding">
+		<div class="cb-dialog-content-label">Órgãos</div>
+		<div class="cb-dialog-content-item select-all">
+			<md-checkbox aria-label="Selecionar todos"
+						 md-indeterminate="vm.isIndeterminate()"
+						 ng-checked="vm.isAllChecked()"
+						 ng-click="vm.toggleAllChecked()">
+				<span ng-if="vm.isAllChecked()">Desmarcar</span>
+				<span ng-if="!vm.isAllChecked()">Marcar</span> todos
+			</md-checkbox>
+		</div>
+		<div class="cb-dialog-content">
+
+			<div ng-repeat="origin in vm.availableOrigins track by origin"
+				 class="cb-dialog-content-item">
+				<md-checkbox ng-checked="vm.isSelected(origin)"
+							 ng-click="vm.toggleChecked(origin)"
+							 aria-label="Selecionar">
+					{{ ::origin }}
+				</md-checkbox>
+			</div>
+		</div>
+	</md-dialog-content>
+	<md-dialog-actions>
+		<md-button ng-click="vm.cancel()" class="md-primary">Cancelar</md-button>
+		<md-button ng-click="vm.ok(vm.selectedOrigins)" class="md-primary">Consultar</md-button>
+	</md-dialog-actions>
+</md-dialog>

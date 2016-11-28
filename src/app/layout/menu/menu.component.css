@@ -1,0 +1,48 @@
+#main-side-bar md-list h2 {
+	background-color: transparent !important;
+}
+
+#main-side-bar md-list h2 div.md-subheader-inner {
+	background-color: transparent !important;
+}
+
+#main-side-bar md-list md-list-item.menu-list-item {
+	width: 100%;
+}
+
+#main-side-bar span.not-authenticated {
+	color: #a0a0a0
+}
+
+#main-side-bar md-list md-list-item.menu-list-item i {
+	margin-right: 30px;
+	margin-left: 22px;
+	font-size: 19px;
+	color: #808080;
+	width: 20px;
+}
+
+#main-side-bar md-list md-list-item.menu-list-item span {
+	font-size: 15px;
+}
+
+#main-side-bar .menu-list .menu-item {
+	padding: 14px;
+}
+
+#main-side-bar .menu-list .menu-item .col-25 {
+	text-align: center;
+	font-size: 22px;
+	color: #808080;
+}
+
+#main-side-bar .menu-list .menu-item .col-75 {
+	font-size: 15px;
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+
+#main-side-bar .md-list-item-inner > span {
+	width: 100%;
+}

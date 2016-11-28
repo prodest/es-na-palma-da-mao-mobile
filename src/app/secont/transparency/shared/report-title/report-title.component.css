@@ -1,0 +1,31 @@
+
+.rt .md-subheader-inner {
+    padding: 8px;
+}
+.rt .md-subheader-inner .md-subheader-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 8px;
+    min-height: 40px;
+}
+
+.rt.md-subheader + .md-subheader {
+    border-top: 1px solid #e1e1e1;
+}
+.rt-btn{
+    margin: 0;
+    margin-left: auto;
+}
+
+.rt-btn.rt-btn-info {
+    font-size: 20px;
+}
+
+.rt .rt-btn md-icon{
+    color: #999;
+}
+
+.rt + .rt-info .md-subheader-content {
+    font-weight: normal !important;
+}

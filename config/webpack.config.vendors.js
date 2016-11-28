@@ -15,7 +15,7 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 module.exports = options => {
     return merge( commonConfig( {} ), {
         entry: {
-            vendors: [ helpers.root( 'src/components/app/vendors.ts' ) ]
+            vendors: [ helpers.root( 'src/app/vendors.ts' ) ]
         },
         output: {
             path: helpers.root( 'www' ),

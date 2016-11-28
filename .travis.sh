@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd src/components/shared/settings
+cd src/app/shared/settings
 
 wget https://gist.github.com/vizeke/$SETTINGS_ID
 

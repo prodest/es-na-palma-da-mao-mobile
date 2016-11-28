@@ -1,7 +1,9 @@
 // tslint:disable-next-line
 /// <reference path="./module.augmentation.d.ts" /> 
 /// <reference path="./module.declaration.d.ts" /> 
-import app from './components/app/index';
+
+
+import appModule from './app/app.module';
 
 /*
  * As we are using ES6 with Angular 1.x we can't use ng-app directive
@@ -9,7 +11,7 @@ import app from './components/app/index';
  * Instead, we need to bootstrap the application manually
  */
 angular.element( document ).ready( function () {
-    angular.bootstrap( document, [ app.name ], {
+    angular.bootstrap( document, [ appModule ], {
         strictDi: true
     });
 });

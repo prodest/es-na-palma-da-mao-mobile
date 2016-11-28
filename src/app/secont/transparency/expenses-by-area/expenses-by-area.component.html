@@ -1,0 +1,29 @@
+<ion-view>
+	<ion-nav-title>
+		Despesas(Áreas)
+	</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<back-button></back-button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<md-button class="md-icon-button" ng-if="vm.moneyFlow.items.length" ng-click="vm.showChart = !vm.showChart">
+			<md-icon md-font-icon="fa fa-pie-chart"></md-icon>
+		</md-button>
+		<md-button class="md-icon-button" ng-click="vm.showFilter=true">
+			<md-icon md-font-icon="ion-android-funnel"></md-icon>
+		</md-button>
+	</ion-nav-buttons>
+	<spinner ng-if="uiState.loading"></spinner>
+	<ion-content class="expenses">
+		<money-flow-report money-flow="vm.moneyFlow" 
+				on-item-click="vm.openDetails('app.secontTransparencyExpenseDetail', item)"
+				title="vm.filter.description()" 
+				show-chart="vm.showChart" 
+				show-info="vm.showInfo"></money-flow-report>
+
+		<modal show="vm.showFilter" title="Despesas(Áreas)">
+			<date-range-filter on-change="vm.doFilter(filter)"></date-range-filter>
+		</modal>
+		<error-message error="uiState.error"></error-message>
+	</ion-content>
+</ion-view>

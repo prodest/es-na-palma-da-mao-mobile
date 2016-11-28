@@ -1,0 +1,11 @@
+.year-filter {
+    background: #f5f5f5;
+}
+.year-filter .year-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+}
+
+
