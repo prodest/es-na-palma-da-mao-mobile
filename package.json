@@ -31,7 +31,7 @@
     "build:prod:app": "webpack --config config/webpack.config.prod.js --progress --profile",
     "prebuild:prod": "yarn clean:build",
     "build:prod": "yarn build:vendor && yarn build:prod:app && gulp tree-shaking",
-    "build": "yarn build:prod", 
+    "build": "yarn build:prod",
     "preserver:restart": "opn http://localhost:3000/",
     "server:restart": "webpack-dev-server --config config/webpack.config.dev.js --progress --profile --watch --content-base www/",
     "preserver:start": "yarn clean:build",
@@ -42,7 +42,9 @@
     "server:hmr:start": "yarn build:vendor && yarn server:hmr:restart",
     "show:build": "serveur -L -cbJS -o www -p 3000",
     "show:coverage": "serveur -L -cbJS -o coverage/html -p 8080",
-    "github:release": "sh ./release.sh"
+    "github:release": "sh ./release.sh",
+    "component": "gulp generate --template component",
+    "state": "gulp generate --template state"
   },
   "config": {
     "ghooks": {
@@ -138,7 +140,9 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-help": "^1.6.1",
+    "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.5.2",
+    "gulp-template": "^4.0.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.24.1",
     "htmlhint": "^0.9.13",

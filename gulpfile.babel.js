@@ -13,6 +13,9 @@ import innerGulp from 'gulp';
 import gulpHelp from 'gulp-help';
 import yargs from 'yargs';
 import shell from 'gulp-shell';
+import path from 'path';
+import rename from 'gulp-rename';
+import template from 'gulp-template';
 
 const gulp = gulpHelp( innerGulp );
 
@@ -28,5 +31,39 @@ gulp.task( 'tree-shaking', false, shell.task( [ 'find ./www -regex ".*\\.ttf$" -
 gulp.task( 'create-apk', true, shell.task( [
     'cordova build android --release -- --keystore=espm.keystore --storePassword=' + argv.password + ' --alias=espm --password=' + argv.password
 ] ) );
+
+
+const resolveToComponents = ( glob = '' ) => {
+    return path.join( __dirname, 'src/app/', glob ); // app/{glob}
+};
+
+
+// map of all templates
+let templates = {
+    component: path.join( __dirname, 'generator', 'component/**/*.**' ),
+    state: path.join( __dirname, 'generator', 'state/**/*.**' )
+};
+
+gulp.task( 'generate', () => {
+    const cap = ( val ) => {
+        return val.charAt( 0 ).toUpperCase() + val.slice( 1 );
+    };
+    const templateName = yargs.argv.template || 'component';
+    const name = yargs.argv.name;
+    const parentPath = yargs.argv.parent || '';
+    const destPath = path.join( resolveToComponents(), parentPath, name );
+
+    return gulp.src( templates[ templateName ] )
+        .pipe( template( {
+            name: name,
+            upCaseName: cap( name )
+        } ) )
+        .pipe( rename( ( path ) => {
+            path.basename = path.basename.replace( 'temp', name );
+        } ) )
+        .pipe( gulp.dest( destPath ) );
+} );
+
+
 
 

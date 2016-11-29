@@ -23,6 +23,7 @@
     - [Ionic (1.x.x)](#ionic)
     - [webpack](#webpack)
     - [Gulp](#gulp)
+- [Gerando componentes](#gerando-componentes)
 
 ## Tecnologias utilizadas
 Essas são as principais ferramentas, *frameworks* e *libraries* que dão suporte ao projeto:
@@ -57,6 +58,35 @@ colocar tudo num grande e pesado bundle.
 
 ### [Gulp](http://gulpjs.com)
 O automatizador de tarefas de build da aplicação.
+
+
+## Gerando componentes
+
+Devido à previsibilidade proporcionada pela estrutura de diretórios consistente do projeto, podemos usar
+as tasks automatizadas para gerar componentes com a seguinte estrutura:
+
+```
+⋅⋅⋅⋅⋅⋅componentName/
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.module.ts               // modulo que registra o componente no angular
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.ts            // ponto de entrada do componente (carrega todas as dependências)
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.controller.ts // controller do component
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.specs.ts      // unit tests do component
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.html                    
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.css           // css com style que se aplica somente ao componente
+```
+
+Para gerar um componente, execute `yarn component -- --name componentName` para componentes que representam rotas(routed components) ou
+`yarn state -- --name componentName` para gerar componentes simples.
+
+O parâmetro que segue o flag --name é o nome do componente a ser criado. Certifique-se de que é único ou então
+o componente gerado substituirá o componente preexistente identicamente-nomeado.
+
+O componente será criado, por padrão, dentro da pasta *src/app*. Para alterar isso, aplique o flag --parent, seguido
+por um caminho relativo a *src/app*.
+
+Por exemplo, executando `yarn component -- --name login --parent auth` irá criar um componente *src/app/auth/login*.
+
+Executando `yarn component -- --name footer --parent common`, será criado um componente *footer* dentro *src/common*.
 
 
 [travis-image]: http://travis-ci.org/prodest/es-na-palma-da-mao-mobile.svg
