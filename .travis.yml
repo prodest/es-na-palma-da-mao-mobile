@@ -2,8 +2,6 @@ require: sudo
 language: node_js
 node_js:
   - "6.5"
-script: 
-  /bin/sh .travis.sh
 branches:
   only:
   - develop
@@ -23,11 +21,10 @@ before_install:
 install:
  - node --version
  - yarn install
- 
-cache:
-  directories:
-  - $HOME/.yarn-cache
+script: 
+ - yarn test:coverage
 
+cache: yarn
 
 # deploy:
 #   provider: script

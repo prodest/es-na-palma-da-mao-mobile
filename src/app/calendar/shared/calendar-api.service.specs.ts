@@ -6,7 +6,7 @@
  no-unused-expressions: 0
  */
 import { CalendarApiService } from './calendar-api.service';
-import { Settings, ISettings } from '../../shared/shared.module';
+import { settings } from '../../shared/shared.module';
 import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
@@ -18,13 +18,11 @@ describe( 'CalendarApiService', () => {
     afterEach(() => sandbox.restore() );
 
     let calendarApiService: CalendarApiService;
-    let settings: ISettings;
     let $httpGet: Sinon.SinonStub;
 
     beforeEach(() => {
         $httpGet = sandbox.stub( $httpMock, 'get' );
         $httpGet.returnsPromise().resolves( [ 'SESA', 'SEDU', 'SETUR' ] );
-        settings = Settings.getInstance();
 
         calendarApiService = new CalendarApiService( $httpMock, settings );
     });

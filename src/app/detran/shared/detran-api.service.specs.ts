@@ -6,7 +6,7 @@
  no-unused-expressions: 0
  */
 import { DetranApiService } from './detran-api.service';
-import { Settings, ISettings } from '../../shared/shared.module';
+import { settings } from '../../shared/shared.module';
 import { Vehicle, DriverLicense } from './models/index';
 import { $httpMock } from '../../shared/tests/index';
 
@@ -21,7 +21,6 @@ describe( 'DetranApiService', () => {
     let detranApiService: DetranApiService;
     let $httpGet: Sinon.SinonStub;
     let $httpPost: Sinon.SinonStub;
-    let settings: ISettings;
     const fakeResponse = {
         data: {
             fake: 'fakeValue'
@@ -33,7 +32,6 @@ describe( 'DetranApiService', () => {
         $httpGet.returnsPromise().resolves( fakeResponse );
         $httpPost = sandbox.stub( $httpMock, 'post' );
         $httpPost.returnsPromise().resolves( fakeResponse );
-        settings = Settings.getInstance();
 
         detranApiService = new DetranApiService( $httpMock, settings );
     } );

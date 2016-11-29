@@ -6,7 +6,7 @@
  no-unused-expressions: 0
  */
 import { SepApiService } from './sep-api.service';
-import { Settings, ISettings } from '../../shared/shared.module';
+import { settings } from '../../shared/shared.module';
 import { $httpMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
@@ -18,7 +18,6 @@ describe( 'SepApiService', () => {
     afterEach(() => sandbox.restore() );
 
     let sepApiService;
-    let settings: ISettings = Settings.getInstance();
     let processNumber = 68985037;
     let $httpGet: Sinon.SinonStub;
 

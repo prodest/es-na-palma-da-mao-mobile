@@ -17,7 +17,7 @@ npm-debug.log*
 config.xml.backup
 
 # Arquivo de configuração do portal com informações sensiveis
-src/app/shared/settings/settings.ts
+src/app/shared/settings/settings.json
 
 # Runtime data
 pids
@@ -85,3 +85,6 @@ _package.json
 
 # Webpack awesome-typescript loader cache
 .awcache
+
+# env config file
+.env

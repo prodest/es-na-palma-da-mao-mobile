@@ -1,5 +1,5 @@
 import { NewsApiService } from './news-api.service';
-import { Settings, ISettings } from '../../shared/shared.module';
+import { settings } from '../../shared/shared.module';
 import { $httpMock } from '../../shared/tests/index';
 import { Filter, Pagination } from '../shared/models/index';
 
@@ -14,7 +14,6 @@ describe( 'NewsApiService', () => {
     let newsApiService: NewsApiService;
     let $httpGet: Sinon.SinonStub;
     let $httpPost: Sinon.SinonStub;
-    let settings: ISettings;
     const fakeResponse = {
         data: {
             fake: 'fakeValue'
@@ -26,7 +25,6 @@ describe( 'NewsApiService', () => {
         $httpGet.returnsPromise().resolves( fakeResponse );
         $httpPost = sandbox.stub( $httpMock, 'post' );
         $httpPost.returnsPromise().resolves( fakeResponse );
-        settings = Settings.getInstance();
 
         newsApiService = new NewsApiService( $httpMock, settings );
     });

@@ -1,6 +1,6 @@
-const argv = require('yargs')
-             .default('target', 'tests')
-             .argv;
+const argv = require( 'yargs' )
+    .default( 'target', 'tests' )
+    .argv;
 
 const FILES_PATTERN = `./config/karma.files.${argv.target}.js`;
 const preprocessors = [ 'webpack', 'sourcemap' ];
@@ -8,12 +8,12 @@ const reporters = [ 'mocha' ];
 
 if ( argv.coverage ) {
     preprocessors.unshift( 'coverage' );
-    reporters.push( ...['coverage', 'remap-coverage'] );
+    reporters.push( ...[ 'coverage', 'remap-coverage' ] );
 }
 
 if ( process.env.TRAVIS ) {
     reporters.push( 'coveralls' );
-} 
+}
 
 module.exports = config => {
 
@@ -39,13 +39,13 @@ module.exports = config => {
         /**
          * Entry point / test environment builder is also written in TypeScript.
          */
-        files: [ { pattern: FILES_PATTERN, watched: false } ],
+        files: [ { pattern: FILES_PATTERN, watched: false }],
 
         /**
          * Transform files before loading them.
          */
         preprocessors: {
-            [FILES_PATTERN]: preprocessors
+            [ FILES_PATTERN ]: preprocessors
         },
 
         // Webpack Config at ./webpack.test.js

@@ -1,5 +1,5 @@
 import { DioApiService } from './dio-api.service';
-import { Settings, ISettings } from '../../shared/shared.module';
+import { settings } from '../../shared/shared.module';
 import { SearchFilter } from '../shared/models/index';
 import { $httpMock } from '../../shared/tests/index';
 
@@ -13,7 +13,6 @@ describe( 'DioApiService', () => {
 
     let dioApiService: DioApiService;
     let $httpGet: Sinon.SinonStub;
-    let settings: ISettings;
     const fakeResponse = {
         data: {
             fake: 'fakeValue'
@@ -23,7 +22,6 @@ describe( 'DioApiService', () => {
     beforeEach(() => {
         $httpGet = sandbox.stub( $httpMock, 'get' );
         $httpGet.returnsPromise().resolves( fakeResponse );
-        settings = Settings.getInstance();
 
         dioApiService = new DioApiService( $httpMock, settings );
     });

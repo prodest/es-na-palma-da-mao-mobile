@@ -5,7 +5,6 @@ import toNowFilter from './to-now.filter';
 import calendarFilter from './calendar.filter';
 import capitalizeFilter from './capitalize.filter';
 import hrefToJsFilter from './hrefToJs.filter';
-import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
 import charjsConfig from './chartjs.config';
@@ -24,6 +23,7 @@ import pushModule from './push/index';
 import fabricModule from './fabric/index';
 import permissionsModule from './permissions/index';
 import { TransitionService } from './transition.service';
+import { settings } from './settings/index';
 
 let dependencies = [
     toast.name,
@@ -43,7 +43,7 @@ export * from './fabric/index';
 export * from './routes/index';
 
 export default angular.module( 'shared', dependencies )
-    .constant( 'settings', Settings.getInstance() )
+    .constant( 'settings', settings )
     .service( 'httpSnifferService', HttpSnifferService )
     .service( 'httpErrorSnifferService', HttpErrorSnifferService )
     .service( 'transitionService', TransitionService )
