@@ -44,7 +44,7 @@ const shared = {
       }
     }
   },
-  googleWebClientId: process.env.GOOGLE_WEB_CLIENT_ID,
+  googleWebClientId: process.env.GOOGLE_WEB_CLIENT_ID || '716051840979-c01amcdemhvn5hrfo1s37pteumkr6ial.apps.googleusercontent.com',
   mobile: {
     client_id: 'espm',
     client_secret: 'secret',
