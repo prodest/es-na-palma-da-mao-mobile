@@ -1,4 +1,4 @@
-import './spinner.component.css';
+import './spinner.component.scss';
 import template = require('./spinner.component.html');
 import { SpinnerController } from './spinner.component.controller';
 

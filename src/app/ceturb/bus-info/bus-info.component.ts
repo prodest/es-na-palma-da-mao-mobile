@@ -1,4 +1,4 @@
-import './bus-info.component.css';
+import './bus-info.component.scss';
 import template = require( './bus-info.component.html' );
 import { BusInfoController } from './bus-info.component.controller';
 

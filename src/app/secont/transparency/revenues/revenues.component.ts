@@ -1,4 +1,4 @@
-import './revenues.component.css';
+import './revenues.component.scss';
 import template = require( './revenues.component.html' );
 import { RevenuesController } from './revenues.component.controller';
 

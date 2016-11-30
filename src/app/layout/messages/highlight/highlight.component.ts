@@ -1,4 +1,4 @@
-import './highlight.component.css';
+import './highlight.component.scss';
 const directive = () => {
     return {
         template: '<div class="msg-highlight accent" flex><ng-transclude></ng-transclude></div>',

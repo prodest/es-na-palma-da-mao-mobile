@@ -1,4 +1,4 @@
-import './error-message.component.css';
+import './error-message.component.scss';
 import template = require('./error-message.component.html');
 import { ErrorMessageController } from './error-message.component.controller';
 

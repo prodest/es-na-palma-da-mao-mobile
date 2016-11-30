@@ -1,4 +1,4 @@
-import './login.component.css';
+import './login.component.scss';
 import template = require('./login.component.html');
 import { LoginController } from './login.component.controller';
 

@@ -1,4 +1,4 @@
-import './horizontal-bar-chart.component.css';
+import './horizontal-bar-chart.component.scss';
 
 // tslint:disable
 export const HorizontalBarChartComponent: ng.IComponentOptions = {

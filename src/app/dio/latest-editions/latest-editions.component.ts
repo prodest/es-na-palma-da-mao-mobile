@@ -1,4 +1,4 @@
-import './latest-editions.component.css';
+import './latest-editions.component.scss';
 import template = require('./latest-editions.component.html');
 import { LatestEditionsController } from './latest-editions.component.controller';
 

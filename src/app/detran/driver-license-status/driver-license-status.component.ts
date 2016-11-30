@@ -1,4 +1,4 @@
-import './driver-license-status.component.css';
+import './driver-license-status.component.scss';
 import template = require('./driver-license-status.component.html');
 import { DriverLicenseStatusController } from './driver-license-status.component.controller';
 

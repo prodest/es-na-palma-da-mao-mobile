@@ -1,4 +1,4 @@
-import './warning-list.component.css';
+import './warning-list.component.scss';
 import template = require('./warning-list.component.html');
 import { WarningListController } from './warning-list.component.controller';
 

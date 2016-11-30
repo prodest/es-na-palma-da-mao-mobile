@@ -1,4 +1,4 @@
-import './toast.css';
+import './toast.scss';
 import { ToastController } from './toast.controller';
 import { ToastService } from './toast.service';
 

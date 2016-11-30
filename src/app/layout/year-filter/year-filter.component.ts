@@ -1,4 +1,4 @@
-import './year-filter.component.css';
+import './year-filter.component.scss';
 import template = require( './year-filter.component.html' );
 import { YearFilterController } from './year-filter.component.controller';
 

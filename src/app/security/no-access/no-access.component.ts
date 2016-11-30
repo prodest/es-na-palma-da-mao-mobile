@@ -1,4 +1,4 @@
-import './no-access.component.css';
+import './no-access.component.scss';
 import template = require('./no-access.component.html');
 import { NoAccessController } from './no-access.component.controller';
 

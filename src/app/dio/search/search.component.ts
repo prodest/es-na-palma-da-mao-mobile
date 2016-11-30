@@ -1,4 +1,4 @@
-import './search.component.css';
+import './search.component.scss';
 import template = require('./search.component.html');
 import { SearchController } from './search.component.controller';
 

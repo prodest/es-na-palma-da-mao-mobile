@@ -1,4 +1,4 @@
-import './menu.component.css';
+import './menu.component.scss';
 import template = require( './menu.component.html' );
 import MenuController from './menu.component.controller';
 

@@ -1,4 +1,4 @@
-import './report-list.component.css';
+import './report-list.component.scss';
 
 // tslint:disable
 export const ReportListComponent: ng.IComponentOptions = {

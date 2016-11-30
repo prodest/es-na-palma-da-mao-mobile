@@ -1,4 +1,4 @@
-import './report-list-summary.component.css';
+import './report-list-summary.component.scss';
 import template = require( './report-list-summary.component.html' );
 import { ReportListSummaryController } from './report-list-summary.component.controller';
 

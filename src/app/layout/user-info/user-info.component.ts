@@ -1,4 +1,4 @@
-import './user-info.component.css';
+import './user-info.component.scss';
 import template = require( './user-info.component.html' );
 
 

@@ -1,4 +1,4 @@
-import './expenses-by-area.component.css';
+import './expenses-by-area.component.scss';
 import template = require( './expenses-by-area.component.html' );
 import { ExpensesByAreaController } from './expenses-by-area.component.controller';
 

@@ -1,4 +1,4 @@
-import './vehicles.component.css';
+import './vehicles.component.scss';
 import template = require('./vehicles.component.html');
 import { VehiclesController } from './vehicles.component.controller';
 

@@ -1,4 +1,4 @@
-import './about.component.css';
+import './about.component.scss';
 import template = require( './about.component.html' );
 
 // tslint:disable-next-line

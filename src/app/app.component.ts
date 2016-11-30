@@ -1,6 +1,6 @@
 import template = require('./app.component.html');
 import { AppController } from './app.component.controller';
-import './app.component.css';
+import './app.component.scss';
 
 // tslint:disable-next-line
 export const AppComponent = () => {

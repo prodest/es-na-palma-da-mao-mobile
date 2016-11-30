@@ -1,4 +1,4 @@
-import './pie-chart.component.css';
+import './pie-chart.component.scss';
 
 // tslint:disable
 export const PieChartComponent: ng.IComponentOptions = {

@@ -1,4 +1,4 @@
-import './message.component.css';
+import './message.component.scss';
 import template = require('./message.component.html');
 import { MessageController } from './message.component.controller';
 

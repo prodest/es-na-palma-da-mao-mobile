@@ -1,4 +1,4 @@
-import './vehicle-tickets.component.css';
+import './vehicle-tickets.component.scss';
 import template = require('./vehicle-tickets.component.html');
 import { VehicleTicketsController } from './vehicle-tickets.component.controller';
 

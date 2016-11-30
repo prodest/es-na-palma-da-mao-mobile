@@ -26,6 +26,7 @@
 	- [Ionic](#ionic)
 	- [webpack](#webpack)
 	- [Gulp](#gulp)
+  - [Sass](#sass)
 - [Visão Geral](#visão-geral)
 	- [Build System](#build-system)
 	- [Estrutura de arquivos](#estrutura-de-arquivos)
@@ -64,6 +65,11 @@ Ele nada mais é do que uma pilha de componentes e outros frameworks como angula
 webpack é um empacotador de módulos (javascript e cia) que cria bundles de assets à partir das dependências(assets) 
 do projeto.
 
+## [Sass](http://sass-lang.com/)
+
+SASS é uma poderosa extensão da linguagem CSS que permite uma escrita profissional e completa das folhas de estilo de forma muito 
+mais dinâmica e produtiva. 
+
 1. Permite fazer o pré-processamento de arquivos “diferentes” (coffee, es6, ts, sass, less, jade, imagens, etc) que 
 os tornam “utilizáveis” através de função require() ou import(ES2015);
 2. Possibilidade de carregar dependências sob demanda (code splitting), sem precisar
@@ -79,7 +85,7 @@ O *build system* do **ES na Palma da Mão** usa yarn scripts, Gulp, and Webpack 
 `Webpack` trata das seguintes questões:
 * Transpila código typescript para ES2015
 * Carrega arquivos HTML como módulos
-* Transpiling stylesheets and appending them to the DOM
+* Transpila .scss em .css e o adiciona ao DOM
 * Atualiza o browser e recompila se arquivos são alterados
 * Hot module replacement para CSS
 * Gera o *bundle* da aplicação
@@ -106,7 +112,7 @@ src
 ..main.ts           * ponto de entrada da app
 ..app/
 ....app.component.controller.ts         /* controller da app
-....app.component.css                   
+....app.component.scss                   
 ....app.component.html                  
 ....app.component.ts                    
 ....app.module.ts                       /* módulo principal da app  (registra rotas, componentes, serviços, etc)
@@ -115,14 +121,14 @@ src
 ....featureA/
 ......shared/       * funcionalidades compartilhadas dentro da feature
 ......featureA.component.controller.ts 
-......featureA.component.css 
+......featureA.component.scss 
 ......featureA.component.html
 ......featureA.component.ts
 ......featureA.module.ts  
 ....featureB/
 ......shared/      
 ......featureB.component.controller.ts 
-......featureB.component.css 
+......featureB.component.scss 
 ......featureB.component.html
 ......featureB.component.ts
 ......featureB.module.ts 
@@ -131,12 +137,12 @@ src
 ......featureC.module.ts     * modulo da feature (registra rotas, componentes, serviços, etc)
 ......subFeatureC1/
 ........subFeatureC1.component.controller.ts 
-........subFeatureC1.component.css 
+........subFeatureC1.component.scss 
 ........subFeatureC1.component.html
 ........subFeatureC1.component.ts
 ......subFeatureC2/
 ........subFeatureC2.component.controller.ts 
-........subFeatureC2.component.css 
+........subFeatureC2.component.scss 
 ........subFeatureC2.component.html
 ........subFeatureC2.component.ts
 .
@@ -290,7 +296,7 @@ as tasks automatizadas para gerar componentes com a seguinte estrutura:
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.controller.ts // controller do component
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.specs.ts      // unit tests do component
 ⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.html                    
-⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.css           // css com style que se aplica somente ao componente
+⋅⋅⋅⋅⋅⋅⋅⋅componentName.component.scss           //.scss com style que se aplica somente ao componente
 ```
 
 Para gerar um componente, execute `yarn component -- --name componentName` para componentes que representam rotas(routed components) ou

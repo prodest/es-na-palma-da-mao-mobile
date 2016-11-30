@@ -1,4 +1,4 @@
-import './calendar.component.css';
+import './calendar.component.scss';
 import template = require('./calendar.component.html');
 import { CalendarController } from './calendar.component.controller';
 

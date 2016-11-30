@@ -1,4 +1,4 @@
-import './home.component.css';
+import './home.component.scss';
 import template = require('./home.component.html');
 import { HomeController } from './home.component.controller';
 

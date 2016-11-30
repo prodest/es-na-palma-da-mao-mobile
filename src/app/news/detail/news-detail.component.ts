@@ -1,4 +1,4 @@
-import './news-detail.component.css';
+import './news-detail.component.scss';
 import template = require('./news-detail.component.html');
 import { NewsDetailController } from './news-detail.component.controller';
 

@@ -1,4 +1,4 @@
-import './budget-deviation-item.component.css';
+import './budget-deviation-item.component.scss';
 
 // tslint:disable
 export const BudgetDeviationItemComponent: ng.IComponentOptions = {

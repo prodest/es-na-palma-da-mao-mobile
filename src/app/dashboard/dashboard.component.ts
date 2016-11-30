@@ -1,4 +1,4 @@
-import './dashboard.component.css';
+import './dashboard.component.scss';
 import template = require('./dashboard.component.html');
 import { DashBoardController } from './dashboard.component.controller';
 

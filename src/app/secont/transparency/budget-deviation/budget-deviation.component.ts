@@ -1,4 +1,4 @@
-import './budget-deviation.component.css';
+import './budget-deviation.component.scss';
 import template = require( './budget-deviation.component.html' );
 import { BudgetDeviationController } from './budget-deviation.component.controller';
 

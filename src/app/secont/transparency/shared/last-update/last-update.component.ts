@@ -1,4 +1,4 @@
-import './last-update.component.css';
+import './last-update.component.scss';
 
 // tslint:disable
 export const LastUpdateComponent: ng.IComponentOptions = {
