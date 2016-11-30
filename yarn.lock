@@ -1712,7 +1712,7 @@ chalk@0.5.1, chalk@^0.5.0:
     strip-ansi "^0.3.0"
     supports-color "^0.2.0"
 
-change-case@3.0.x:
+change-case@3.0.x, change-case@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/change-case/-/change-case-3.0.0.tgz#6c9c8e35f8790870a82b6b0745be8c3cbef9b081"
   dependencies:

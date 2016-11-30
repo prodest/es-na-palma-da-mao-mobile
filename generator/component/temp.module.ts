@@ -1,6 +1,6 @@
-import { <%= upCaseName %>Component } from './<%= name %>.component';
+import { <%= className %>Component } from './<%= fileName %>.component';
 
-export default angular.module( '<%= name %>.module', [] )
+export default angular.module( '<%= fileName %>.module', [] )
 
     // components
-    .component( '<%= name %>', <%= upCaseName %>Component ).name;
+    .component( '<%= fileName %>', <%= className %>Component ).name;

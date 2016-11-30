@@ -1,35 +1,35 @@
-import { <%= upCaseName %>Controller } from './<%= name %>.component.controller';
-import { <%= upCaseName %>Component } from './<%= name %>.component';
-import <%= upCaseName %>Template = require( './<%= name %>.component.html' );
+import { <%= className %>Controller } from './<%= fileName %>.component.controller';
+import { <%= className %>Component } from './<%= fileName %>.component';
+import <%= className %>Template = require( './<%= fileName %>.component.html' );
 import { environment } from '../shared/tests/index';
 
 let expect = chai.expect;
 
-describe( '<%= upCaseName %>', () => {
+describe( '<%= className %>', () => {
 
     let sandbox: Sinon.SinonSandbox;
     beforeEach(() => sandbox = sinon.sandbox.create() );
     afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
-        let controller: <%= upCaseName %>Controller;
+        let controller: <%= className %>Controller;
         beforeEach(() => {
             environment.refresh();
-            controller = new <%= upCaseName %>Controller( environment.$scope );
+            controller = new <%= className %>Controller( environment.$scope );
         });
     });
 
 
     describe( 'Component', () => {
         // test the component/directive itself
-        let component = <%= upCaseName %>Component();
+        let component = <%= className %>Component();
 
         it( 'should use the right controller', () => {
-            expect( component.controller ).to.equal( <%= upCaseName %>Controller );
+            expect( component.controller ).to.equal( <%= className %>Controller );
         });
 
         it( 'should use the right template', () => {
-            expect( component.template ).to.equal( <%= upCaseName %>Template );
+            expect( component.template ).to.equal( <%= className %>Template );
         });
 
         it( 'should use controllerAs', () => {

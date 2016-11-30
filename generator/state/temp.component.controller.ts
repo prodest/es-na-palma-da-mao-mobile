@@ -1,17 +1,17 @@
 import { IScope } from 'angular';
 
-export class <%= upCaseName %>Controller {
+export class <%= className %>Controller {
 
     public static $inject: string[] = [ '$scope' ];
 
     public name: string;
 
     /**
-     * Creates an instance of <%= upCaseName %>Controller.
+     * Creates an instance of <%= className %>Controller.
      * 
      * @param {IScope} $scope
      * 
-     * @memberOf <%= upCaseName %>Controller
+     * @memberOf <%= className %>Controller
      */
     constructor( private $scope: IScope ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
@@ -24,7 +24,7 @@ export class <%= upCaseName %>Controller {
      * @returns {void}
      */
     public activate() {
-        this.name = '<%= upCaseName %> state';
+        this.name = '<%= className %> state';
     }
 }
 

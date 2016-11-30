@@ -1,19 +1,19 @@
-import { <%= upCaseName %>Component } from './<%= name %>.component';
+import { <%= className %>Component } from './<%= fileName %>.component';
 
-export default angular.module( '<%= name %>.module', [] )
+export default angular.module( '<%= fileName %>.module', [] )
 
     // components
-    .directive( '<%= name %>', <%= upCaseName %>Component )
+    .directive( '<%= fileName %>', <%= className %>Component )
 
     // routes
     .config( [
         '$stateProvider', ( $stateProvider ) => {
             $stateProvider
-                .state( 'app.<%= name %>', {
-                    url: '<%= name %>',
+                .state( 'app.<%= fileName %>', {
+                    url: '<%= fileName %>',
                     views: {
                         content: {
-                            template: '<<%= name %>></<%= name %>>'
+                            template: '<<%= fileName %>></<%= fileName %>>'
                         }
                     }
                 });

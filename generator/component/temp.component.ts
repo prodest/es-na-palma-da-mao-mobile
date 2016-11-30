@@ -1,9 +1,9 @@
-import './<%= name %>.component.scss';
-import template = require( './<%= name %>.component.html' );
-import { <%= upCaseName %>Controller } from './<%= name %>.component.controller';
+import './<%= fileName %>.component.scss';
+import template = require( './<%= fileName %>.component.html' );
+import { <%= className %>Controller } from './<%= fileName %>.component.controller';
 
 // tslint:disable-next-line
-export const <%= upCaseName %>Component = {
+export const <%= className %>Component = {
     template: template,
-    controller: <%= upCaseName %>Controller
+    controller: <%= className %>Controller
 };

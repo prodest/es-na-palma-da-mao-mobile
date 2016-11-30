@@ -312,6 +312,9 @@ Por exemplo, executando `yarn component -- --name login --parent auth` irá cria
 
 Executando `yarn component -- --name footer --parent common`, será criado um componente *footer* dentro *src/common*.
 
+O nome do componente pode ser escrito em pascal-case, camel-case ou dash-case, e sempre será normalizado para
+pascal-case( nomes dos controllers) e dash-case(nomes dos arquivos).
+
 
 [travis-image]: http://travis-ci.org/prodest/es-na-palma-da-mao-mobile.svg
 [travis-url]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile

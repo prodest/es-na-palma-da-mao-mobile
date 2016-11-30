@@ -16,6 +16,7 @@ import shell from 'gulp-shell';
 import path from 'path';
 import rename from 'gulp-rename';
 import template from 'gulp-template';
+import changeCase from 'change-case';
 
 const gulp = gulpHelp( innerGulp );
 
@@ -45,21 +46,21 @@ let templates = {
 };
 
 gulp.task( 'generate', () => {
-    const cap = ( val ) => {
-        return val.charAt( 0 ).toUpperCase() + val.slice( 1 );
-    };
     const templateName = yargs.argv.template || 'component';
     const name = yargs.argv.name;
+    const fileName = changeCase.paramCase( name );
+    const className = changeCase.pascalCase( name );
     const parentPath = yargs.argv.parent || '';
-    const destPath = path.join( resolveToComponents(), parentPath, name );
+    const destPath = path.join( resolveToComponents(), parentPath, fileName );
 
     return gulp.src( templates[ templateName ] )
         .pipe( template( {
             name: name,
-            upCaseName: cap( name )
+            fileName: fileName,
+            className: className
         } ) )
         .pipe( rename( ( path ) => {
-            path.basename = path.basename.replace( 'temp', name );
+            path.basename = path.basename.replace( 'temp', fileName );
         } ) )
         .pipe( gulp.dest( destPath ) );
 } );
