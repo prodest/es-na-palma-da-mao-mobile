@@ -8,19 +8,9 @@
 			{{$ctrl.total | currency}}
 		</report-list-summary>
 		<report-list-item ng-repeat="item in $ctrl.items track by $index" 
-						  ng-click="::$ctrl.onClick(item)" 
-						  ng-style="{'border-left': ($ctrl.showChart ? 20 : 0) +  'px solid {{item.color}}'}">
-			<div class="r-item-details">
-				<h3 class="r-item-label capitalize">{{item.label}}</h3>
-				<p class="r-item-value">{{item.value | currency}}</p>
-			</div>
-			<div class="r-item-percentage" ng-if="item.percentage < 1">
-				&lt;1%
-			</div>
-			<div class="r-item-percentage" ng-if="item.percentage >= 1">
-				{{item.percentage}}%
-			</div>
+						  ng-click="::$ctrl.onClick(item)">
+			<default-item item="item" show-legend="$ctrl.showChart"></default-item>
 		</report-list-item>
 	</report-list>
-	<last-update date="::$ctrl.lastUpdate"></last-update>
+	<last-update date="$ctrl.lastUpdate"></last-update>
 </div>

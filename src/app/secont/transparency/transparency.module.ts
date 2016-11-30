@@ -25,6 +25,7 @@ import {
     ReportListComponent,
     ReportListItemComponent,
     MoneyFlowReportComponent,
+    DefaultItemComponent,
     TransparencyApiService
 } from './shared/index';
 
@@ -42,6 +43,7 @@ export default angular.module( 'secont.transparency.module', [] )
     .component( 'reportList', ReportListComponent )
     .component( 'reportListItem', ReportListItemComponent )
     .component( 'moneyFlowReport', MoneyFlowReportComponent )
+    .component( 'defaultItem', DefaultItemComponent )
     .component( 'budgetDeviationItem', BudgetDeviationItemComponent )
 
     // routed components

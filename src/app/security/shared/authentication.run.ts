@@ -23,7 +23,7 @@ function authRun(
     });
 
     $ionicPlatform.ready( async () => {
-        await resumeApplication( 'app.transparency.dashboard' );
+        await resumeApplication( 'app.dashboard.newsHighlights' );
     });
 
     $ionicPlatform.on( 'resume', async () => {

@@ -2,7 +2,7 @@ import './budget-deviation-item.component.scss';
 
 // tslint:disable
 export const BudgetDeviationItemComponent: ng.IComponentOptions = {
-    template: `<div class="bdi">
+    template: `<div class="bdi-content">
                     <div>
 					    <div class="bdi-item-label" ng-if="$ctrl.item.label">{{$ctrl.item.label}}</div>
                         <div>

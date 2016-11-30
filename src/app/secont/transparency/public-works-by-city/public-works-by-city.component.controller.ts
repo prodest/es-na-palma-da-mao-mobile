@@ -59,13 +59,18 @@ export class PublicWorksByCityController {
         // conflita com a renderização dos items retornados(javascript single thread)
         window.setTimeout( async () => {
             try {
-                const summary = await this.transparencyApiService.getPublicWorksByCity( filter );
-                this.items = summary.items.filter( i => i.list );
-                this.total = summary.total;
-                this.quantity = summary.quantity;
-                this.info = summary.info;
-                this.lastUpdate = summary.lastUpdate;
-                this.plotChart( summary.items.filter( i => i.plot ) );
+                const { total, quantity, info, items, lastUpdate  } = await this.transparencyApiService.getPublicWorksByCity( filter );
+
+                const plottableItems = items.filter( i => i.plot );
+                const listableItems = items.filter( i => i.list );
+
+                this.items = listableItems.map( this.formatItem );
+                this.total = total;
+                this.quantity = quantity;
+                this.info = info;
+                this.lastUpdate = lastUpdate;
+
+                this.plotChart( plottableItems );
             } catch ( error ) {
                 this.items = undefined;
                 this.$scope.$apply();
@@ -83,12 +88,23 @@ export class PublicWorksByCityController {
      * 
      * @memberOf PublicWorksByCityController
      */
-    public plotChart( items: PublicWorksByCityItem[] ): void {
+    private plotChart( items: PublicWorksByCityItem[] ): void {
         this.chart = {
             labels: items.map( item => item.label ),
             values: items.map( item => item.percentage ),
             colors: items.map( item => item.color )
         };
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * 
+     * @memberOf PublicWorksByCityController
+     */
+    private formatItem( item: PublicWorksByCityItem ): PublicWorksByCityItem {
+        return Object.assign( item, { label: `${item.label} (${item.quantity} obras)` });
     }
 }
 

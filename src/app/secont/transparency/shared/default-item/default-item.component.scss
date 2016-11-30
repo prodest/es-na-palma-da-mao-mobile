@@ -1,0 +1,53 @@
+.expenses default-item .default-item-content {
+    .r-item-value, 
+    .r-item-percentage
+    {
+        color: #b14139;
+    }
+}
+.revenues default-item .default-item-content {
+    .r-item-percentage, 
+    .r-item-value
+    {
+        color: #73905a;
+    }
+}
+
+/* Sem labels */
+default-item {
+    .default-item-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 10px 10px 10px 20px;
+        border-left-width: 0;
+        border-left-style: solid;
+
+        &.labeled {
+            border-left-width: 20px;
+            padding-left: 10px;
+        }
+        & > * {
+            flex: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .r-item-label {
+            font-size: 1.1em;
+            white-space: normal;
+            margin: 0;
+            color: #333;
+        }
+        .r-item-percentage, 
+        .r-item-value {
+            color: #c86673;
+            margin: 0;
+        }
+        .r-item-percentage {
+            font-weight: bold;
+            font-size: 2em;
+            margin-left: 8px;
+            flex: 0;
+        }
+    }
+}

@@ -1,0 +1,14 @@
+<div class="default-item-content" 
+        ng-style="{'border-left-color': $ctrl.item.color}"
+        ng-class="{labeled: $ctrl.showLegend}">
+    <div class="r-item-details">
+        <h3 class="r-item-label capitalize">{{$ctrl.item.label}}</h3>
+        <p class="r-item-value">{{$ctrl.item.value | currency}}</p>
+    </div>
+    <div class="r-item-percentage" ng-if="$ctrl.item.percentage < 1">
+        &lt;1%
+    </div>
+    <div class="r-item-percentage" ng-if="$ctrl.item.percentage >= 1">
+        {{$ctrl.item.percentage}}%
+    </div>
+</div>

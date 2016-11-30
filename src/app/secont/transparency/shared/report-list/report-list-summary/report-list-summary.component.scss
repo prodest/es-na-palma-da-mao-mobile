@@ -1,44 +1,45 @@
-.expenses .rls-content {
+.expenses report-list-summary .rls-content {
     color: #b14139;
 }
 
-.revenues .rls-content {
+.revenues report-list-summary .rls-content {
     color: #73905a;
 }
 
-/* Sem labels */
-.rls-content {
-    flex:1;
-    font-size: 1em;
-}
+report-list-summary {
+    /* Sem labels */
+    .rls-content {
+        flex:1;
+        font-size: 1em;
+    }
 
+    .rls .md-subheader-inner {
+        padding: 8px;
+    }
 
-.rls .md-subheader-inner {
-    padding: 8px;
-}
+    .rls .md-subheader-inner .md-subheader-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-left: 8px;
+        min-height: 40px;
+    }
 
-.rls .md-subheader-inner .md-subheader-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 8px;
-    min-height: 40px;
-}
+    .md-button.md-icon-button.rls-button{
+        margin: 0;
+        margin-left: auto;
+        width: 40px;
+    }
 
-.rls-button{
-    margin: 0;
-    margin-left: auto;
-    width: 40px;
-}
+    .rls-button .rls-button-info {
+        font-size: 20px;
+    }
 
-.rls-button .rls-button-info {
-    font-size: 20px;
-}
+    .rls-button md-icon{
+        color: #999;
+    }
 
-.rls-button md-icon{
-    color: #999;
-}
-
-.rls-info .md-subheader-content {
-    font-weight: normal !important;
+    .rls-info .md-subheader-content {
+        font-weight: normal !important;
+    }
 }

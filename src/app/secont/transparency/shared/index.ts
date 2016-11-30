@@ -11,6 +11,6 @@ export * from './money-flow.controller';
 export * from './money-flow-detail.controller';
 export * from './money-flow-report/money-flow-report.component';
 
-
+export * from './default-item/default-item.component';
 
 export * from './transparency-api.service';
