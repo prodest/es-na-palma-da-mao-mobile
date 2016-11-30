@@ -1,4 +1,4 @@
-import './<%= name %>.component.css';
+import './<%= name %>.component.scss';
 import template = require( './<%= name %>.component.html' );
 import { <%= upCaseName %>Controller } from './<%= name %>.component.controller';
 
