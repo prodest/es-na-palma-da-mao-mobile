@@ -1,7 +1,7 @@
 import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { ISettings } from '../../../shared/shared.module';
 import { DateRangeFilter, YearFilter } from '../../../layout/layout.module';
-import { MoneyFlow, BudgetDeviation } from './models/index';
+import { MoneyFlow, BudgetDeviation, PublicWorksByCity } from './models/index';
 
 export class TransparencyApiService {
 
@@ -131,6 +131,21 @@ export class TransparencyApiService {
         return this.$http
             .get( `${this.settings.api.transparency}/budgets/deviation`, { params: Object.assign( {}, filter ) })
             .then(( response: IHttpPromiseCallbackArg<BudgetDeviation> ) => response.data );
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {YearFilter} filter
+     * @returns {Promise<PublicWorksByCity>}
+     * 
+     * @memberOf TransparencyApiService
+     */
+    public getPublicWorksByCity( filter: YearFilter ): Promise<PublicWorksByCity> {
+        return this.$http
+            .get( `${this.settings.api.transparency}/public-works/by-city`, { params: Object.assign( {}, filter ) })
+            .then(( response: IHttpPromiseCallbackArg<PublicWorksByCity> ) => response.data );
     }
 }
 

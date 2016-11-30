@@ -1,0 +1,56 @@
+<ion-view>
+    <ion-nav-title>
+		Obras por Município <span class="fs-15" ng-if="vm.filter.year">({{vm.filter.year}})</span>
+	</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<back-button></back-button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<md-button class="md-icon-button" ng-if="vm.budgetDeviation.items.length" ng-click="vm.showChart = !vm.showChart">
+			<md-icon md-font-icon="fa fa-pie-chart">
+			</md-icon>
+		</md-button>
+		<md-button class="md-icon-button" ng-click="vm.showFilter=true">
+			<md-icon md-font-icon="ion-android-funnel">
+			</md-icon>
+		</md-button>
+	</ion-nav-buttons>
+	<spinner ng-if="uiState.loading"></spinner>
+    <ion-content>
+         <div id="public-works-by-city" ng-if="vm.items" class="districts-report">
+			<!-- componenu subheader-->
+			<report-title title="vm.filter.description()" info="vm.info"></report-title>
+
+			<!--chart component-->
+			<pie-chart data="vm.chart" ng-if="vm.showChart"></pie-chart>
+
+			<!--report list component-->
+			<report-list ng-if="vm.items.length" sort="vm.sort">
+				<report-list-summary on-sort-click="vm.sort = $locals.sort">
+					<span class="total accent">{{vm.total | currency}}</span> ({{vm.quantity}} obras)
+				</report-list-summary>
+				<report-list-item ng-repeat="item in vm.items track by $index"
+							  	  ng-style="{'border-left': (vm.showChart ? 20 : 0) +  'px solid {{item.color}}'}">
+					<div class="r-item-details">
+						<h3 class="r-item-label capitalize">{{item.label}} <span class="q-obras">({{item.quantity}} obras)</span></h3>
+						<p class="r-item-value">{{item.value | currency}}</p>
+					</div>
+					<div class="r-item-percentage" ng-if="item.percentage < 1">
+						&lt;1%
+					</div>
+					<div class="r-item-percentage" ng-if="item.percentage >= 1">
+						{{item.percentage}}%
+					</div>
+				</report-list-item>
+			</report-list>
+
+			<!--last-update component-->
+			<last-update date="vm.lastUpdate"></last-update>
+		</div>
+
+		<modal show="vm.showFilter" title="Obras por Município">
+			<year-filter on-change="vm.doFilter(filter)"></year-filter>
+		</modal>
+		<error-message error="uiState.error"></error-message>
+    </ion-content>
+</ion-view>

@@ -1,3 +1,6 @@
+// public works
+import { PublicWorksByCityComponent } from './public-works-by-city/public-works-by-city.component';
+
 // money flow
 import { ExpensesByAreaComponent } from './expenses-by-area/expenses-by-area.component';
 import { ExpensesByOriginComponent } from './expenses-by-origin/expenses-by-origin.component';
@@ -51,6 +54,7 @@ export default angular.module( 'secont.transparency.module', [] )
     .directive( 'expenseDetail', ExpenseDetailComponent )
     .directive( 'budgets', BudgetsComponent )
     .directive( 'budgetDeviation', BudgetDeviationComponent )
+    .directive( 'publicWorksByCity', PublicWorksByCityComponent )
 
     // routes 
     .config( [
@@ -124,10 +128,18 @@ export default angular.module( 'secont.transparency.module', [] )
 
                 // budget deviation
                 .state( 'app.secontTransparencyBudgetDeviation', {
-                    url: 'transparency/budgets/deviation',
+                    url: 'secont/transparency/budgets/deviation',
                     views: {
                         content: {
                             template: '<budget-deviation></budget-deviation>'
+                        }
+                    }
+                })
+                .state( 'app.secontTransparencyPublicWorksByCity', {
+                    url: 'secont/transparency/public-works/by-city',
+                    views: {
+                        content: {
+                            template: '<public-works-by-city></public-works-by-city>'
                         }
                     }
                 });

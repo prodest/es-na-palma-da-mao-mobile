@@ -10,7 +10,6 @@
 		<report-list-item ng-repeat="item in $ctrl.items track by $index" 
 						  ng-click="::$ctrl.onClick(item)" 
 						  ng-style="{'border-left': ($ctrl.showChart ? 20 : 0) +  'px solid {{item.color}}'}">
-			<!--<money-flow-item item="item"></money-flow-item>-->
 			<div class="r-item-details">
 				<h3 class="r-item-label capitalize">{{item.label}}</h3>
 				<p class="r-item-value">{{item.value | currency}}</p>
