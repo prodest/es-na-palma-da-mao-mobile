@@ -1,5 +1,6 @@
 /* eslint-disable angular/json-functions, angular/log, no-console  */
 const fs = require( 'fs' );
+const chalk = require( 'chalk' );
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
 
@@ -28,7 +29,8 @@ module.exports = options => {
     const buildAppSettings = () => {
         const settings = require( helpers.root( 'config/app.settings' ) );
         fs.writeFileSync( PATHS.appSettings, JSON.stringify( settings[ options.env ], null, 4 ) );
-        console.log( `Settings geradas para env: ${options.env }` );
+
+        console.log( chalk.yellow( `Settings geradas para env: ${ chalk.bold( options.env ) }` ) );
     };
 
     return {
