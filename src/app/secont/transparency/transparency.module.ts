@@ -1,5 +1,8 @@
 // public works
-import { PublicWorksByCitiesComponent } from './public-works-by-cities/public-works-by-cities.component';
+import { PublicWorksComponent } from './public-works/public-works.component';
+import { PublicWorksByCityComponent } from './public-works-by-city/public-works-by-city.component';
+import { PublicWorksByCityItemComponent } from './public-works-by-city/public-works-by-city-item/public-works-by-city-item.component';
+import { PublicWorksStatusComponent } from './public-works-by-city/public-works-status/public-works-status.component';
 
 // money flow
 import { ExpensesByAreaComponent } from './expenses-by-area/expenses-by-area.component';
@@ -45,6 +48,8 @@ export default angular.module( 'secont.transparency.module', [] )
     .component( 'moneyFlowReport', MoneyFlowReportComponent )
     .component( 'defaultItem', DefaultItemComponent )
     .component( 'budgetDeviationItem', BudgetDeviationItemComponent )
+    .component( 'publicWorksByCityItem', PublicWorksByCityItemComponent )
+    .component( 'publicWorksStatus', PublicWorksStatusComponent )
 
     // routed components
     .directive( 'transparencyDashboard', DashboardComponent )
@@ -56,7 +61,8 @@ export default angular.module( 'secont.transparency.module', [] )
     .directive( 'expenseDetail', ExpenseDetailComponent )
     .directive( 'budgets', BudgetsComponent )
     .directive( 'budgetDeviation', BudgetDeviationComponent )
-    .directive( 'publicWorksByCities', PublicWorksByCitiesComponent )
+    .directive( 'publicWorks', PublicWorksComponent )
+    .directive( 'publicWorksByCity', PublicWorksByCityComponent )
 
     // routes 
     .config( [
@@ -137,11 +143,19 @@ export default angular.module( 'secont.transparency.module', [] )
                         }
                     }
                 })
-                .state( 'app.secontTransparencyPublicWorksByCity', {
-                    url: 'secont/transparency/public-works/by-city',
+                .state( 'app.secontTransparencyPublicWorks', {
+                    url: 'secont/transparency/public-works',
                     views: {
                         content: {
-                            template: '<public-works-by-cities></public-works-by-cities>'
+                            template: '<public-works></public-works>'
+                        }
+                    }
+                })
+                .state( 'app.secontTransparencyPublicWorksByCity', {
+                    url: 'secont/transparency/public-works/by-city/:cityId/:label/:year',
+                    views: {
+                        content: {
+                            template: '<public-works-by-city></public-works-by-city>'
                         }
                     }
                 });

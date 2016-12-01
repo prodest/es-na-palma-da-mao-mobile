@@ -1,33 +1,37 @@
 import { IScope } from 'angular';
 import { YearFilter } from '../../../layout/layout.module';
 import { ChartModel } from '../transparency.module';
-import { PublicWorksByCitiesItem, TransparencyApiService } from '../shared/index';
+import { PublicWorksByCityItem, TransparencyApiService } from '../shared/index';
 
-export class PublicWorksByCitiesController {
+export class PublicWorksByCityController {
 
-    public static $inject: string[] = [ '$scope', 'transparencyApiService' ];
+    public static $inject: string[] = [ '$scope', '$stateParams', 'transparencyApiService' ];
 
+    public cityId: number;
+    public city: string;
     public title: string;
     public showChart = true;
     public total: number;
     public quantity: number;
     public lastUpdate: string;
     public info: string;
-    public items: PublicWorksByCitiesItem[] | undefined;
+    public items: PublicWorksByCityItem[] | undefined;
     public filter: YearFilter;
     public showFilter: boolean = false;
     public chart: ChartModel | undefined;
 
 
     /**
-     * Creates an instance of PublicWorksByCitiesController.
+     * Creates an instance of PublicWorksByCityController.
      * 
      * @param {IScope} $scope
      * @param {TransparencyApiService} transparencyApiService
      * 
-     * @memberOf PublicWorksByCitiesController
+     * @memberOf PublicWorksByCityController
      */
-    constructor( private $scope: IScope, private transparencyApiService: TransparencyApiService ) {
+    constructor( private $scope: IScope,
+        private $stateParams: angular.ui.IStateParamsService,
+        private transparencyApiService: TransparencyApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
@@ -38,18 +42,19 @@ export class PublicWorksByCitiesController {
      * @returns {void}
      */
     public activate() {
-        this.doFilter( YearFilter.currentYear() );
+        this.hydrateFromParams( this.$stateParams );
+        this.doFilter( this.cityId, this.filter );
     }
-
 
     /**
      * 
      * 
+     * @param {number} cityId
      * @param {YearFilter} filter
      * 
-     * @memberOf PublicWorksByCitiesController
+     * @memberOf PublicWorksByCityController
      */
-    public doFilter( filter: YearFilter ) {
+    public doFilter( cityId: number, filter: YearFilter ) {
 
         // inicia animação que fecha o filtro
         this.showFilter = false;
@@ -59,14 +64,15 @@ export class PublicWorksByCitiesController {
         // conflita com a renderização dos items retornados(javascript single thread)
         window.setTimeout( async () => {
             try {
-                const { total, quantity, info, items, lastUpdate  } = await this.transparencyApiService.getPublicWorksByCities( filter );
+                const { city, total, info, items, lastUpdate  } = await this.transparencyApiService.getPublicWorksByCity( cityId, filter );
 
                 const plottableItems = items.filter( i => i.plot );
                 const listableItems = items.filter( i => i.list );
 
-                this.items = listableItems.map( this.formatItem );
+                this.city = city;
+                this.items = listableItems;
+                this.quantity = this.items.length;
                 this.total = total;
-                this.quantity = quantity;
                 this.info = info;
                 this.lastUpdate = lastUpdate;
 
@@ -80,31 +86,33 @@ export class PublicWorksByCitiesController {
         }, 300 );
     }
 
-
     /**
      * 
      * 
-     * @param {PublicWorksByCitiesItem[]} items
+     * @protected
+     * @param {*} { cityId, label, year }
      * 
-     * @memberOf PublicWorksByCitiesController
+     * @memberOf PublicWorksByCityController
      */
-    private plotChart( items: PublicWorksByCitiesItem[] ): void {
-        this.chart = {
-            labels: items.map( item => item.label ),
-            values: items.map( item => item.percentage ),
-            colors: items.map( item => item.color )
-        };
+    protected hydrateFromParams( { cityId, label, year }: any ) {
+        this.cityId = cityId;
+        this.title = label;
+        this.filter = new YearFilter( +year );
     }
 
     /**
      * 
      * 
-     * @private
+     * @param {PublicWorksByCityItem[]} items
      * 
-     * @memberOf PublicWorksByCitiesController
+     * @memberOf PublicWorksByCityController
      */
-    private formatItem( item: PublicWorksByCitiesItem ): PublicWorksByCitiesItem {
-        return Object.assign( item, { label: `${item.label} (${item.quantity} obras)` });
+    private plotChart( items: PublicWorksByCityItem[] ): void {
+        this.chart = {
+            labels: items.map( item => item.label ),
+            values: items.map( item => item.percentage ),
+            colors: items.map( item => item.color )
+        };
     }
 }
 

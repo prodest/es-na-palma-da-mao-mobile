@@ -177,12 +177,12 @@
     "icon": "fa fa-line-chart"
   },
   {
-    "name": "app.secontTransparencyPublicWorksByCity",
+    "name": "app.secontTransparencyPublicWorks",
     "menu": false,
     "editable": false,
     "group": "Transparência",
     "groupMenu": true,
-    "menuName": "Obras por Município",
+    "menuName": "Obras Públicas",
     "icon": "fa fa-building-o"
   },
   {

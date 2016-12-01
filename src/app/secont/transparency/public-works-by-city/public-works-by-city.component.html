@@ -1,6 +1,6 @@
 <ion-view>
-	<ion-nav-title>
-		Obras por Município <span class="fs-15" ng-if="vm.filter.year">({{vm.filter.year}})</span>
+    <ion-nav-title>
+		{{vm.city}} <span class="fs-15" ng-if="vm.filter">({{vm.filter.year}})</span>
 	</ion-nav-title>
 	<ion-nav-buttons side="left">
 		<back-button></back-button>
@@ -17,12 +17,12 @@
 	</ion-nav-buttons>
 	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content>
-		<div id="public-works-by-cities" ng-if="vm.items">
+		<div id="public-works-by-city" ng-if="vm.items">
 			<!-- componenu subheader-->
 			<report-title title="vm.filter.description()" info="vm.info"></report-title>
 
 			<!--chart component-->
-			<pie-chart data="vm.chart" ng-if="vm.showChart"></pie-chart>
+			<pie-chart data="vm.chart" ng-show="vm.showChart"></pie-chart>
 
 			<!--report list component-->
 			<report-list ng-if="vm.items.length" sort="vm.sort">
@@ -30,7 +30,7 @@
 					<span class="total accent">{{vm.total | currency}}</span> ({{vm.quantity}} obras)
 				</report-list-summary>
 				<report-list-item ng-repeat="item in vm.items track by $index">
-					<default-item item="item" show-legend="vm.showChart"></default-item>
+					<public-works-by-city-item item="item" show-legend="vm.showChart"></public-works-by-city-item>
 				</report-list-item>
 			</report-list>
 
@@ -38,8 +38,8 @@
 			<last-update date="vm.lastUpdate"></last-update>
 		</div>
 
-		<modal show="vm.showFilter" title="Obras por Município">
-			<year-filter on-change="vm.doFilter(filter)"></year-filter>
+		<modal show="vm.showFilter" title="Obras">
+			<year-filter on-change="vm.doFilter(vm.cityId, filter)"></year-filter>
 		</modal>
 		<error-message error="uiState.error"></error-message>
 	</ion-content>

@@ -1,7 +1,7 @@
 import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { ISettings } from '../../../shared/shared.module';
 import { DateRangeFilter, YearFilter } from '../../../layout/layout.module';
-import { MoneyFlow, BudgetDeviation, PublicWorksByCities } from './models/index';
+import { MoneyFlow, BudgetDeviation, PublicWorks, PublicWorksByCity } from './models/index';
 
 export class TransparencyApiService {
 
@@ -142,10 +142,25 @@ export class TransparencyApiService {
      * 
      * @memberOf TransparencyApiService
      */
-    public getPublicWorksByCities( filter: YearFilter ): Promise<PublicWorksByCities> {
+    public getPublicWorksByCities( filter: YearFilter ): Promise<PublicWorks> {
         return this.$http
             .get( `${this.settings.api.transparency}/public-works/by-city`, { params: Object.assign( {}, filter ) })
-            .then(( response: IHttpPromiseCallbackArg<PublicWorksByCities> ) => response.data );
+            .then(( response: IHttpPromiseCallbackArg<PublicWorks> ) => response.data );
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {YearFilter} filter
+     * @returns {Promise<PublicWorksByCity>}
+     * 
+     * @memberOf TransparencyApiService
+     */
+    public getPublicWorksByCity( cityId: number, filter: YearFilter ): Promise<PublicWorksByCity> {
+        return this.$http
+            .get( `${this.settings.api.transparency}/public-works/list`, { params: Object.assign( { cityId: cityId }, filter ) })
+            .then(( response: IHttpPromiseCallbackArg<PublicWorksByCity> ) => response.data );
     }
 }
 

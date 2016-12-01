@@ -23,9 +23,8 @@ default-item {
         border-left-width: 0;
         border-left-style: solid;
 
-        &.labeled {
-            border-left-width: 20px;
-            padding-left: 10px;
+        &.legended {
+            border-left-width: 10px;
         }
         & > * {
             flex: 1;
@@ -41,7 +40,7 @@ default-item {
         .r-item-percentage, 
         .r-item-value {
             color: #c86673;
-            margin: 0;
+            margin: 3px 0 0 0
         }
         .r-item-percentage {
             font-weight: bold;

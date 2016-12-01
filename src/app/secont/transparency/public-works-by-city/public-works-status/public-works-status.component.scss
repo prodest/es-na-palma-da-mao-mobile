@@ -1,0 +1,13 @@
+public-works-status {
+  .public-works-status {
+        font-weight: bold;
+        min-width: 100px;
+        color: #707070;
+        
+        & > .fa { font-size:20px;}
+        &.is-Concluída > .fa{ color: #68903b; }
+        &.is-Iniciada > .fa{ color: #03a9f4; }
+        &.is-Paralisada > .fa{ color: firebrick; }
+        &.is-Reiniciada > .fa{ color: #03a9f4; }
+    }
+}

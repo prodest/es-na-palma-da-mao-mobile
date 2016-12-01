@@ -1,0 +1,7 @@
+<div class="public-works-status is-{{$ctrl.status}}" ng-if="$ctrl.status" ng-switch="$ctrl.status">
+    <i ng-switch-when="Concluída" class="fa fa-check-circle"></i>
+    <i ng-switch-when="Iniciada" class="fa fa-play-circle"></i>
+    <i ng-switch-when="Paralisada" class="fa fa-stop-circle"></i>
+    <i ng-switch-when="Reiniciada" class="fa fa-play-circle"></i>
+    <i ng-switch-default class="fa fa-exclamation-circle"></i> {{$ctrl.status}}
+</div>

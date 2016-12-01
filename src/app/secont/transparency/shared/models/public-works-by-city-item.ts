@@ -1,11 +1,11 @@
 
-export interface PublicWorksByCitiesItem {
+export interface PublicWorksByCityItem {
     id: number;
-    label: string;
     value: number;
-    quantity: number;
+    label: string;
     percentage: number;
     decimalPercentage: number;
+    status?: string;
     color: string;
     list: boolean;
     plot: boolean;
