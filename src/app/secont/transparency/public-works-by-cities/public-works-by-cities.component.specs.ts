@@ -1,6 +1,6 @@
-import { PublicWorksByCityController } from './public-works-by-city.component.controller';
-import { PublicWorksByCityComponent } from './public-works-by-city.component';
-import PublicWorksByCityTemplate = require( './public-works-by-city.component.html' );
+import { PublicWorksByCitiesController } from './public-works-by-cities.component.controller';
+import { PublicWorksByCitiesComponent } from './public-works-by-cities.component';
+import PublicWorksByCitiesTemplate = require( './public-works-by-cities.component.html' );
 
 let expect = chai.expect;
 
@@ -13,14 +13,14 @@ describe( 'Public Works By City', () => {
 
     describe( 'Component', () => {
         // test the component/directive itself
-        let component = PublicWorksByCityComponent();
+        let component = PublicWorksByCitiesComponent();
 
         it( 'should use the right controller', () => {
-            expect( component.controller ).to.equal( PublicWorksByCityController );
+            expect( component.controller ).to.equal( PublicWorksByCitiesController );
         });
 
         it( 'should use the right template', () => {
-            expect( component.template ).to.equal( PublicWorksByCityTemplate );
+            expect( component.template ).to.equal( PublicWorksByCitiesTemplate );
         });
 
         it( 'should use controllerAs', () => {

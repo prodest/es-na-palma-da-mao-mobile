@@ -1,5 +1,5 @@
 
-export interface PublicWorksByCityItem {
+export interface PublicWorksByCitiesItem {
     id: number;
     label: string;
     value: number;

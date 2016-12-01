@@ -1,9 +1,9 @@
 import { IScope } from 'angular';
 import { YearFilter } from '../../../layout/layout.module';
 import { ChartModel } from '../transparency.module';
-import { PublicWorksByCityItem, TransparencyApiService } from '../shared/index';
+import { PublicWorksByCitiesItem, TransparencyApiService } from '../shared/index';
 
-export class PublicWorksByCityController {
+export class PublicWorksByCitiesController {
 
     public static $inject: string[] = [ '$scope', 'transparencyApiService' ];
 
@@ -13,19 +13,19 @@ export class PublicWorksByCityController {
     public quantity: number;
     public lastUpdate: string;
     public info: string;
-    public items: PublicWorksByCityItem[] | undefined;
+    public items: PublicWorksByCitiesItem[] | undefined;
     public filter: YearFilter;
     public showFilter: boolean = false;
     public chart: ChartModel | undefined;
 
 
     /**
-     * Creates an instance of PublicWorksByCityController.
+     * Creates an instance of PublicWorksByCitiesController.
      * 
      * @param {IScope} $scope
      * @param {TransparencyApiService} transparencyApiService
      * 
-     * @memberOf PublicWorksByCityController
+     * @memberOf PublicWorksByCitiesController
      */
     constructor( private $scope: IScope, private transparencyApiService: TransparencyApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
@@ -47,7 +47,7 @@ export class PublicWorksByCityController {
      * 
      * @param {YearFilter} filter
      * 
-     * @memberOf PublicWorksByCityController
+     * @memberOf PublicWorksByCitiesController
      */
     public doFilter( filter: YearFilter ) {
 
@@ -59,7 +59,7 @@ export class PublicWorksByCityController {
         // conflita com a renderização dos items retornados(javascript single thread)
         window.setTimeout( async () => {
             try {
-                const { total, quantity, info, items, lastUpdate  } = await this.transparencyApiService.getPublicWorksByCity( filter );
+                const { total, quantity, info, items, lastUpdate  } = await this.transparencyApiService.getPublicWorksByCities( filter );
 
                 const plottableItems = items.filter( i => i.plot );
                 const listableItems = items.filter( i => i.list );
@@ -84,11 +84,11 @@ export class PublicWorksByCityController {
     /**
      * 
      * 
-     * @param {PublicWorksByCityItem[]} items
+     * @param {PublicWorksByCitiesItem[]} items
      * 
-     * @memberOf PublicWorksByCityController
+     * @memberOf PublicWorksByCitiesController
      */
-    private plotChart( items: PublicWorksByCityItem[] ): void {
+    private plotChart( items: PublicWorksByCitiesItem[] ): void {
         this.chart = {
             labels: items.map( item => item.label ),
             values: items.map( item => item.percentage ),
@@ -101,9 +101,9 @@ export class PublicWorksByCityController {
      * 
      * @private
      * 
-     * @memberOf PublicWorksByCityController
+     * @memberOf PublicWorksByCitiesController
      */
-    private formatItem( item: PublicWorksByCityItem ): PublicWorksByCityItem {
+    private formatItem( item: PublicWorksByCitiesItem ): PublicWorksByCitiesItem {
         return Object.assign( item, { label: `${item.label} (${item.quantity} obras)` });
     }
 }
