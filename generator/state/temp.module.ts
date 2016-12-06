@@ -3,7 +3,7 @@ import { <%= className %>Component } from './<%= fileName %>.component';
 export default angular.module( '<%= fileName %>.module', [] )
 
     // components
-    .directive( '<%= fileName %>', <%= className %>Component )
+    .directive( '<%= className %>', <%= className %>Component )
 
     // routes
     .config( [
