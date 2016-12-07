@@ -1,3 +1,41 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v2.0.0...v3.0.0) (2016-12-07)
+
+
+### Bug Fixes
+
+* **generator:** corrige nome do componente gerado ([1afc52e](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/1afc52e))
+* **generators:** corrige geração de nomes ([231dac1](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/231dac1))
+* **generators:** substitui css por sass nos templates ([2f44d6c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/2f44d6c))
+* **transparency:** Corrige link externo ([b442d81](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b442d81))
+* **transparency:** Corrige transição da tela about ([4948036](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/4948036))
+
+
+### build
+
+* **settings:** gera settings dinâmicamente durante o build ([c705866](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c705866)), closes [#212](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/212) [#232](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/232)
+
+
+### Features
+
+* **date-range-filter:** Adiciona opção de configurar valor inicial ([2cb2755](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/2cb2755))
+* **geral:** substitui css puro por sass ([77a9cbb](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/77a9cbb))
+* **gulp:** adiciona tasks que geram componentes ([011184c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/011184c))
+* **transparency:** adiciona ícone para items clicáveis ([3a0dc25](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/3a0dc25))
+* **transparency:** adiciona tela de detalhamento de obras públicas ([2719605](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/2719605)), closes [#230](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/230)
+* **transparency:** adiciona tela de obras públicas por município ([a251105](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/a251105))
+* **transparency:** adiciona tela de orçado x executado ([5361de0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/5361de0))
+* **transparency:** adiciona tela de resumo de obras públicas por município ([4ebc076](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/4ebc076))
+* **year-filter:** adiciona possibilidade de configurar valor inicial ([8ebbabc](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/8ebbabc))
+
+
+### BREAKING CHANGES
+
+* geral: renomeia todos os arquivos .css para .sass Closes #233.
+* settings: gera settings dinamicamente durante o build.
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v1.2.4...v2.0.0) (2016-11-18)
 
