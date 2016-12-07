@@ -1,0 +1,41 @@
+.public-works-detail{
+
+    .md-subheader {
+        border-left: 10px solid #ccc;
+    }
+    .row {
+        padding: 8px;
+    }
+
+    &__items {
+        border-left: 10px solid #ccc;
+        &--is-Concluída { border-color: #68903b; }
+        &--is-Iniciada { border-color: #03a9f4; }
+        &--is-Paralisada { border-color: firebrick; }
+        &--is-Reiniciada { border-color: #03a9f4; }
+    }
+    &__item{
+        &-label {
+            font-weight: bold;
+        }
+        &-description {
+            color: #666;
+        }
+
+        &-description--is-value {
+            color: #c86673;
+        }
+
+        &-description--is-date {
+            position: relative;
+            padding-left: 15px;
+        }
+        &-description--is-date:before {
+            content: "\f017";
+            font-family: FontAwesome;
+            position:absolute;
+            left:0;
+            top:0;
+        }
+    }
+}

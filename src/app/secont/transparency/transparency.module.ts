@@ -2,7 +2,7 @@
 import { PublicWorksComponent } from './public-works/public-works.component';
 import { PublicWorksByCityComponent } from './public-works-by-city/public-works-by-city.component';
 import { PublicWorksByCityItemComponent } from './public-works-by-city/public-works-by-city-item/public-works-by-city-item.component';
-import { PublicWorksStatusComponent } from './public-works-by-city/public-works-status/public-works-status.component';
+import { PublicWorksDetailComponent } from './public-works-detail/public-works-detail.component';
 
 // money flow
 import { ExpensesByAreaComponent } from './expenses-by-area/expenses-by-area.component';
@@ -64,6 +64,7 @@ export default angular.module( 'secont.transparency.module', [] )
     .directive( 'budgetDeviation', BudgetDeviationComponent )
     .directive( 'publicWorks', PublicWorksComponent )
     .directive( 'publicWorksByCity', PublicWorksByCityComponent )
+    .directive( 'publicWorksDetail', PublicWorksDetailComponent )
 
     // routes 
     .config( [
@@ -157,6 +158,14 @@ export default angular.module( 'secont.transparency.module', [] )
                     views: {
                         content: {
                             template: '<public-works-by-city></public-works-by-city>'
+                        }
+                    }
+                })
+                .state( 'app.secontTransparencyPublicWorksDetail', {
+                    url: 'secont/transparency/public-works/detail/:id',
+                    views: {
+                        content: {
+                            template: '<public-works-detail></public-works-detail>'
                         }
                     }
                 });

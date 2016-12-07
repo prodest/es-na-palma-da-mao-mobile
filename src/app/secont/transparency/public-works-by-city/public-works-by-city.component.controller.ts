@@ -1,11 +1,12 @@
 import { IScope } from 'angular';
+import { TransitionService } from '../../../shared/shared.module';
 import { YearFilter } from '../../../layout/layout.module';
 import { ChartModel } from '../transparency.module';
 import { PublicWorksByCityItem, TransparencyApiService } from '../shared/index';
 
 export class PublicWorksByCityController {
 
-    public static $inject: string[] = [ '$scope', '$stateParams', 'transparencyApiService' ];
+    public static $inject: string[] = [ '$scope', '$stateParams', 'transparencyApiService', 'transitionService' ];
 
     public cityId: number;
     public city: string;
@@ -25,13 +26,16 @@ export class PublicWorksByCityController {
      * Creates an instance of PublicWorksByCityController.
      * 
      * @param {IScope} $scope
+     * @param {angular.ui.IStateParamsService} $stateParams
      * @param {TransparencyApiService} transparencyApiService
+     * @param {TransitionService} transitionService
      * 
      * @memberOf PublicWorksByCityController
      */
     constructor( private $scope: IScope,
         private $stateParams: angular.ui.IStateParamsService,
-        private transparencyApiService: TransparencyApiService ) {
+        private transparencyApiService: TransparencyApiService,
+        private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
@@ -98,6 +102,18 @@ export class PublicWorksByCityController {
         this.cityId = cityId;
         this.title = label;
         this.filter = new YearFilter( +year );
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {PublicWorksByCityItem} item
+     * 
+     * @memberOf PublicWorksByCityController
+     */
+    public openDetails( item: PublicWorksByCityItem ): void {
+        this.transitionService.changeState( 'app.secontTransparencyPublicWorksDetail', { id: item.id });
     }
 
     /**

@@ -18,12 +18,12 @@ export class PublicWorksController {
     public showFilter: boolean = false;
     public chart: ChartModel | undefined;
 
-
     /**
      * Creates an instance of PublicWorksController.
      * 
      * @param {IScope} $scope
      * @param {TransparencyApiService} transparencyApiService
+     * @param {TransitionService} transitionService
      * 
      * @memberOf PublicWorksController
      */
@@ -84,14 +84,14 @@ export class PublicWorksController {
 
 
     /**
-         * 
-         * 
-         * @private
-         * @param {string} state
-         * @param {PublicWorksItem} item
-         * 
-         * @memberOf PublicWorksController
-         */
+     * 
+     * 
+     * @private
+     * @param {string} state
+     * @param {PublicWorksItem} item
+     * 
+     * @memberOf PublicWorksController
+     */
     public openDetails( item: PublicWorksItem ): void {
         this.transitionService.changeState( 'app.secontTransparencyPublicWorksByCity', Object.assign( { cityId: item.id }, this.filter ) );
     }

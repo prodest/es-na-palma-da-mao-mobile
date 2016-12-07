@@ -7,3 +7,4 @@ export * from './public-works';
 export * from './public-works-item';
 export * from './public-works-by-city';
 export * from './public-works-by-city-item';
+export * from  './public-works-detail';
