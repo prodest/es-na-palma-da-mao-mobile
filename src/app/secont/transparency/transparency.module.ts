@@ -79,10 +79,6 @@ export default angular.module( 'secont.transparency.module', [] )
                 })
                 .state( 'app.secontTransparencyAbout', {
                     url: '/secont/transparency/about',
-                    nativeTransitions: {
-                        type: 'slide',
-                        direction: 'up'
-                    },
                     views: {
                         content: {
                             template: '<transparency-about></transparency-about>'
