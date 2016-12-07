@@ -6,6 +6,7 @@ import { MoneyFlow, MoneyFlowItem } from './models/index';
 
 export abstract class MoneyFlowController<TFilter extends DateRangeFilter | YearFilter> {
 
+    public reportTitle: string | undefined;
     public moneyFlow: MoneyFlow | undefined;
     public filter: TFilter;
     public showFilter: boolean = false;
@@ -56,11 +57,21 @@ export abstract class MoneyFlowController<TFilter extends DateRangeFilter | Year
                 this.moneyFlow = undefined;
                 this.$scope.$apply();
             } finally {
+                this.reportTitle = filter.description(); // default value
                 this.filter = filter;
+                this.onFiltered();
             }
         }, 300 );
     }
 
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf MoneyFlowController
+     */
+    public onFiltered(): void {}
 
     /**
      * 

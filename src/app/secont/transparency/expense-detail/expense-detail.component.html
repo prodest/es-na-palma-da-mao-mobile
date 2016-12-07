@@ -14,7 +14,7 @@
 	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content class="expenses">
 		<money-flow-report money-flow="vm.moneyFlow" 
-				title="vm.filter.description()"
+				title="vm.reportTitle"
 				show-chart="vm.showChart" 
 				show-info="vm.showInfo"></money-flow-report>
 		<error-message error="uiState.error"></error-message>

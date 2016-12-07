@@ -33,5 +33,15 @@ export class ExpenseDetailController extends MoneyFlowDetailController<DateRange
     public getMoneyFlow( id: string, filter: DateRangeFilter ): Promise<MoneyFlow> {
         return this.transparencyApiService.getExpenseDetail( id, filter );
     }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf ExpenseDetailController
+     */
+    public onActivated(): void {
+        this.reportTitle = `Despesas ${this.filter.description()}`;
+    }
 }
 

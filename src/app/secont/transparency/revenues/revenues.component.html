@@ -18,7 +18,7 @@
 	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content class="revenues">
 		<money-flow-report money-flow="vm.moneyFlow"
-				title="vm.filter.description()"
+				title="vm.reportTitle"
 				on-item-click="vm.openDetails('app.secontTransparencyRevenueDetail', item)"
 				show-chart="vm.showChart" 
 				show-info="vm.showInfo"></money-flow-report>

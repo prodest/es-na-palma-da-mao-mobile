@@ -33,4 +33,14 @@ export class RevenueDetailController extends MoneyFlowDetailController<DateRange
     public getMoneyFlow( id: string, filter: DateRangeFilter ): Promise<MoneyFlow> {
         return this.transparencyApiService.getRevenueDetail( id, filter );
     }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf ExpenseDetailController
+     */
+    public onActivated(): void {
+        this.reportTitle = `Arrecadado ${this.filter.description()}`;
+    }
 }

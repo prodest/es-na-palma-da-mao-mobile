@@ -7,6 +7,7 @@ export abstract class MoneyFlowDetailController<TFilter extends DateRangeFilter 
 
     public id: string;
     public title: string;
+    public reportTitle: string | undefined;
     public filter: TFilter;
     public moneyFlow: MoneyFlow;
     public showChart: boolean = true;
@@ -35,7 +36,16 @@ export abstract class MoneyFlowDetailController<TFilter extends DateRangeFilter 
     public async activate() {
         this.hydrateFromParams( this.$stateParams );
         this.moneyFlow = await this.getMoneyFlow( this.id, this.filter );
+        this.onActivated();
     }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf MoneyFlowDetailController
+     */
+    public onActivated(): void { }
 
     /**
      * 

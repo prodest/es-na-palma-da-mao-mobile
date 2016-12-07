@@ -31,6 +31,15 @@ export class RevenuesController extends MoneyFlowController<DateRangeFilter> {
         await this.doFilter( DateRangeFilter.currentYear() );
     }
 
+    /**
+     * 
+     * 
+     * 
+     * @memberOf RevenuesController
+     */
+    public onFiltered(): void {
+        this.reportTitle = `Arrecadado ${this.filter.description()}`;
+    }
 
     /**
      * 

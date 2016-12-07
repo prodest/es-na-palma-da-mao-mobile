@@ -8,6 +8,7 @@ export class PublicWorksController {
 
     public static $inject: string[] = [ '$scope', 'transparencyApiService', 'transitionService' ];
 
+    public reportTitle: string | undefined;
     public showChart = true;
     public total: number;
     public quantity: number;
@@ -78,6 +79,7 @@ export class PublicWorksController {
                 this.$scope.$apply();
             } finally {
                 this.filter = filter;
+                this.reportTitle = `Obras Contratadas ${filter.year}`;
             }
         }, 300 );
     }

@@ -35,6 +35,16 @@ export class BudgetsController extends MoneyFlowController<YearFilter> {
     /**
      * 
      * 
+     * 
+     * @memberOf BudgetsController
+     */
+    public onFiltered(): void {
+        this.reportTitle = `Orçado ${this.filter.year}`;
+    }
+
+    /**
+     * 
+     * 
      * @param {YearFilter} filter
      * @returns {Promise<MoneyFlow>}
      * 

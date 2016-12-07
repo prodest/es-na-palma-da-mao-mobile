@@ -32,6 +32,15 @@ export class ExpensesByAreaController extends MoneyFlowController<DateRangeFilte
         await this.doFilter( DateRangeFilter.currentYear() );
     }
 
+    /**
+     * 
+     * 
+     * 
+     * @memberOf ExpensesByAreaController
+     */
+    public onFiltered(): void {
+        this.reportTitle = `Despesas ${this.filter.description()}`;
+    }
 
     /**
      * 

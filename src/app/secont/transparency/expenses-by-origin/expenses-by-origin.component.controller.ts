@@ -32,6 +32,25 @@ export class ExpensesByOriginController extends MoneyFlowController<DateRangeFil
     }
 
 
+    /**
+     * 
+     * 
+     * 
+     * @memberOf ExpensesByOriginController
+     */
+    public onFiltered(): void {
+        this.reportTitle = `Despesas ${this.filter.description()}`;
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {DateRangeFilter} filter
+     * @returns {Promise<MoneyFlow>}
+     * 
+     * @memberOf ExpensesByOriginController
+     */
     public getMoneyFlow( filter: DateRangeFilter ): Promise<MoneyFlow> {
         return this.transparencyApiService.getExpensesByOrigin( filter );
     }

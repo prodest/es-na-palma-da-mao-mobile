@@ -38,9 +38,9 @@ export class DateRangeFilter {
      * @memberOf DateRangeFilter
      */
     public description() {
-        const fromMonth = moment( this.from ).format( 'MMMM' );
+        const fromMonth = moment( this.from ).format( 'MMM' );
         const fromYear = moment( this.from ).year();
-        const toMonth = moment( this.to ).format( 'MMMM' );
+        const toMonth = moment( this.to ).format( 'MMM' );
         const toYear = moment( this.to ).year();
 
         // mês e ano iguais

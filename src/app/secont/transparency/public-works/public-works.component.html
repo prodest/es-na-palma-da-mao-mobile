@@ -19,7 +19,7 @@
 	<ion-content>
 		<div id="public-works" ng-if="vm.items">
 			<!-- componenu subheader-->
-			<report-title title="vm.filter.description()" info="vm.info"></report-title>
+			<report-title title="vm.reportTitle" info="vm.info"></report-title>
 
 			<!--chart component-->
 			<pie-chart data="vm.chart" ng-if="vm.showChart"></pie-chart>
