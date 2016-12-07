@@ -1,31 +1,48 @@
+import { IComponentController } from 'angular';
 import { YearFilter } from './index';
 
-export class YearFilterController {
+export class YearFilterController implements IComponentController {
 
-    public availableYears: number[];
+    private availableYears: number[];
+    public yearRange?: [ number, number ];
+    public filter: YearFilter;
 
     public onChange: ( filter: { filter: YearFilter }) => void;
 
     /**
-     * Creates an instance of YearFilterController.
+     * 
      * 
      * 
      * @memberOf YearFilterController
      */
-    constructor() {
+    public $onInit(): void {
         const currentYear = YearFilter.currentYear().year;
-        this.availableYears = this.generateYears( currentYear - 10, currentYear );
-    }
+        const range = this.yearRange || [ -10, 0 ];
+        this.availableYears = this.generateYears( currentYear + range[ 0 ], currentYear + range[ 1 ] );
+    };
 
     /**
      * 
      * 
-     * @param {number} year
+     * @param {any} changes
      * 
      * @memberOf YearFilterController
      */
-    public selectFilter( year: number ) {
-        this.onChange( { filter: new YearFilter( year ) });
+    public $onChanges( changes ) {
+        if ( changes.value ) {
+            this.filter = angular.copy( changes.value.currentValue );
+        }
+    };
+
+    /**
+     * 
+     * 
+     * @param {number} selectedYear
+     * 
+     * @memberOf YearFilterController
+     */
+    public selectFilter( filter: YearFilter ) {
+        this.onChange( { filter: filter });
     }
 
 
@@ -40,6 +57,6 @@ export class YearFilterController {
      * @memberOf YearFilterController
      */
     private generateYears( start, end ) {
-        return ( Array.from( Array( end - start + 1 ).keys() ).map( i => i + start ) );
+        return ( Array.from( Array( end - start + 1 ).keys() ).map( i => i + start ) ).reverse();
     }
 }

@@ -7,6 +7,8 @@ export const YearFilterComponent = {
     template: template,
     controller: YearFilterController,
     bindings: {
-        onChange: '&'
+        onChange: '&',
+        value: '<',
+        yearRange: '<'
     }
 };

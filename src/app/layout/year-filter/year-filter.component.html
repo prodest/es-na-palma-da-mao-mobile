@@ -4,9 +4,9 @@
         <div class="input-label">
             Ano
         </div>
-        <select ng-model="$ctrl.year">
-             <option ng-repeat="year in ::$ctrl.availableYears" value="{{::year}}">{{::year}}</option>
+        <select ng-model="$ctrl.filter.year"
+                ng-options="year for year in ::$ctrl.availableYears">
         </select>
   </label>
-    <md-button class="md-raised md-accent" md-ink-ripple="false" ng-click="$ctrl.selectFilter($ctrl.year)">Consultar</md-button>
+  <md-button class="md-raised md-accent" md-ink-ripple="false" ng-click="$ctrl.selectFilter($ctrl.filter)">Consultar</md-button>
 </div>
