@@ -30,7 +30,7 @@
 					<span class="total accent">{{vm.total | currency}}</span> ({{vm.quantity}} obras)
 				</report-list-summary>
 				<report-list-item ng-repeat="item in vm.items track by $index" ng-click="::vm.openDetails(item)">
-					<default-item item="item" show-legend="vm.showChart"></default-item>
+					<default-item item="item" show-legend="vm.showChart" clickable="true"></default-item>
 				</report-list-item>
 			</report-list>
 

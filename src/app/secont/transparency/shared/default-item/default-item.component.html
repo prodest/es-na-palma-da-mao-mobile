@@ -1,14 +1,15 @@
-<div class="default-item-content" 
+<div class="default-item" 
      ng-style="{'border-left-color': $ctrl.item.color}"
-     ng-class="{legended: $ctrl.showLegend}">
-    <div class="r-item-details">
-        <h3 class="r-item-label capitalize">{{$ctrl.item.label}}</h3>
-        <p class="r-item-value">{{$ctrl.item.value | currency}}</p>
+     ng-class="{'default-item--legended': $ctrl.showLegend}">
+    <div>
+        <h3 class="default-item__label capitalize">{{$ctrl.item.label}}</h3>
+        <p class="default-item__value">{{$ctrl.item.value | currency}}</p>
     </div>
-    <div class="r-item-percentage" ng-if="$ctrl.item.percentage < 1">
+    <div class="default-item__percentage" ng-if="$ctrl.item.percentage < 1">
         &lt;1%
     </div>
-    <div class="r-item-percentage" ng-if="$ctrl.item.percentage >= 1">
+    <div class="default-item__percentage" ng-if="$ctrl.item.percentage >= 1">
         {{$ctrl.item.percentage}}%
     </div>
+    <div ng-if="$ctrl.clickable" class="default-item__btn-detail"></div>
 </div>

@@ -11,6 +11,6 @@ export const MoneyFlowReportComponent: ng.IComponentOptions = {
         title: '<',
         showChart: '<',
         showInfo: '<',
-        onItemClick: '&'
+        onItemClick: '&?'
     }
 };

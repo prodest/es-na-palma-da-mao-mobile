@@ -6,6 +6,7 @@ export const DefaultItemComponent = {
     template: template,
     bindings: {
         item: '<',
+        clickable: '<',
         showLegend: '<'
     }
 };

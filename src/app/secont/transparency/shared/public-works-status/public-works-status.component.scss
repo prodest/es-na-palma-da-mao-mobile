@@ -2,10 +2,24 @@
     font-weight: bold;
     min-width: 100px;
     color: #707070;
-    
-    &__icon{ font-size:20px;}
-    &--is-Concluída &__icon { color: #68903b; }
-    &--is-Iniciada &__icon { color: #03a9f4; }
-    &--is-Paralisada &__icon { color: firebrick; }
-    &--is-Reiniciada &__icon { color: #03a9f4; }
+}
+
+.public-works-status__icon {
+    font-size: 20px;
+}
+
+.public-works-status--is-Concluída .public-works-status__icon {
+    color: #68903b;
+}
+
+.public-works-status--is-Iniciada .public-works-status__icon {
+    color: #03a9f4;
+}
+
+.public-works-status--is-Paralisada .public-works-status__icon {
+    color: firebrick;
+}
+
+.public-works-status--is-Reiniciada .public-works-status__icon {
+    color: #03a9f4;
 }

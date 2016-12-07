@@ -9,6 +9,7 @@ public-works-by-city-item {
 
         &.legended {
             border-left-width: 10px;
+            padding-left: 10px;
         }
         & > * {
             flex: 1;
@@ -27,5 +28,17 @@ public-works-by-city-item {
             color: #c86673;
             font-weight: bold;
         }
+
+        &__btn-detail {
+            position: absolute;
+            right: 5px;
+            top: 45%;
+        }
+        &__btn-detail:before {
+            color: #ccc;
+            font-family: FontAwesome;
+            content: '\f054';
+        }
+
     }
 }

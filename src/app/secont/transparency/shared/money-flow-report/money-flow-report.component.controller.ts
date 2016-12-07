@@ -6,7 +6,7 @@ export class MoneyFlowReportController implements IComponentController {
 
     public static $inject: string[] = [];
 
-    public onItemClick: ( item: { item: MoneyFlowItem }) => void;
+    public onItemClick: ( item: { item: MoneyFlowItem }) => void | undefined;
     public moneyFlow: MoneyFlow;
     public title: string;
     public showChart = true;
