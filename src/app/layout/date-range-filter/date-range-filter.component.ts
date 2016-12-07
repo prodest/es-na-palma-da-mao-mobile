@@ -7,7 +7,8 @@ const component = {
     controller: DateRangeFilterController,
     controllerAs: 'vm',
     bindings: {
-        onChange: '&'
+        onChange: '&',
+        value: '<'
     }
 };
 

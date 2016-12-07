@@ -1,10 +1,25 @@
+import { IComponentController } from 'angular';
 import { DateRangeFilter } from './index';
 
-export class DateRangeFilterController {
+export class DateRangeFilterController implements IComponentController {
+
+    public filter: DateRangeFilter | undefined;
 
     public onChange: ( filter: { filter: DateRangeFilter }) => void;
 
-    constructor() { }
+
+    /**
+     * 
+     * 
+     * @param {any} changes
+     * 
+     * @memberOf DateRangeFilterController
+     */
+    public $onChanges( changes ) {
+        if ( changes.value ) {
+            this.filter = angular.copy( changes.value.currentValue );
+        }
+    };
 
     /**
      * 
@@ -13,7 +28,7 @@ export class DateRangeFilterController {
      * 
      * @memberOf ReportController
      */
-    public selectFilter( from: Date, to: Date ) {
-        this.onChange( { filter: new DateRangeFilter( from, to ) });
+    public selectFilter( filter: DateRangeFilter ) {
+        this.onChange( { filter: filter });
     }
 }
