@@ -30,7 +30,7 @@
 					<span class="total accent">{{vm.total | currency}}</span> ({{vm.quantity}} obras)
 				</report-list-summary>
 				<report-list-item ng-repeat="item in vm.items track by $index">
-					<public-works-by-city-item item="item" show-legend="vm.showChart"></public-works-by-city-item>
+					<public-works-by-city-item item="item" show-legend="vm.showChart" ng-click="vm.openDetails(item)"></public-works-by-city-item>
 				</report-list-item>
 			</report-list>
 
@@ -39,7 +39,7 @@
 		</div>
 
 		<modal show="vm.showFilter" title="Obras">
-			<year-filter on-change="vm.doFilter(vm.cityId, filter)"></year-filter>
+			<year-filter on-change="vm.doFilter(vm.cityId, filter)" value="vm.filter"></year-filter>
 		</modal>
 		<error-message error="uiState.error"></error-message>
 	</ion-content>

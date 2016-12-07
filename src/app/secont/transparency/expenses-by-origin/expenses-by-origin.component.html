@@ -24,7 +24,7 @@
 				show-info="vm.showInfo">
 		</money-flow-report>
 		<modal show="vm.showFilter" title="Despesas(Órgãos)">
-			<date-range-filter on-change="vm.doFilter(filter)"></date-range-filter>
+			<date-range-filter on-change="vm.doFilter(filter)" value="vm.filter"></date-range-filter>
 		</modal>
 		<error-message error="uiState.error"></error-message>
 	</ion-content>

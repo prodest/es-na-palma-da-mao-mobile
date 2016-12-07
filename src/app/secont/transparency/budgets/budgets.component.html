@@ -22,7 +22,7 @@
 				show-chart="vm.showChart" 
 				show-info="vm.showInfo"></money-flow-report>
 		<modal show="vm.showFilter" title="Orçamento">
-			<year-filter on-change="vm.doFilter(filter)"></year-filter>
+			<year-filter on-change="vm.doFilter(filter)" value="vm.filter"></year-filter>
 		</modal>
 		<error-message error="uiState.error"></error-message>
 	</ion-content>
