@@ -90,13 +90,13 @@ export class BudgetDeviationController {
             values: [ [ 100 ], [ budgetDeviation.percentage ] ],
             override: [ {
                 label: 'Orçado',
-                backgroundColor: color( chartColors.red ).alpha( 0.5 ).rgbString(),
-                borderColor: chartColors.red,
+                backgroundColor: color( chartColors.blue ).alpha( 0.5 ).rgbString(),
+                borderColor: chartColors.blue,
                 borderWidth: 1
             }, {
                 label: 'Executado',
-                backgroundColor: color( chartColors.blue ).alpha( 0.5 ).rgbString(),
-                borderColor: chartColors.blue,
+                backgroundColor: color( chartColors.red ).alpha( 0.5 ).rgbString(),
+                borderColor: chartColors.red,
                 borderWidth: 1
             }]
         };
