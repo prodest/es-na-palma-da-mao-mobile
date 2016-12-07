@@ -40,7 +40,7 @@ const config = options => {
 
     const buildAppSettings = () => {
         // Here, we use dotenv to load our env vars in the .env, into process.env
-        if ( METADATA.isDev ) {
+        if ( fs.existsSync('.env') ) {
             require( 'dotenv' ).load();
         }
         const settings = require( helpers.root( 'config/app.settings' ) );
