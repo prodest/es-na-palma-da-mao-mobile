@@ -29,6 +29,7 @@ import {
     ReportListItemComponent,
     MoneyFlowReportComponent,
     DefaultItemComponent,
+    PublicWorksStatusComponent,
     TransparencyApiService
 } from './shared/index';
 

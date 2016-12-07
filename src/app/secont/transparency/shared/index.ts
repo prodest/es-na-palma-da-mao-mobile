@@ -13,4 +13,6 @@ export * from './money-flow-report/money-flow-report.component';
 
 export * from './default-item/default-item.component';
 
+export * from './public-works-status/public-works-status.component';
+
 export * from './transparency-api.service';
