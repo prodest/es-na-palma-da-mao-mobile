@@ -23,7 +23,7 @@ function authRun(
     });
 
     $ionicPlatform.ready( async () => {
-        await resumeApplication( 'app.dashboard.newsHighlights' );
+        await resumeApplication( 'app.dashboard.newsHighlights', true );
     });
 
     $ionicPlatform.on( 'resume', async () => {
@@ -33,7 +33,7 @@ function authRun(
     /**
      * 
      */
-    async function resumeApplication( redirectTo?: string ) {
+    async function resumeApplication( redirectTo?: string, deviceReady: boolean = false ) {
         try {
             // pushService.init();
 
@@ -46,7 +46,9 @@ function authRun(
             }
         }
         catch ( error ) {
+            if ( deviceReady || error.message !== 'no-token' ) {
             authenticationService.logout(() => transitionService.changeRootState( 'home' ) );
+            }
         }
         finally {
             Splashscreen.hide();
