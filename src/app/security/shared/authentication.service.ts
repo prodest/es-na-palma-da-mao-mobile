@@ -3,7 +3,7 @@ import { GooglePlus, Facebook, FacebookLoginResponse } from 'ionic-native';
 import { AuthenticationStorageService } from './authentication-storage.service';
 import { AcessoCidadaoService } from './acesso-cidadao.service';
 import { DigitsService } from './digits.service';
-import { ISettings, AnswersService } from '../../shared/shared.module';
+import { ISettings, AnswersService, PushService } from '../../shared/shared.module';
 
 import {
     AcessoCidadaoIdentity,
@@ -28,7 +28,8 @@ export class AuthenticationService {
         'answersService',
         'acessoCidadaoService',
         'digitsService',
-        'settings'
+        'settings',
+        'pushService'
     ];
 
 
@@ -40,6 +41,7 @@ export class AuthenticationService {
      * @param {AcessoCidadaoService} acessoCidadaoService
      * @param {DigitsService} digitsService
      * @param {ISettings} settings
+     * @param {PushService} pushService
      * 
      * @memberOf AuthenticationService
      */
@@ -47,7 +49,8 @@ export class AuthenticationService {
         private answersService: AnswersService,
         private acessoCidadaoService: AcessoCidadaoService,
         private digitsService: DigitsService,
-        private settings: ISettings ) {
+        private settings: ISettings,
+        private pushService: PushService ) {
     }
 
     /**
@@ -56,16 +59,21 @@ export class AuthenticationService {
      * @param {*} success
      * @returns {void}
      */
-    public logout( success: Function ): void {
+    public async logout( success: Function ) {
 
-        // 1 - se desloga de todos os providers
-        Facebook.logout();
+        // 1 - Remove o registro do Push
+        await this.pushService.unregisterUser();
+
+        // 2 - se desloga de todos os providers
         GooglePlus.logout();
         this.digitsService.logout();
         this.acessoCidadaoService.logout();
 
-        // 2 - limpa auth storage
+        // 3 - limpa auth storage
         this.authStorage.reset();
+
+        // 4 - Reinicia o push para usuário anônimo
+        this.pushService.init();
 
         success();
     }
@@ -242,6 +250,7 @@ export class AuthenticationService {
         // 2) Cria uma usuário com os dados das claims + informações extras ( avatarUrl, anonymous, isAuthenticated ...)
         // 3) Se o login foi via provider externo (google, facebook), tenta buscar a url do avatar do provider. Usa padrão como fallback
         // 4) Salva o usuário no local storage. 
+        // 5) Reinicia o serviço de push
 
         // 1)
         const claims = await this.acessoCidadaoService.login( identity );
@@ -254,6 +263,9 @@ export class AuthenticationService {
 
         // 4)
         this.authStorage.user = user;
+
+        // 5)
+        this.pushService.init( user.sub );
 
         return user;
     }

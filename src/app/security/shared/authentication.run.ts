@@ -35,10 +35,11 @@ function authRun(
      */
     async function resumeApplication( redirectTo?: string, deviceReady: boolean = false ) {
         try {
-            // pushService.init();
-
             if ( !authenticationService.user.anonymous ) {
                 await authenticationService.refreshAccessTokenIfNeeded();
+                pushService.init( authenticationService.user.sub );
+            } else {
+                pushService.init();
             }
 
             if ( redirectTo ) {
@@ -47,7 +48,7 @@ function authRun(
         }
         catch ( error ) {
             if ( deviceReady || error.message !== 'no-token' ) {
-            authenticationService.logout(() => transitionService.changeRootState( 'home' ) );
+                authenticationService.logout(() => transitionService.changeRootState( 'home' ) );
             }
         }
         finally {

@@ -19,7 +19,10 @@ export interface ISettings {
         alert: string,
         badge: string,
         sound: string,
-        gcmSandbox: string
+        gcmSandbox: string,
+        secret: string,
+        defaultIcon: string,
+        defaultColor: string
     };
     pagination: {
         pageNumber: number,

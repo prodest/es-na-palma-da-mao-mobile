@@ -1,5 +1,6 @@
 export interface PushUser {
-  user: number | undefined;
-  type: string;
-  token: string;
+  user: string | undefined;
+  type?: string;
+  token?: string;
+  secret: string;
 }

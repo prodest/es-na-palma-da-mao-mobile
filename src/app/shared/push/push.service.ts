@@ -1,5 +1,5 @@
 import { IHttpService } from 'angular';
-import { Push, AndroidPushOptions, IOSPushOptions, PushNotification } from 'ionic-native';
+import { Push, AndroidPushOptions, IOSPushOptions, PushNotification, Device } from 'ionic-native';
 
 import { ISettings } from '../settings/index';
 import { PushUser } from './models/index';
@@ -10,32 +10,20 @@ export class PushService {
     public static $inject: string[] = [
         '$http',
         'settings',
-        'authenticationStorageService',
-        'authenticationService',
         'transitionService'
     ];
 
-    /**
-     * Creates an instance of PushService.
-     * 
-     * @param {IHttpService} $http
-     * @param {ISettings} settings
-     * @param {AuthenticationService} authenticationService
-     * @param {TransitionService} transitionService
-     * 
-     * @memberOf PushService
-     */
     constructor( private $http: IHttpService,
         private settings: ISettings,
         private transitionService: TransitionService ) {
     }
 
-    public init() {
+    public init( sub?: number ) {
         let androidPushConfig: AndroidPushOptions = {
             senderID: this.settings.push.senderId,
             forceShow: this.settings.push.forceShow,
-            icon: 'notification',
-            iconColor: '#549db2'
+            icon: this.settings.push.defaultIcon,
+            iconColor: this.settings.push.defaultColor
         };
 
         let iosPushConfig: IOSPushOptions = {
@@ -45,6 +33,9 @@ export class PushService {
             sound: this.settings.push.sound,
             gcmSandbox: this.settings.push.gcmSandbox
         };
+
+        // Remove o registro do Push
+        this.unregisterUser();
 
         let push: PushNotification = Push.init( { android: androidPushConfig, ios: iosPushConfig });
 
@@ -57,23 +48,30 @@ export class PushService {
                 this.notify( data.additionalData );
             });
 
-            push.on( 'error', ( e ) => console.log( e ) );
+            // TODO: send statistics to answers
+            // push.on( 'error', ( e ) => console.log( e ) );
         }
     }
 
     /**
      * 
      * 
-     * @param {string} token
+     * @param {string} registrationId
+     * 
+     * @memberOf PushService
      */
-    public registerUser( token: string ) {
-        let data: PushUser = {
-            user: 123, // this.authenticationService.user.sub,
-            type: ionic.Platform.platform(),
-            token: token
-        };
+    public registerUser( registrationId: string ) {
+        this.$http.post( `${this.settings.api.push}/subscribe`, this.getPushUser( registrationId ) );
+    }
 
-        this.$http.post( `${this.settings.api.push}/subscribe`, data );
+    /**
+     * 
+     * 
+     * 
+     * @memberOf PushService
+     */
+    public async unregisterUser() {
+        await this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser() );
     }
 
     /**
@@ -85,5 +83,26 @@ export class PushService {
         if ( data.appData && data.appData.state ) {
             this.transitionService.changeState( data.appDatta.state, data.appData.params, {}, { root: true, reload: true });
         }
+    }
+
+    /* Private */
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {string} [registrationId]
+     * @returns
+     * 
+     * @memberOf PushService
+     */
+    private getPushUser( registrationId?: string ) {
+        let pushUser: PushUser = { user: Device.device.uuid, secret: this.settings.push.secret };
+
+        if ( registrationId ) {
+            pushUser.type = ionic.Platform.platform();
+            pushUser.token = registrationId;
+        }
+        return pushUser;
     }
 }

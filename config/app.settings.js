@@ -20,7 +20,10 @@ const shared = {
     alert: 'true',
     badge: 'true',
     sound: 'true',
-    gcmSandbox: 'true'
+    gcmSandbox: 'true',
+    defaultIcon: 'notification',
+    defaultColor: '#549db2',
+    secret: process.env.PUSH_SECRET || ''
   },
   pagination: {
     pageNumber: 0,

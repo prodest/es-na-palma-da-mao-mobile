@@ -1,5 +1,5 @@
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
-import { ToastService, DialogService, TransitionService, PushService } from '../../shared/shared.module';
+import { ToastService, DialogService, TransitionService } from '../../shared/shared.module';
 import { AuthenticationService } from '../shared/authentication.service';
 
 /**
@@ -18,7 +18,6 @@ export class LoginController {
         'authenticationService',
         'dialog',
         'toast',
-        'pushService',
         'transitionService'
     ];
 
@@ -42,7 +41,6 @@ export class LoginController {
     constructor( private authenticationService: AuthenticationService,
         private dialog: DialogService,
         private toast: ToastService,
-        private pushService: PushService,
         private transitionService: TransitionService ) {
     }
 
@@ -119,7 +117,6 @@ export class LoginController {
      * Callback de sucesso no login no acesso cidadão.
      */
     private onLoginSuccess(): void {
-        this.pushService.init();
         this.username = undefined;
         this.password = undefined;
         this.transitionService.clearCache().then(() => this.goToDashboard() );

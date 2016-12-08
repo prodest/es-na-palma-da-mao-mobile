@@ -20,7 +20,6 @@ describe( 'Login', () => {
         let toastInfo: Sinon.SinonStub;
         let toastError: Sinon.SinonStub;
         let authenticationService: AuthenticationService;
-        let pushConfigInit: Sinon.SinonStub;
         let transitionServiceClearCache: Sinon.SinonStub;
         let transitionServiceChangeRootState: Sinon.SinonStub;
 
@@ -38,12 +37,11 @@ describe( 'Login', () => {
                 clearCache: () => { }
             };
 
-            controller = new LoginController( authenticationService, dialogServiceMock, toastServiceMock, pushService, transitionService );
+            controller = new LoginController( authenticationService, dialogServiceMock, toastServiceMock, transitionService );
 
             // setup stubs
             toastInfo = sandbox.stub( toastServiceMock, 'info' );
             toastError = sandbox.stub( toastServiceMock, 'error' );
-            pushConfigInit = sandbox.stub( pushService, 'init' );
             transitionServiceChangeRootState = sandbox.stub( transitionService, 'changeRootState' );
             transitionServiceClearCache = sandbox.stub( transitionService, 'clearCache' );
             transitionServiceClearCache.returnsPromise().resolves();
@@ -134,11 +132,6 @@ describe( 'Login', () => {
             describe( 'on login success', () => {
                 beforeEach(() => acessoCidadaoLoginPromise.resolves() );
 
-                it( 'should start push service', async () => {
-                    await controller.login( username, password );
-
-                    expect( pushConfigInit.calledOnce ).to.be.true;
-                });
                 it( 'should reset username and password', async () => {
                     await controller.login( username, password );
 
