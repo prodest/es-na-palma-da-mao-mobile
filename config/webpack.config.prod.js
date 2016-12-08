@@ -2,7 +2,7 @@
 
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
-const merge = require( 'webpack-merge' ); // used to merge webpack configs
+const merge = require( 'webpack-merge' ).smart; // used to merge webpack configs
 const commonConfig = require( './webpack.config.common' ); // the settings that are common to prod and dev
 
 /**
@@ -80,10 +80,10 @@ module.exports = options => {
             rules: [
                 // Extract CSS during build
                 {
-                    test: /\.css$/,
+                    test: /\.scss$/,
                     loader: ExtractTextPlugin.extract( {
                         fallbackLoader: 'style-loader',
-                        loader: 'css-loader'
+                        loader: [ 'css-loader', 'sass-loader' ]
                     })
                 }
             ]
