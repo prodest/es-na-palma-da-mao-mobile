@@ -40,13 +40,13 @@ const config = options => {
 
     const buildAppSettings = () => {
         // Here, we use dotenv to load our env vars in the .env, into process.env
-        if ( fs.existsSync('.env') ) {
+        if ( fs.existsSync( '.env' ) ) {
             require( 'dotenv' ).load();
         }
         const settings = require( helpers.root( 'config/app.settings' ) );
         fs.writeFileSync( PATHS.appSettings, JSON.stringify( settings[ options.env ], null, 4 ) );
 
-        console.log( chalk.yellow( `Settings geradas para env: ${ chalk.bold( options.env ) }` ) );
+        console.log( chalk.yellow( `Settings geradas para env: ${chalk.bold( options.env )}` ) );
     };
 
     return {
@@ -166,7 +166,7 @@ const config = options => {
                 metadata: METADATA,
                 inject: 'body',
                 hash: true
-            } ),
+            }),
 
             // ref: http://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
             new webpack.ContextReplacementPlugin( /moment[\/\\]locale$/, /pt-br/ ),
@@ -176,7 +176,7 @@ const config = options => {
             *
             * See: https://gist.github.com/sokra/27b24881210b56bbaff7
             */
-            new webpack.LoaderOptionsPlugin( {} ),
+            new webpack.LoaderOptionsPlugin( {}),
 
             /* Ignora o arquivo de settings gerado dinâmicamente. Impede loop infinito no build */
             new WatchIgnorePlugin( [ PATHS.appSettings ] ),
