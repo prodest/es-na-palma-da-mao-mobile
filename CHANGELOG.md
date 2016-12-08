@@ -1,3 +1,13 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.0.0...v3.0.1) (2016-12-08)
+
+
+### Bug Fixes
+
+* **config:** corrige verificação de arquivo .env ([19e6bed](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/19e6bed))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v2.0.0...v3.0.0) (2016-12-07)
 
