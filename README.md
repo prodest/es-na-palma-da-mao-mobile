@@ -232,6 +232,11 @@ Lista de *task* disponíveis, executadas com o comando `yarn nome-da-task`:
     * Task executada automaticamente antes da task *build:dev*. Limpa pasta *www*
  * `build:dev`
     * Executa webpack (com indicador de progresso) para realizar o build completo(vendor + espm), usando configuração de desenvolvimento
+ * `prebuild:stats`
+    * Task executada automaticamente antes da task *build:stats*. Executa build de desenvolvimento.
+ * `build:stats`
+    * Executa webpack (com indicador de progresso) para realizar o build completo(vendor + espm), usando configuração de desenvolvimento e em seguida exibe estatísticas
+    a respeitos dos bundles ( vendors e app) gerados.
  * `build:prod:app`
    * Executa webpack (com indicador de progresso) para realizar o build parcial (arquivos do espm), usando configuração de produção
  * `prebuild:prod`,
@@ -260,6 +265,10 @@ Lista de *task* disponíveis, executadas com o comando `yarn nome-da-task`:
     * Inicia um servidor local para servir arquivos na pasta *www* (build)
  * `show:coverage`
     * Inicia um servidor local para servir relatório de code coverage como páginas html
+ * `show:stats:app`
+    * Exibe estatísticas do bundle contendo código da app. Obs: requer que o bundle da app tenha sido gerado previamente.
+ * `show:stats:vendors`
+    * Exibe estatísticas do bundle contendo código de terceiros usados na app. Obs: requer que o bundle de vendors tenha sido gerado previamente.
  * `github:release`
     * Executa script que gera um novo release da aplicação e faz upload pro github
  * `component`

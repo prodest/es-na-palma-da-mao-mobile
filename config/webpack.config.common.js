@@ -117,6 +117,10 @@ const config = options => {
                     loaders: [ 'style-loader', 'css-loader', 'stylus-loader' ]
                 },
                 {
+                    test: /\.css$/,
+                    loaders: [ 'style-loader', 'css-loader' ]
+                },
+                {
                     test: /\.scss$/,
                     loaders: [ 'style-loader', 'css-loader', 'sass-loader' ]
                 },

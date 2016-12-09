@@ -156,6 +156,7 @@ module.exports = options => {
                 //   unused: false
                 // }, // debug
                 // comments: true, //debug
+                sourceMap: true,
                 beautify: false, //prod
                 mangle: {
                     screw_ie8: true,

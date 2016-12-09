@@ -71,15 +71,6 @@ module.exports = options => {
              */
             chunkFilename: '[id].chunk.js'
         },
-
-        module: {
-            rules: [
-                {
-                    test: /\.css$/,
-                    loaders: [ 'style-loader', 'css-loader' ]
-                }
-            ]
-        },
         plugins: [
             // // Enable multi-pass compilation for enhanced performance
             // // in larger projects. Good default.

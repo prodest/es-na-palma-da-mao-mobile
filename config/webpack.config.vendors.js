@@ -13,22 +13,24 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 module.exports = options => {
-    return merge( commonConfig( {} ), {
+    return merge( commonConfig( { env: ENV } ), {
+
+         /**
+         * Developer tool to enhance debugging
+         *
+         * See: http://webpack.github.io/docs/configuration.html#devtool
+         * See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
+         */
+        devtool: 'source-map',
+
         entry: {
             vendors: [ helpers.root( 'src/app/vendors.ts' ) ]
         },
         output: {
             path: helpers.root( 'www' ),
             filename: 'dll.[name].js',
+            sourceMapFilename: 'dll.[name].map',
             library: '[name][chunkhash]'
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.css$/,
-                    loaders: [ 'style-loader', 'css-loader' ]
-                }
-            ]
         },
         plugins: [
             new webpack.DllPlugin( {
@@ -79,6 +81,7 @@ module.exports = options => {
                 //   unused: false
                 // }, // debug
                 // comments: true, //debug
+                sourceMap: true,
                 beautify: false, //prod
                 mangle: {
                     screw_ie8: true,
