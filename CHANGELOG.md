@@ -1,3 +1,19 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.0.1...v3.1.0) (2016-12-09)
+
+
+### Bug Fixes
+
+* **authentication:** corrige redirecionamento no caso de erro no-token durante a inicialização ([61c6988](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/61c6988))
+* **build:** css não está sendo gerado à parte do bundle .js ([3efcf83](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/3efcf83))
+
+
+### Features
+
+* **push:** push implementado para usuários anônimos ([59c6271](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/59c6271))
+
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.0.0...v3.0.1) (2016-12-08)
 
