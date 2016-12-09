@@ -2,8 +2,11 @@
 
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
-const merge = require( 'webpack-merge' ); // used to merge webpack configs
+const merge = require( 'webpack-merge' ).smart; // used to merge webpack configs
 const commonConfig = require( './webpack.config.common' ); // the settings that are common to prod and development
+
+
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
 const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
@@ -29,14 +32,29 @@ module.exports = options => {
         output: {
             path: helpers.root( 'www' ),
             filename: 'dll.[name].js',
-            sourceMapFilename: 'dll.[name].map',
+            sourceMapFilename: '[file].map',
             library: '[name][chunkhash]'
+        },
+        module: {
+            rules: [
+                // Extract CSS during build
+                {
+                    test: /\.css$/,
+                    loader: ExtractTextPlugin.extract( {
+                        fallbackLoader: 'style-loader',
+                        loader: [ 'css-loader?sourceMap' ]
+                    } )
+                }
+            ]
         },
         plugins: [
             new webpack.DllPlugin( {
                 path: helpers.root( 'www/[name]-manifest.json' ),
                 name: '[name][chunkhash]'
-            }),
+            } ),
+
+            // Output extracted CSS to a file
+            new ExtractTextPlugin( 'dll.[name].css' ),
 
             /**
              * Plugin: DedupePlugin

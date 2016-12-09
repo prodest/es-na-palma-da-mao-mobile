@@ -45,7 +45,7 @@
     "show:build": "serveur -L -cbJS -o www -p 3000",
     "show:coverage": "serveur -L -cbJS -o coverage/html -p 8080",
     "show:stats:app": "source-map-explorer www/main.bundle.js",
-    "show:stats:vendors": "source-map-explorer www/dll.vendors.js",
+    "show:stats:vendors": "source-map-explorer www/dll.vendors.js && source-map-explorer www/dll.vendors.css",
     "github:release": "sh ./release.sh",
     "component": "gulp generate --template component",
     "state": "gulp generate --template state"
