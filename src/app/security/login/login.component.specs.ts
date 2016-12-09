@@ -1,7 +1,7 @@
 import { LoginComponent } from './login.component';
 import { LoginController } from './login.component.controller';
 import loginTemplate = require('./login.component.html');
-import { TransitionService, PushService } from '../../shared/shared.module';
+import { TransitionService } from '../../shared/shared.module';
 import { AuthenticationService } from '../shared/authentication.service';
 import { environment, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
 
@@ -31,7 +31,6 @@ describe( 'Login', () => {
                 googleLogin() { },
                 digitsLogin() { }
             };
-            let pushService = <PushService>{ init() { } };
             let transitionService = <TransitionService><any>{
                 changeRootState: () => { },
                 clearCache: () => { }
@@ -200,11 +199,6 @@ describe( 'Login', () => {
                 describe( 'on login success', () => {
                     beforeEach(() => loginMethodPromise.resolves() );
 
-                    it( 'should start push service', async () => {
-                        await controller[ loginMethodName ]();
-
-                        expect( pushConfigInit.calledOnce ).to.be.true;
-                    });
                     it( 'should reset username and password', async () => {
                         await controller[ loginMethodName ]();
 
