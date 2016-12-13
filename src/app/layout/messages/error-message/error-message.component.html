@@ -1,19 +1,29 @@
 <div ng-if="!uiState.loading && vm.error" class="error-wrapper" layout="column" layout-align="center center">
 
     <div class="img s{{vm.error.status}}" flex>
-        <i ng-if="::vm.error.status === -1" class="fa fa-exclamation-circle"></i>
-        <i ng-if="::vm.error.status === 400" class="fa fa-exclamation-circle"></i>
-        <i ng-if="::vm.error.status === 401" class="fa fa-lock"></i>
-        <i ng-if="::vm.error.status === 404" class="fa fa-times"></i>
-        <i ng-if="::vm.error.status === 429" class="fa fa-hourglass-end"></i>
-        <i ng-if="::vm.error.status === 498" class="fa fa-lock"></i>
-        <i ng-if="::vm.isServerError" class="fa fa-exclamation-circle"></i>
+        <i ng-if="::vm.error.status === -1" class="fa-stack">
+          <i class="fa fa-wifi fa-stack-1x"></i>
+          <i class="fa fa-ban fa-stack-2x"></i>
+        </i>
+        <i ng-if="::vm.error.status === 400" class="fa fa-exclamation-circle fa-2x"></i>
+        <i ng-if="::vm.error.status === 401" class="fa fa-lock fa-2x"></i>
+        <i ng-if="::vm.error.status === 404" class="fa fa-times fa-2x"></i>
+        <i ng-if="::vm.error.status === 429" class="fa fa-hourglass-end fa-2x"></i>
+        <i ng-if="::vm.error.status === 498" class="fa fa-lock fa-2x"></i>
+        <i ng-if="::vm.isServerError" class="fa fa-exclamation-circle fa-2x"></i>
     </div>
 
     <div ng-if="!vm.error.handled" class="error unexpected" layout="column" layout-align="center center">
-        <div class="head" flex>{{vm.unhandledErrorMessage}}</div>
-        <small class="accent" flex>{{vm.error.guid}}</small>
-        <ng-transclude></ng-transclude>
+        <div ng-if="::vm.error.status === -1">
+            <div class="head" flex>Verifique sua conexão à internet</div>
+            <small class="accent" flex>{{vm.error.guid}}</small>
+            <ng-transclude></ng-transclude>
+        </div>
+        <div ng-if="::vm.error.status !== -1">
+            <div class="head" flex>{{vm.unhandledErrorMessage}}</div>
+            <small class="accent" flex>{{vm.error.guid}}</small>
+            <ng-transclude></ng-transclude>
+        </div>
     </div>
     <div ng-if="vm.error.handled" class="error" layout="column" layout-align="center center">
         <div class="head" flex>{{vm.error.message || vm.unhandledErrorMessage }}</div>
