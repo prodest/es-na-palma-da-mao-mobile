@@ -70,8 +70,12 @@ export class PushService {
      * 
      * @memberOf PushService
      */
-    public async unregisterUser() {
-        await this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser() );
+    public async unregisterUser( timeout?: number) {
+        try {
+            await this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser(), { timeout: timeout } );
+        } catch ( error ) {
+
+        }
     }
 
     /**

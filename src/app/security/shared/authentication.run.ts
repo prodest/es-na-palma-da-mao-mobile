@@ -46,8 +46,11 @@ function authRun(
             }
         }
         catch ( error ) {
-            if ( deviceReady || error.message !== 'no-token' ) {
+            if ( error.message !== 'no-token' ) {
                 authenticationService.logout(() => transitionService.changeRootState( 'home' ) );
+            } else if ( deviceReady ) {
+                pushService.init();
+                transitionService.changeRootState( 'home' );
             }
         }
         finally {

@@ -62,7 +62,7 @@ export class AuthenticationService {
     public async logout( success: Function ) {
 
         // 1 - Remove o registro do Push
-        await this.pushService.unregisterUser();
+        await this.pushService.unregisterUser( 5000 );
 
         // 2 - se desloga de todos os providers
         GooglePlus.logout();
