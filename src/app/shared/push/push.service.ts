@@ -18,7 +18,7 @@ export class PushService {
         private transitionService: TransitionService ) {
     }
 
-    public init( sub?: number ) {
+    public init() {
         let androidPushConfig: AndroidPushOptions = {
             senderID: this.settings.push.senderId,
             forceShow: this.settings.push.forceShow,

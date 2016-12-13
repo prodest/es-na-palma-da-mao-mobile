@@ -265,7 +265,7 @@ export class AuthenticationService {
         this.authStorage.user = user;
 
         // 5)
-        this.pushService.init( user.sub );
+        this.pushService.init();
 
         return user;
     }

@@ -37,10 +37,9 @@ function authRun(
         try {
             if ( !authenticationService.user.anonymous ) {
                 await authenticationService.refreshAccessTokenIfNeeded();
-                pushService.init( authenticationService.user.sub );
-            } else {
-                pushService.init();
             }
+
+            pushService.init();
 
             if ( redirectTo ) {
                 transitionService.changeRootState( redirectTo );
