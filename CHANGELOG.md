@@ -1,3 +1,14 @@
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.1.0...v3.1.1) (2016-12-13)
+
+
+### Bug Fixes
+
+* **push:** Ajusta chamadas ao pushService.init ([cefd17f](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/cefd17f))
+* **security:** Executa o request sem token em caso de erro ao atualizar o token ([eccc016](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/eccc016))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.0.1...v3.1.0) (2016-12-09)
 
