@@ -28,10 +28,7 @@ let httpAuthInterceptorConfig = $httpProvider => {
                     return addAuthorizationHeader( config, accessToken );
 
                 } catch ( error ) {
-                    if ( error.message === 'no-token' ) {
-                        return config;
-                    }
-                    throw error;
+                    return config;
                 };
             },
 
