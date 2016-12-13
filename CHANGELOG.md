@@ -1,3 +1,19 @@
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.1.1...v3.2.0) (2016-12-13)
+
+
+### Bug Fixes
+
+* **push:** evita erro de aplicação caso o usuário não esteja logado ([04eab50](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/04eab50))
+
+
+### Features
+
+* **cordova:** atualiza cordova (6.4.0) e plugins ([40952a1](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/40952a1))
+* **layout/messages:** adiciona tratamento específico para http status -1 ([0c67847](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/0c67847))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.1.0...v3.1.1) (2016-12-13)
 
