@@ -3,8 +3,7 @@
 // each object in the array consists of a key which refers to the source and
 // the value which is the destination.
 var filestocopy = [
-    { 'resources/android/images/extintor.png': 'platforms/android/res/drawable/extintor.png' },
-    { 'resources/android/images/notification.png': 'platforms/android/res/drawable/notification.png' }
+    { 'resources/android/icon-push/': 'platforms/android/res/' }
 ];
 
 var fs = require( 'fs' );
@@ -13,20 +12,32 @@ var path = require( 'path' );
 // no need to configure below
 var rootdir = path.resolve( __dirname, '../../' ); // process.argv[ 2 ];
 
+const copyRecursiveSync = ( src, dest ) => {
+    var exists = fs.existsSync( src );
+    var stats = exists && fs.statSync( src );
+    var isDirectory = stats.isDirectory();
+    if ( isDirectory ) {
+        if ( !fs.existsSync( dest ) ) {
+            fs.mkdirSync( dest );
+        }
+        fs.readdirSync( src )
+            .forEach( function( childItemName ) {
+                copyRecursiveSync( path.join( src, childItemName ), path.join( dest, childItemName ) );
+            } );
+    } else {
+        if ( fs.existsSync( src ) ) {
+            fs.createReadStream( src )
+                .pipe( fs.createWriteStream( dest ) );
+        }
+    }
+};
+
 filestocopy.forEach( ( obj ) => {
     Object.keys( obj ).forEach( ( key ) => {
         var val = obj[ key ];
-        var srcfile = path.join( rootdir, key );
-        var destfile = path.join( rootdir, val );
-        //console.log("copying "+srcfile+" to "+destfile);
-        var destdir = path.dirname( destfile );
-        if ( !fs.existsSync( destdir ) ) {
-            fs.mkdirSync( destdir );
-        }
+        var srcPath = path.join( rootdir, key );
+        var destPath = path.join( rootdir, val );
 
-        if ( fs.existsSync( srcfile ) && fs.existsSync( destdir ) ) {
-            fs.createReadStream( srcfile )
-                .pipe( fs.createWriteStream( destfile ) );
-        }
+        copyRecursiveSync( srcPath, destPath );
     } );
 } );
