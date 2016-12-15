@@ -117,7 +117,7 @@ export class AcessoCidadaoService {
     public getAcessoCidadaoUserClaims(): Promise<AcessoCidadaoClaims> {
         let userClaimsUrl = `${this.identityServerUrl}/connect/userinfo`;
 
-        return this.$http.get( userClaimsUrl )
+        return this.$http.get( userClaimsUrl, { headers: { 'Transparent': true } })
             .then(( response: IHttpPromiseCallbackArg<AcessoCidadaoClaims> ) => response.data );
     }
 
@@ -291,14 +291,17 @@ export class AcessoCidadaoService {
         return this.$window.atob( output );
     }
 
+
     /**
      * 
      * 
      * @private
-     * @param {any} data
+     * @param {Identity} identity
      * @returns
+     * 
+     * @memberOf AcessoCidadaoService
      */
-    private getRequestTokenOptions( data ) {
+    private getRequestTokenOptions( identity: Identity ) {
         let getTokenUrl = `${this.identityServerUrl}/connect/token`;
 
         let options: IRequestConfig = {
@@ -306,7 +309,8 @@ export class AcessoCidadaoService {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Send-Authorization': 'no'
+                'Send-Authorization': 'no',
+                'Transparent': identity.grant_type === 'refresh_token' ? true : false // only transparent if refreshing token
             },
             transformRequest: function ( obj ) {
                 let str: string[] = [];
@@ -317,7 +321,7 @@ export class AcessoCidadaoService {
                 }
                 return str.join( '&' );
             },
-            data: data
+            data: identity
         };
 
         return options;

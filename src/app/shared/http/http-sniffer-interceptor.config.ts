@@ -1,3 +1,5 @@
+/* tslint:disable:no-unused-expression */
+
 let httpTrafficInterceptorConfig = $httpProvider => {
     let httpTrafficInterceptor = ( httpSnifferService ) => {
 
@@ -13,12 +15,18 @@ let httpTrafficInterceptorConfig = $httpProvider => {
             }
         };
 
+        const shouldSniff = ( intercepted ) => {
+            let headers = intercepted.config ? intercepted.config.headers : intercepted.headers;
+            return headers[ 'Transparent' ] !== true;
+        };
+
         return {
             'request': config => {
                 // NOTE: We know that this config object will contain a method as
                 // this is the definition of the interceptor - it must accept a
                 // config object and return a config object.
-                httpSnifferService.startRequest( config.method );
+                shouldSniff( config ) && httpSnifferService.startRequest( config.method );
+
                 // Pass-through original config object.
                 return ( config );
             },
@@ -30,23 +38,22 @@ let httpTrafficInterceptorConfig = $httpProvider => {
                 // --
                 // NOTE: We can't ignore this one since our responseError() would
                 // pick it up and we need to be able to even-out our counts.
-                httpSnifferService.startRequest( 'get' );
+                shouldSniff( rejection ) && httpSnifferService.startRequest( 'get' );
                 return ( Promise.reject( rejection ) );
             },
             'response': response => {
-                httpSnifferService.endRequest( extractMethod( response ) );
+                shouldSniff( response ) && httpSnifferService.endRequest( extractMethod( response ) );
                 return ( response );
             },
             'responseError': response => {
-                httpSnifferService.endRequest( extractMethod( response ) );
-
+                shouldSniff( response ) && httpSnifferService.endRequest( extractMethod( response ) );
                 return ( Promise.reject( response ) );
             }
         };
     };
-    $httpProvider.interceptors.push( [ 'httpSnifferService', httpTrafficInterceptor ] );
+    $httpProvider.interceptors.push( [ 'httpSnifferService', '$timeout', httpTrafficInterceptor ] );
 };
 
 httpTrafficInterceptorConfig.$inject = [ '$httpProvider' ];
 
- export default httpTrafficInterceptorConfig;
+export default httpTrafficInterceptorConfig;

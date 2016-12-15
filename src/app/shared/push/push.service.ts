@@ -61,7 +61,7 @@ export class PushService {
      * @memberOf PushService
      */
     public registerUser( registrationId: string ) {
-        this.$http.post( `${this.settings.api.push}/subscribe`, this.getPushUser( registrationId ) );
+        this.$http.post( `${this.settings.api.push}/subscribe`, this.getPushUser( registrationId ), { headers: { 'Transparent': true } });
     }
 
     /**
@@ -70,9 +70,9 @@ export class PushService {
      * 
      * @memberOf PushService
      */
-    public async unregisterUser( timeout?: number) {
+    public async unregisterUser( timeout?: number ) {
         try {
-            await this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser(), { timeout: timeout } );
+            await this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser(), { timeout: timeout, headers: { 'Transparent': true } });
         } catch ( error ) {
 
         }
