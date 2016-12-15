@@ -228,6 +228,7 @@
     "ionic-native-transitions": "^1.0.2",
     "moment": "^2.15.1",
     "ngstorage": "^0.3.11",
-    "roboto-fontface": "^0.6.0"
+    "roboto-fontface": "^0.6.0",
+    "tslib": "^1.2.0"
   }
 }

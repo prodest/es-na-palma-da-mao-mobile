@@ -2,6 +2,10 @@
 /// <reference path="./module.augmentation.d.ts" /> 
 /// <reference path="./module.declaration.d.ts" /> 
 
+import * as tsLib from 'tslib';
+
+// make all typescript helpers available on window object. It allows decorate helpers later. 
+Object.assign( window, tsLib );
 
 import appModule from './app/app.module';
 

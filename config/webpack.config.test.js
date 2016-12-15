@@ -77,13 +77,8 @@ module.exports = options => {
                         // use inline sourcemaps for "karma-remap-coverage" reporter
                         sourceMap: false,
                         inlineSourceMap: true,
-                        compilerOptions: {
-
-                            // Remove TypeScript helpers to be injected
-                            // below by DefinePlugin
-                            removeComments: true
-
-                        }
+                        noEmitHelpers: false, // emit helpers on each transpiled file
+                        importHelpers: false
                     },
                     include: [ PATHS.src ]
                 },

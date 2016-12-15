@@ -5,7 +5,8 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmitHelpers": false,
+    "noEmitHelpers": true,  // does not emit helpers
+    "importHelpers": false, // import helpers from tsLib on main.ts
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "noResolve": false,

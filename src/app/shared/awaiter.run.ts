@@ -3,8 +3,6 @@
 import { ITimeoutService } from 'angular';
 
 declare var __awaiter: Function;
-( window as any ).__awaiter = __awaiter; // set global __awaiter to avoid declaring default __awaiter in other files
-async () => { }; // dummy async function to generate __awaiter code for current file
 
 /**
  * Refs: 

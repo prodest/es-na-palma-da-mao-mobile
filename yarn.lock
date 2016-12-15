@@ -9758,6 +9758,10 @@ tryor@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/tryor/-/tryor-0.1.2.tgz#8145e4ca7caff40acde3ccf946e8b8bb75b4172b"
 
+tslib@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.2.0.tgz#074fb171034594bdba4c4dbb197c26e4a0b88383"
+
 tslint-loader@^2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/tslint-loader/-/tslint-loader-2.1.5.tgz#77abdfd9bf13d7133a6efa4447a1690783c4bb49"
