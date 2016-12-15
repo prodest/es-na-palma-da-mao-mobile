@@ -21,7 +21,7 @@
             false,
             "allow-declarations"
         ],
-        "no-trailing-whitespace": true,
+        "no-trailing-whitespace": false,
         "no-var-keyword": true,
         "no-var-requires": true,
         "one-line": [
@@ -78,7 +78,7 @@
             "check-format"
         ],
         "jsdoc-format": false, // revisar
-        "no-constructor-vars": false,
+        "no-parameter-properties": false,
         "object-literal-shorthand": false, // revisar
         "trailing-comma": [
             true,
@@ -95,11 +95,9 @@
         "no-invalid-this": true,
         "no-null-keyword": true,
         "no-shadowed-variable": true,
-        "no-unreachable": true,
         "no-unsafe-finally": true,
         "no-unused-expression": true,
         "no-unused-new": true,
-        "no-use-before-declare": true,
-        "no-unused-variable": true
+        "no-use-before-declare": true
     }
 }

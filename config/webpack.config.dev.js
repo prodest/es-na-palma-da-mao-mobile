@@ -2,30 +2,34 @@
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
 const merge = require( 'webpack-merge' ); // used to merge webpack configs
-const commonConfig = require( './webpack.config.common' ); // the settings that are common to prod and dev
+const commonConfigFactory = require( './webpack.config.common' ); // the settings that are common to prod and dev
 
-/**
- * Webpack Constants
- */
-const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
-const HMR = helpers.hasProcessFlag( 'hot' );
 
-const METADATA = merge( commonConfig( { env: ENV }).metadata, {
-    host: HOST,
-    port: PORT,
-    ENV: ENV,
-    HMR: HMR
-});
+
 
 /**
  * Webpack configuration
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = options => {
-    return merge( commonConfig( { env: ENV }), {
+module.exports = ( options = {} ) => {
+
+    const ENV = process.env.ENV = process.env.NODE_ENV = options.env || 'development';
+    const HOST = process.env.HOST || 'localhost';
+    const PORT = process.env.PORT || 3000;
+    const HMR = helpers.hasProcessFlag( 'hot' );
+
+    const commonConfig = commonConfigFactory( { env: ENV });
+
+    const METADATA = merge( commonConfig.metadata, {
+        host: HOST,
+        port: PORT,
+        ENV: ENV,
+        HMR: HMR
+    } );
+
+
+    return merge( commonConfig, {
         /**
          * Developer tool to enhance debugging
          *
@@ -103,7 +107,7 @@ module.exports = options => {
                         resourcePath: 'src'
                     }
                 }
-            }),
+            } ),
 
             /**
              * Plugin: DefinePlugin
@@ -123,7 +127,7 @@ module.exports = options => {
                     'NODE_ENV': JSON.stringify( METADATA.ENV ),
                     'HMR': METADATA.HMR
                 }
-            })
+            } )
         ],
 
         /**
@@ -141,8 +145,7 @@ module.exports = options => {
             watchOptions: {
                 aggregateTimeout: 300,
                 poll: 1000
-            },
-            outputPath: helpers.root( 'www/' )
+            }
         },
 
         /*
@@ -159,5 +162,5 @@ module.exports = options => {
             clearImmediate: false,
             setImmediate: false
         }
-    });
+    } );
 };

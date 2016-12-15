@@ -1,4 +1,8 @@
+/* eslint-disable angular/json-functions, angular/log, no-console */
 const path = require( 'path' );
+const fs = require( 'fs' );
+const chalk = require( 'chalk' );
+const dotenv = require( 'dotenv' );
 
 // Helper functions
 const ROOT = path.resolve( __dirname, '..' );
@@ -16,17 +20,22 @@ function root( args ) {
     return path.join.apply( path, [ ROOT ].concat( args ) );
 }
 
-/*
- * get all the files, for each file, call the context function
- * that will require the file and load it up here. Context will
- * loop and require those spec files here
- */
-function requireAll( requireContext ) {
-    return requireContext.keys().map( requireContext );
-}
+function buildAppSettings( config ) {
 
-exports.requireAll = requireAll;
+    // apply default values
+    const options = Object.assign( {}, { env: 'development', outputPath: root( 'src/app/shared/settings/settings.json' ) }, config );
+
+    // Here, we use dotenv to load our env vars in the .env, into process.env
+    if ( fs.existsSync( '.env' ) ) {
+        dotenv.load();
+    }
+    const settings = require( root( 'config/app.settings' ) );
+    fs.writeFileSync( options.outputPath, JSON.stringify( settings[ options.env ], null, 4 ) );
+
+    console.log( chalk.yellow( `Settings geradas para env: ${chalk.bold( options.env )}` ) );
+}
 exports.hasProcessFlag = hasProcessFlag;
 exports.isWebpackDevServer = isWebpackDevServer;
+exports.buildAppSettings = buildAppSettings;
 exports.root = root;
 

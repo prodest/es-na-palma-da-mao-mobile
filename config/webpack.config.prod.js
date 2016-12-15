@@ -1,9 +1,8 @@
 /* eslint-disable angular/json-functions */
-
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
 const merge = require( 'webpack-merge' ).smart; // used to merge webpack configs
-const commonConfig = require( './webpack.config.common' ); // the settings that are common to prod and dev
+const commonConfigFactory = require( './webpack.config.common' ); // the settings that are common to prod and dev
 
 /**
  * Webpack Plugins
@@ -11,26 +10,29 @@ const commonConfig = require( './webpack.config.common' ); // the settings that 
 const WebpackMd5Hash = require( 'webpack-md5-hash' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 
-/**
- * Webpack Constants
- */
-const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
-const METADATA = merge( commonConfig( { env: ENV }).metadata, {
-    host: HOST,
-    port: PORT,
-    ENV: ENV,
-    HMR: false
-});
+
 
 /**
  * Webpack configuration
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = options => {
-    return merge( commonConfig( { env: ENV }), {
+module.exports = ( options = {} ) => {
+
+    const ENV = process.env.ENV = process.env.NODE_ENV = options.env || 'production';
+    const HOST = process.env.HOST || 'localhost';
+    const PORT = process.env.PORT || 3000;
+
+    const commonConfig = commonConfigFactory( { env: ENV });
+
+    const METADATA = merge( commonConfig.metadata, {
+        host: HOST,
+        port: PORT,
+        ENV: ENV,
+        HMR: false
+    });
+
+    return merge( commonConfig, {
         /**
          * Developer tool to enhance debugging
          *
@@ -92,7 +94,7 @@ module.exports = options => {
 
             new webpack.DllReferencePlugin( {
                 manifest: require( helpers.root( 'www/vendors-manifest.json' ) )
-            } ),
+            }),
 
             // Output extracted CSS to a file
             new ExtractTextPlugin( '[name].[chunkhash].css' ),
@@ -105,15 +107,6 @@ module.exports = options => {
              */
             new WebpackMd5Hash(),
 
-            /**
-             * Plugin: DedupePlugin
-            * Description: Prevents the inclusion of duplicate code into your bundle
-            * and instead applies a copy of the function at runtime.
-            *
-            * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            * See: https://github.com/webpack/docs/wiki/optimization#deduplication
-            */
-            new webpack.optimize.DedupePlugin(), // see: https://github.com/angular/angular-cli/issues/1587
             /**
              * Plugin: DefinePlugin
              * Description: Define free variables.

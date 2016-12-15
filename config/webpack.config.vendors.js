@@ -1,29 +1,29 @@
 /* eslint-disable angular/json-functions */
-
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
 const merge = require( 'webpack-merge' ).smart; // used to merge webpack configs
 const commonConfig = require( './webpack.config.common' ); // the settings that are common to prod and development
 
-
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-
-const ENV = process.env.ENV = process.env.NODE_ENV = 'production';
 
 /**
  * Webpack configuration
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = options => {
-    return merge( commonConfig( { env: ENV } ), {
+module.exports = ( options = {} ) => {
 
-         /**
-         * Developer tool to enhance debugging
-         *
-         * See: http://webpack.github.io/docs/configuration.html#devtool
-         * See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
-         */
+    const ENV = process.env.ENV = process.env.NODE_ENV = options.env || 'production';
+    const common = commonConfig( { env: ENV } );
+
+    return merge( common, {
+
+        /**
+        * Developer tool to enhance debugging
+        *
+        * See: http://webpack.github.io/docs/configuration.html#devtool
+        * See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
+        */
         devtool: 'source-map',
 
         entry: {
@@ -43,7 +43,7 @@ module.exports = options => {
                     loader: ExtractTextPlugin.extract( {
                         fallbackLoader: 'style-loader',
                         loader: [ 'css-loader?sourceMap' ]
-                    } )
+                    })
                 }
             ]
         },
@@ -51,20 +51,10 @@ module.exports = options => {
             new webpack.DllPlugin( {
                 path: helpers.root( 'www/[name]-manifest.json' ),
                 name: '[name][chunkhash]'
-            } ),
+            }),
 
             // Output extracted CSS to a file
             new ExtractTextPlugin( 'dll.[name].css' ),
-
-            /**
-             * Plugin: DedupePlugin
-            * Description: Prevents the inclusion of duplicate code into your bundle
-            * and instead applies a copy of the function at runtime.
-            *
-            * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-            * See: https://github.com/webpack/docs/wiki/optimization#deduplication
-            */
-            new webpack.optimize.DedupePlugin(), // see: https://github.com/angular/angular-cli/issues/1587
 
             // NOTE: when adding more properties, make sure you include them in custom-typings.d.ts
             new webpack.DefinePlugin( {

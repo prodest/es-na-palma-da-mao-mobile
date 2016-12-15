@@ -1,4 +1,5 @@
-﻿import { DashBoardController } from './dashboard.component.controller';
+﻿
+import { DashBoardController } from './dashboard.component.controller';
 import { DashBoardComponent } from './dashboard.component';
 import DashBoardTemplate = require('./dashboard.component.html');
 import { environment } from '../shared/tests/index';

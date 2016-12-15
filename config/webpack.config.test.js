@@ -1,11 +1,6 @@
 /* eslint-disable angular/json-functions, angular/log, no-console  */
-const fs = require( 'fs' );
-const chalk = require( 'chalk' );
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
-
-const WebpackPreBuildPlugin = require( 'pre-build-webpack' );
-const WatchIgnorePlugin = require( 'watch-ignore-webpack-plugin' );
 
 const PATHS = {
     src: helpers.root( 'src' ),
@@ -15,23 +10,15 @@ const PATHS = {
 };
 
 /**
- * Webpack Constants
- */
-const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
-
-/**
  * Webpack configuration
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = options => {
+module.exports = ( options = {} ) => {
 
-    const buildAppSettings = () => {
-        const settings = require( helpers.root( 'config/app.settings' ) );
-        fs.writeFileSync( PATHS.appSettings, JSON.stringify( settings[ options.env ], null, 4 ) );
+    const ENV = process.env.ENV = process.env.NODE_ENV = options.env || 'test';
 
-        console.log( chalk.yellow( `Settings geradas para env: ${ chalk.bold( options.env ) }` ) );
-    };
+    helpers.buildAppSettings( { env: ENV } );
 
     return {
 
@@ -86,7 +73,7 @@ module.exports = options => {
                 {
                     test: /\.html$/,
                     include: [ PATHS.src ],
-                    loader: 'html'
+                    loader: 'html-loader'
                 },
                 {
                     test: /\.(jpg|png)$/,
@@ -100,11 +87,6 @@ module.exports = options => {
                     test: /\.json$/,
                     loader: 'json-loader',
                     exclude: [ '/node_modules/' ]
-                },
-                {
-                    test: /\.styl$/,
-                    include: [ PATHS.src ],
-                    loaders: [ 'style-loader', 'css-loader', 'stylus-loader' ]
                 },
                 {
                     test: /\.scss$/,
@@ -204,18 +186,7 @@ module.exports = options => {
                         resourcePath: 'src'
                     }
                 }
-            }),
-
-            /* Ignora o arquivo de settings gerado dinâmicamente. Impede loop infinito no build */
-            new WatchIgnorePlugin( [ PATHS.appSettings ] ),
-
-            /**
-             * Plugin WebpackPreBuildPlugin
-             *
-             * Gera app settings dinâmicamente de acordo com environment.
-             * Ref: https://scotch.io/tutorials/properly-set-environment-variables-for-angular-apps-with-gulp-ng-config
-            */
-            new WebpackPreBuildPlugin( buildAppSettings )
+            })
         ],
 
         /**

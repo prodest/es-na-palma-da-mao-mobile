@@ -1,17 +1,10 @@
-/* eslint-disable angular/json-functions, angular/log, no-console */
-const fs = require( 'fs' );
-const chalk = require( 'chalk' );
 const webpack = require( 'webpack' );
 const helpers = require( './helpers' );
 
 /*
  * Webpack Plugins
  */
-// problem with copy-webpack-plugin
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
-const ForkCheckerPlugin = require( 'awesome-typescript-loader' ).ForkCheckerPlugin;
-const WebpackPreBuildPlugin = require( 'pre-build-webpack' );
-const WatchIgnorePlugin = require( 'watch-ignore-webpack-plugin' );
 
 const PATHS = {
     src: helpers.root( 'src' ),
@@ -25,7 +18,10 @@ const PATHS = {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-const config = options => {
+const config = ( options = {} ) => {
+
+    // build settings
+    helpers.buildAppSettings( { env: options.env } );
 
     /*
     * Webpack Constants
@@ -37,20 +33,7 @@ const config = options => {
         isDev: options.env === 'development'
     };
 
-
-    const buildAppSettings = () => {
-        // Here, we use dotenv to load our env vars in the .env, into process.env
-        if ( fs.existsSync( '.env' ) ) {
-            require( 'dotenv' ).load();
-        }
-        const settings = require( helpers.root( 'config/app.settings' ) );
-        fs.writeFileSync( PATHS.appSettings, JSON.stringify( settings[ options.env ], null, 4 ) );
-
-        console.log( chalk.yellow( `Settings geradas para env: ${chalk.bold( options.env )}` ) );
-    };
-
     return {
-
         /*
          * Cache generated modules and chunks to improve performance for multiple incremental builds.
          * This is enabled by default in watch mode.
@@ -112,11 +95,6 @@ const config = options => {
                     exclude: [ '/node_modules/' ]
                 },
                 {
-                    test: /\.styl$/,
-                    include: [ PATHS.src ],
-                    loaders: [ 'style-loader', 'css-loader', 'stylus-loader' ]
-                },
-                {
                     test: /\.css$/,
                     loaders: [ 'style-loader', 'css-loader' ]
                 },
@@ -150,15 +128,6 @@ const config = options => {
         * See: http://webpack.github.io/docs/configuration.html#plugins
         */
         plugins: [
-
-            /*
-             * Plugin: ForkCheckerPlugin
-             * Description: Do type checking in a separate process, so webpack don't need to wait.
-             *
-             * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
-             */
-            new ForkCheckerPlugin(),
-
             // Injects bundles in your index.html instead of wiring all manually.
             // It also adds hash to all injected assets so we don't have problems
             // with cache purging during deployment.
@@ -180,18 +149,7 @@ const config = options => {
             *
             * See: https://gist.github.com/sokra/27b24881210b56bbaff7
             */
-            new webpack.LoaderOptionsPlugin( {}),
-
-            /* Ignora o arquivo de settings gerado dinâmicamente. Impede loop infinito no build */
-            new WatchIgnorePlugin( [ PATHS.appSettings ] ),
-
-            /**
-             * Plugin WebpackPreBuildPlugin
-             *
-             * Gera app settings dinâmicamente de acordo com environment.
-             * Ref: https://scotch.io/tutorials/properly-set-environment-variables-for-angular-apps-with-gulp-ng-config
-            */
-            new WebpackPreBuildPlugin( buildAppSettings )
+            new webpack.LoaderOptionsPlugin( {} )
         ],
 
 
@@ -229,5 +187,4 @@ const config = options => {
         }
     };
 };
-
 module.exports = config;
