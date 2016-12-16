@@ -59,25 +59,21 @@ export class AuthenticationService {
      * @param {*} success
      * @returns {void}
      */
-    public async logout( success: Function ) {
+    public logout( success: Function ) {
 
-        // 1 - Remove o registro do Push
-        await this.pushService.unregisterUser( 5000 );
-
-        // 2 - se desloga de todos os providers
+        // 1 - se desloga de todos os providers
         GooglePlus.logout();
         this.digitsService.logout();
         this.acessoCidadaoService.logout();
 
-        // 3 - limpa auth storage
+        // 2 - limpa auth storage
         this.authStorage.reset();
 
-        // 4 - Reinicia o push para usuário anônimo
+        // 3 - Reinicia o push para usuário anônimo
         this.pushService.init();
 
         success();
     }
-
 
     /**
      * 

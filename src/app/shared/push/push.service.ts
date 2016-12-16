@@ -34,9 +34,6 @@ export class PushService {
             gcmSandbox: this.settings.push.gcmSandbox
         };
 
-        // Remove o registro do Push
-        this.unregisterUser();
-
         let push: PushNotification = Push.init( { android: androidPushConfig, ios: iosPushConfig });
 
         if ( push.on ) {
@@ -70,12 +67,8 @@ export class PushService {
      * 
      * @memberOf PushService
      */
-    public async unregisterUser( timeout?: number ) {
-        try {
-            await this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser(), { timeout: timeout, headers: { 'Transparent': true } });
-        } catch ( error ) {
-
-        }
+    public unregisterUser( timeout?: number ) {
+        this.$http.post( `${this.settings.api.push}/unsubscribe`, this.getPushUser(), { timeout: timeout, headers: { 'Transparent': true } });
     }
 
     /**
