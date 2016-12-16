@@ -1,3 +1,13 @@
+<a name="3.2.2"></a>
+## [3.2.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.2.1...v3.2.2) (2016-12-16)
+
+
+### Bug Fixes
+
+* **push:** corrige transição de estado por push ([fda23fc](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fda23fc))
+
+
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.2.0...v3.2.1) (2016-12-16)
 
