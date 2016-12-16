@@ -1,8 +1,8 @@
 import { IHttpService } from 'angular';
-import { Push, AndroidPushOptions, IOSPushOptions, PushNotification, Device } from 'ionic-native';
+import { Push, AndroidPushOptions, IOSPushOptions, PushNotification, Device, NotificationEventResponse } from 'ionic-native';
 
 import { ISettings } from '../settings/index';
-import { PushUser } from './models/index';
+import { PushUser, PushData } from './models/index';
 import { TransitionService } from '../transition.service';
 
 export class PushService {
@@ -41,8 +41,8 @@ export class PushService {
                 this.registerUser( data.registrationId );
             });
 
-            push.on( 'notification', ( data ) => {
-                this.notify( data.additionalData );
+            push.on( 'notification', ( data: NotificationEventResponse ) => {
+                this.notify( data.additionalData['appData'] );
             });
 
             // TODO: send statistics to answers
@@ -76,9 +76,9 @@ export class PushService {
      * 
      * @param {*} data
      */
-    public notify( data: any ): void {
-        if ( data.appData && data.appData.state ) {
-            this.transitionService.changeState( data.appDatta.state, data.appData.params, {}, { root: true, reload: true });
+    public notify( pushData: PushData ): void {
+        if ( pushData && pushData.state ) {
+            this.transitionService.changeState( pushData.state, pushData.params, {}, { reload: true });
         }
     }
 
