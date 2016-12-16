@@ -1,3 +1,16 @@
+<a name="3.2.1"></a>
+## [3.2.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.2.0...v3.2.1) (2016-12-16)
+
+
+### Bug Fixes
+
+* **geral:** awaiter.run não está sobrescrevendo ts helper '__awaiter' ([9183af7](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/9183af7)), closes [#236](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/236)
+* **geral:** componente 'loading' bloqueando aplicação ([26b2ec1](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/26b2ec1)), closes [#237](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/237)
+* **push:** Adiciona ícones para todas resoluções ([6f390b7](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6f390b7))
+* **push:** simplifica registro no push server ([1cf2442](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/1cf2442))
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.1.1...v3.2.0) (2016-12-13)
 
