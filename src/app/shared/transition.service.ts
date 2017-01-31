@@ -98,12 +98,16 @@ export class TransitionService {
      * @memberOf TransitionService
      */
     public changeState( newState: string, routeParameters: any = {}, options: any = {}, { root = false, tabs = false, reload = false, noBack = false } = {}): void {
-        if ( newState === this.currentState ) {
-            return;
-        }
-
         let allOptions: any = {};
         angular.extend( allOptions, options );
+
+        if ( newState === this.currentState ) {
+            if ( reload ) {
+                angular.extend( allOptions, { type: 'fade' });
+            } else {
+                return;
+            }
+        }
 
         this.$ionicHistory.nextViewOptions( { disableBack: noBack, historyRoot: root });
 
