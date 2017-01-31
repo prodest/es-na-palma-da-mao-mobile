@@ -64,15 +64,18 @@ export class AnswersService {
     public sendResponseErrorEvent(response: any) {
         if (this.hasPlugin) {
 
-            let attributes = {
+            let attributes: any = {
                 method: response.config.method,
                 status: response.status,
-                error: response.data.error,
                 guid: '',
                 handled: false
             };
 
-            if (response.data.handled) {
+            if ( response.data && response.data.error) {
+                attributes.error = response.data.error;
+            }
+
+            if ( response.data && response.data.handled) {
                 attributes.handled = response.data.handled;
             }
 
