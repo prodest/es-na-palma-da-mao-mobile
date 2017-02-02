@@ -17,7 +17,7 @@ webhooks:
     on_start: never     # options: [always|never|change] default: always
 
 before_install:
-  - npm i -g yarn --cache-min 999999999
+ - npm i -g yarn --cache-min 999999999
 
 install:
  - node --version
@@ -40,6 +40,7 @@ deploy:
   provider: script
   skip_cleanup: true
   script: /bin/sh .demo-publish.sh
-on:
-  tags: true
-  branch: master
+  on:
+    tags: true
+    condition: $TRAVIS_TAG != ""
+
