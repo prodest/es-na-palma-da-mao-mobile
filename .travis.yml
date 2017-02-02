@@ -8,6 +8,7 @@ branches:
   - master
   - /^release-.*$/
   - /^hotfix-.*$/
+  - /^v\d\.\d.\d$/
 webhooks:
     urls:
       - https://webhooks.gitter.im/e/0e3f30c04846ed5b54c0
@@ -20,15 +21,25 @@ before_install:
 
 install:
  - node --version
+ - cd ../
+ - pwd
+ - git clone --depth=1 --no-single-branch https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+ - cd $TRAVIS_REPO_SLUG
+ - pwd
+ - echo $TRAVIS_BRANCH
+ - echo $TRAVIS_TAG
+ - git branch -a
+ - git checkout $TRAVIS_BRANCH
  - yarn install
 script: 
  - yarn test:coverage
 
 cache: yarn
 
-# deploy:
-#   provider: script
-#   skip_cleanup: true
-#   script: /bin/sh .deploy.sh
-#   on:
-#     branch: master
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: /bin/sh .demo-publish.sh
+on:
+  tags: true
+  branch: master

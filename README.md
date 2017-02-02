@@ -5,11 +5,15 @@
 [![Coverage percentage][coveralls-image]][coveralls-url]
 [![Gitter][gitter-image]][gitter-url]
 
-> O **ES NA PALMA DA MÃO** é um programa do **Governo do Estado do Espírito Santo** que reúne **iniciativas e serviços do Governo em plataforma móvel (aplicativo) e web, com unidade de experiência do cidadão**. Por meio do **ES NA PALMA DA MÃO**, diversos serviços governamentais podem ser acessados através da web e dispositivos móveis (sistemas operacionais iOS e Android) utilizando uma interface comum.
+> O **[ES NA PALMA DA MÃO](http://www.slideshare.net/rcolnago2/es-na-palma-da-mo-governo-mobile)** é um programa do **Governo do Estado do Espírito Santo** que reúne **iniciativas e serviços do Governo em plataforma móvel (aplicativo) e web, com unidade de experiência do cidadão**. Por meio do **ES NA PALMA DA MÃO**, diversos serviços governamentais podem ser acessados através da web e dispositivos móveis (sistemas operacionais iOS e Android) utilizando uma interface comum.
 
-[Apresentação @ Slideshare](http://www.slideshare.net/rcolnago2/es-na-palma-da-mo-governo-mobile)
+===============================================================================================================================
 
-==================================================================================
+**Demos online**
+
+> Clique [aqui](http://prodest.github.io/es-na-palma-da-mao-mobile/latest) para ver o demo da última versão, online. Para as demais versões (a partir da 3.3.0), substitua "latest" por "old/${versão desejada}" na url do demo online. Por exemplo: [Versão v3.3.0](http://prodest.github.io/es-na-palma-da-mao-mobile/old/v3.3.0)
+
+===============================================================================================================================
 
 <a href="https://play.google.com/store/apps/details?id=br.gov.es.prodest.espm&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/pt-br_badge_web_generic.png" width="230px" />
