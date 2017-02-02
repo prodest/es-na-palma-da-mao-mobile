@@ -11,7 +11,7 @@
 
 **Demos online**
 
-> Clique [aqui](http://prodest.github.io/es-na-palma-da-mao-mobile/latest) para ver o demo da última versão, online. Para as demais versões (a partir da 3.3.0), substitua "latest" por "old/${versão desejada}" na url do demo online. Por exemplo: [Versão v3.3.0](http://prodest.github.io/es-na-palma-da-mao-mobile/old/v3.3.0)
+> Clique [aqui](http://prodest.github.io/es-na-palma-da-mao-mobile/latest) para ver o demo da última versão, online. Para as demais versões (a partir da 3.3.2), substitua "latest" por "old/${versão desejada}" na url do demo online. Por exemplo: [Versão v3.3.0](http://prodest.github.io/es-na-palma-da-mao-mobile/old/v3.3.2)
 
 ===============================================================================================================================
 
