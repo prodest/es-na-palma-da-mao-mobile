@@ -1,3 +1,13 @@
+<a name="3.3.1"></a>
+## [3.3.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.3.0...v3.3.1) (2017-02-02)
+
+
+### Bug Fixes
+
+* **build:** ajusta configurações de deploy ([91915a1](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/91915a1))
+
+
+
 <a name="3.3.0"></a>
 # [3.3.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.2.2...v3.3.0) (2017-02-02)
 
