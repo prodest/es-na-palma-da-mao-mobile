@@ -1,3 +1,15 @@
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.2.2...v3.3.0) (2017-02-02)
+
+
+### Features
+
+* **geral:** adiciona ambiente de desenvolvimento (sandbox) ([fdcf7fd](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fdcf7fd)), closes [#212](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/212)
+* **geral:** atualiza/remove dependências ([67b3382](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/67b3382)), closes [#234](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/234) [#235](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/235)
+* **geral:** disponibiliza demos online ([df3b8b4](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/df3b8b4)), closes [#243](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/243)
+
+
+
 <a name="3.2.2"></a>
 ## [3.2.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.2.1...v3.2.2) (2016-12-16)
 
