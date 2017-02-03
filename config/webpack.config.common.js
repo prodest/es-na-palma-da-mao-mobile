@@ -5,6 +5,7 @@ const helpers = require( './helpers' );
  * Webpack Plugins
  */
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
 const PATHS = {
     src: helpers.root( 'src' ),
@@ -128,6 +129,10 @@ const config = ( options = {} ) => {
         * See: http://webpack.github.io/docs/configuration.html#plugins
         */
         plugins: [
+
+            // copy preview page to output
+            new CopyWebpackPlugin( [ { from: helpers.root( 'src/preview.html' ), to: helpers.root( 'www/preview/index.html' ) } ] ),
+
             // Injects bundles in your index.html instead of wiring all manually.
             // It also adds hash to all injected assets so we don't have problems
             // with cache purging during deployment.
