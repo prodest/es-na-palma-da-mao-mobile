@@ -1,3 +1,13 @@
+<a name="3.3.2"></a>
+## [3.3.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.3.1...v3.3.2) (2017-02-03)
+
+
+### Bug Fixes
+
+* **build:** Corrige deploy do build ([7b0b091](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/7b0b091))
+
+
+
 <a name="3.3.1"></a>
 ## [3.3.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.3.0...v3.3.1) (2017-02-02)
 
