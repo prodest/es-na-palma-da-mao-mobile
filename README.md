@@ -32,6 +32,7 @@
 	- [Gulp](#gulp)
   - [Sass](#sass)
 - [Visão Geral](#visão-geral)
+   - [Ambiente sandbox de autenticação](#ambiente-sandbox-de-autenticação)
 	- [Build System](#build-system)
 	- [Estrutura de arquivos](#estrutura-de-arquivos)
 	- [Configuração de testes](#configuração-de-testes)
@@ -83,6 +84,13 @@ colocar tudo num grande e pesado bundle.
 O automatizador de tarefas de build da aplicação.
 
 # Visão Geral
+
+## Ambiente sandbox de autenticação
+Para acessar a versão completa do ES na palma da mão, é necessário uma conta no *Acesso Cidadão*.
+
+O ES na palma da mão executado a partir do código fonte, bem como o [demo online](http://prodest.github.io/es-na-palma-da-mao-mobile/latest), usam uma versão [*sandbox* do acesso cidadão](https://developers.es.gov.br/acessocidadao), exclusiva para *developers*. 
+As contas de usuário criadas no *sandbox* não são válidas no [acesso cidadão real](https://acessocidadao.es.gov.br/), usado pelos cidadãos para acessar os serviços oferecidos pelo Governo do ES.
+
 ## Build System
 O *build system* do **ES na Palma da Mão** usa yarn scripts, Gulp, and Webpack juntos.
 
