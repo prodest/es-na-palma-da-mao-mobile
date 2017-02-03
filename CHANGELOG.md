@@ -1,3 +1,13 @@
+<a name="3.5.0"></a>
+# [3.5.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.4.0...v3.5.0) (2017-02-03)
+
+
+### Features
+
+* **demo:** melhora barras de rolagem, adiciona favicon e logo prodest ([24eea8d](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/24eea8d))
+
+
+
 <a name="3.4.0"></a>
 # [3.4.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.3.2...v3.4.0) (2017-02-03)
 
