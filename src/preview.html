@@ -14,6 +14,8 @@
 	<!-- end Meta section -->
 
 	<title>ES na palma da mão</title>
+	<link href="http://cdn.es.gov.br/images/favicons/governo/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link rel="stylesheet" href="//cdn.es.gov.br/fonts/prodesticons/1.1.0/css/prodesticons.min.css">
 	<style>
 		body {
 			background-color: #EFF1F5;
@@ -48,7 +50,13 @@
 			box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.3);
 			overflow-y: hidden;
 		}
-		
+		#logo-prodest {
+			position: absolute;
+			bottom: 30px;
+			left: calc(50% - 65px);
+			font-size: 130px;
+			color: #646465;
+		}
 		#iphone-frame {
 			top: 109px;
 			left: 25px;
@@ -69,7 +77,8 @@
 	</style>
 </head>
 
-<body>
+<body class="hide-native-scroll-y grade-a platform-browser platform-ready">
+	<i id="logo-prodest" class="pro-logo-prodest"></i> 
 	<div class="phone">
 		<div id="iphone">
 			<h2><a href="../index.html?ionicplatform=ios" target="_blank">iOS</a></h2>
@@ -82,6 +91,12 @@
 			<iframe id="android-frame" src="../index.html?ionicplatform=android" class="frame"></iframe>
 		</div>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script>
+		jQuery('iframe').on('load', function(){
+			jQuery(this).contents().find("body").append(jQuery("<style> .overflow-scroll{overflow-y: auto; } .overflow-scroll::-webkit-scrollbar-track{-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);background-color: #F5F5F5;}.overflow-scroll::-webkit-scrollbar{width: 6px;background-color: #F5F5F5;}.overflow-scroll::-webkit-scrollbar-thumb{background-color: rgba(4, 4, 4, 0.14); } </style>"));
+		});
+	</script>
 </body>
 
 </html>
