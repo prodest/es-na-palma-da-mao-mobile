@@ -1,3 +1,13 @@
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.3.2...v3.4.0) (2017-02-03)
+
+
+### Features
+
+* **demo:** adiciona visualização mobile para IOS e Android ([f0ac44e](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/f0ac44e))
+
+
+
 <a name="3.3.2"></a>
 ## [3.3.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.3.1...v3.3.2) (2017-02-03)
 
