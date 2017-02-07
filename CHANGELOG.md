@@ -1,3 +1,13 @@
+<a name="3.5.1"></a>
+## [3.5.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.5.0...v3.5.1) (2017-02-07)
+
+
+### Bug Fixes
+
+* **demo:** ajustas chamadas às apis no ambiente developer ([9898f56](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/9898f56))
+
+
+
 <a name="3.5.0"></a>
 # [3.5.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.4.0...v3.5.0) (2017-02-03)
 
