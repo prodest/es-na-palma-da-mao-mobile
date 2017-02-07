@@ -115,7 +115,7 @@ describe( 'DetranApiService', () => {
 
             detranApiService.saveLicense( license );
 
-            expect( $httpPost.calledWith( `${settings.api.acessocidadao}/Perfil/SalvarCNH`, params ) ).to.be.true;
+            expect( $httpPost.calledWith( `${settings.api.acessocidadaoApi}/Perfil/SalvarCNH`, params ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {

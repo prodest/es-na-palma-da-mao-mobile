@@ -2,17 +2,18 @@
 const shared = {
   api: {
     invalidTokenHttpCode: 498,
-    news: 'https://api.es.gov.br/news',
-    calendars: 'https://api.es.gov.br/calendars',
-    sep: 'https://api.es.gov.br/sep',
-    detran: 'https://api.es.gov.br/detran',
-    dio: 'https://api.es.gov.br/dio',
-    ceturb: 'https://api.es.gov.br/ceturb',
-    cbmes: 'https://api.es.gov.br/cbmes',
-    push: 'https://api.es.gov.br/push',
-    espm: 'https://api.es.gov.br/espm',
-    transparency: 'https://api.es.gov.br/transparency',
-    acessocidadao: process.env.API_ACESSO_CIDADAO_URL || 'https://developers.es.gov.br/acessocidadao.webapi/'
+    news: process.env.API_NEWS_URL || 'https://api.es.gov.br/developers/news',
+    calendars: process.env.API_CALENDARS_URL || 'https://api.es.gov.br/developers/calendars',
+    sep: process.env.API_SEP_URL || 'https://api.es.gov.br/developers/sep',
+    detran: process.env.API_DETRAN_URL || 'https://api.es.gov.br/developers/detran',
+    dio: process.env.API_DIO_URL || 'https://api.es.gov.br/developers/dio',
+    ceturb: process.env.API_CETURB_URL || 'https://api.es.gov.br/developers/ceturb',
+    cbmes: process.env.API_CBMES_URL || 'https://api.es.gov.br/developers/cbmes',
+    push: process.env.API_PUSH_URL || 'https://api.es.gov.br/developers/push',
+    espm: process.env.API_ESPM_URL || 'https://api.es.gov.br/developers/espm',
+    transparency: process.env.API_TRANSPARENCY_URL || 'https://api.es.gov.br/developers/transparency',
+    acessocidadaoApi: process.env.API_ACESSO_CIDADAO_URL || 'https://developers.es.gov.br/acessocidadao.webapi',
+    acessocidadao: process.env.ACESSO_CIDADAO_URL || 'https://developers.es.gov.br/acessocidadao'
   },
   push: {
     senderId: process.env.PUSH_SENDER_ID,

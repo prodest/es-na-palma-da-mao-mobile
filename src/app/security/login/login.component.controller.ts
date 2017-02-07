@@ -1,6 +1,7 @@
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
 import { ToastService, DialogService, TransitionService } from '../../shared/shared.module';
 import { AuthenticationService } from '../shared/authentication.service';
+import { ISettings } from '../../shared/shared.module';
 
 /**
  * 
@@ -18,7 +19,8 @@ export class LoginController {
         'authenticationService',
         'dialog',
         'toast',
-        'transitionService'
+        'transitionService',
+        'settings'
     ];
 
     public processingLogin: boolean = false;
@@ -41,7 +43,8 @@ export class LoginController {
     constructor( private authenticationService: AuthenticationService,
         private dialog: DialogService,
         private toast: ToastService,
-        private transitionService: TransitionService ) {
+        private transitionService: TransitionService,
+        private settings: ISettings  ) {
     }
 
     /**
@@ -93,7 +96,7 @@ export class LoginController {
      * Abre a janela(no browser) de recuperar senha do acesso cidadão.
      */
     public openUrlForgotPassword(): void {
-        this.openInAppBrowser( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha' );
+        this.openInAppBrowser( `${this.settings.api.acessocidadao}/Conta/SolicitarReinicioSenha` );
     }
 
 
@@ -149,7 +152,7 @@ export class LoginController {
         };
 
         this.dialog.confirm( options ).then(() => {
-            this.openInAppBrowser( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF' );
+            this.openInAppBrowser( `${this.settings.api.acessocidadao}Conta/VerificarCPF` );
         });
     }
 
@@ -184,7 +187,7 @@ export class LoginController {
         let browser = new InAppBrowser( url + '?espmplatform=' + ionic.Platform.platform(), '_blank', options );
 
         browser.on( 'loadstart' ).subscribe(( event: InAppBrowserEvent ) => {
-            if ( event.url === 'https://acessocidadao.es.gov.br/' ) {
+            if ( event.url === `${this.settings.api.acessocidadao}` ) {
                 browser.close();
             }
         });

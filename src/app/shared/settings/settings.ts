@@ -11,6 +11,7 @@ export interface ISettings {
         push: string,
         espm: string,
         acessocidadao: string,
+        acessocidadaoApi: string,
         transparency: string
     };
     push: {

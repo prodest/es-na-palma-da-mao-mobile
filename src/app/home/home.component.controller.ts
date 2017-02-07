@@ -1,10 +1,11 @@
 import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
 import { TransitionService } from '../shared/shared.module';
 import { AuthenticationService } from '../security/security.module';
+import { ISettings } from '../shared/shared.module';
 
 export class HomeController {
 
-    public static $inject: string[] = [ 'transitionService', 'authenticationService' ];
+    public static $inject: string[] = [ 'transitionService', 'authenticationService', 'settings' ];
 
     /**
      * Creates an instance of HomeController.
@@ -12,7 +13,9 @@ export class HomeController {
      * @param {IWindowService} $window
      * @param {AuthenticationService} authenticationService
      */
-    constructor( private transitionService: TransitionService, private authenticationService: AuthenticationService ) {
+    constructor( private transitionService: TransitionService, 
+                 private authenticationService: AuthenticationService,
+                 private settings: ISettings  ) {
     }
 
     /**
@@ -38,10 +41,10 @@ export class HomeController {
      */
     public createAccount(): void {
         let options = 'toolbar=no,location=no,clearcache=yes,clearsessioncache=yes,closebuttoncaption=Cancelar';
-        let browser = new InAppBrowser( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF?espmplatform=' + ionic.Platform.platform(), '_blank', options );
+        let browser = new InAppBrowser( `${this.settings.api.acessocidadao}/Conta/VerificarCPF?espmplatform=` + ionic.Platform.platform(), '_blank', options );
 
         browser.on( 'loadstart' ).subscribe(( event: InAppBrowserEvent ) => {
-            if ( event.url === 'https://acessocidadao.es.gov.br/' ) {
+            if ( event.url === this.settings.api.acessocidadao ) {
                 browser.close();
             }
         });

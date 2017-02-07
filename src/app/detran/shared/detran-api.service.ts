@@ -76,7 +76,7 @@ export class DetranApiService {
      */
     public saveLicense( license: DriverLicense ): Promise<any> {
         const params = { numero: license.registerNumber, cedula: license.ballot };
-        return this.$http.post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, params )
+        return this.$http.post( `${this.settings.api.acessocidadaoApi}/Perfil/SalvarCNH`, params )
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 }

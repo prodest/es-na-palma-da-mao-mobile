@@ -3,6 +3,7 @@ import { HomeComponent } from './home.component';
 import HomeTemplate = require( './home.component.html' );
 import { TransitionService } from '../shared/shared.module';
 import { AuthenticationService } from '../security/security.module';
+import { settings } from '../shared/shared.module';
 
 let expect = chai.expect;
 
@@ -23,7 +24,7 @@ describe( 'Home', () => {
 
             authenticationService = <AuthenticationService>{};
 
-            controller = new HomeController( transitionService, authenticationService );
+            controller = new HomeController( transitionService, authenticationService, settings );
         });
 
         describe( 'navigateToLogin()', () => {

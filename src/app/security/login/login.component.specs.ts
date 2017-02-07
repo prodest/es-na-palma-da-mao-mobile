@@ -4,6 +4,7 @@ import loginTemplate = require('./login.component.html');
 import { TransitionService } from '../../shared/shared.module';
 import { AuthenticationService } from '../shared/authentication.service';
 import { environment, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
+import { settings } from '../../shared/shared.module';
 
 let expect = chai.expect;
 
@@ -36,7 +37,7 @@ describe( 'Login', () => {
                 clearCache: () => { }
             };
 
-            controller = new LoginController( authenticationService, dialogServiceMock, toastServiceMock, transitionService );
+            controller = new LoginController( authenticationService, dialogServiceMock, toastServiceMock, transitionService, settings );
 
             // setup stubs
             toastInfo = sandbox.stub( toastServiceMock, 'info' );
