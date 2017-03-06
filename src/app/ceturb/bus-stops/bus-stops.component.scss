@@ -1,0 +1,76 @@
+.bus-stops #map{
+    height: 100vh;
+    width: 100vw;
+}
+.bus-stops .bus-stop-icon {
+    border: 3px solid darked;
+    background: #fff;
+    border-radius: 50px;
+}
+
+.bus-stops .user-icon {
+	color: rgb(185, 91, 104);
+}
+.bus-stops .user-icon > i {
+	border: 2px solid #b95b68;
+    border-radius: 60px;
+    background: #fff;
+    padding: 5px 7px;
+    font-size: 1.5em;
+}
+
+.bus-stops .marker-cluster-small {
+	background-color: rgba(185, 91, 104, 0.8);
+	}
+.bus-stops .marker-cluster-small div {
+	background-color: rgb(185, 91, 104);
+	}
+
+.bus-stops .marker-cluster-medium {
+	background-color: rgba(185, 91, 104, 0.8);
+	}
+.bus-stops .marker-cluster-medium div {
+	background-color: rgb(185, 91, 104);
+	}
+
+.bus-stops .marker-cluster-large {
+	background-color: rgba(185, 91, 104, 0.8);
+	}
+.bus-stops .marker-cluster-large div {
+	background-color: rgb(185, 91, 104);
+	}
+
+.marker-cluster {
+	background-clip: padding-box;
+	border-radius: 20px;
+	}
+.marker-cluster div {
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+
+	text-align: center;
+	border-radius: 15px;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	}
+.marker-cluster span {
+	line-height: 30px;
+    color: #fff !important;
+	}
+
+// .bus-stops .gps_ring {	
+//     border: 3px solid darkred;
+//     -webkit-border-radius: 30px;
+//     height: 33px;
+//     width: 33px;		
+//     -webkit-animation: pulsate 1s ease-out;
+//     -webkit-animation-iteration-count: infinite; 
+//     /*opacity: 0.0*/
+// }
+
+// @-webkit-keyframes pulsate {
+//     0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+//     50% {opacity: 1.0;}
+//     100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+// }

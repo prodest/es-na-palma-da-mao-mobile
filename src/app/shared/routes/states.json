@@ -273,6 +273,18 @@
     "secure": true
   },
   {
+    "name": "app.busStops",
+    "url": "busStops",
+    "type": "load",
+    "src": "app/ceturb/bus-stops/index",
+    "group": "Ceturb",
+    "menuName": "Ponto ES",
+    "menu": true,
+    "editable": true,
+    "icon": "fa fa-bus",
+    "secure": true
+  },
+  {
     "name": "app.dioSearch",
     "url": "dio",
     "type": "load",

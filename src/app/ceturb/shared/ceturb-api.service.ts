@@ -85,4 +85,35 @@ export class CeturbApiService {
                 throw error;
             });
     }
+
+
+
+
+
+
+    /****************************** ponto ES *****************************/
+    /**
+     * 
+     * 
+     * @param {string} id
+     * @returns {Promise<BusRoute>}
+     */
+    public getBusStopsByArea( bounds: number[] ): Promise<any> {
+        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { envelope: bounds })
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {number[]} ids
+     * @returns {Promise<BusRoute>}
+     * 
+     * @memberOf CeturbApiService
+     */
+    public listBusStopsByIds( ids: number[] ): Promise<any> {
+        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/listarPontosDeParada', { listaIds: ids })
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
+    }
 }
