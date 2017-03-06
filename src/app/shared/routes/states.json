@@ -295,17 +295,6 @@
     "icon": "fa fa-clock-o"
   },
   {
-    "name": "app.warningList",
-    "url": "warningList",
-    "type": "load",
-    "src": "app/cbmes/warning-list/index",
-    "group": "Bombeiros",
-    "menuName": "Alertas",
-    "menu": true,
-    "editable": true,
-    "icon": "fa fa-fire-extinguisher"
-  },
-  {
     "name": "app.about",
     "url": "about",
     "type": "load",
