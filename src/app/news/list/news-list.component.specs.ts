@@ -2,12 +2,13 @@ import * as moment from 'moment';
 import { NewsListController } from './news-list.component.controller';
 import { NewsApiService, News, Filter } from '../shared/index';
 import { NewsListComponent } from './news-list.component';
-import NewsListTemplate = require('./news-list.component.html');
-import datesFilterTemplate = require('./dates-filter/dates-filter.html');
+import NewsListTemplate = require( './news-list.component.html' );
+import datesFilterTemplate = require( './dates-filter/dates-filter.html' );
 import { SourcesFilterController, sourcesFilterTemplate } from '../../layout/sources-filter/index';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { environment, $mdDialogMock } from '../../shared/tests/index';
 import { TransitionService } from '../../shared/shared.module';
+import { ISettings } from '../../shared/shared.module';
 
 let expect = chai.expect;
 
@@ -22,6 +23,7 @@ describe( 'News/news-list', () => {
         let newsApiService: NewsApiService;
         let availableOrigins = [ 'SESA', 'SEJUS', 'SEGER' ];
         let transitionService: TransitionService;
+        let settings: ISettings;
 
         beforeEach(() => {
             environment.refresh();
@@ -32,7 +34,7 @@ describe( 'News/news-list', () => {
             transitionService = <TransitionService><any>{
                 changeState: () => { }
             };
-            controller = new NewsListController( environment.$scope, $mdDialogMock, newsApiService, transitionService );
+            controller = new NewsListController( environment.$scope, $mdDialogMock, newsApiService, transitionService, settings );
         });
 
         describe( 'on instantiation', () => {

@@ -4,6 +4,7 @@ import datesFilterTemplate = require( './dates-filter/dates-filter.html' );
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { News, NewsApiService, Filter, Pagination } from '../shared/index';
 import { TransitionService } from '../../shared/shared.module';
+import { ISettings } from '../../shared/shared.module';
 
 export class NewsListController {
 
@@ -11,17 +12,15 @@ export class NewsListController {
         '$scope',
         '$mdDialog',
         'newsApiService',
-        'transitionService'
+        'transitionService',
+        'settings'
     ];
 
     public availableOrigins: string[] | undefined;
     public news: News[] | undefined;
     public hasMoreNews = true;
     public filter: Filter = {};
-    public pagination: Pagination = {
-        pageNumber: 1,
-        pageSize: 10
-    };
+    public pagination: Pagination;
 
     /**
      * Creates an instance of NewsListController.
@@ -36,8 +35,14 @@ export class NewsListController {
     constructor( private $scope: IScope,
         private $mdDialog: angular.material.IDialogService,
         private newsApiService: NewsApiService,
-        private transitionService: TransitionService ) {
+        private transitionService: TransitionService,
+        private settings: ISettings ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
+
+        this.pagination = {
+            pageNumber: 1,
+            pageSize: 10
+        };
     }
 
     /**
@@ -87,6 +92,9 @@ export class NewsListController {
      */
     private async getNews( filter: Filter, pagination: Pagination ): Promise<News[]> {
         const nextNews = await this.newsApiService.getNews( filter, pagination );
+
+        if ( !this.pagination.pageSize ) { this.pagination.pageSize = this.settings.pagination.pageSize; }
+        if ( !this.pagination.pageNumber ) { this.pagination.pageNumber = this.settings.pagination.pageNumber; }
 
         // Check whether it has reached the end
         this.hasMoreNews = nextNews.length >= this.pagination.pageSize;
