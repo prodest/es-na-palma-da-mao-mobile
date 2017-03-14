@@ -227,6 +227,9 @@ export class AuthenticationService {
         return this.authStorage.user;
     }
 
+    public get isAnonymous(): boolean {
+        return this.user && this.user.anonymous;
+    }
 
     /************************************* Private API *************************************/
 
