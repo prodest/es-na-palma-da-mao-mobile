@@ -1,3 +1,22 @@
+<a name="3.6.0"></a>
+# [3.6.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.5.1...v3.6.0) (2017-03-14)
+
+
+### Bug Fixes
+
+* **answers:** corrige erro caso falha de rede ([2b341e7](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/2b341e7))
+* **cbmes:** remove push de bombeiros do menu ([058e9d1](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/058e9d1)), closes [#246](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/246)
+* **transition:** Corrige reload da pagina ([b0f1a72](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b0f1a72))
+
+
+### Features
+
+* **ceturb:** permite acesso anônimo à tela de consulta de ônibus ([685e967](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/685e967))
+* **layout:** adiciona modelo de modal oauth ([10eaee8](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/10eaee8))
+* **security:** adiciona método de verificação de usuário anônimo ([e1786e5](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e1786e5))
+
+
+
 <a name="3.5.1"></a>
 ## [3.5.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.5.0...v3.5.1) (2017-02-07)
 
