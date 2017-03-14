@@ -4,6 +4,7 @@ import BusLinesTemplate = require( './bus-lines.component.html' );
 import { BusLine, CeturbApiService, CeturbStorage, FavoriteLinesData } from '../shared/index';
 import { environment } from '../../shared/tests/index';
 import { TransitionService } from '../../shared/shared.module';
+import { AuthenticationService } from '../../security/shared/index';
 
 let expect = chai.expect;
 
@@ -18,6 +19,7 @@ describe( 'Ceturb/bus-lines', () => {
         let ceturbApiService: CeturbApiService;
         let ceturbStorage: CeturbStorage;
         let transitionService: TransitionService;
+        let authenticationService: AuthenticationService;
 
         beforeEach(() => {
             environment.refresh();
@@ -30,10 +32,13 @@ describe( 'Ceturb/bus-lines', () => {
                 addToFavoriteLines() { },
                 removeFromFavoriteLines() { }
             };
+            authenticationService = <AuthenticationService><any>{
+                user: () => {}
+            };
             transitionService = <TransitionService><any>{
                 changeState: () => { }
             };
-            controller = new BusLinesController( environment.$scope, ceturbApiService, ceturbStorage, transitionService );
+            controller = new BusLinesController( environment.$scope, ceturbApiService, ceturbStorage, transitionService, authenticationService );
         });
 
         describe( 'on instantiation', () => {

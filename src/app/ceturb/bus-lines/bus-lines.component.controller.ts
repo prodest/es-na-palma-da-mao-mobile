@@ -1,6 +1,7 @@
 import { IScope } from 'angular';
 import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
 import { TransitionService } from '../../shared/shared.module';
+import { AuthenticationService } from '../../security/shared/index';
 
 export class BusLinesController {
 
@@ -8,7 +9,8 @@ export class BusLinesController {
         '$scope',
         'ceturbApiService',
         'ceturbStorage',
-        'transitionService'
+        'transitionService',
+        'authenticationService'
     ];
 
     public filter: string;
@@ -17,18 +19,19 @@ export class BusLinesController {
 
     /**
      * Creates an instance of BusLinesController.
-     * 
-     * @param {IScope} $scope
-     * @param {CeturbApiService} ceturbApiService
-     * @param {CeturbStorage} ceturbStorage
-     * @param {TransitionService} transitionService
+     * @param {IScope} $scope 
+     * @param {CeturbApiService} ceturbApiService 
+     * @param {CeturbStorage} ceturbStorage 
+     * @param {TransitionService} transitionService 
+     * @param {AuthenticationService} authenticationService 
      * 
      * @memberOf BusLinesController
      */
     constructor( private $scope: IScope,
         private ceturbApiService: CeturbApiService,
         private ceturbStorage: CeturbStorage,
-        private transitionService: TransitionService ) {
+        private transitionService: TransitionService,
+        private authenticationService: AuthenticationService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -41,6 +44,7 @@ export class BusLinesController {
     public activate(): void {
         this.filter = '';
         this.getLines();
+
     }
 
     /**
@@ -50,10 +54,12 @@ export class BusLinesController {
      * @memberOf BusLinesController
      */
     public async getLines() {
-        const [ , lines ] = await Promise.all( [
-            this.ceturbApiService.syncFavoriteLinesData(),
-            this.ceturbApiService.getLines()
-        ] );
+        let promisses: any[] = [ this.ceturbApiService.getLines() ];
+
+        if ( !this.authenticationService.user.anonymous ) {
+            promisses.push( this.ceturbApiService.syncFavoriteLinesData() );
+        }
+        const [ lines ] = await Promise.all( promisses );
 
         this.filteredLines = this.lines = this.mapLines( lines );
     }

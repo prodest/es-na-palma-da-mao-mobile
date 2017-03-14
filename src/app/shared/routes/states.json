@@ -261,7 +261,7 @@
     "menu": true,
     "editable": true,
     "icon": "fa fa-bus",
-    "secure": true
+    "secure": false
   },
   {
     "name": "app.busInfo/:id",
@@ -270,7 +270,7 @@
     "src": "app/ceturb/bus-info/index",
     "menu": false,
     "editable": false,
-    "secure": true
+    "secure": false
   },
   {
     "name": "app.dioSearch",

@@ -3,7 +3,8 @@ import { BusInfoComponent } from './bus-info.component';
 import BusInfoTemplate = require( './bus-info.component.html' );
 import { CeturbApiService, CeturbStorage } from '../shared/index';
 import { BusRoute, BusSchedule } from '../shared/index';
-import { environment, $stateParamsMock, $windowMock, toastServiceMock } from '../../shared/tests/index';
+import { environment, $stateParamsMock, $windowMock, toastServiceMock, $mdDialogMock } from '../../shared/tests/index';
+import { AuthenticationService } from '../../security/shared/index';
 
 let expect = chai.expect;
 
@@ -17,6 +18,7 @@ describe( 'Ceturb/bus-info', () => {
         let controller: BusInfoController;
         let ceturbApiService: CeturbApiService;
         let ceturbStorage: CeturbStorage;
+        let authenticationService: AuthenticationService;
 
         beforeEach(() => {
             environment.refresh();
@@ -31,13 +33,20 @@ describe( 'Ceturb/bus-info', () => {
                 addToFavoriteLines: () => { },
                 isFavoriteLine: () => { }
             };
+
+            authenticationService = <AuthenticationService><any>{
+                user: () => {}
+            };
+
             controller = new BusInfoController( environment.$scope,
                 $stateParamsMock,
                 $windowMock,
                 environment.$ionicTabsDelegateMock,
+                $mdDialogMock,
                 toastServiceMock,
                 ceturbApiService,
-                ceturbStorage );
+                ceturbStorage,
+                authenticationService );
         });
 
         describe( 'on instantiation', () => {

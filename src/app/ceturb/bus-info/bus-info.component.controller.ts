@@ -2,6 +2,8 @@ import { IScope, IWindowService } from 'angular';
 import { ToastService } from '../../shared/shared.module';
 import { CeturbApiService, CeturbStorage } from '../shared/index';
 import { BusRoute, BusSchedule } from '../shared/models/index';
+import { AuthenticationService } from '../../security/shared/index';
+import { AuthNeededController, authNeededTemplate } from '../../layout/auth-needed/index';
 
 export class BusInfoController {
 
@@ -10,9 +12,11 @@ export class BusInfoController {
         '$stateParams',
         '$window',
         '$ionicTabsDelegate',
+        '$mdDialog',
         'toast',
         'ceturbApiService',
-        'ceturbStorage'
+        'ceturbStorage',
+        'authenticationService'
     ];
 
     public lineId: string;
@@ -22,14 +26,15 @@ export class BusInfoController {
 
     /**
      * Creates an instance of BusInfoController.
-     * 
-     * @param {IScope} $scope
-     * @param {angular.ui.IStateParamsService} $stateParams
-     * @param {IWindowService} $window
-     * @param {ionic.tabs.IonicTabsDelegate} $ionicTabsDelegate
-     * @param {ToastService} toast
-     * @param {CeturbApiService} ceturbApiService
-     * @param {CeturbStorage} ceturbStorage
+     * @param {IScope} $scope 
+     * @param {angular.ui.IStateParamsService} $stateParams 
+     * @param {IWindowService} $window 
+     * @param {ionic.tabs.IonicTabsDelegate} $ionicTabsDelegate 
+     * @param {angular.material.IDialogService} $mdDialog 
+     * @param {ToastService} toast 
+     * @param {CeturbApiService} ceturbApiService 
+     * @param {CeturbStorage} ceturbStorage 
+     * @param {AuthenticationService} authenticationService 
      * 
      * @memberOf BusInfoController
      */
@@ -37,9 +42,11 @@ export class BusInfoController {
         private $stateParams: angular.ui.IStateParamsService,
         private $window: IWindowService,
         private $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate,
+        private $mdDialog: angular.material.IDialogService,
         private toast: ToastService,
         private ceturbApiService: CeturbApiService,
-        private ceturbStorage: CeturbStorage ) {
+        private ceturbStorage: CeturbStorage,
+        private authenticationService: AuthenticationService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -73,7 +80,6 @@ export class BusInfoController {
     public beforeNow( time: string ): boolean {
         return time.slice( 0, 5 ).localeCompare( this.currentTime ) === -1;
     }
-
 
     /**
      * 
@@ -110,15 +116,20 @@ export class BusInfoController {
      * @memberOf BusInfoController
      */
     public toggleFavorite(): void {
-        if ( this.isFavorite ) {
-            this.ceturbStorage.removeFromFavoriteLines( this.lineId );
-            this.toast.info( { title: `Favorito removido` });
+        if ( this.authenticationService.isAnonymous ) {
+            // show modal
+            this.showAuthNeededModal();
+        } else {
+            if ( this.isFavorite ) {
+                this.ceturbStorage.removeFromFavoriteLines( this.lineId );
+                this.toast.info( { title: `Favorito removido` });
+            }
+            else {
+                this.ceturbStorage.addToFavoriteLines( this.lineId );
+                this.toast.info( { title: `Linha ${this.lineId} favoritada` });
+            }
+            this.ceturbApiService.syncFavoriteLinesData( true );
         }
-        else {
-            this.ceturbStorage.addToFavoriteLines( this.lineId );
-            this.toast.info( { title: `Linha ${this.lineId} favoritada` });
-        }
-        this.ceturbApiService.syncFavoriteLinesData( true );
     }
 
     /**
@@ -130,5 +141,15 @@ export class BusInfoController {
      */
     public get isFavorite() {
         return this.ceturbStorage.isFavoriteLine( this.lineId );
+    }
+
+    private showAuthNeededModal() {
+        const options = {
+            controller: AuthNeededController,
+            template: authNeededTemplate,
+            bindToController: true,
+            controllerAs: 'vm'
+        };
+        this.$mdDialog.show( options );
     }
 }
