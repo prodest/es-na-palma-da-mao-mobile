@@ -278,7 +278,7 @@
     "type": "load",
     "src": "app/ceturb/bus-stops/index",
     "group": "Ceturb",
-    "menuName": "Ponto ES",
+    "menuName": "Transcol Online",
     "menu": true,
     "editable": true,
     "icon": "fa fa-bus",

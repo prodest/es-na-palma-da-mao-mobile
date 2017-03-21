@@ -1,6 +1,6 @@
 import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { ISettings } from '../../shared/shared.module';
-import { BusLine, BusRoute, BusSchedule, FavoriteLinesData, CeturbStorage } from './index';
+import { BusLine, BusRoute, BusSchedule, FavoriteLinesData, CeturbStorage, BusStop } from './index';
 
 /**
  * 
@@ -32,7 +32,7 @@ export class CeturbApiService {
      */
     public getLines(): Promise<BusLine[]> {
         return this.http
-            .get( `${this.settings.api.ceturb}/lines/` )
+            .get( `${ this.settings.api.ceturb }/lines/` )
             .then(( response: IHttpPromiseCallbackArg<BusLine[]> ) => response.data );
     }
 
@@ -44,7 +44,7 @@ export class CeturbApiService {
      */
     public getSchedule( id: string = '' ): Promise<BusSchedule> {
         return this.http
-            .get( `${this.settings.api.ceturb}/schedule/${id}` )
+            .get( `${ this.settings.api.ceturb }/schedule/${ id }` )
             .then(( response: IHttpPromiseCallbackArg<BusSchedule> ) => response.data );
     }
 
@@ -56,7 +56,7 @@ export class CeturbApiService {
      */
     public getRoute( id: string = '' ): Promise<BusRoute> {
         return this.http
-            .get( `${this.settings.api.ceturb}/route/${id}` )
+            .get( `${ this.settings.api.ceturb }/route/${ id }` )
             .then(( response: IHttpPromiseCallbackArg<BusRoute> ) => response.data );
     }
 
@@ -73,7 +73,7 @@ export class CeturbApiService {
             this.ceturbStorage.favoriteLines.date = new Date();
         }
         return this.http
-            .post( `${this.settings.api.espm}/data/favoriteBusLines`, this.ceturbStorage.favoriteLines )
+            .post( `${ this.settings.api.espm }/data/favoriteBusLines`, this.ceturbStorage.favoriteLines )
             .then(( response: IHttpPromiseCallbackArg<FavoriteLinesData> ) => {
                 this.ceturbStorage.favoriteLines = response.data!;
                 return response.data;
@@ -98,22 +98,41 @@ export class CeturbApiService {
      * @param {string} id
      * @returns {Promise<BusRoute>}
      */
-    public getBusStopsByArea( bounds: number[] ): Promise<any> {
+    public getBusStopsByArea( bounds: number[] ): Promise<BusStop[]> {
         return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { envelope: bounds })
-            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
+            .then( ids => this.listBusStopsByIds( ids ) );
     }
 
 
+    public getBusStopsByOrigin( id: number ): Promise<any[]> {
+        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
+            .then( ids => this.listBusStopsByIds( ids ) );
+    }
+
     /**
-     * 
-     * 
-     * @param {number[]} ids
-     * @returns {Promise<BusRoute>}
-     * 
-     * @memberOf CeturbApiService
-     */
-    public listBusStopsByIds( ids: number[] ): Promise<any> {
+         * 
+         * 
+         * @param {number[]} ids
+         * @returns {Promise<BusRoute>}
+         * 
+         * @memberOf CeturbApiService
+         */
+    private listBusStopsByIds( ids: number[] ): Promise<BusStop[]> {
         return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/listarPontosDeParada', { listaIds: ids })
-            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
+            .then(( response: IHttpPromiseCallbackArg<any> ) => {
+                return this.formatBusStops( response.data.pontosDeParada );
+            });
+    }
+    
+    private formatBusStops( stops: BusStop[] ) {
+        return stops.map( stop => {
+            stop.isTerminal = /T[A-Z]{2,}/.test( stop.identificador );
+            stop.isPonto = !stop.isTerminal;
+            stop.tipo = stop.isTerminal ? 'terminal' : 'ponto';
+            const [ logradouro, bairro, municipio ] = stop.descricao.split( '-' );
+            return Object.assign( stop, { bairro: bairro, logradouro, municipio });
+        });
     }
 }

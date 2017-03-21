@@ -2,7 +2,7 @@ import { BusStopsController } from './bus-stops.component.controller';
 import { BusStopsComponent } from './bus-stops.component';
 import { CeturbApiService } from '../shared/index';
 import BusStopsTemplate = require( './bus-stops.component.html' );
-import { environment } from '../../shared/tests/index';
+import { environment, $windowMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -18,7 +18,7 @@ describe( 'BusStops', () => {
         beforeEach(() => {
             environment.refresh();
             ceturbApiService = <CeturbApiService>{};
-            controller = new BusStopsController( environment.$scope, ceturbApiService );
+            controller = new BusStopsController( environment.$scope, $windowMock, ceturbApiService );
         });
     });
 

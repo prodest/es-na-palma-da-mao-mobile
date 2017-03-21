@@ -1,8 +1,51 @@
 <ion-view>
-    <ion-nav-title>Ponto ES</ion-nav-title>
-    <ion-content class="bus-stops">
-        <div id="map">
+    <ion-nav-title>Transcol Online </ion-nav-title>
+    <div class="bus-stops">
+        <div class="stop-info" ng-class="{'stop-info--open': vm.showOriginInfo, 'stop-info--expanded': vm.showOriginDetails }">
 
+            <div class="stop-info__header">
+                <md-button class="md-fab md-mini stop-info__btn-favorite">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </md-button>
+                <md-button class="md-fab md-mini stop-info__btn-routes">
+                    <i class="fa fa-code-fork" aria-hidden="true"></i>
+                </md-button>
+                <md-button class="md-fab md-mini stop-info__btn-destiny" ng-click="vm.showOriginDetails=!vm.showOriginDetails">
+                    <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                </md-button>
+                <div>
+                    <h5 class="stop-info__icon">
+                        <i class="fa fa-bus" aria-hidden="true"></i>
+                    </h5>
+                    <h4 ng-if="!vm.originStop.isTerminal" class="stop-info__identifier">{{vm.originStop.identificador}}</h4>
+                </div>
+                <p ng-if="!vm.originStop.isTerminal" class="stop-info__address">
+                    {{vm.originStop.logradouro}}
+                    <span class="stop-info__city">{{vm.originStop.bairro}} - {{vm.originStop.municipio}}</span>
+                </p>
+                <p ng-if="vm.originStop.isTerminal" class="stop-info__address">
+                    {{vm.originStop.descricao}}
+                </p>
+            </div>
+
+            <div class="stop-info__content">
+                <!--<md-list ng-if="vm.showOriginDetails">
+                    <md-subheader class="md-no-sticky">Selecionar Destino ({{vm.destinesMarkers.length}}) opções:</md-subheader>
+                    <ion-content style="top:56px;">
+                        <md-list-item class="md-2-line" collection-repeat="destine in vm.destinesMarkers" item-height="50">
+                            <div class="md-list-item-text">
+                                <h4 class="text-padding"><strong>{{ destine.options.stop.identificador}}</strong> - {{ destine.options.stop.logradouro}}
+                                </h4>
+                            </div>
+                            <md-divider></md-divider>
+                        </md-list-item>
+                    </ion-content>
+                </md-list>-->
+            </div>
         </div>
-    </ion-content>
+        <ion-content>
+            <div id="map">
+            </div>
+        </ion-content>
+    </div>
 </ion-view>
