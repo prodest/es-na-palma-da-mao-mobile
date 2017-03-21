@@ -6,9 +6,9 @@
             </ion-nav-buttons>
         </ion-nav-bar>
         <ion-nav-view name="content"></ion-nav-view>
-    </ion-side-menu-content>
-    <md-sidenav md-component-id="left" on-swipe-left="$ctrl.onCloseButtonClick()" on-drag-left="$ctrl.onCloseButtonClick()">
-        <ion-content id="main-side-bar">
+
+        <md-sidenav md-component-id="left" on-swipe-left="$ctrl.onCloseButtonClick()" on-drag-left="$ctrl.onCloseButtonClick()">
+            <!--<ion-content id="main-side-bar">-->
             
             <!-- user info-->
             <user-info user="$ctrl.user"></user-info>
@@ -22,6 +22,7 @@
                   on-home-click="$ctrl.navigateToHome()"
                   on-logout-click="$ctrl.logout()">
             </menu>
-        </ion-content>
-    </md-sidenav>
+            <!--</ion-content>-->
+        </md-sidenav>
+    </ion-side-menu-content>
 </ion-side-menus>
