@@ -88,3 +88,5 @@ _package.json
 
 # env config file
 .env
+
+build.json

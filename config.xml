@@ -23,7 +23,6 @@
     <preference name="xwalkMode" value="embedded" />
     <preference name="CrosswalkAnimatable" value="true" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
-    <preference name="AlternateContentSrc" value="index.html" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="0" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
@@ -92,7 +91,6 @@
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
-        <plugin name="cordova-labs-wkwebview-engine-localhost" spec="https://github.com/apache/cordova-plugins.git#master:wkwebview-engine-localhost" />
     </platform>
     <plugin name="cordova-plugin-inappbrowser" spec="~1.5.0" />
     <plugin name="cordova-plugin-android-permissions" spec="~0.10.0" />
