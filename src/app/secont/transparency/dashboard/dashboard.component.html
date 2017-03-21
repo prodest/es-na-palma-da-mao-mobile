@@ -10,7 +10,7 @@
     <spinner ng-if="uiState.loading"></spinner>
     <ion-content id="transparency-dashboard-component">
         <div class="grid md-padding">
-            <md-button class="grid-item"
+            <div class="md-button grid-item"
                        ng-class="{expenses: vm.isExpense(item), revenues: vm.isRevenue(item)}"
                        md-ink-ripple="false" 
                        ng-repeat="item in ::vm.menuItems track by $index" 
@@ -19,7 +19,7 @@
                     <i class="{{::item.icon}}"></i>
                 </div>
                 <span class="item-title">{{::item.menuName}}</span>
-            </md-button>
+            </div>
         </div>
         <error-message error="uiState.error"></error-message>
     </ion-content>
