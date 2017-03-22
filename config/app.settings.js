@@ -21,7 +21,7 @@ const shared = {
     alert: 'true',
     badge: 'true',
     sound: 'true',
-    gcmSandbox: 'true',
+    gcmSandbox: process.env.IOS_GCM_SANDBOX || 'false',
     defaultIcon: 'notification',
     defaultColor: '#549db2',
     secret: process.env.PUSH_SECRET || ''
