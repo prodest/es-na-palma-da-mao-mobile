@@ -42,7 +42,7 @@ export class PushService {
             });
 
             push.on( 'notification', ( data: NotificationEventResponse ) => {
-                this.notify( data.additionalData['appData'] );
+                this.notify( this.getJson( data.additionalData['appData'] ) );
             });
 
             // TODO: send statistics to answers
@@ -101,5 +101,12 @@ export class PushService {
             pushUser.token = registrationId;
         }
         return pushUser;
+    }
+
+    private getJson( data: any ) {
+        if ( typeof data === 'string' ) {
+            return JSON.parse( data );
+        }
+        return data;
     }
 }
