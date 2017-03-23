@@ -42,7 +42,9 @@ export class PushService {
             });
 
             push.on( 'notification', ( data: NotificationEventResponse ) => {
-                this.notify( this.getJson( data.additionalData['appData'] ) );
+                if ( !data.additionalData.foreround ) {
+                    this.notify( this.getJson( data.additionalData['appData'] ) );
+                }
             });
 
             // TODO: send statistics to answers
