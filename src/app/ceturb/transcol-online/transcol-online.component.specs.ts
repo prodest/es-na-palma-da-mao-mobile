@@ -1,38 +1,38 @@
-import { BusStopsController } from './bus-stops.component.controller';
-import { BusStopsComponent } from './bus-stops.component';
+import { TranscolOnlineController } from './transcol-online.component.controller';
+import { TranscolOnlineComponent } from './transcol-online.component';
 import { CeturbApiService } from '../shared/index';
-import BusStopsTemplate = require( './bus-stops.component.html' );
+import TranscolOnlineTemplate = require( './transcol-online.component.html' );
 import { environment, $windowMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
-describe( 'BusStops', () => {
+describe( 'TranscolOnline', () => {
 
     let sandbox: Sinon.SinonSandbox;
     beforeEach(() => sandbox = sinon.sandbox.create() );
     afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
-        let controller: BusStopsController;
+        let controller: TranscolOnlineController;
         let ceturbApiService: CeturbApiService;
         beforeEach(() => {
             environment.refresh();
             ceturbApiService = <CeturbApiService>{};
-            controller = new BusStopsController( environment.$scope, $windowMock, ceturbApiService );
+            controller = new TranscolOnlineController( environment.$scope, $windowMock, ceturbApiService );
         });
     });
 
 
     describe( 'Component', () => {
         // test the component/directive itself
-        let component = BusStopsComponent();
+        let component = TranscolOnlineComponent();
 
         it( 'should use the right controller', () => {
-            expect( component.controller ).to.equal( BusStopsController );
+            expect( component.controller ).to.equal( TranscolOnlineController );
         });
 
         it( 'should use the right template', () => {
-            expect( component.template ).to.equal( BusStopsTemplate );
+            expect( component.template ).to.equal( TranscolOnlineTemplate );
         });
 
         it( 'should use controllerAs', () => {

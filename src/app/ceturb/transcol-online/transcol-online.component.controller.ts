@@ -16,7 +16,7 @@ let BaseIcon = L.DivIcon.extend( {
 });
 
 
-export class BusStopsController {
+export class TranscolOnlineController {
 
     public static $inject: string[] = [ '$scope', '$window', 'ceturbApiService' ];
 
@@ -41,12 +41,12 @@ export class BusStopsController {
     public showOriginInfo = false;
     public showOriginDetails = false;
     /**
-     * Creates an instance of BusStopsController.
+     * Creates an instance of TranscolOnlineController.
      * 
      * @param {IScope} $scope
      * @param {CeturbApiService} ceturbApiService
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     constructor( private $scope: IScope,
         private $window: IWindowService,
@@ -75,7 +75,7 @@ export class BusStopsController {
      * @private
      * @returns
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private createMap() {
         const map = L.map( 'map', {
@@ -117,7 +117,7 @@ export class BusStopsController {
      * 
      * @private
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private onMapMove() {
         this.logMapInfo();
@@ -133,7 +133,7 @@ export class BusStopsController {
      * @readonly
      * @private
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private get isInClusterView() {
         return this.map.getZoom() >= this.stopsCluster.options.disableClusteringAtZoom;
@@ -144,7 +144,7 @@ export class BusStopsController {
      * 
      * @private
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private logMapInfo() {
         console.log( 'zoom:', this.map.getZoom() );
@@ -158,7 +158,7 @@ export class BusStopsController {
      * @private
      * @param {BusStop[]} stops 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private renderBusStops( stops: BusStop[] ) {
         this.allStopsMarkers = stops.map( stop => this.createMarkerFrom( stop ) );
@@ -175,7 +175,7 @@ export class BusStopsController {
      * @param {BusStop} stop 
      * @returns 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private createMarkerFrom( stop: BusStop ) {
         const marker = L.marker( L.latLng( stop.latitude, stop.longitude ),  { stop: stop } as L.MarkerOptions );
@@ -190,7 +190,7 @@ export class BusStopsController {
      * @private
      * @param {BusStop} origin 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private selectOrigin( marker: L.Marker ) {
    
@@ -228,7 +228,7 @@ export class BusStopsController {
      * @param {L.Marker} marker 
      * @returns {boolean} 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private isOrigin( marker: L.Marker ): boolean { 
         return !!this.originStop && this.originStop.id === this.unwrap( marker ).id;
@@ -240,7 +240,7 @@ export class BusStopsController {
      * @private
      * @param {L.Marker} marker 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private setOriginIcon( marker: L.Marker ) {
         this.setMarkerIcon( marker, { style: 'origin', zIndexOffset: 2000 });
@@ -252,7 +252,7 @@ export class BusStopsController {
      * @private
      * @param {L.Marker} marker 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private setDestinyIcon( marker: L.Marker ) {
         this.setMarkerIcon( marker, { style: 'destiny', zIndexOffset: 1000 });
@@ -264,7 +264,7 @@ export class BusStopsController {
      * @private
      * @param {L.Marker} marker 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private setDefaultIcon( marker: L.Marker ) {
         this.setMarkerIcon( marker, { style: 'default', zIndexOffset: 100 });
@@ -276,7 +276,7 @@ export class BusStopsController {
      * @private
      * @param {L.Marker} marker 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private setSecundaryIcon( marker: L.Marker ) {
         this.setMarkerIcon( marker, { style: 'secondary', zIndexOffset: 100 });
@@ -289,7 +289,7 @@ export class BusStopsController {
      * @param {L.Marker} marker 
      * @param {any} options 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private setMarkerIcon( marker: L.Marker, iconOptions: { style: 'default' | 'secondary' | 'origin' | 'destiny', zIndexOffset: number } ) {
         const stop = this.unwrap( marker );
@@ -304,7 +304,7 @@ export class BusStopsController {
    * @private
    * @param {L.Marker} marker 
    * 
-   * @memberOf BusStopsController
+   * @memberOf TranscolOnlineController
    */
     private setSpinStyle( marker: L.Marker ) {
         marker.setIcon( new BaseIcon( { className: 'marker marker-origin marker-spin', html: '<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>' }) );
@@ -318,7 +318,7 @@ export class BusStopsController {
      * @param {number} latitude 
      * @param {number} longitude 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private panTo( latitude: number, longitude: number ) {
         this.map.panTo( new L.LatLng( latitude, longitude ), { animate: true, duration: 0.5 });
@@ -330,7 +330,7 @@ export class BusStopsController {
      * 
      * @private
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private unSelectOrigin() {
         this.showOriginInfo = false;
@@ -350,7 +350,7 @@ export class BusStopsController {
      * @param {L.Marker} marker 
      * @returns {BusStop} 
      * 
-     * @memberOf BusStopsController
+     * @memberOf TranscolOnlineController
      */
     private unwrap( marker: L.Marker ): BusStop {
         return marker.options[ 'stop' ] as BusStop;

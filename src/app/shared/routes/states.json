@@ -273,10 +273,10 @@
     "secure": true
   },
   {
-    "name": "app.busStops",
-    "url": "busStops",
+    "name": "app.transcolOnline",
+    "url": "transcolOnline",
     "type": "load",
-    "src": "app/ceturb/bus-stops/index",
+    "src": "app/ceturb/transcol-online/index",
     "group": "Ceturb",
     "menuName": "Transcol Online",
     "menu": true,
