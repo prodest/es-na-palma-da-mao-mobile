@@ -1,5 +1,6 @@
 import { BusLinesComponent } from './bus-lines/bus-lines.component';
 import { BusInfoComponent } from './bus-info/bus-info.component';
+import { TranscolOnlineComponent } from './transcol-online/transcol-online.component';
 import { CeturbStorage, CeturbApiService } from './shared/index';
 
 export default angular.module( 'ceturb.module', [] )
@@ -11,6 +12,7 @@ export default angular.module( 'ceturb.module', [] )
     // components
     .directive( 'busLines', BusLinesComponent )
     .directive( 'busInfo', BusInfoComponent )
+    .directive( 'transcolOnline', TranscolOnlineComponent )
 
     // routes
     .config( [
@@ -29,6 +31,14 @@ export default angular.module( 'ceturb.module', [] )
                     views: {
                         content: {
                             template: '<bus-info></bus-info>'
+                        }
+                    }
+                })
+                .state( 'app.transcolOnline', {
+                    url: 'transcolOnline',
+                    views: {
+                        content: {
+                            template: '<transcol-online></transcol-online>'
                         }
                     }
                 });

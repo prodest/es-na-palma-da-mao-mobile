@@ -36,6 +36,10 @@
   version "0.0.34"
   resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
 
+"@types/geojson@*":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.0.tgz#6af48a0d492c09068e97cb78e6bef940d57fb36d"
+
 "@types/ionic@^0.0.33":
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/@types/ionic/-/ionic-0.0.33.tgz#3b0d56206ee2dbe3edb9d1b86d54775bb091405e"
@@ -45,6 +49,12 @@
 "@types/jquery@*":
   version "2.0.33"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-2.0.33.tgz#684ef3a2e99f6fd2afc52a357e47ae05f51f4f6c"
+
+"@types/leaflet@^1.0.53":
+  version "1.0.53"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.0.53.tgz#22ebfc8d6db6d4a046f8ce2b5c908ad5023035b1"
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/mocha@^2.2.38":
   version "2.2.38"
@@ -5147,6 +5157,18 @@ lcid@^1.0.0:
 lcov-parse@0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/lcov-parse/-/lcov-parse-0.0.10.tgz#1b0b8ff9ac9c7889250582b70b71315d9da6d9a3"
+
+leaflet.locatecontrol@^0.60.0:
+  version "0.60.0"
+  resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.60.0.tgz#fc7be657ca9b7e8b8ba7263e52b0bb902b7cd965"
+
+leaflet.markercluster@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.0.3.tgz#64c779365c0951f4885c3414024a994f3effc708"
+
+leaflet@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"

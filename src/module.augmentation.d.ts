@@ -3,6 +3,14 @@
 import * as angular from 'angular';
 import { TransitionService } from './app/shared/shared.module';
 
+declare module 'leaflet' {
+    export namespace control {
+        export function locate( options: any ): any;
+    }
+
+    export function markerClusterGroup( options: any ): any;
+}
+
 declare module 'angular' {
     /**
      * HttpService monkey patched to return ESPromises instead of angular.IPromise 

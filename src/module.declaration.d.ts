@@ -3,6 +3,7 @@
 declare var sinon: Sinon.SinonStatic;
 declare var angular: angular.IAngularStatic;
 
+
 declare module 'rxjs/Observable' {
     export interface Observable<T> { subscribe: Function; }
 }

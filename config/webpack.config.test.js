@@ -202,7 +202,11 @@ module.exports = ( options = {} ) => {
                 'ionic': helpers.root( 'node_modules/ionic-angular/release/js/ionic.js' ),
                 'ionic-angular': helpers.root( 'node_modules/ionic-angular/release/js/ionic-angular.js' ),
                 'ionic-css': helpers.root( 'node_modules/ionic-angular/release/css/ionic.css' ),
-                'ionic-calendar-css': helpers.root( 'node_modules/ionic-calendar/www/dist/css/calendar.css' )
+                'ionic-calendar-css': helpers.root( 'node_modules/ionic-calendar/www/dist/css/calendar.css' ),
+                'leaflet.locatecontrol': helpers.root( 'node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.js' ),
+                'leaflet.locatecontrol-css': helpers.root( 'node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.css' ),
+                'leaflet.markercluster': helpers.root( 'node_modules/leaflet.markercluster/dist/leaflet.markercluster.js' ),
+                'leaflet.markercluster-css': helpers.root( 'node_modules/leaflet.markercluster/dist/MarkerCluster.css' )
             },
             extensions: [ '.ts', '.js' ],
 

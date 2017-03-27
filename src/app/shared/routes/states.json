@@ -273,6 +273,18 @@
     "secure": false
   },
   {
+    "name": "app.transcolOnline",
+    "url": "transcolOnline",
+    "type": "load",
+    "src": "app/ceturb/transcol-online/index",
+    "group": "Ceturb",
+    "menuName": "Transcol Online",
+    "menu": true,
+    "editable": true,
+    "icon": "fa fa-bus",
+    "secure": true
+  },
+  {
     "name": "app.dioSearch",
     "url": "dio",
     "type": "load",

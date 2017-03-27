@@ -42,7 +42,7 @@ export class PushService {
             });
 
             push.on( 'notification', ( data: NotificationEventResponse ) => {
-                if ( !data.additionalData.foreround ) {
+                if ( !(data.additionalData as any).foreround ) { // todo
                     this.notify( this.getJson( data.additionalData['appData'] ) );
                 }
             });

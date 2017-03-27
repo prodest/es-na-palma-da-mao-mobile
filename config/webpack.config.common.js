@@ -167,6 +167,11 @@ const config = ( options = {} ) => {
                 'ionic': helpers.root( 'node_modules/ionic-angular/release/js/ionic.js' ),
                 'ionic-angular': helpers.root( 'node_modules/ionic-angular/release/js/ionic-angular.js' ),
                 'ionic-css': helpers.root( 'node_modules/ionic-angular/release/css/ionic.css' ),
+                'leaflet.locatecontrol': helpers.root( 'node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.js' ),
+                'leaflet.locatecontrol-css': helpers.root( 'node_modules/leaflet.locatecontrol/dist/L.Control.Locate.min.css' ),
+                'leaflet.markercluster': helpers.root( 'node_modules/leaflet.markercluster/dist/leaflet.markercluster.js' ),
+                'leaflet.markercluster-css': helpers.root( 'node_modules/leaflet.markercluster/dist/MarkerCluster.css' ),
+                'leaflet.markercluster-css2': helpers.root( 'node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css' ),
                 '@hoisel/ionic-calendar-css': helpers.root( 'node_modules/@hoisel/ionic-calendar/www/dist/css/calendar.css' )
             },
             extensions: [ '.ts', '.js' ],
