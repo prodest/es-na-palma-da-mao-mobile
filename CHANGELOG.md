@@ -1,3 +1,25 @@
+<a name="3.7.0"></a>
+# [3.7.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.6.0...v3.7.0) (2017-03-27)
+
+
+### Bug Fixes
+
+* **config:** corrige configuração para build ios ([8c86d63](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/8c86d63))
+* **login:** Ajusta layout login para ios ([8b87cb2](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/8b87cb2))
+* **menu:** ajusta layout do menu para ios ([423ac79](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/423ac79))
+* **push:** corrige configuração especifica de ios ([0d81744](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/0d81744))
+* **push:** corrige tratamento das notificações ([9d0867c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/9d0867c))
+* **push:** corrige tratamento de notiicações em foreground ([ea49f54](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/ea49f54))
+* **secont:** ajusta layout do dashboard transparência pra ios ([c6c814e](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c6c814e))
+
+
+### Features
+
+* **ceturb:** cria component de previsão de ônibus nos pontos ([6aaab24](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6aaab24)), closes [#248](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/248) [#249](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/249)
+* **transcol-online:** adiciona seleção de ponto de origem ([c4ad1e6](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c4ad1e6)), closes [#252](https://github.com/prodest/es-na-palma-da-mao-mobile/issues/252)
+
+
+
 <a name="3.6.0"></a>
 # [3.6.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.5.1...v3.6.0) (2017-03-14)
 
