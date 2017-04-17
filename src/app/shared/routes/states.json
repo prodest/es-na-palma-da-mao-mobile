@@ -282,7 +282,7 @@
     "menu": true,
     "editable": true,
     "icon": "fa fa-bus",
-    "secure": true
+    "secure": false
   },
   {
     "name": "app.dioSearch",
