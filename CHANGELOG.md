@@ -1,3 +1,13 @@
+<a name="3.7.1"></a>
+## [3.7.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.7.0...v3.7.1) (2017-04-17)
+
+
+### Bug Fixes
+
+* **transcol-online:** permite usuário anônimo ([49892a9](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/49892a9))
+
+
+
 <a name="3.7.0"></a>
 # [3.7.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.6.0...v3.7.0) (2017-03-27)
 
