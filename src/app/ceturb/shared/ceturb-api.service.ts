@@ -131,7 +131,7 @@ export class CeturbApiService {
             stop.isTerminal = /T[A-Z]{2,}/.test( stop.identificador );
             stop.isPonto = !stop.isTerminal;
             stop.tipo = stop.isTerminal ? 'terminal' : 'ponto';
-            const [ logradouro, bairro, municipio ] = stop.descricao.split( '-' );
+            const [ logradouro, bairro, municipio ] = (stop.descricao || 'Descrição não informada').split( ' - ' );
             return Object.assign( stop, { bairro: bairro, logradouro, municipio });
         });
     }

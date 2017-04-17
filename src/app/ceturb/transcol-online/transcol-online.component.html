@@ -28,20 +28,7 @@
                 </p>
             </div>
 
-            <div class="stop-info__content">
-                <!--<md-list ng-if="vm.showOriginDetails">
-                    <md-subheader class="md-no-sticky">Selecionar Destino ({{vm.destinesMarkers.length}}) opções:</md-subheader>
-                    <ion-content style="top:56px;">
-                        <md-list-item class="md-2-line" collection-repeat="destine in vm.destinesMarkers" item-height="50">
-                            <div class="md-list-item-text">
-                                <h4 class="text-padding"><strong>{{ destine.options.stop.identificador}}</strong> - {{ destine.options.stop.logradouro}}
-                                </h4>
-                            </div>
-                            <md-divider></md-divider>
-                        </md-list-item>
-                    </ion-content>
-                </md-list>-->
-            </div>
+            <destiny-list ng-if="vm.showOriginDetails" markers="vm.destinesMarkers"></destiny-list>
         </div>
         <ion-content>
             <div id="map">
