@@ -12,11 +12,12 @@
 
 	<div class="bar bar-subheader state-sep-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
-			<input class="input-search" ng-model="vm.processNumber" type="number" 
+			<input class="input-search" ng-model="vm.processNumberModel" type="number" 
+				ng-change="vm.filterFavorites()"
 				ng-focus="vm.searchActive(true)"
 				ng-blur="vm.searchActive(false)"
 				placeholder="Digite o Número do Processo" input-return>
-			<md-icon id="btn-clear" ng-if="vm.processNumber" ng-click="vm.processNumber = undefined"><i class="ion-android-close" aria-hidden="true"></i></md-icon>
+			<md-icon id="btn-clear" ng-if="vm.processNumberModel" ng-click="vm.clear()"><i class="ion-android-close" aria-hidden="true"></i></md-icon>
 			<md-icon id="btn-scanbarcode" ng-click="vm.scanBarcode()"><i class="fa fa-barcode" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>
@@ -123,12 +124,11 @@
 
 		<div class="favorite-process-container" ng-if="vm.hasFavorites && vm.searching">
 			<ion-scroll>
-			<!--<div class="accent title-following-process">Acompanhando processos:</div>-->
-				<div class="md-2-line line-item" ng-repeat="process in vm.favoriteProcess" ng-click="::vm.goToProcess( process )">
+				<div class="accent title-following-process">Acompanhando Processos</div>
+				<div class="md-2-line line-item" ng-repeat="process in vm.filteredFavorites" ng-click="::vm.goToProcess( process )">
 					<div layout="row" class="md-list-item-text item-favorite-inner">
-						<strong class="line-number">{{process}}</strong>
+						<strong class="line-number">Nº {{process}}</strong>
 					</div>
-					<!--<md-divider></md-divider>-->
 				</div>
 			</ion-scroll>
 		</div>

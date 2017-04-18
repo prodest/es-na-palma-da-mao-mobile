@@ -18,12 +18,13 @@ export class SepConsultaController {
         'sepStorageService'
     ];
 
-    public processNumber: number | undefined;
-    public lastProcessNumber: number | undefined;
+    public processNumberModel: number | undefined;
+    public lastProcessNumber: string | undefined;
     public process: Process | undefined;
     public searched: boolean;
     public searching: boolean;
     public showAllUpdates: boolean;
+    public filteredFavorites: string[];
 
     /**
      * Creates an instance of SepConsultaController.
@@ -56,22 +57,40 @@ export class SepConsultaController {
      * @memberOf SepConsultaController
      */
     public async activate () {
-        this.processNumber = undefined;
+        this.processNumberModel = undefined;
         this.lastProcessNumber = undefined;
-        this.process = undefined;
+        this.process = undefined; 
         this.searched = false;
         this.showAllUpdates = false;
         this.searching = false;
+        this.filteredFavorites = [];
 
         if ( !this.authenticationService.user.anonymous ) {
-            this.sepApiService.syncFavoriteProcessData();
+            await this.sepApiService.syncFavoriteProcessData();
+            this.filteredFavorites = this.favoriteProcess;
         }
 
         const processNumber = this.$stateParams[ 'processNumber' ];
         if ( processNumber ) {
-            this.processNumber = +processNumber;
+            this.processNumberModel = +processNumber;
             await this.getProcess( this.processNumber );
         }
+    }
+
+    private get processNumber () {
+        return this.processNumberModel ? '' + this.processNumberModel : undefined;
+    }
+
+    public get hasFavorites (): boolean {
+        return this.sepStorageService.hasFavoriteProcess;
+    }
+
+    public get favoriteProcess () {
+        return this.sepStorageService.favoriteProcess.favoriteProcess || [];
+    }
+
+    public get isFavorite (): boolean {
+        return !!this.process && this.sepStorageService.isFavoriteProcess( this.process.number );
     }
 
     /**
@@ -82,7 +101,7 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public async getProcess ( processNumber?: number ) {
+    public async getProcess ( processNumber?: string ) {
         if ( !processNumber ) {
             this.toast.info( { title: 'N° do processo é obrigatório' } as ToastOptions ); return;
         }
@@ -108,7 +127,7 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public async onEnterPressed ( processNumber: number ) {
+    public async onEnterPressed ( processNumber: string ) {
         await this.getProcess( processNumber );
     }
 
@@ -132,7 +151,6 @@ export class SepConsultaController {
         this.$ionicScrollDelegate.scrollTo( 0, 300, true ); // TODO: try to search the element to scroll: anchorScroll
     }
 
-
     /**
     * 
     * 
@@ -149,16 +167,12 @@ export class SepConsultaController {
     }
 
     public goToProcess ( processNumber: string ) {
-        this.processNumber = parseInt( processNumber );
-
+        this.processNumberModel = +processNumber;
         this.getProcess( this.processNumber );
     }
 
     public searchActive ( active: boolean ): void {
         this.searching = active;
-        /*if ( this.searching ) {
-            this.process = undefined;
-        }*/
     }
 
     /**
@@ -205,16 +219,19 @@ export class SepConsultaController {
         }
     }
 
-    public get hasFavorites (): boolean {
-        return this.sepStorageService.hasFavoriteProcess;
+    public filterFavorites () {
+        if ( this.processNumber ) {
+            this.filteredFavorites = this.favoriteProcess.filter( f => f.indexOf( this.processNumber! ) !== -1 );
+        } else {
+            this.filteredFavorites = this.favoriteProcess;
+        }
     }
 
-    public get favoriteProcess () {
-        return this.sepStorageService.favoriteProcess.favoriteProcess || [];
-    }
-
-    public get isFavorite (): boolean {
-        return !!this.process && this.sepStorageService.isFavoriteProcess( this.process.number );
+    public clear () {
+        this.processNumberModel = undefined;
+        if ( !this.authenticationService.user.anonymous ) {
+            this.filteredFavorites = this.favoriteProcess;
+        }
     }
 
     private showAuthNeededModal () {

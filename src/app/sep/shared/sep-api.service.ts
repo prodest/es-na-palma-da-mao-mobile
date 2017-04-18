@@ -23,7 +23,7 @@ export class SepApiService {
      * 
      * @memberOf SepApiService
      */
-    public getProcessByNumber ( procNumber: number ): Promise<Process> {
+    public getProcessByNumber ( procNumber: string ): Promise<Process> {
         return this.$http.get( `${this.settings.api.sep}/${procNumber}` )
             .then(( response: IHttpPromiseCallbackArg<Process> ) => {
                 if ( response.data ) {

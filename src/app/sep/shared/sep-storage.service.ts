@@ -39,12 +39,27 @@ export class SepStorageService {
     }
 
     public addToFavoriteProcess ( processNumber: string ): FavoriteProcessData {
-        this.favoriteProcess.favoriteProcess.push( processNumber );
+        if ( !this.favoriteProcess.favoriteProcess ) {
+            this.favoriteProcess.favoriteProcess = [];
+        }
+        this.favoriteProcess.favoriteProcess.splice( this.locationOf( processNumber, this.favoriteProcess.favoriteProcess ), 0, processNumber );
         return this.favoriteProcess;
     }
 
     public removeFromFavoriteProcess ( processNumber: string ): FavoriteProcessData {
         this.favoriteProcess.favoriteProcess = this.favoriteProcess.favoriteProcess.filter( p => p !== processNumber );
         return this.favoriteProcess;
+    }
+
+    private locationOf ( element: any, array: any[], start?: number, end?: number ) {
+        start = start || 0;
+        end = end === undefined ? array.length - 1 : end;
+        let pivot = Math.floor(( start + end ) / 2 );
+        if ( end < start || array[ pivot ] === element ) { return pivot + 1; };
+        if ( array[ pivot ] < element ) {
+            return this.locationOf( element, array, pivot + 1, end );
+        } else {
+            return this.locationOf( element, array, start, pivot - 1 );
+        }
     }
 }

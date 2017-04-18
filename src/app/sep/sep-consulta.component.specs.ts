@@ -21,7 +21,7 @@ describe( 'SEP/sep-consulta', () => {
         let $mdDialog: angular.material.IDialogService;
         let sepStorageService: SepStorageService;
         let $ionicScrollDelegate;
-        let processNumber = 68985037;
+        let processNumber = '68985037';
 
         let process: Process = <Process>{
             number: '68985037',
@@ -90,7 +90,7 @@ describe( 'SEP/sep-consulta', () => {
             it( 'should have empty process number', async () => {
                 await controller.activate();
 
-                expect( controller.processNumber ).to.be.empty;
+                expect( controller.processNumberModel ).to.be.empty;
             });
 
             it( 'should have empty last process number', async () => {
@@ -121,14 +121,14 @@ describe( 'SEP/sep-consulta', () => {
                 expect( getProcess.called ).to.be.true;
             });
 
-            it( 'should set processNumber if has stateParam processNumber', async () => {
+            it( 'should set processNumberModel if has stateParam processNumber', async () => {
                 $stateParamsMock[ 'processNumber' ] = '4545';
 
                 await controller.activate();
 
                 delete $stateParamsMock[ 'processNumber' ];
 
-                expect( controller.processNumber ).to.be.equal( 4545 );
+                expect( controller.processNumberModel ).to.be.equal( 4545 );
             });
 
             it( 'should not get process if stateParam empty', async () => {
@@ -140,7 +140,7 @@ describe( 'SEP/sep-consulta', () => {
             it( 'should not set processNumber if stateParam empty', async () => {
                 await controller.activate();
 
-                expect( controller.processNumber ).to.be.equal( undefined );
+                expect( controller.processNumberModel ).to.be.equal( undefined );
             });
         });
 
@@ -226,7 +226,7 @@ describe( 'SEP/sep-consulta', () => {
                 });
 
                 it( 'should clear last process searched number', async () => {
-                    controller.lastProcessNumber = 1232344;
+                    controller.lastProcessNumber = '1232344';
 
                     await controller.getProcess( processNumber );
 
@@ -249,7 +249,7 @@ describe( 'SEP/sep-consulta', () => {
                 });
 
                 it( 'should fill last process searched number', async () => {
-                    controller.lastProcessNumber = 9999999999;
+                    controller.lastProcessNumber = '9999999999';
 
                     await controller.getProcess( processNumber );
 
