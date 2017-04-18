@@ -1,8 +1,9 @@
 import { SocialSharing, BarcodeScanner } from 'ionic-native';
 import { SepConsultaComponent } from './sep-consulta.component';
-import { SepApiService, Process } from './shared/index';
+import { SepApiService, Process, SepStorageService } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
 import { environment, toastServiceMock, $stateParamsMock } from '../shared/tests/index';
+import { AuthenticationService } from '../security/security.module';
 import SepConsultaTemplate = require('./sep-consulta.component.html');
 
 let expect = chai.expect;
@@ -16,6 +17,9 @@ describe( 'SEP/sep-consulta', () => {
     describe( 'Controller', () => {
         let controller: SepConsultaController;
         let sepApiService: SepApiService;
+        let authenticationService: AuthenticationService;
+        let $mdDialog: angular.material.IDialogService;
+        let sepStorageService: SepStorageService;
         let $ionicScrollDelegate;
         let processNumber = 68985037;
 
@@ -48,7 +52,15 @@ describe( 'SEP/sep-consulta', () => {
                 getProcessByNumber: () => { }
             };
 
-            controller = new SepConsultaController( environment.$scope, $ionicScrollDelegate, $stateParamsMock, toastServiceMock, sepApiService );
+            controller = new SepConsultaController( 
+                environment.$scope, 
+                $ionicScrollDelegate, 
+                $stateParamsMock, 
+                toastServiceMock, 
+                sepApiService,
+                authenticationService,
+                $mdDialog,
+                sepStorageService );
         });
 
         describe( 'on instanciation', () => {

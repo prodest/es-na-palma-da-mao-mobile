@@ -5,7 +5,7 @@
  angular/di: 0,
  no-unused-expressions: 0
  */
-import { SepApiService } from './sep-api.service';
+import { SepApiService, SepStorageService } from './index';
 import { settings } from '../../shared/shared.module';
 import { $httpMock } from '../../shared/tests/index';
 
@@ -18,12 +18,14 @@ describe( 'SepApiService', () => {
     afterEach(() => sandbox.restore() );
 
     let sepApiService;
+    let sepStorageService: SepStorageService;
     let processNumber = 68985037;
     let $httpGet: Sinon.SinonStub;
 
     beforeEach(() => {
+        sepStorageService = sandbox.stub(  )
         $httpGet = sandbox.stub( $httpMock, 'get' );
-        sepApiService = new SepApiService( $httpMock, settings );
+        sepApiService = new SepApiService( $httpMock, settings, sepStorageService );
     });
 
     afterEach(() => {

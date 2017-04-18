@@ -7,26 +7,35 @@
 			<i class="ion-android-share-alt"></i>
 		</a>
 	</ion-nav-buttons>
-	
+
 	<spinner ng-if="uiState.loading"></spinner>
-	
+
 	<div class="bar bar-subheader state-sep-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
-			<input class="input-search" ng-model="vm.processNumber" type="number" placeholder="Digite o Número do Processo" input-return>
+			<input class="input-search" ng-model="vm.processNumber" type="number" 
+				ng-focus="vm.searchActive(true)"
+				ng-blur="vm.searchActive(false)"
+				placeholder="Digite o Número do Processo" input-return>
 			<md-icon id="btn-clear" ng-if="vm.processNumber" ng-click="vm.processNumber = undefined"><i class="ion-android-close" aria-hidden="true"></i></md-icon>
 			<md-icon id="btn-scanbarcode" ng-click="vm.scanBarcode()"><i class="fa fa-barcode" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>
 
 	<ion-content id="state-sep-consulta" class="has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-sep-subheader"
-		offset="25">
+	 offset="25">
 		<md-list id="device-information-content" class="fade-in" ng-if="vm.process">
 			<md-list-item class="row">
 				<div class="col-50 title">
 					<strong>N° do Processo</strong>
 				</div>
 				<div class="col-50">
-					<h4 class="accent"> {{vm.process.number}}</h4>
+					<h4 class="process-number accent"> {{vm.process.number}}</h4>
+					<md-button class="md-icon-button favorite-button" ng-click="vm.toggleFavorite()" aria-label="Acompanhar Processo">
+						<md-icon class="accent" md-font-icon="ion-android-star" ng-if="vm.isFavorite">
+						</md-icon>
+						<md-icon class="accent" md-font-icon="ion-android-star-outline" ng-if="!vm.isFavorite">
+						</md-icon>
+					</md-button>
 				</div>
 			</md-list-item>
 			<md-divider></md-divider>
@@ -111,6 +120,18 @@
 				</div>
 			</md-list-item>
 		</md-list>
+
+		<div class="favorite-process-container" ng-if="vm.hasFavorites && vm.searching">
+			<ion-scroll>
+			<!--<div class="accent title-following-process">Acompanhando processos:</div>-->
+				<div class="md-2-line line-item" ng-repeat="process in vm.favoriteProcess" ng-click="::vm.goToProcess( process )">
+					<div layout="row" class="md-list-item-text item-favorite-inner">
+						<strong class="line-number">{{process}}</strong>
+					</div>
+					<!--<md-divider></md-divider>-->
+				</div>
+			</ion-scroll>
+		</div>
 
 		<message ng-if="!vm.searched" text="Sistema Eletrônico de Protocolo">
 			<img src="img/sep-logo.png">

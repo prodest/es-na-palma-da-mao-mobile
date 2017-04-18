@@ -1,10 +1,11 @@
 import { SepConsultaComponent } from './sep-consulta.component';
-import { SepApiService } from './shared/index';
+import { SepApiService, SepStorageService } from './shared/index';
 
 export default angular.module( 'sep.module', [] )
 
     // services
     .service( 'sepApiService', SepApiService )
+    .service( 'sepStorageService', SepStorageService )
 
     // components
     .directive( 'sepConsulta', SepConsultaComponent )
@@ -21,6 +22,6 @@ export default angular.module( 'sep.module', [] )
                             template: '<sep-consulta></sep-consulta>'
                         }
                     }
-                });
+                } );
         }
     ] ).name;

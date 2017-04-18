@@ -1,7 +1,9 @@
 import { IScope } from 'angular';
 import { SocialSharing, BarcodeScanner } from 'ionic-native';
-import { SepApiService, Process, ProcessUpdate } from './shared/index';
+import { SepApiService, Process, ProcessUpdate, SepStorageService } from './shared/index';
 import { ToastService, ToastOptions } from '../shared/shared.module';
+import { AuthenticationService } from '../security/security.module';
+import { AuthNeededController, authNeededTemplate } from '../layout/auth-needed/index';
 
 export class SepConsultaController {
 
@@ -10,29 +12,40 @@ export class SepConsultaController {
         '$ionicScrollDelegate',
         '$stateParams',
         'toast',
-        'sepApiService'
+        'sepApiService',
+        'authenticationService',
+        '$mdDialog',
+        'sepStorageService'
     ];
 
     public processNumber: number | undefined;
     public lastProcessNumber: number | undefined;
     public process: Process | undefined;
     public searched: boolean;
+    public searching: boolean;
     public showAllUpdates: boolean;
-
 
     /**
      * Creates an instance of SepConsultaController.
+     * @param {IScope} $scope 
+     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate 
+     * @param {angular.ui.IStateParamsService} $stateParams 
+     * @param {ToastService} toast 
+     * @param {SepApiService} sepApiService 
+     * @param {AuthenticationService} authenticationService 
+     * @param {angular.material.IDialogService} $mdDialog 
+     * @param {SepStorageService} sepStorageService 
      * 
-     * @param {IScope} $scope
-     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
-     * @param {ToastService} toast
-     * @param {SepApiService} sepApiService
+     * @memberOf SepConsultaController
      */
     constructor( private $scope: IScope,
         private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
         private $stateParams: angular.ui.IStateParamsService,
         private toast: ToastService,
-        private sepApiService: SepApiService ) {
+        private sepApiService: SepApiService,
+        private authenticationService: AuthenticationService,
+        private $mdDialog: angular.material.IDialogService,
+        private sepStorageService: SepStorageService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
@@ -42,12 +55,17 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public async activate() {
+    public async activate () {
         this.processNumber = undefined;
         this.lastProcessNumber = undefined;
         this.process = undefined;
         this.searched = false;
         this.showAllUpdates = false;
+        this.searching = false;
+
+        if ( !this.authenticationService.user.anonymous ) {
+            this.sepApiService.syncFavoriteProcessData();
+        }
 
         const processNumber = this.$stateParams[ 'processNumber' ];
         if ( processNumber ) {
@@ -64,7 +82,7 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public async getProcess( processNumber?: number ) {
+    public async getProcess ( processNumber?: number ) {
         if ( !processNumber ) {
             this.toast.info( { title: 'N° do processo é obrigatório' } as ToastOptions ); return;
         }
@@ -77,6 +95,7 @@ export class SepConsultaController {
         }
         finally {
             this.searched = true;
+            this.searching = false;
             this.lastProcessNumber = this.process ? undefined : processNumber;
         };
     }
@@ -89,7 +108,7 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public async onEnterPressed( processNumber: number ) {
+    public async onEnterPressed ( processNumber: number ) {
         await this.getProcess( processNumber );
     }
 
@@ -99,7 +118,7 @@ export class SepConsultaController {
      * @readonly
      * @type {ProcessUpdate}
      */
-    public get lastUpdate(): ProcessUpdate | undefined {
+    public get lastUpdate (): ProcessUpdate | undefined {
         if ( this.process ) {
             return this.process.updates[ 0 ];
         }
@@ -108,7 +127,7 @@ export class SepConsultaController {
     /**
      * Alterna a visibilidade das atualizações do processo eletrônico
      */
-    public toggleUpdates(): void {
+    public toggleUpdates (): void {
         this.showAllUpdates = !this.showAllUpdates;
         this.$ionicScrollDelegate.scrollTo( 0, 300, true ); // TODO: try to search the element to scroll: anchorScroll
     }
@@ -121,14 +140,26 @@ export class SepConsultaController {
     * 
     * @memberOf NewsDetailController
     */
-    public share( process: Process ): void {
+    public share ( process: Process ): void {
         SocialSharing.shareWithOptions( {
             message: `SEP - Processo ${process.number}`,
             subject: `SEP - Processo ${process.number}`,
             url: process.pageUrl
-        });
+        } );
     }
 
+    public goToProcess ( processNumber: string ) {
+        this.processNumber = parseInt( processNumber );
+
+        this.getProcess( this.processNumber );
+    }
+
+    public searchActive ( active: boolean ): void {
+        this.searching = active;
+        /*if ( this.searching ) {
+            this.process = undefined;
+        }*/
+    }
 
     /**
      * 
@@ -136,7 +167,7 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public async scanBarcode() {
+    public async scanBarcode () {
         const scanOptions = {
             'preferFrontCamera': false, // iOS and Android
             'prompt': 'Posicione o código dentro da área de leitura', // supported on Android only
@@ -150,7 +181,49 @@ export class SepConsultaController {
             }
         }
         catch ( error ) {
-            this.toast.error( { title: 'Não foi possível ler o código do processo' });
+            this.toast.error( { title: 'Não foi possível ler o código do processo' } );
         };
+    }
+
+    public toggleFavorite () {
+        if ( !this.process ) {
+            return;
+        }
+        if ( this.authenticationService.isAnonymous ) {
+            // show modal
+            this.showAuthNeededModal();
+        } else {
+            if ( this.isFavorite ) {
+                this.sepStorageService.removeFromFavoriteProcess( this.process.number );
+                this.toast.info( { title: `Acompanhamento removido` } );
+            }
+            else {
+                this.sepStorageService.addToFavoriteProcess( this.process.number );
+                this.toast.info( { title: `Acompanhando processo ${this.process.number}` } );
+            }
+            this.sepApiService.syncFavoriteProcessData( true );
+        }
+    }
+
+    public get hasFavorites (): boolean {
+        return this.sepStorageService.hasFavoriteProcess;
+    }
+
+    public get favoriteProcess () {
+        return this.sepStorageService.favoriteProcess.favoriteProcess || [];
+    }
+
+    public get isFavorite (): boolean {
+        return !!this.process && this.sepStorageService.isFavoriteProcess( this.process.number );
+    }
+
+    private showAuthNeededModal () {
+        const options = {
+            controller: AuthNeededController,
+            template: authNeededTemplate,
+            bindToController: true,
+            controllerAs: 'vm'
+        };
+        this.$mdDialog.show( options );
     }
 }
