@@ -1,3 +1,13 @@
+<a name="3.8.0"></a>
+# [3.8.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.7.1...v3.8.0) (2017-04-19)
+
+
+### Features
+
+* **transcol-online:** adiciona previsão de ônibus - v1 ([b2f4698](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b2f4698))
+
+
+
 <a name="3.7.1"></a>
 ## [3.7.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.7.0...v3.7.1) (2017-04-17)
 
