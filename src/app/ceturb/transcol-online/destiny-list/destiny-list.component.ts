@@ -4,6 +4,6 @@ import template = require( './destiny-list.component.html' );
 export const DestinyListComponent: ng.IComponentOptions = {
     template: template,
     bindings: {
-        markers: '<'
+        destines: '<'
     }
 };

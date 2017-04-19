@@ -1,15 +1,13 @@
-<div class="stop-info__content">
-    <md-list>
-        <md-subheader class="md-no-sticky">Selecionar Destino ({{$ctrl.markers.length}}) opções:</md-subheader>
-        <ion-content style="top:56px;">
-            <md-list-item class="md-2-line" collection-repeat="destine in $ctrl.markers" item-height="70">
-                <div class="md-list-item-text">
-                    <h4 class="text-padding"><strong>{{ destine.options.stop.identificador}}</strong> - {{ destine.options.stop.logradouro}}
-                    </h4>
-                    <div class="stop-info__reference">{{ destine.options.stop.bairro}} - {{ destine.options.stop.municipio}}</div>
-                </div>
-                <md-divider></md-divider>
-            </md-list-item>
-        </ion-content>
-    </md-list>
-</div>
+<md-list class="destiny-list">
+    <md-subheader class="md-no-sticky"><i class="fa fa-code-fork"></i> Selecionar Destino ({{$ctrl.destines.length}} destinos):</md-subheader>
+    <ion-content style="top:56px;">
+        <md-list-item class="md-2-line" collection-repeat="destine in $ctrl.destines" item-height="70">
+            <div class="md-list-item-text">
+                <h4 class="text-padding"><strong>{{ destine.identificador}}</strong> - {{ destine.logradouro}}
+                </h4>
+                <div class="destiny-list__reference">{{ destine.bairro}} - {{ destine.municipio}}</div>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+    </ion-content>
+</md-list>

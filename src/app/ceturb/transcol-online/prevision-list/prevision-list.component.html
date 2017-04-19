@@ -1,0 +1,14 @@
+<md-list class="prevision-list">
+    <md-subheader class="md-no-sticky"> <i class="fa fa-clock-o"></i> Previsões ({{$ctrl.previsions.length}} linhas):</md-subheader>
+    <ion-content style="top:56px;">
+        <md-list-item class="md-2-line" collection-repeat="prevision in $ctrl.previsions" item-height="70">
+            <div class="md-list-item-text">
+                <h4 class="text-padding prevision-list__main"><strong>{{ prevision.identificadorLinha }}</strong> - {{ prevision.bandeira }} 
+                    <i class="prevision-list__time"> {{ prevision.previsao }}</i>
+                </h4>
+                <div class="prevision-list__secondary">{{ prevision.descricaoLinha }}</div>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+    </ion-content>
+</md-list>

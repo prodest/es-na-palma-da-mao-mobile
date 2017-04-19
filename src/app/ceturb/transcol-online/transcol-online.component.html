@@ -1,38 +1,38 @@
 <ion-view>
     <ion-nav-title>Transcol Online </ion-nav-title>
     <div class="transcol-online">
-        <div class="stop-info" ng-class="{'stop-info--open': vm.showOriginInfo, 'stop-info--expanded': vm.showOriginDetails }">
-
+        <div class="stop-info" ng-class="{'stop-info--full-expanded': vm.showOriginDetails, 'stop-info--expanded': vm.showOriginSummary }">
             <div class="stop-info__header">
                 <md-button class="md-fab md-mini stop-info__btn-favorite">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </md-button>
-                <md-button class="md-fab md-mini stop-info__btn-routes">
-                    <i class="fa fa-code-fork" aria-hidden="true"></i>
+                <md-button class="md-fab md-mini stop-info__btn-routes" ng-click="vm.togglePrevisions()">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </md-button>
-                <md-button class="md-fab md-mini stop-info__btn-destiny" ng-click="vm.showOriginDetails=!vm.showOriginDetails">
-                    <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                <md-button class="md-fab md-mini stop-info__btn-destiny" ng-click="vm.toggleDestinies()">
+                    <i class="fa fa-code-fork" aria-hidden="true"></i>
                 </md-button>
                 <div>
                     <h5 class="stop-info__icon">
                         <i class="fa fa-bus" aria-hidden="true"></i>
                     </h5>
-                    <h4 ng-if="!vm.originStop.isTerminal" class="stop-info__identifier">{{vm.originStop.identificador}}</h4>
+                    <h4 ng-if="!vm.origin.isTerminal" class="stop-info__identifier">{{vm.origin.identificador}}</h4>
                 </div>
-                <p ng-if="!vm.originStop.isTerminal" class="stop-info__address">
-                    {{vm.originStop.logradouro}}
-                    <span class="stop-info__city">{{vm.originStop.bairro}} - {{vm.originStop.municipio}}</span>
+                <p ng-if="!vm.origin.isTerminal" class="stop-info__address">
+                    {{vm.origin.logradouro}}
+                    <span class="stop-info__city">{{vm.origin.bairro}} - {{vm.origin.municipio}}</span>
                 </p>
-                <p ng-if="vm.originStop.isTerminal" class="stop-info__address">
-                    {{vm.originStop.descricao}}
+                <p ng-if="vm.origin.isTerminal" class="stop-info__address">
+                    {{vm.origin.descricao}}
                 </p>
             </div>
-
-            <destiny-list ng-if="vm.showOriginDetails" markers="vm.destinesMarkers"></destiny-list>
+            <div class="stop-info__content">
+                <destiny-list ng-if="vm.showDestinies" destines="vm.destines"></destiny-list>
+                <prevision-list ng-if="vm.showPrevisions" previsions="vm.previsions"></prevision-list>
+            </div>
         </div>
         <ion-content>
-            <div id="map">
-            </div>
+            <div id="map"></div>
         </ion-content>
     </div>
 </ion-view>

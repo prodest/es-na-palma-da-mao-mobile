@@ -1,0 +1,22 @@
+.prevision-list__main, 
+.prevision-list__secondary {
+	text-transform: capitalize;
+}
+
+.prevision-list__secondary {
+	font-size: 12px;
+    color: #707070;
+    margin: 0 50px 0 0 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+.prevision-list__time {
+	position: absolute; 
+	color: #b95b68; 
+	right: 10px; 
+	top: 30px;
+	text-transform: lowercase;
+}
