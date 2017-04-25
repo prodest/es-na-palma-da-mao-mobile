@@ -23,7 +23,7 @@ describe( 'SepApiService', () => {
     let $httpGet: Sinon.SinonStub;
 
     beforeEach(() => {
-        sepStorageService = sandbox.stub(  )
+        sepStorageService = sandbox.stub();
         $httpGet = sandbox.stub( $httpMock, 'get' );
         sepApiService = new SepApiService( $httpMock, settings, sepStorageService );
     });
