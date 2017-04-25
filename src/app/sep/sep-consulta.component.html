@@ -22,7 +22,7 @@
 		</md-input-container>
 	</div>
 
-	<ion-content id="state-sep-consulta" class="has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-sep-subheader"
+	<ion-content id="state-sep-consulta" ng-class="{ 'no-scroll': vm.searching }" class="has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-sep-subheader"
 	 offset="25">
 		<md-list id="device-information-content" class="fade-in" ng-if="vm.process">
 			<md-list-item class="row">
