@@ -3,7 +3,7 @@ import { Keyboard } from 'ionic-native';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
-
+import * as _ from 'lodash';
 /**
  * 
  * 
@@ -36,11 +36,11 @@ function appRun( $rootScope: any,
 
         // We can now watch the trafficCop service to see when there are pending
         // HTTP requests that we're waiting for.
-        let rootWatch = $rootScope.$watch(() => {
+        let rootWatch = $rootScope.$watch( _.throttle( function () {
             $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
             $rootScope.uiState.error = httpErrorSnifferService.error;
-        });
+        }, 100 ) );
 
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             httpErrorSnifferService.error = undefined;

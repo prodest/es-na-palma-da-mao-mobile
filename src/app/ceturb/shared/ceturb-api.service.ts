@@ -1,7 +1,7 @@
 import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import moment = require( 'moment' );
 import { ISettings } from '../../shared/shared.module';
-import { BusLine, BusRoute, BusSchedule, FavoriteLinesData, CeturbStorage, BusStop } from './index';
+import { BusLine, BusRoute, BusSchedule, FavoriteLinesData, CeturbStorage, BusStop, Prevision } from './index';
 import * as _ from 'lodash';
 /**
  * 
@@ -105,11 +105,31 @@ export class CeturbApiService {
             .then( ids => this.listBusStopsByIds( ids ) );
     }
 
-
+    /**
+     * 
+     * 
+     * @param {number} id 
+     * @returns {Promise<any[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
     public getBusStopsByOrigin( id: number ): Promise<any[]> {
         return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
             .then( ids => this.listBusStopsByIds( ids ) );
+    }
+
+    /**
+     * 
+     * 
+     * @param {number} id 
+     * @returns {Promise<any[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getBusStopsIdsByOrigin( id: number ): Promise<any[]> {
+        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
     }
 
     /**
@@ -127,26 +147,86 @@ export class CeturbApiService {
             });
     }
 
+    /**
+     * 
+     * 
+     * @param {number} originId 
+     * @param {number} lineId 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionsByOriginAndLine( originId: number, lineId: number ): Promise<Prevision[]> {
+        return this.previsions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigemELinha', { pontoDeOrigemId: originId, linhaId: lineId }) );
+    }
 
-    public getEstimativesByOrigin( id: number ): Promise<any[]> {
-        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigem', { pontoDeOrigemId: id })
-            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
-            .then(( { horarioDoServidor, estimativas }) => {
+    /**
+     * 
+     * 
+     * @param {number} id 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
+        return this.groupedPrevisions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigem', { pontoDeOrigemId: id }) );
+    }
+    // private handlePrevisions( whenLoaded: Promise<any>, shouldGroup: boolean ): Promise<Prevision[]> {
+    //     return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
+    //         .then(( { horarioDoServidor, estimativas, pontoDeOrigemId }) => {
 
-                const estimatives = _.chain( estimativas )
+    //             let previsions = _.chain( estimativas ).sortBy( 'horarioNaOrigem' );
+
+    //             if ( shouldGroup ) {
+    //                 previsions = previsions.groupBy( 'itinerarioId' )
+    //                     .valuesIn()
+    //                     .map( values => values[ 0 ] );
+    //             }
+    //             previsions = previsions.value();
+
+    //             const itinerariesIds = previsions.map( e => e.itinerarioId );
+
+    //             return this.listItinerariesByIds( itinerariesIds )
+    //                 .then(( { itinerarios }) => {
+    //                     const itinerariesMap = _.keyBy( itinerarios, 'id' );
+    //                     let fullPrevision = _.chain( previsions )
+    //                         .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId ) )
+    //                         .sortBy( 'previsaoEmMinutos' );
+    //                         .groupBy( 'identificadorLinha' )
+    //                         .valuesIn()
+    //                         .map( values => values[ 0 ] )
+    //                         .sortBy( 'previsaoEmMinutos' )
+    //                         .value();
+    //                 });
+    //         });
+    // }
+    /**
+     * 
+     * 
+     * @private
+     * @param {Promise<any>} whenLoaded 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    private groupedPrevisions( whenLoaded: Promise<any> ): Promise<Prevision[]> {
+        return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
+            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId }) => {
+
+                const previsions = _.chain( estimativas )
                     .sortBy( 'horarioNaOrigem' )
                     .groupBy( 'itinerarioId' )
                     .valuesIn()
                     .map( values => values[ 0 ] )
                     .value();
 
-                const itinerariesIds = estimatives.map( e => e.itinerarioId );
+                const itinerariesIds = previsions.map( e => e.itinerarioId );
 
                 return this.listItinerariesByIds( itinerariesIds )
                     .then(( { itinerarios }) => {
                         const itinerariesMap = _.keyBy( itinerarios, 'id' );
-                        return _.chain( estimatives )
-                            .map( e => this.createFullEstimative( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor ) )
+                        return _.chain( previsions )
+                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId ) )
                             .sortBy( 'previsaoEmMinutos' )
                             .groupBy( 'identificadorLinha' )
                             .valuesIn()
@@ -157,6 +237,32 @@ export class CeturbApiService {
             });
     }
 
+    /**
+     * 
+     * 
+     * @private
+     * @param {Promise<any>} whenLoaded 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    private previsions( whenLoaded: Promise<any> ): Promise<Prevision[]> {
+        return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
+            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId }) => {
+
+                const previsions = _.chain( estimativas ).sortBy( 'horarioNaOrigem' ).value();
+                const itinerariesIds = previsions.map( e => e.itinerarioId );
+
+                return this.listItinerariesByIds( itinerariesIds )
+                    .then(( { itinerarios }) => {
+                        const itinerariesMap = _.keyBy( itinerarios, 'id' );
+                        return _.chain( previsions )
+                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId ) )
+                            .sortBy( 'previsaoEmMinutos' )
+                            .value();
+                    });
+            });
+    }
 
     /**
      * 
@@ -169,9 +275,9 @@ export class CeturbApiService {
      * 
      * @memberOf CeturbApiService
      */
-    private createFullEstimative( estimative, itinerary, horarioDoServidor ) {
-        const lastUpdateHour = moment( estimative.horarioDaTransmissao || 0 );
-        const originHour = moment( estimative.horarioNaOrigem );
+    private createFullPrevision( prevision, itinerary, horarioDoServidor, pontoDeOrigemId ): Prevision {
+        const lastUpdateHour = moment( prevision.horarioDaTransmissao || 0 );
+        const originHour = moment( prevision.horarioNaOrigem );
         const now = moment( horarioDoServidor );
 
         const previsaoEmMinutos = originHour.diff( now, 'minutes' );
@@ -179,7 +285,8 @@ export class CeturbApiService {
         const reliability = lastUpdateHour.diff( now, 'minutes' );
 
         return {
-            ...estimative,
+            ...prevision,
+            pontoDeOrigemId,
             bandeira: _.toLower( itinerary.bandeira ),
             complemento: _.toLower( itinerary.complemento ),
             descricaoLinha: _.toLower( itinerary.descricaoLinha ),

@@ -3,9 +3,9 @@
     <div class="transcol-online">
         <div class="stop-info" ng-class="{'stop-info--full-expanded': vm.showOriginDetails, 'stop-info--expanded': vm.showOriginSummary }">
             <div class="stop-info__header">
-                <md-button class="md-fab md-mini stop-info__btn-favorite">
+                <!--<md-button class="md-fab md-mini stop-info__btn-favorite">
                     <i class="fa fa-star" aria-hidden="true"></i>
-                </md-button>
+                </md-button>-->
                 <md-button class="md-fab md-mini stop-info__btn-routes" ng-click="vm.togglePrevisions()">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </md-button>
@@ -16,19 +16,33 @@
                     <h5 class="stop-info__icon">
                         <i class="fa fa-bus" aria-hidden="true"></i>
                     </h5>
-                    <h4 ng-if="!vm.origin.isTerminal" class="stop-info__identifier">{{vm.origin.identificador}}</h4>
+                    <h4 ng-if="!vm.selectedOrigin.isTerminal" class="stop-info__identifier">{{vm.selectedOrigin.identificador}}</h4>
                 </div>
-                <p ng-if="!vm.origin.isTerminal" class="stop-info__address">
-                    {{vm.origin.logradouro}}
-                    <span class="stop-info__city">{{vm.origin.bairro}} - {{vm.origin.municipio}}</span>
+                <p ng-if="!vm.selectedOrigin.isTerminal" class="stop-info__address">
+                    {{vm.selectedOrigin.logradouro}}
+                    <span class="stop-info__city">{{vm.selectedOrigin.bairro}} - {{vm.selectedOrigin.municipio}}</span>
                 </p>
-                <p ng-if="vm.origin.isTerminal" class="stop-info__address">
-                    {{vm.origin.descricao}}
+                <p ng-if="vm.selectedOrigin.isTerminal" class="stop-info__address">
+                    {{vm.selectedOrigin.descricao}}
                 </p>
             </div>
-            <div class="stop-info__content">
-                <destiny-list ng-if="vm.showDestinies" destines="vm.destines"></destiny-list>
-                <prevision-list ng-if="vm.showPrevisions" previsions="vm.previsions"></prevision-list>
+            <div class="stop-info__content" ng-class="{ destines: vm.showOriginDestinies, 'previsionsByOrigin': vm.showPrevisionsByOrigin, 'previsionsByLine': vm.selectedLine }">
+                <destiny-list on-swipe-left="vm.togglePrevisions()" destines="vm.destines"></destiny-list>
+                <prevision-list 
+                    title="Previsões ({{vm.previsionsByOrigin.length}} linhas)"
+                    loading="uiState.loading"
+                    on-swipe-right="vm.toggleDestinies()" 
+                    on-prevision-click="vm.showLinePrevisions(prevision)" 
+                    on-refresh-click="vm.getOriginPrevisions(vm.selectedOrigin.id)"
+                    previsions="vm.previsionsByOrigin">
+                </prevision-list>
+                <prevision-list
+                    title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}" 
+                    loading="uiState.loading"
+                    on-swipe-right="vm.togglePrevisions()"
+                    on-refresh-click="vm.getLinePrevisions(vm.selectedOrigin.id, vm.selectedLine.linhaId)"
+                    previsions="vm.previsionsByLine">
+                </prevision-list>
             </div>
         </div>
         <ion-content>

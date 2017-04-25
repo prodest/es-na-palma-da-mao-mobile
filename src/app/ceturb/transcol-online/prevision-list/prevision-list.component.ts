@@ -4,6 +4,10 @@ import template = require( './prevision-list.component.html' );
 export const PrevisionListComponent: ng.IComponentOptions = {
     template: template,
     bindings: {
-        previsions: '<'
+        previsions: '<',
+        loading: '<',
+        title: '@',
+        onPrevisionClick: '&',
+        onRefreshClick: '&'
     }
 };
