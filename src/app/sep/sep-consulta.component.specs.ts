@@ -49,7 +49,16 @@ describe( 'SEP/sep-consulta', () => {
             };
 
             sepApiService = <SepApiService><any>{
-                getProcessByNumber: () => { }
+                getProcessByNumber: () => { },
+                syncFavoriteProcessData: sandbox.stub()
+            };
+
+            sepStorageService = <SepStorageService><any>{
+                favoriteProcess: () => {}
+            };
+
+            authenticationService = <AuthenticationService><any>{
+                user: () => ( { anonymous: true } )
             };
 
             controller = new SepConsultaController( 
