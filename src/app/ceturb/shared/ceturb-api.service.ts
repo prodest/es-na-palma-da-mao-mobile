@@ -92,7 +92,21 @@ export class CeturbApiService {
 
 
 
-    /****************************** ponto ES *****************************/
+    /****************************** TTranscol online *****************************/
+
+    /**
+     * 
+     * 
+     * @param {string} text 
+     * @returns {Promise<BusStop[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public async searchBusStops( text: string ): Promise<BusStop[]> {
+        const response: any = await this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/texto/pesquisarPontosDeParada', { texto: text } );
+        return await this.listBusStopsByIds( response.data.pontosDeParada );
+    }
+
     /**
      * 
      * 
@@ -113,7 +127,7 @@ export class CeturbApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public getBusStopsByOrigin( id: number ): Promise<any[]> {
+    public getBusStopsByOrigin( id: number ): Promise < BusStop[]> {
         return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
             .then( ids => this.listBusStopsByIds( ids ) );
@@ -163,6 +177,19 @@ export class CeturbApiService {
     /**
      * 
      * 
+     * @param {number} originId 
+     * @param {number} destinationId 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionsByOriginAndDestination( originId: number, destinationId: number ): Promise<Prevision[]> {
+        return this.previsions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigemEDestino', { pontoDeOrigemId: originId, pontoDeDestnoId: destinationId }) );
+    }
+
+    /**
+     * 
+     * 
      * @param {number} id 
      * @returns {Promise<Prevision[]>} 
      * 
@@ -171,35 +198,7 @@ export class CeturbApiService {
     public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
         return this.groupedPrevisions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigem', { pontoDeOrigemId: id }) );
     }
-    // private handlePrevisions( whenLoaded: Promise<any>, shouldGroup: boolean ): Promise<Prevision[]> {
-    //     return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
-    //         .then(( { horarioDoServidor, estimativas, pontoDeOrigemId }) => {
-
-    //             let previsions = _.chain( estimativas ).sortBy( 'horarioNaOrigem' );
-
-    //             if ( shouldGroup ) {
-    //                 previsions = previsions.groupBy( 'itinerarioId' )
-    //                     .valuesIn()
-    //                     .map( values => values[ 0 ] );
-    //             }
-    //             previsions = previsions.value();
-
-    //             const itinerariesIds = previsions.map( e => e.itinerarioId );
-
-    //             return this.listItinerariesByIds( itinerariesIds )
-    //                 .then(( { itinerarios }) => {
-    //                     const itinerariesMap = _.keyBy( itinerarios, 'id' );
-    //                     let fullPrevision = _.chain( previsions )
-    //                         .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId ) )
-    //                         .sortBy( 'previsaoEmMinutos' );
-    //                         .groupBy( 'identificadorLinha' )
-    //                         .valuesIn()
-    //                         .map( values => values[ 0 ] )
-    //                         .sortBy( 'previsaoEmMinutos' )
-    //                         .value();
-    //                 });
-    //         });
-    // }
+  
     /**
      * 
      * 
@@ -314,13 +313,27 @@ export class CeturbApiService {
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
+    /**
+     * 
+     * 
+     * @private
+     * @param {BusStop[]} stops 
+     * @returns 
+     * 
+     * @memberOf CeturbApiService
+     */
     private formatBusStops( stops: BusStop[] ) {
         return stops.map( stop => {
             stop.isTerminal = /T[A-Z]{2,}/.test( stop.identificador );
             stop.isPonto = !stop.isTerminal;
             stop.tipo = stop.isTerminal ? 'terminal' : 'ponto';
             const [ logradouro, bairro, municipio ] = ( stop.descricao || 'Descrição não informada' ).split( ' - ' );
-            return Object.assign( stop, { bairro: bairro, logradouro, municipio });
+            return Object.assign( stop, {
+                bairro: ( bairro || '' ).trim(),
+                logradouro: ( logradouro || '' ).trim(),
+                municipio: ( municipio || '' ).trim(),
+                descricao: ( stop.descricao || '' ).trim()
+            });
         });
     }
 }

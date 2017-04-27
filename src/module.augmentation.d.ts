@@ -12,6 +12,10 @@ declare module 'leaflet' {
 }
 
 declare module 'angular' {
+
+    interface IScope { 
+        $safeApply;
+    }
     /**
      * HttpService monkey patched to return ESPromises instead of angular.IPromise 
      * see http://docs.angularjs.org/api/ng/service/$http

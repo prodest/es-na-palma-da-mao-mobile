@@ -1,0 +1,85 @@
+
+.search-bar {
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    background: none;
+    background-color: transparent;
+    flex-direction: column;
+
+    .front-icon {
+        i {
+            margin-left: 5px;
+            color: #ccc;
+        }
+    }
+    
+    input.input-search {
+        border: none !important;
+        padding: 2px 2px 2px 30px;
+
+        
+    }
+
+
+// .title-following-process {
+//     padding: 12px 9px;
+//     background-color: #f7f7f7;
+// }
+
+// .favorite-process-container {
+//     background-color: white;
+//     margin-top: 4px;
+//     box-shadow: 0 3px 8px 0 rgba( 0, 0, 0, 0.2 );
+//     height: 78%;
+//     max-height: 205px;
+//     overflow-y: scroll;
+//     overflow-x: hidden;
+//     width: 96%;
+//     margin: auto;
+//     position: absolute;
+//     top: 5px;
+//     left: 2%;
+// }
+
+/* The starting CSS styles for the enter animation */
+// .favorite-process-container.ng-enter {
+//   transition:0.3s linear all;
+//   opacity:0;
+// }
+
+/* The finishing CSS styles for the enter animation */
+// .favorite-process-container.ng-enter.ng-enter-active {
+//   opacity:1;
+// }
+
+// .item-favorite-inner {
+//     height: 35px;
+//     padding: 9px;
+// }
+
+// .search-bar.fix-top {
+//     padding: 0;
+// }
+
+    md-input-container {
+        width: 100%;
+    }
+
+    md-input-container md-icon {
+        font-size: 1.6em;
+    }
+
+    md-input-container.md-icon-right {
+        padding: 5px;
+        margin: 0px;
+        height: 38px;
+        background-color: white;
+    }
+
+// .search-bar md-input-container.md-icon-right {
+//     padding: 5px;
+//     margin: 0px;
+//     height: 38px;
+//     background-color: white;
+// }
+}

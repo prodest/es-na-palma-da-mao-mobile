@@ -9,6 +9,7 @@ import dateRangeFilterModule from './date-range-filter/index';
 import yearFilterModule from './year-filter/index';
 import backButtonModule from './back-button/index';
 import userInfoModule from './user-info/index';
+import searchBarModule from './search-bar/index';
 
 export default angular.module( 'layout', [
     errorMessageModule.name,
@@ -21,7 +22,8 @@ export default angular.module( 'layout', [
     dateRangeFilterModule.name,
     backButtonModule.name,
     userInfoModule.name,
-    yearFilterModule.name
+    yearFilterModule.name,
+    searchBarModule.name
 ] ).name;
 
 export * from './date-range-filter/index';

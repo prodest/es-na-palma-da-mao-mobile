@@ -1,0 +1,10 @@
+<div class="stop-info__summary" ng-click="$ctrl.onStopClick({ stop:$ctrl.stop })">
+    <stop-icon stop="$ctrl.stop"></stop-icon>
+    <p ng-if="!$ctrl.stop.isTerminal" class="stop-info__address">
+        {{$ctrl.stop.logradouro}}
+        <span class="stop-info__city">{{$ctrl.stop.bairro}} - {{$ctrl.stop.municipio}}</span>
+    </p>
+    <p ng-if="$ctrl.stop.isTerminal" class="stop-info__address">
+        {{$ctrl.stop.descricao}}
+    </p>
+</div>
