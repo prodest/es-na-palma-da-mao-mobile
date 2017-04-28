@@ -56,12 +56,12 @@
 		display:none;
 	}
 
-	// destiny marker
-	.marker-destiny {
+	// destination marker
+	.marker-destination {
 		color: #003e50;
 	}
 
-	.marker-destiny > i {
+	.marker-destination > i {
 		border: 2px solid #003e50;
 	}
 
@@ -151,10 +151,18 @@
 	//     100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
 	// }
 /********************** Bus Stop Info **********************/
+	.origin { color: darkgoldenrod; }
+	.destination{ color: #003e50; }
 
 	stop-summary { cursor: pointer; }
-	
+
 	$bottomSheetHeight: 100vh;
+
+	destination-list,
+	prevision-list { visibility: hidden; }
+	destination-list.shown,
+	prevision-list.shown,
+	.auto-complete-panel > * { visibility: visible !important; }
 
 	.stop-info, 
 	.keyboard-open .stop-info--route,
@@ -172,10 +180,10 @@
 		padding: 35px 15px 15px 10px;
 		display: flex;
 		flex-direction: column;
-		-webkit-transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
-		-moz-transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
-		-o-transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
-		transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); /* custom */
+		-webkit-transition: all 400ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
+		-moz-transition: all 400ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
+		-o-transition: all 400ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
+		transition: all 400ms cubic-bezier(0.420, 0.000, 0.000, 0.990); /* custom */
 		-webkit-box-shadow: 0px -2px 5px -1px rgba(0,0,0,0.49);
 		-moz-box-shadow: 0px -2px 5px -1px rgba(0,0,0,0.49);
 		box-shadow: 0px -2px 5px -1px rgba(0,0,0,0.49);
@@ -186,7 +194,7 @@
 	}
 	
 	.stop-info--route {
-		transform: translate3d(0, calc( 100vh - 165px), 0)
+		transform: translate3d(0, calc( 100vh - 155px), 0)
 	}
 
 	.stop-info--details {
@@ -207,7 +215,7 @@
 		-moz-transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
 		-o-transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); 
 		transition: all 300ms cubic-bezier(0.420, 0.000, 0.000, 0.990); /* custom */
-		width: calc(100vw * 3);
+		width: calc(100vw * 4);
 	}
 
 	.stop-info__content.destines{
@@ -220,6 +228,10 @@
 
 	.stop-info__content.previsionsByLine{
 		transform: translate3d(-200vw, 0, 0)
+	}
+
+	.stop-info__content.previsionsByRoute{
+		transform: translate3d(-300vw, 0, 0)
 	}
 
 	.stop-info__content > * {
@@ -251,7 +263,7 @@
 		right: 0;
 	}
 
-	.stop-info__btn-destiny{
+	.stop-info__btn-destination{
 		 // right: 28%;
 		 right: 19%
 	}
@@ -289,6 +301,38 @@
 
 		.stop-info__city {
 			border-top: none;
+		}
+	}
+
+	.not-founded {
+		text-align: center;
+    	margin: 67px;
+		display: block;
+		font-size: 14px;
+	}
+
+	.leaflet-top {
+		top: 43px;
+	}
+
+
+	
+	.clickable {
+		md-list-item.md-no-style.md-button::before,
+		md-list-item .md-no-style.md-button::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			border-color: transparent;
+			border-style: solid;
+		}
+
+		md-list-item .md-no-style.md-button::after {
+			border-radius: 0em;
+			border-width: 0.6em;
+			border-right-color: #eaeaea;
+			border-bottom-color: #eaeaea;
 		}
 	}
 }

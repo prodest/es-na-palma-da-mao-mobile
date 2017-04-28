@@ -5,6 +5,7 @@ export const StopSummaryComponent: ng.IComponentOptions = {
     template: template,
     bindings: {
         stop: '<',
-        onStopClick: '&'
+        onStopClick: '&',
+        onCloseClick: '&'
     }
 };
