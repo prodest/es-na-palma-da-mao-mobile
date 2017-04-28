@@ -3,6 +3,7 @@ export interface Prevision {
     horarioDaTransmissao: number;
     horarioDePartida: number;
     horarioNaOrigem: number;
+    horarioNoDestino?: number;
     itinerarioId: number;
     veiculo: string;
     bandeira: string;

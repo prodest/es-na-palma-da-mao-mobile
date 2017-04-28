@@ -103,7 +103,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public async searchBusStops( text: string ): Promise<BusStop[]> {
-        const response: any = await this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/texto/pesquisarPontosDeParada', { texto: text } );
+        const response: any = await this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/texto/pesquisarPontosDeParada', { texto: text });
         return await this.listBusStopsByIds( response.data.pontosDeParada );
     }
 
@@ -127,7 +127,7 @@ export class CeturbApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public getBusStopsByOrigin( id: number ): Promise < BusStop[]> {
+    public getBusStopsByOrigin( id: number ): Promise<BusStop[]> {
         return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
             .then( ids => this.listBusStopsByIds( ids ) );
@@ -184,7 +184,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOriginAndDestination( originId: number, destinationId: number ): Promise<Prevision[]> {
-        return this.previsions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigemEDestino', { pontoDeOrigemId: originId, pontoDeDestnoId: destinationId }) );
+        return this.previsions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigemEDestino', { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }) );
     }
 
     /**
@@ -198,7 +198,7 @@ export class CeturbApiService {
     public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
         return this.groupedPrevisions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigem', { pontoDeOrigemId: id }) );
     }
-  
+
     /**
      * 
      * 
@@ -275,13 +275,12 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     private createFullPrevision( prevision, itinerary, horarioDoServidor, pontoDeOrigemId ): Prevision {
+        const serverHour = moment( horarioDoServidor );
         const lastUpdateHour = moment( prevision.horarioDaTransmissao || 0 );
-        const originHour = moment( prevision.horarioNaOrigem );
-        const now = moment( horarioDoServidor );
+        const reliability = lastUpdateHour.diff( serverHour, 'minutes' );
 
-        const previsaoEmMinutos = originHour.diff( now, 'minutes' );
-        const previsao = previsaoEmMinutos === 0 ? 'Agora' : previsaoEmMinutos < 60 ? `${ previsaoEmMinutos } min` : `${ originHour.diff( now, 'hours' ) } h`;
-        const reliability = lastUpdateHour.diff( now, 'minutes' );
+        const originHours = this.getPrevisionHours( moment( prevision.horarioNaOrigem ), serverHour );
+        const destinationHours = this.getPrevisionHours( moment( prevision.horarioNoDestino ), serverHour );
 
         return {
             ...prevision,
@@ -291,12 +290,37 @@ export class CeturbApiService {
             descricaoLinha: _.toLower( itinerary.descricaoLinha ),
             identificadorLinha: itinerary.identificadorLinha,
             linhaId: itinerary.linhaId,
+            horarioNaOrigem: originHours.horario,
+            horarioNoDestino: destinationHours.horario,
+            previsaoNaOrigem: originHours.previsao,
+            previsaoNaOrigemEmMinutos: originHours.previsaoEmMinutos,
+            previsaoNoDestino: destinationHours.previsao,
+            previsaoNoDestinoEmMinutos: destinationHours.previsaoEmMinutos,
+            confiabilidade: reliability <= 7 ? 'green'
+                : reliability < 22 ? 'orange'
+                    : reliability < 30 ? 'darkred'
+                        : 'grey'
+        };
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {any} hour 
+     * @param {any} serverHour 
+     * @returns 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionHours( hour, serverHour ) {
+        const horario = hour.format( 'HH:mm' );
+        const previsaoEmMinutos = hour.diff( serverHour, 'minutes' );
+        const previsao = previsaoEmMinutos === 0 ? 'Agora' : previsaoEmMinutos < 60 ? `${ previsaoEmMinutos } min` : `${ hour.diff( serverHour, 'hours' ) } h`;
+        return {
             previsaoEmMinutos,
             previsao,
-            confiabilidade: reliability <= 7 ? 'verde'
-                : reliability < 22 ? 'amarelo'
-                    : reliability < 30 ? 'vermelho'
-                        : 'cinza'
+            horario// : `${ timePrefix } ${ previsao }`
         };
     }
 

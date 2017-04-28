@@ -5,6 +5,8 @@ import { PrevisionListComponent } from './transcol-online/prevision-list/previsi
 import { TranscolOnlineComponent } from './transcol-online/transcol-online.component';
 import { StopIconComponent } from './transcol-online/stop-icon/stop-icon.component';
 import { StopSummaryComponent } from './transcol-online/stop-summary/stop-summary.component';
+import { RoutePrevisionListComponent } from './transcol-online/route-prevision-list/route-prevision-list.component';
+
 import { CeturbStorage, CeturbApiService } from './shared/index';
 
 export default angular.module( 'ceturb.module', [] )
@@ -23,6 +25,7 @@ export default angular.module( 'ceturb.module', [] )
     .component( 'previsionList', PrevisionListComponent )
     .component( 'stopIcon', StopIconComponent )
     .component( 'stopSummary', StopSummaryComponent )
+    .component( 'routePrevisionList', RoutePrevisionListComponent )
 
     // routes
     .config( [

@@ -52,8 +52,7 @@ export class TranscolOnlineController {
     public selectedDestination: BusStop | undefined;    
     public selectedOrigin: BusStop | undefined;
     public selectedLine: BusLine | undefined;
-    public previsionsByOrigin: Prevision[] = [];
-    public previsionsByLine: Prevision[] = [];
+    public previsions: Prevision[] = [];
     public destinations: BusStop[] = [];
 
 
@@ -95,106 +94,6 @@ export class TranscolOnlineController {
         const startBounds = [ -38.50708007812501, -17.14079039331664, -42.46215820312501, -23.725011735951796 ]; // grande vitória
         const stops = await this.ceturbApiService.getBusStopsByArea( startBounds );
         this.renderBusStops( stops );
-    }
-
-    /**
-     * 
-     * 
-     * @param {Prevision} prevision 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public async showLinePrevisions( prevision: Prevision ) {
-        this.previsionsByLine = [];
-        this.selectedLine = { identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId };
-        await this.getLinePrevisions( prevision.pontoDeOrigemId, prevision.linhaId );
-    }
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public togglePrevisions() {
-        this.showPrevisionsByOrigin = this.selectedLine ? true : !this.showPrevisionsByOrigin;
-        this.showOriginDetails = this.showPrevisionsByOrigin;
-        this.showOriginDestinies = false;
-        this.selectedLine = undefined;
-        this.previsionsByLine = [];
-
-        if ( this.showPrevisionsByOrigin ) {
-            this.getOriginPrevisions( this.selectedOrigin!.id );
-        }
-    }
-
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public toggleDestinies() {
-        this.showOriginDestinies = this.selectedLine ? true : !this.showOriginDestinies;
-        this.showOriginDetails = this.showOriginDestinies;
-        this.showPrevisionsByOrigin = false;
-        this.selectedLine = undefined;
-        this.previsionsByLine = [];
-    }
-
-
-    /**
-     * 
-     * 
-     * @param {string} text 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public searchAll( text: string ) {
-        this.searchIn( _.values( this.allStops ), text );
-    }
-
-    /**
-     * 
-     * 
-     * @param {string} text 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public searchPossibleDestinations( text: string ) {
-        this.searchIn( this.destinations, text );
-    }
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {string} text 
-     * @param {BusStop[]} dataSource 
-     * @returns 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    private searchIn( dataSource: BusStop[], text: string ) { 
-        
-        this.searchResults = [];
-
-        if ( text.length <= 3 ) { return; }
-
-        const regex = new RegExp( text, 'i' );
-
-        this.searchResults = dataSource.filter(( stop: BusStop ) => stop.descricao.search( regex ) >= 0 || stop.identificador.search( regex ) >= 0 );
-    }
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public clearSearchResults() { 
-        this.searchResults = [];
     }
 
     /**
@@ -332,13 +231,112 @@ export class TranscolOnlineController {
     /**
      * 
      * 
+     * @param {Prevision} prevision 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public async showLinePrevisions( prevision: Prevision ) {
+        this.previsions = [];
+        this.selectedLine = { identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId };
+        await this.getLinePrevisions( prevision.pontoDeOrigemId, prevision.linhaId );
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public togglePrevisions() {
+        this.showPrevisionsByOrigin = this.selectedLine ? true : !this.showPrevisionsByOrigin;
+        this.showOriginDetails = this.showPrevisionsByOrigin;
+        this.showOriginDestinies = false;
+        this.selectedLine = undefined;
+        this.previsions = [];
+
+        if ( this.showPrevisionsByOrigin ) {
+            this.getOriginPrevisions( this.selectedOrigin!.id );
+        }
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public toggleDestinies() {
+        this.showOriginDestinies = this.selectedLine ? true : !this.showOriginDestinies;
+        this.showOriginDetails = this.showOriginDestinies;
+        this.showPrevisionsByOrigin = false;
+        this.selectedLine = undefined;
+        this.previsions = [];
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {string} text 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public searchAll( text: string ) {
+        this.searchIn( _.values( this.allStops ), text );
+    }
+
+    /**
+     * 
+     * 
+     * @param {string} text 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public searchPossibleDestinations( text: string ) {
+        this.searchIn( this.destinations, text );
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {string} text 
+     * @param {BusStop[]} dataSource 
+     * @returns 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    private searchIn( dataSource: BusStop[], text: string ) {
+
+        this.searchResults = [];
+
+        if ( text.length <= 3 ) { return; }
+
+        const regex = new RegExp( text, 'i' );
+
+        this.searchResults = dataSource.filter(( stop: BusStop ) => stop.descricao.search( regex ) >= 0 || stop.identificador.search( regex ) >= 0 );
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public clearSearchResults() {
+        this.searchResults = [];
+    }
+
+    /**
+     * 
+     * 
      * @param {BusStop} stop 
      * 
      * @memberOf TranscolOnlineController
      */
     public selectStop( stop: BusStop ) { 
-        console.log( 'selectStop' );
-        
+  
         this.clearSearchResults();
 
         // se nenhuma origem está selecionada, seleciona como origem
@@ -411,19 +409,18 @@ export class TranscolOnlineController {
      */
     public setAsDestination( destination: BusStop ) {
         this.selectedDestination = destination;
-
         // set all other stops icons as secondary
         _.values( this.allStops )
             .filter( stop => !this.isSelectedOrigin( stop ) )
             .forEach( stop => this.setSecundaryIcon( stop ) );
-
+        
         this.setDestinyIcon( destination );
 
         // navigate to selected destination
         this.panToStop( destination );
 
         // refresh estimatives
-        // this.getOriginPrevisions( origin.id );
+        this.getRoutePrevisions( this.selectedOrigin!.id, destination.id );
     }
 
 
@@ -471,8 +468,23 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public async getOriginPrevisions( originId: number ): Promise<Prevision[]> {
-        this.previsionsByOrigin = await this.ceturbApiService.getPrevisionsByOrigin( originId );
-        return this.previsionsByOrigin;
+        this.previsions = await this.ceturbApiService.getPrevisionsByOrigin( originId );
+        return this.previsions;
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {number} originId 
+     * @param {number} destinationId 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public async getRoutePrevisions( originId: number, destinationId: number ): Promise<Prevision[]> {
+        this.previsions = await this.ceturbApiService.getPrevisionsByOriginAndDestination( originId, destinationId );
+        return this.previsions;
     }
 
     /**
@@ -485,8 +497,8 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public async getLinePrevisions( originId: number, lineId: number ): Promise<Prevision[]> {
-        this.previsionsByLine = await this.ceturbApiService.getPrevisionsByOriginAndLine( originId, lineId );
-        return this.previsionsByLine;
+        this.previsions = await this.ceturbApiService.getPrevisionsByOriginAndLine( originId, lineId );
+        return this.previsions;
     }
 
     /**
@@ -687,7 +699,7 @@ export class TranscolOnlineController {
      */
     private unselectAll() {
         this.selectedOrigin = this.selectedLine = this.selectedDestination = undefined;
-        this.previsionsByOrigin = this.previsionsByLine = this.destinations = [];
+        this.previsions = this.destinations = [];
     }
 
 

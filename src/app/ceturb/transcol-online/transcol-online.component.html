@@ -23,36 +23,46 @@
                     <stop-summary stop="vm.selectedDestination" on-stop-click="::vm.panToStop(stop)" class="destiny"></stop-summary>
                 </div>
             </div>
-            <div class="stop-info__content" ng-class="{ destinations: vm.showOriginDestinies, 'previsionsByOrigin': vm.showPrevisionsByOrigin, 'previsionsByLine': vm.selectedLine }">
+            <div class="stop-info__content" ng-class="{ destinations: vm.showOriginDestinies, 'previsionsByOrigin': vm.showPrevisionsByOrigin, 'previsionsByLine': vm.selectedLine, 'previsionsByRoute': vm.selectedOrigin && vm.selectedDestination}">
                 <destiny-list 
+                    ng-class="{ 'shown': vm.showOriginDestinies }"
                     on-swipe-left="::vm.togglePrevisions()" 
                     on-destiny-click="::vm.selectStop(destiny)" 
                     destinations="vm.destinations">
                 </destiny-list>
                 <prevision-list 
-                    title="Previsões ({{vm.previsionsByOrigin.length}} linhas)" 
+                    ng-class="{ 'shown': vm.selectedOrigin && !vm.selectedLine && !vm.selectedDestination }"
+                    title="Previsões ({{vm.previsions.length}} linhas)" 
                     loading="uiState.loading" 
                     on-swipe-right="::vm.toggleDestinies()"
                     on-prevision-click="::vm.showLinePrevisions(prevision)" 
                     on-refresh-click="::vm.getOriginPrevisions(vm.selectedOrigin.id)"
-                    previsions="vm.previsionsByOrigin">
+                    previsions="vm.previsions">
                 </prevision-list>
                 <prevision-list 
+                    ng-class="{ 'shown': vm.selectedOrigin && vm.selectedLine }"
                     title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}" 
                     loading="uiState.loading" 
                     on-swipe-right="::vm.togglePrevisions()"
                     on-refresh-click="::vm.getLinePrevisions(vm.selectedOrigin.id, vm.selectedLine.linhaId)" 
-                    previsions="vm.previsionsByLine">
+                    previsions="vm.previsions">
                 </prevision-list>
+                <route-prevision-list
+                    ng-class="{ 'shown': vm.selectedOrigin && vm.selectedDestination }" 
+                    title="Previsões para a rota" 
+                    loading="uiState.loading"
+                    on-refresh-click="::vm.getRoutePrevisions(vm.selectedOrigin.id, vm.selectedDestination.id)" 
+                    previsions="vm.previsions">
+                </route-prevision-list>
             </div>
         </div>
         <search-bar ng-if="!vm.selectedOrigin" placeholder="Pesquisar ponto de origem" icon="fa-bus" on-change="::vm.searchAll(text)" on-clear="::vm.clearSearchResults()"></search-bar>
         <search-bar ng-if="vm.selectedOrigin" placeholder="Pesquisar ponto de destino" icon="fa-bus" on-change="::vm.searchPossibleDestinations(text)" on-clear="::vm.clearSearchResults()"></search-bar>
-            <ion-content>
-                <div id="map"></div>
-                <div class="auto-complete-panel" ng-if="vm.searchResults.length">
-                    <destiny-list destinations="::vm.searchResults" on-destiny-click="::vm.selectStop(destiny)"></destiny-list>
-                </div>
-            </ion-content>
+        <ion-content>
+            <div id="map"></div>
+            <div class="auto-complete-panel" ng-if="vm.searchResults.length">
+                <destiny-list destinations="vm.searchResults" on-destiny-click="::vm.selectStop(destiny)"></destiny-list>
+            </div>
+        </ion-content>
     </div>
 </ion-view>
