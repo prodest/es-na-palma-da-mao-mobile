@@ -82,7 +82,7 @@ export class SepConsultaController {
     }
 
     public get hasFavorites (): boolean {
-        return this.sepStorageService.hasFavoriteProcess;
+        return this.filteredFavorites.length > 0;
     }
 
     public get favoriteProcess () {
