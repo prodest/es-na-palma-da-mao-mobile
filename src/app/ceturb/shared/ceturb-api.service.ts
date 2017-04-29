@@ -210,7 +210,7 @@ export class CeturbApiService {
      */
     private groupedPrevisions( whenLoaded: Promise<any> ): Promise<Prevision[]> {
         return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
-            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId }) => {
+            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId, pontoDeDestinoId }) => {
 
                 const previsions = _.chain( estimativas )
                     .sortBy( 'horarioNaOrigem' )
@@ -225,7 +225,7 @@ export class CeturbApiService {
                     .then(( { itinerarios }) => {
                         const itinerariesMap = _.keyBy( itinerarios, 'id' );
                         return _.chain( previsions )
-                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId ) )
+                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId, pontoDeDestinoId ) )
                             .sortBy( 'previsaoNaOrigemEmMinutos' )
                             .groupBy( 'identificadorLinha' )
                             .valuesIn()
@@ -247,7 +247,7 @@ export class CeturbApiService {
      */
     private previsions( whenLoaded: Promise<any> ): Promise<Prevision[]> {
         return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
-            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId }) => {
+            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId, pontoDeDestinoId  }) => {
 
                 const previsions = _.chain( estimativas ).sortBy( 'horarioNaOrigem' ).value();
                 const itinerariesIds = previsions.map( e => e.itinerarioId );
@@ -256,7 +256,7 @@ export class CeturbApiService {
                     .then(( { itinerarios }) => {
                         const itinerariesMap = _.keyBy( itinerarios, 'id' );
                         return _.chain( previsions )
-                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId ) )
+                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId, pontoDeDestinoId ) )
                             .sortBy( 'previsaoNaOrigemEmMinutos' )
                             .value();
                     });
@@ -274,7 +274,7 @@ export class CeturbApiService {
      * 
      * @memberOf CeturbApiService
      */
-    private createFullPrevision( prevision, itinerary, horarioDoServidor, pontoDeOrigemId ): Prevision {
+    private createFullPrevision( prevision, itinerary, horarioDoServidor, pontoDeOrigemId, pontoDeDestinoId? ): Prevision {
         const serverHour = moment( horarioDoServidor );
         const lastUpdateHour = moment( prevision.horarioDaTransmissao || 0 );
         const reliability = lastUpdateHour.diff( serverHour, 'minutes' );
@@ -285,6 +285,7 @@ export class CeturbApiService {
         return {
             ...prevision,
             pontoDeOrigemId,
+            pontoDeDestinoId,
             bandeira: _.toLower( itinerary.bandeira ),
             complemento: _.toLower( itinerary.complemento ),
             descricaoLinha: _.toLower( itinerary.descricaoLinha ),

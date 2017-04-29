@@ -15,4 +15,5 @@ export interface Prevision {
     previsao: string;
     confiabilidade: string;
     pontoDeOrigemId: number;
+    pontoDeDestinoId: number;
 }
