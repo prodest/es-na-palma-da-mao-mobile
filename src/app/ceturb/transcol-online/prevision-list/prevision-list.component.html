@@ -6,7 +6,10 @@
     <ion-content style="top:56px;">
         <md-list-item class="md-2-line" collection-repeat="prevision in $ctrl.previsions" item-height="70" md-no-ink ng-click="$ctrl.onPrevisionClick({ prevision: prevision })">
             <div class="md-list-item-text">
-                <h4 class="text-padding prevision-list__main"><strong>{{ prevision.identificadorLinha }}</strong> - {{ prevision.bandeira }}
+              
+                <h4 class="text-padding prevision-list__main">
+                     <!--<span class="vehicle"> <i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i>  {{ prevision.veiculo }}</span> -->
+                    <strong> <i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i> {{ prevision.identificadorLinha }}</strong>  - {{ prevision.bandeira }} 
                     <i class="prevision-list__time"> {{ prevision.previsaoNaOrigem }}</i>
                 </h4>
                 <div class="prevision-list__secondary">{{ prevision.descricaoLinha }}</div>
