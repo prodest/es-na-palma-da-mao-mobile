@@ -1,7 +1,7 @@
 import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import moment = require( 'moment' );
 import { ISettings } from '../../shared/shared.module';
-import { BusLine, BusRoute, BusSchedule, FavoriteLinesData, CeturbStorage, BusStop } from './index';
+import { BusLine, BusRoute, BusSchedule, FavoriteLinesData, CeturbStorage, BusStop, Prevision } from './index';
 import * as _ from 'lodash';
 /**
  * 
@@ -92,7 +92,21 @@ export class CeturbApiService {
 
 
 
-    /****************************** ponto ES *****************************/
+    /****************************** TTranscol online *****************************/
+
+    /**
+     * 
+     * 
+     * @param {string} text 
+     * @returns {Promise<BusStop[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public async searchBusStops( text: string ): Promise<BusStop[]> {
+        const response: any = await this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/texto/pesquisarPontosDeParada', { texto: text });
+        return await this.listBusStopsByIds( response.data.pontosDeParada );
+    }
+
     /**
      * 
      * 
@@ -105,11 +119,31 @@ export class CeturbApiService {
             .then( ids => this.listBusStopsByIds( ids ) );
     }
 
-
-    public getBusStopsByOrigin( id: number ): Promise<any[]> {
+    /**
+     * 
+     * 
+     * @param {number} id 
+     * @returns {Promise<any[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getBusStopsByOrigin( id: number ): Promise<BusStop[]> {
         return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
             .then( ids => this.listBusStopsByIds( ids ) );
+    }
+
+    /**
+     * 
+     * 
+     * @param {number} id 
+     * @returns {Promise<any[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getBusStopsIdsByOrigin( id: number ): Promise<any[]> {
+        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: id })
+            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
     }
 
     /**
@@ -127,36 +161,107 @@ export class CeturbApiService {
             });
     }
 
+    /**
+     * 
+     * 
+     * @param {number} originId 
+     * @param {number} lineId 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionsByOriginAndLine( originId: number, lineId: number ): Promise<Prevision[]> {
+        return this.previsions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigemELinha', { pontoDeOrigemId: originId, linhaId: lineId }, { headers: { 'Transparent': true } }) );
+    }
 
-    public getEstimativesByOrigin( id: number ): Promise<any[]> {
-        return this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigem', { pontoDeOrigemId: id })
-            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
-            .then(( { horarioDoServidor, estimativas }) => {
+    /**
+     * 
+     * 
+     * @param {number} originId 
+     * @param {number} destinationId 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionsByOriginAndDestination( originId: number, destinationId: number ): Promise<Prevision[]> {
+        return this.previsions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigemEDestino', { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }, { headers: { 'Transparent': true } }) );
+    }
 
-                const estimatives = _.chain( estimativas )
+    /**
+     * 
+     * 
+     * @param {number} id 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
+        return this.groupedPrevisions( this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/estimativas/obterEstimativasPorOrigem', { pontoDeOrigemId: id }, { headers: { 'Transparent': true } }) );
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {Promise<any>} whenLoaded 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    private groupedPrevisions( whenLoaded: Promise<any> ): Promise<Prevision[]> {
+        return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
+            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId, pontoDeDestinoId }) => {
+
+                const previsions = _.chain( estimativas )
                     .sortBy( 'horarioNaOrigem' )
                     .groupBy( 'itinerarioId' )
                     .valuesIn()
                     .map( values => values[ 0 ] )
                     .value();
 
-                const itinerariesIds = estimatives.map( e => e.itinerarioId );
+                const itinerariesIds = previsions.map( e => e.itinerarioId );
 
                 return this.listItinerariesByIds( itinerariesIds )
                     .then(( { itinerarios }) => {
                         const itinerariesMap = _.keyBy( itinerarios, 'id' );
-                        return _.chain( estimatives )
-                            .map( e => this.createFullEstimative( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor ) )
-                            .sortBy( 'previsaoEmMinutos' )
+                        return _.chain( previsions )
+                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId, pontoDeDestinoId ) )
+                            .sortBy( 'previsaoNaOrigemEmMinutos' )
                             .groupBy( 'identificadorLinha' )
                             .valuesIn()
                             .map( values => values[ 0 ] )
-                            .sortBy( 'previsaoEmMinutos' )
+                            .sortBy( 'previsaoNaOrigemEmMinutos' )
                             .value();
                     });
             });
     }
 
+    /**
+     * 
+     * 
+     * @private
+     * @param {Promise<any>} whenLoaded 
+     * @returns {Promise<Prevision[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    private previsions( whenLoaded: Promise<any> ): Promise<Prevision[]> {
+        return whenLoaded.then(( response: IHttpPromiseCallbackArg<any> ) => response.data )
+            .then(( { horarioDoServidor, estimativas, pontoDeOrigemId, pontoDeDestinoId  }) => {
+
+                const previsions = _.chain( estimativas ).sortBy( 'horarioNaOrigem' ).value();
+                const itinerariesIds = previsions.map( e => e.itinerarioId );
+
+                return this.listItinerariesByIds( itinerariesIds )
+                    .then(( { itinerarios }) => {
+                        const itinerariesMap = _.keyBy( itinerarios, 'id' );
+                        return _.chain( previsions )
+                            .map( e => this.createFullPrevision( e, itinerariesMap[ e.itinerarioId ], horarioDoServidor, pontoDeOrigemId, pontoDeDestinoId ) )
+                            .sortBy( 'previsaoNaOrigemEmMinutos' )
+                            .value();
+                    });
+            });
+    }
 
     /**
      * 
@@ -169,28 +274,54 @@ export class CeturbApiService {
      * 
      * @memberOf CeturbApiService
      */
-    private createFullEstimative( estimative, itinerary, horarioDoServidor ) {
-        const lastUpdateHour = moment( estimative.horarioDaTransmissao || 0 );
-        const originHour = moment( estimative.horarioNaOrigem );
-        const now = moment( horarioDoServidor );
+    private createFullPrevision( prevision, itinerary, horarioDoServidor, pontoDeOrigemId, pontoDeDestinoId? ): Prevision {
+        const serverHour = moment( horarioDoServidor );
+        const lastUpdateHour = moment( prevision.horarioDaTransmissao || 0 );
+        const reliability = lastUpdateHour.diff( serverHour, 'minutes' );
 
-        const previsaoEmMinutos = originHour.diff( now, 'minutes' );
-        const previsao = previsaoEmMinutos === 0 ? 'Agora' : previsaoEmMinutos < 60 ? `${ previsaoEmMinutos } min` : `${ originHour.diff( now, 'hours' ) } h`;
-        const reliability = lastUpdateHour.diff( now, 'minutes' );
+        const originHours = this.getPrevisionHours( moment( prevision.horarioNaOrigem ), serverHour );
+        const destinationHours = this.getPrevisionHours( moment( prevision.horarioNoDestino ), serverHour );
 
         return {
-            ...estimative,
+            ...prevision,
+            pontoDeOrigemId,
+            pontoDeDestinoId,
             bandeira: _.toLower( itinerary.bandeira ),
             complemento: _.toLower( itinerary.complemento ),
             descricaoLinha: _.toLower( itinerary.descricaoLinha ),
             identificadorLinha: itinerary.identificadorLinha,
             linhaId: itinerary.linhaId,
+            horarioNaOrigem: originHours.horario,
+            previsaoNaOrigem: originHours.previsao,
+            previsaoNaOrigemEmMinutos: originHours.previsaoEmMinutos,
+            horarioNoDestino: destinationHours.horario,
+            previsaoNoDestino: destinationHours.previsao,
+            previsaoNoDestinoEmMinutos: destinationHours.previsaoEmMinutos,
+            confiabilidade: reliability <= 7 ? 'green'
+                : reliability < 22 ? 'orange'
+                    : reliability < 30 ? 'darkred'
+                        : 'grey'
+        };
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {any} hour 
+     * @param {any} serverHour 
+     * @returns 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public getPrevisionHours( hour, serverHour ) {
+        const horario = hour.format( 'HH:mm' );
+        const previsaoEmMinutos = hour.diff( serverHour, 'minutes' );
+        const previsao = previsaoEmMinutos === 0 ? 'Agora' : previsaoEmMinutos < 60 ? `${ previsaoEmMinutos } min` : `${ hour.diff( serverHour, 'hours' ) } h`;
+        return {
             previsaoEmMinutos,
             previsao,
-            confiabilidade: reliability <= 7 ? 'verde'
-                : reliability < 22 ? 'amarelo'
-                    : reliability < 30 ? 'vermelho'
-                        : 'cinza'
+            horario// : `${ timePrefix } ${ previsao }`
         };
     }
 
@@ -207,13 +338,27 @@ export class CeturbApiService {
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
+    /**
+     * 
+     * 
+     * @private
+     * @param {BusStop[]} stops 
+     * @returns 
+     * 
+     * @memberOf CeturbApiService
+     */
     private formatBusStops( stops: BusStop[] ) {
         return stops.map( stop => {
             stop.isTerminal = /T[A-Z]{2,}/.test( stop.identificador );
             stop.isPonto = !stop.isTerminal;
             stop.tipo = stop.isTerminal ? 'terminal' : 'ponto';
             const [ logradouro, bairro, municipio ] = ( stop.descricao || 'Descrição não informada' ).split( ' - ' );
-            return Object.assign( stop, { bairro: bairro, logradouro, municipio });
+            return Object.assign( stop, {
+                bairro: ( bairro || '' ).trim(),
+                logradouro: ( logradouro || '' ).trim(),
+                municipio: ( municipio || '' ).trim(),
+                descricao: ( stop.descricao || '' ).trim()
+            });
         });
     }
 }

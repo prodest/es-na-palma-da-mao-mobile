@@ -1,13 +1,14 @@
-<md-list class="destiny-list">
-    <md-subheader class="md-no-sticky"><i class="fa fa-code-fork"></i> Selecionar Destino ({{$ctrl.destines.length}} destinos):</md-subheader>
+<md-list ng-if="$ctrl.destinations.length" class="destination-list">
+    <md-subheader class="md-no-sticky"><i class="fa fa-bus"></i> Selecionar Destino ({{$ctrl.destinations.length}} destinos):</md-subheader>
     <ion-content style="top:56px;">
-        <md-list-item class="md-2-line" collection-repeat="destine in $ctrl.destines" item-height="70">
+        <md-list-item class="md-2-line" collection-repeat="destination in $ctrl.destinations" item-height="70" md-no-ink ng-click="$ctrl.onDestinationClick({ destination: destination })">
             <div class="md-list-item-text">
-                <h4 class="text-padding"><strong>{{ destine.identificador}}</strong> - {{ destine.logradouro}}
+                <h4 class="text-padding"><strong>{{ destination.identificador}}</strong> - {{ destination.logradouro}}
                 </h4>
-                <div class="destiny-list__reference">{{ destine.bairro}} - {{ destine.municipio}}</div>
+                <div class="destination-list__reference" ng-if="!destination.isTerminal">{{ destination.bairro}} - {{ destination.municipio}}</div>
             </div>
             <md-divider></md-divider>
         </md-list-item>
     </ion-content>
 </md-list>
+<div class="not-founded" ng-if="$ctrl.destinations && !$ctrl.destinations.length">Nenhum destino encontrado</div>

@@ -1,7 +1,7 @@
-import './prevision-list.component.scss';
-import template = require( './prevision-list.component.html' );
+import './route-prevision-list.component.scss';
+import template = require( './route-prevision-list.component.html' );
 // tslint:disable
-export const PrevisionListComponent: ng.IComponentOptions = {
+export const RoutePrevisionListComponent: ng.IComponentOptions = {
     template: template,
     bindings: {
         previsions: '<',

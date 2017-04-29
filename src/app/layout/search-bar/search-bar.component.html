@@ -1,0 +1,20 @@
+<div class="bar bar-subheader search-bar">
+    <md-input-container md-no-float class="md-block md-whiteframe-2dp">
+        <md-icon ng-if="::$ctrl.icon" class="front-icon">
+            <i class="fa {{$ctrl.icon}}" aria-hidden="true"></i>
+        </md-icon>
+        <input class="input-search"
+               ng-model="$ctrl.searchText"
+               ng-model-options="{ debounce: 500 }" 
+               type="text" 
+               ng-change="$ctrl.onChange({ text: $ctrl.searchText })" 
+               ng-focus="$ctrl.onFocus()"
+               ng-blur="$ctrl.onBlur()" 
+               placeholder="{{$ctrl.placeholder}}" 
+               input-return>
+            <md-icon> </md-icon>
+            <md-icon ng-if="$ctrl.searchText" ng-click="$ctrl.searchText='';$ctrl.onClear()">
+                <i class="ion-android-close"></i>
+            </md-icon>
+    </md-input-container>
+</div>

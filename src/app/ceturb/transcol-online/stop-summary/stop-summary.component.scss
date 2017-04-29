@@ -1,0 +1,45 @@
+stop-summary{
+	display: block;
+	width: 100%;
+	position: relative;
+	
+	md-icon {
+		position: absolute;
+		top: 11px;
+		right: -7px;
+		text-align: center;
+	}
+}
+
+.stop-info__summary {
+		display: flex;
+
+		> span {
+			display: block;
+			font-size: 11px;
+			color: #666;
+			width: 30px;
+		}
+
+    .stop-info__address {
+		flex: 1;
+		padding: 0 20px 0 10px;
+		font-size: 12px;
+		flex-direction: column;
+		justify-content: center;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+		// justify-content: center;
+    	// display: flex;
+	}
+	.stop-info__city {
+		display: block;
+		font-size: 12px;
+		color: #7d7d7d;
+		border-top: 1px solid #d6d5d5;
+		// padding-top: 5px;
+		// margin-top: 5px;
+	}
+}

@@ -1,0 +1,12 @@
+<div class="stop-icon">
+    <h5 class="stop-icon__icon">
+        <i class="fa fa-bus" aria-hidden="true"></i>
+    </h5>
+    <div>
+        <span class="stop-icon__origin">Origem</span>
+        <span class="stop-icon__destination">Destino</span>
+        <h4 ng-if="!$ctrl.stop.isTerminal" class="stop-icon__identifier">
+            {{$ctrl.stop.identificador}}
+        </h4>
+    </div>
+</div>
