@@ -30,7 +30,7 @@ export class TranscolOnlineController {
     public map: L.Map;
     public stopsCluster: any = L.markerClusterGroup( {
         maxClusterRadius: 80,
-        disableClusteringAtZoom: 15,
+        disableClusteringAtZoom: 14,
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false
     });
