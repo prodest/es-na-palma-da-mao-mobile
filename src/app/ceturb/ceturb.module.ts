@@ -1,12 +1,12 @@
 import { BusLinesComponent } from './bus-lines/bus-lines.component';
 import { BusInfoComponent } from './bus-info/bus-info.component';
 import { DestinationListComponent } from './transcol-online/destination-list/destination-list.component';
-import { PrevisionListComponent } from './transcol-online/prevision-list/prevision-list.component';
 import { TranscolOnlineComponent } from './transcol-online/transcol-online.component';
 import { StopIconComponent } from './transcol-online/stop-icon/stop-icon.component';
 import { StopSummaryComponent } from './transcol-online/stop-summary/stop-summary.component';
-import { RoutePrevisionListComponent } from './transcol-online/route-prevision-list/route-prevision-list.component';
-import { LinePrevisionListComponent } from './transcol-online/line-prevision-list/line-prevision-list.component';
+import { RoutePrevisionsListComponent } from './transcol-online/route-previsions-list/route-previsions-list.component';
+import { OriginPrevisionsListComponent } from './transcol-online/origin-previsions-list/origin-previsions-list.component';
+import { LinePrevisionsListComponent } from './transcol-online/line-previsions-list/line-previsions-list.component';
 
 import { CeturbStorage, CeturbApiService } from './shared/index';
 
@@ -23,11 +23,11 @@ export default angular.module( 'ceturb.module', [] )
 
     // widgets
     .component( 'destinationList', DestinationListComponent )
-    .component( 'previsionList', PrevisionListComponent )
     .component( 'stopIcon', StopIconComponent )
     .component( 'stopSummary', StopSummaryComponent )
-    .component( 'routePrevisionList', RoutePrevisionListComponent )
-    .component( 'linePrevisionList', LinePrevisionListComponent )
+    .component( 'routePrevisionsList', RoutePrevisionsListComponent )
+    .component( 'originPrevisionsList', OriginPrevisionsListComponent )
+    .component( 'linePrevisionsList', LinePrevisionsListComponent )
 
     // routes
     .config( [

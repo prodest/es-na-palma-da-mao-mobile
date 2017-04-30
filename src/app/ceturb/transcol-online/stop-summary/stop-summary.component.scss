@@ -23,16 +23,15 @@ stop-summary{
 
     .stop-info__address {
 		flex: 1;
-		padding: 0 20px 0 10px;
-		font-size: 12px;
+		padding: 0px 20px 0 5px;
+		font-size: 13px;
 		flex-direction: column;
 		justify-content: center;
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-		// justify-content: center;
-    	// display: flex;
+		margin: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: #333;
 	}
 	.stop-info__city {
 		display: block;

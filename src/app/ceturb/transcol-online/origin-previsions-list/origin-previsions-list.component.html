@@ -1,0 +1,29 @@
+<div class="origin-previsions__page-title">
+    <div><i class="fa fa-code-fork"></i> Linhas que passam no ponto<strong> {{$ctrl.origin.identificador}}</strong></div>
+</div>
+<div class="origin-previsions__table-header">
+    <span>Linha</span>
+    <span class="origin">Próximo</span>
+</div>
+<md-list ng-if="$ctrl.previsions.length" class="prevision-list">
+    <ion-content>
+        <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="70" md-no-ink ng-click="$ctrl.onPrevisionClick({ prevision: prevision })">
+            <div class="container">
+                <div class="row">
+                    <div class="column prevision-list__linha">
+                        <h4>{{ prevision.identificadorLinha }}</h4>
+                    </div>
+                    <div class="column prevision-list__descricao">
+                        <h5 class="prevision-list__bandeira">{{ prevision.bandeira }} </h5>
+                        <p class="prevision-list__detalhe">{{ prevision.descricaoLinha }}</p>
+                    </div>
+                    <div class="column prevision-list__previsao origin">
+                        <i> {{ prevision.previsaoNaOrigem }}</i>
+                    </div>
+                </div>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+    </ion-content>
+</md-list>
+<div class="not-founded" ng-if="$ctrl.previsions && !$ctrl.previsions.length">Nenhuma previsão encontrada</div>
