@@ -717,7 +717,10 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public panToStop( stop: BusStop ) {
-        this.map.setView( new L.LatLng( stop.latitude, stop.longitude ), 15, { animate: true, duration: 0.5 });
+        const newZoom = this.map.getZoom() < this.stopsCluster.options.disableClusteringAtZoom
+            ? this.stopsCluster.options.disableClusteringAtZoom
+            : this.map.getZoom();
+        this.map.setView( new L.LatLng( stop.latitude, stop.longitude ), newZoom , { animate: true, duration: 0.5 });
     }
 
     /**
