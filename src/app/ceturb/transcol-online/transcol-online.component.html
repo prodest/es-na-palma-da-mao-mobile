@@ -54,13 +54,14 @@
                     on-prevision-click="::vm.showLinePrevisions({ identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId, pontoDeOrigemId: prevision.pontoDeOrigemId })" 
                     on-refresh-click="::vm.getOriginPrevisions(vm.selectedOrigin.id)">
                 </prevision-list>
-                <prevision-list 
+                <line-prevision-list 
                     ng-class="{ 'shown': vm.isShowingLinePrevisions }"
                     title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}" 
+                    line="vm.selectedLine.identificadorLinha"
                     previsions="vm.previsions"
                     on-swipe-right="::vm.showOriginPrevisions()"
                     on-refresh-click="::vm.getLinePrevisions(vm.selectedLine)">
-                </prevision-list>
+                </line-prevision-list>
                 <route-prevision-list
                     ng-class="{ 'shown': isShowingRoutePrevisions }" 
                     title="Previsões para a rota" 
