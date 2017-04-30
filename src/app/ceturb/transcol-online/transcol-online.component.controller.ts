@@ -464,7 +464,7 @@ export class TranscolOnlineController {
     public unselectDestination() {
         this.selectedDestination = undefined;
         this.selectOrigin( this.selectedOrigin! );
-        this.navigateToOriginPrevisions();
+        this.navigateToDestinations();
     }
 
 
