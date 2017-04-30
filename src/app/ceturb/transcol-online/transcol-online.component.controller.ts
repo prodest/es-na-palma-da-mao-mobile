@@ -201,7 +201,7 @@ export class TranscolOnlineController {
         this.stopsCluster.clearLayers();
         this.stopsCluster.addLayers( _.values( this.allStopMarkers ) );
         this.map.addLayer( this.stopsCluster );
-        console.log( `adicionando camada com ${ stops.length } paradas ao mapa` );
+        console.log( `adicionando camada com ${stops.length} paradas ao mapa` );
     }
 
 
@@ -464,7 +464,7 @@ export class TranscolOnlineController {
     public unselectDestination() {
         this.selectedDestination = undefined;
         this.selectOrigin( this.selectedOrigin! );
-        this.navigateToOriginPrevisions();
+        this.navigateToDestinations();
     }
 
 
@@ -531,7 +531,7 @@ export class TranscolOnlineController {
         
          Então seleciona como origem
         */
-        else if ( !this.isSelectedOrigin( stop ) && !this.selectedDestination && !this.isPossibleDestination( stop ) ) {
+        else if ( !this.isSelectedOrigin( stop ) && !this.isPossibleDestination( stop ) ) {
             this.selectOrigin( stop );
         }
         /*
@@ -542,7 +542,7 @@ export class TranscolOnlineController {
         
          Então seleciona como destino
         */
-        else if ( !this.isSelectedOrigin( stop ) && !this.selectedDestination && this.isPossibleDestination( stop ) ) {
+        else if ( !this.isSelectedOrigin( stop ) && this.isPossibleDestination( stop ) ) {
             this.selectDestination( stop );
         }
         else if ( !this.isSelectedOrigin( stop ) && !this.isSelectedDestination( stop ) ) {
@@ -594,9 +594,11 @@ export class TranscolOnlineController {
             .filter( stop => !this.isSelectedOrigin( stop ) )
             .forEach( stop => this.setSecundaryIcon( stop ) );
 
-        // set intermediate steps icons
-        // this.getRouteStops( this.selectedOrigin!.id, this.selectedDestination!.id )
-        //     .forEach( stop => this.setAvailableDestinationIcon( stop ) );
+            // refresh estimatives
+        this.showRoutePrevisions();
+        
+        this.getRouteDestinations( this.selectedOrigin!.id, this.selectedDestination!.id )
+            .then( stops => this.plotDestinationMarkers( stops ) );
 
         // set destination icon
         this.setDestinationIcon( destination );
@@ -604,28 +606,8 @@ export class TranscolOnlineController {
         // navigate to selected destination
         this.panToStop( destination );
 
-        // refresh estimatives
-        this.showRoutePrevisions();
+        
     }
-
-    /**
-     * 
-     * 
-     * @param {number} originId 
-     * @param {number} destinationId 
-     * @returns {BusStop[]} 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    // public getRouteStops( originId: number, destinationId: number ): BusStop[] {
-    //     return _.range( originId, destinationId )
-    //         .filter( stopId => {
-    //             const stop = this.allStops[ stopId ];
-    //             // somente os que são destinos possíveis a partir da origem
-    //             return stop && !this.isSelectedOrigin( stop ) && !this.isSelectedDestination( stop ) && this.isPossibleDestination( stop );
-    //         } )
-    //         .map( stopId => this.allStops[ stopId ] );
-    // }
 
 
     /**
@@ -639,7 +621,7 @@ export class TranscolOnlineController {
         const timer = this.$window.setTimeout(() => this.setSpinIcon( origin ), 800 );
 
         try {
-            const destinations = await this.getDestinations( origin.id );
+            const destinations = await this.getOriginDestinations( origin.id );
             this.plotDestinationMarkers( destinations );
             this.setOriginIcon( origin );
         }
@@ -656,12 +638,27 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public async getDestinations( originId: number ): Promise<BusStop[]> {
+    public async getOriginDestinations( originId: number ): Promise<BusStop[]> {
         const ids = await this.ceturbApiService.getBusStopsIdsByOrigin( originId );
         this.destinations = this.loadStopsFromMemory( ids );
         return this.destinations;
     }
 
+
+    /**
+    * 
+    * 
+    * @param {number} originId 
+    * @param {number} destinationId 
+    * @returns {Promise<Prevision[]>} 
+    * 
+    * @memberOf TranscolOnlineController
+    */
+    public async getRouteDestinations( originId: number, destinationId: number ): Promise<BusStop[]> {
+        const ids = await this.ceturbApiService.getBusStopsIdsByRoute( originId, destinationId );
+        this.destinations = this.loadStopsFromMemory( ids );
+        return this.destinations;
+    }
 
     /**
      * 
@@ -717,7 +714,10 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public panToStop( stop: BusStop ) {
-        this.map.setView( new L.LatLng( stop.latitude, stop.longitude ), 15, { animate: true, duration: 0.5 });
+        const newZoom = this.map.getZoom() < this.stopsCluster.options.disableClusteringAtZoom
+            ? this.stopsCluster.options.disableClusteringAtZoom
+            : this.map.getZoom();
+        this.map.setView( new L.LatLng( stop.latitude, stop.longitude ), newZoom , { animate: true, duration: 0.5 });
     }
 
     /**

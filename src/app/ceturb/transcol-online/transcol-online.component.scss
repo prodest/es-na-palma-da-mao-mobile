@@ -52,37 +52,41 @@
 		font-weight: bold;
 		font-family: verdana;
 	}
-	.marker-terminal .azimute {
+	.marker-terminal .azimute, 
+	.marker-destination .azimute {
 		display:none;
 	}
 
 	// destination marker
 	.marker-destination {
 		color: #003e50;
+		z-index: 9999 !important;
 	}
 
 	.marker-destination > i {
-		border: 2px solid #003e50;
+		border: 3px solid #003e50;
 	}
 
 	.marker-available-destination {
-		color: #003e50;
+		color: #628b96;
 	}
 
 	.marker-available-destination> i {
-		border: 2px solid #003e50;
+		border: 2px solid #628b96;
 	}
 
 	// origin marker
 	.marker-origin {
 		color: darkgoldenrod;
+		z-index: 9999 !important;
 	}
 	.marker-origin > i {
-		border: 2px solid darkgoldenrod;
+		border: 3px solid darkgoldenrod;
 	}
 
 	// secondary marker
 	.marker-secondary {
+		display: none;
 		color: #d2cdce;
 	}
 

@@ -107,6 +107,22 @@ export class CeturbApiService {
         return await this.listBusStopsByIds( response.data.pontosDeParada );
     }
 
+
+    /**
+     * 
+     * 
+     * @param {number} originId 
+     * @param {number} destinationId 
+     * @returns {Promise<BusStop[]>} 
+     * 
+     * @memberOf CeturbApiService
+     */
+    public async getBusStopsIdsByRoute( originId: number, destinationId: number ): Promise<number[]> {
+        const response: any = await this.http.post( 'https://api.es.gov.br/ceturb/buscabus/svc/json/db/pesquisarPontosDeParada', { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }, { headers: { 'Transparent': true } } );
+        return response.data.pontosDeParada;
+    }
+
+
     /**
      * 
      * 
