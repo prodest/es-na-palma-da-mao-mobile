@@ -4,27 +4,28 @@
     <span class="destination">Destino</span>
     <span>Confiável</span>
 </div>
-<md-list class="route-previsions">
+<md-list ng-if="$ctrl.previsions.length" class="route-previsions">
     <ion-content>
         <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="45" md-no-ink>
             <div class="route-previsions__body">
                 <span>
-                    <strong>{{ prevision.identificadorLinha }}</strong>
-                    <span>{{ prevision.veiculo }}</span>
+                        <strong>{{ prevision.identificadorLinha }}</strong>
+                        <span>{{ prevision.veiculo }}</span>
                 </span>
                 <span class="origin">
-                   <strong>{{ prevision.horarioNaOrigem }}</strong>
-                   <span class="route-previsions__relative-time">{{ prevision.previsaoNaOrigem }}</span>
+                    <strong>{{ prevision.horarioNaOrigem }}</strong>
+                    <span class="route-previsions__relative-time">{{ prevision.previsaoNaOrigem }}</span>
                 </span>
                 <span class="destination">
-                   <strong>{{ prevision.horarioNoDestino }}</strong>
-                   <span class="route-previsions__relative-time">{{ prevision.previsaoNoDestino }}</span>
+                    <strong>{{ prevision.horarioNoDestino }}</strong>
+                    <span class="route-previsions__relative-time">{{ prevision.previsaoNoDestino }}</span>
                 </span>
                 <span class="route-previsions__reliability" ng-style="{'color': prevision.confiabilidade}">
-                    <i class="fa fa-bus" aria-hidden="true"></i>
-                </span>
+                        <i class="fa fa-bus" aria-hidden="true"></i>
+                    </span>
             </div>
             <md-divider></md-divider>
         </md-list-item>
     </ion-content>
 </md-list>
+<div class="not-founded" ng-if="$ctrl.previsions && !$ctrl.previsions.length">Nenhuma previsão encontrada</div>

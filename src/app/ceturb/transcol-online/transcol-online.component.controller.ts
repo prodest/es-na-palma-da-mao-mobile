@@ -20,6 +20,7 @@ let BaseIcon = L.DivIcon.extend( {
 interface BusLine {
     identificadorLinha: string;
     linhaId: number;
+    pontoDeOrigemId: number;
 }
 
 export class TranscolOnlineController {
@@ -29,7 +30,7 @@ export class TranscolOnlineController {
     public map: L.Map;
     public stopsCluster: any = L.markerClusterGroup( {
         maxClusterRadius: 80,
-        disableClusteringAtZoom: 15,
+        disableClusteringAtZoom: 14,
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false
     });
@@ -44,15 +45,13 @@ export class TranscolOnlineController {
     public allStopMarkers: { [ id: number ]: L.Marker };
     public searchResults: BusStop[] = [];
 
-    public showOriginSummary = false;
-    public showOriginDetails = false;
-    public showOriginDestinies = false;
-    public showPrevisionsByOrigin = false;
+    public isSummaryOpenned = false;
+    public isDetailsOpenned = false;
 
-    public selectedDestination: BusStop | undefined;    
+    public selectedDestination: BusStop | undefined;
     public selectedOrigin: BusStop | undefined;
     public selectedLine: BusLine | undefined;
-    public previsions: Prevision[] = [];
+    public previsions: Prevision[] | undefined = [];
     public destinations: BusStop[] = [];
 
 
@@ -140,7 +139,7 @@ export class TranscolOnlineController {
         });
 
         map.on( 'click', ( e ) => {
-            this.reset();
+            this.unselectOrigin();
             this.$scope.$safeApply(); // avisa ao angular sobre evento do leaflet
         });
         return map;
@@ -157,9 +156,9 @@ export class TranscolOnlineController {
         this.logMapInfo();
 
         //  esconde origin quando clusters forem visíveis
-        if ( this.isInClusterView ) {
-            this.reset();
-        }
+        // if ( this.isInClusterView ) {
+        //     this.reset();
+        // }
     }
 
     /**
@@ -202,7 +201,7 @@ export class TranscolOnlineController {
         this.stopsCluster.clearLayers();
         this.stopsCluster.addLayers( _.values( this.allStopMarkers ) );
         this.map.addLayer( this.stopsCluster );
-        console.log( `adicionando camada com ${ stops.length } paradas ao mapa` );
+        console.log( `adicionando camada com ${stops.length} paradas ao mapa` );
     }
 
 
@@ -220,6 +219,9 @@ export class TranscolOnlineController {
         marker.setIcon( this.createIcon( stop, 'default' ) );
         marker.setZIndexOffset( 100 );
         marker.on( 'click', e => {
+            if ( this.isDetailsOpenned ) {
+                this.closeDetails();
+            }
             this.selectStop( stop );
             this.$scope.$safeApply();  // avisa ao angular sobre evento do leaflet
         });
@@ -228,17 +230,21 @@ export class TranscolOnlineController {
 
 
 
+    public isShowingDestinations = false;
+    public isShowingOriginPrevisions = false;
+    public isShowingLinePrevisions = false;
+    public isShowingRoutePrevisions = false;
+
+
     /**
-     * 
-     * 
-     * @param {Prevision} prevision 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public async showLinePrevisions( prevision: Prevision ) {
-        this.previsions = [];
-        this.selectedLine = { identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId };
-        await this.getLinePrevisions( prevision.pontoDeOrigemId, prevision.linhaId );
+        * 
+        * 
+        * @readonly
+        * @type {boolean}
+        * @memberOf TranscolOnlineController
+        */
+    public get isRouteSelected(): boolean {
+        return !!this.selectedOrigin && !!this.selectedDestination;
     }
 
     /**
@@ -247,15 +253,13 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public togglePrevisions() {
-        this.showPrevisionsByOrigin = this.selectedLine ? true : !this.showPrevisionsByOrigin;
-        this.showOriginDetails = this.showPrevisionsByOrigin;
-        this.showOriginDestinies = false;
-        this.selectedLine = undefined;
-        this.previsions = [];
-
-        if ( this.showPrevisionsByOrigin ) {
-            this.getOriginPrevisions( this.selectedOrigin!.id );
+    public onDestinationsButtonClick() {
+        if ( this.isDetailsOpenned && this.isShowingDestinations ) {
+            this.closeDetails();
+        }
+        else {
+            this.showDestinations();
+            this.openDetails();
         }
     }
 
@@ -266,14 +270,153 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public toggleDestinies() {
-        this.showOriginDestinies = this.selectedLine ? true : !this.showOriginDestinies;
-        this.showOriginDetails = this.showOriginDestinies;
-        this.showPrevisionsByOrigin = false;
-        this.selectedLine = undefined;
-        this.previsions = [];
+    public onPrevisionsButtonClick() {
+        if ( this.isDetailsOpenned ) {
+            if ( this.isShowingOriginPrevisions || this.isShowingRoutePrevisions ) {
+                this.closeDetails();
+            }
+            else {
+                this.showOriginPrevisions();
+            }
+        }
+        else {
+            if ( this.isRouteSelected ) {
+                this.showRoutePrevisions();
+            }
+            else {
+                this.showOriginPrevisions();
+            }
+            this.openDetails();
+        }
     }
 
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public closeDetails() {
+        this.isDetailsOpenned = false;
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public openDetails() {
+        this.isDetailsOpenned = true;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public showDestinations() {
+        this.navigateToDestinations();
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public navigateToDestinations( clearDestinations = false ) {
+        if ( clearDestinations ) {
+            this.destinations = [];
+        }
+        this.isShowingDestinations = true;
+        this.isShowingOriginPrevisions = false;
+        this.isShowingLinePrevisions = false;
+        this.isShowingRoutePrevisions = false;
+    }
+
+
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public showOriginPrevisions(): Promise<Prevision[]> {
+        this.previsions = undefined;
+        this.navigateToOriginPrevisions();
+        return this.getOriginPrevisions( this.selectedOrigin!.id );
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public navigateToOriginPrevisions( clearPrevisions = true ) {
+        this.isShowingDestinations = false;
+        this.isShowingOriginPrevisions = true;
+        this.isShowingLinePrevisions = false;
+        this.isShowingRoutePrevisions = false;
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public showRoutePrevisions(): Promise<Prevision[]> {
+        this.previsions = undefined;
+        this.navigateToRoutePrevisions();
+        return this.getRoutePrevisions( this.selectedOrigin!.id, this.selectedDestination!.id );
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public navigateToRoutePrevisions( clearPrevisions = true ) {
+        this.isShowingDestinations = false;
+        this.isShowingOriginPrevisions = false;
+        this.isShowingLinePrevisions = false;
+        this.isShowingRoutePrevisions = true;
+    }
+
+    /**
+     * 
+     * 
+     * @param {Prevision} prevision 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public showLinePrevisions( line: BusLine ): Promise<Prevision[]> {
+        this.previsions = undefined;
+        this.selectedLine = line;
+        this.navigateToLinePrevisions();
+        return this.getLinePrevisions( line );
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public navigateToLinePrevisions( clearPrevisions = true ) {
+        this.isShowingDestinations = false;
+        this.isShowingOriginPrevisions = false;
+        this.isShowingLinePrevisions = true;
+        this.isShowingRoutePrevisions = false;
+    }
 
     /**
      * 
@@ -296,6 +439,34 @@ export class TranscolOnlineController {
     public searchPossibleDestinations( text: string ) {
         this.searchIn( this.destinations, text );
     }
+
+    /**
+     * 
+     * 
+     * @private
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public unselectOrigin() {
+        _.values( this.allStops ).forEach( stop => this.setDefaultIcon( stop ) );
+        this.closeAllScreens();
+        this.unselectAll();
+        this.clearSearchResults();
+    }
+
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public unselectDestination() {
+        this.selectedDestination = undefined;
+        this.selectOrigin( this.selectedOrigin! );
+        this.navigateToDestinations();
+    }
+
 
     /**
      * 
@@ -335,14 +506,23 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public selectStop( stop: BusStop ) { 
-  
+    public selectStop( stop: BusStop ) {
+
         this.clearSearchResults();
 
         // se nenhuma origem está selecionada, seleciona como origem
         if ( !this.selectedOrigin ) {
-            this.setAsOrigin( stop );
+            this.selectOrigin( stop );
         }
+
+        else if ( this.isSelectedOrigin( stop ) ) {
+            this.unselectOrigin();
+        }
+
+        else if ( this.isSelectedDestination( stop ) ) {
+            this.unselectDestination();
+        }
+
         /*
          1-Se existe origem selecionada
          2-Se não é a origem selecionada
@@ -351,8 +531,8 @@ export class TranscolOnlineController {
         
          Então seleciona como origem
         */
-        else if ( !this.isSelectedOrigin( stop ) && !this.selectedDestination && !this.isPossibleDestination( stop ) ) {
-            this.setAsOrigin( stop );
+        else if ( !this.isSelectedOrigin( stop ) && !this.isPossibleDestination( stop ) ) {
+            this.selectOrigin( stop );
         }
         /*
          1-Se existe origem selecionada
@@ -362,14 +542,14 @@ export class TranscolOnlineController {
         
          Então seleciona como destino
         */
-        else if ( !this.isSelectedOrigin( stop ) && !this.selectedDestination && this.isPossibleDestination( stop )  ) {
-            this.setAsDestination( stop );
+        else if ( !this.isSelectedOrigin( stop ) && this.isPossibleDestination( stop ) ) {
+            this.selectDestination( stop );
         }
         else if ( !this.isSelectedOrigin( stop ) && !this.isSelectedDestination( stop ) ) {
-            this.setAsOrigin( stop );
-        }   
-    }   
-    
+            this.selectOrigin( stop );
+        }
+    }
+
     /**
      * 
      * 
@@ -378,12 +558,12 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    private setAsOrigin( origin: BusStop ) {
+    private selectOrigin( origin: BusStop ) {
         this.unselectAll();
 
         this.selectedOrigin = origin;
 
-        this.showOriginSummary = true;
+        this.isSummaryOpenned = true;
 
         // set all other stops icons as secondary
         _.values( this.allStops )
@@ -407,20 +587,26 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public setAsDestination( destination: BusStop ) {
+    public selectDestination( destination: BusStop ) {
         this.selectedDestination = destination;
         // set all other stops icons as secondary
         _.values( this.allStops )
             .filter( stop => !this.isSelectedOrigin( stop ) )
             .forEach( stop => this.setSecundaryIcon( stop ) );
+
+            // refresh estimatives
+        this.showRoutePrevisions();
         
-        this.setDestinyIcon( destination );
+        this.getRouteDestinations( this.selectedOrigin!.id, this.selectedDestination!.id )
+            .then( stops => this.plotDestinationMarkers( stops ) );
+
+        // set destination icon
+        this.setDestinationIcon( destination );
 
         // navigate to selected destination
         this.panToStop( destination );
 
-        // refresh estimatives
-        this.getRoutePrevisions( this.selectedOrigin!.id, destination.id );
+        
     }
 
 
@@ -435,8 +621,8 @@ export class TranscolOnlineController {
         const timer = this.$window.setTimeout(() => this.setSpinIcon( origin ), 800 );
 
         try {
-            const destinations = await this.getDestinations( origin.id );
-            this.plotDestinyMarkers( destinations );
+            const destinations = await this.getOriginDestinations( origin.id );
+            this.plotDestinationMarkers( destinations );
             this.setOriginIcon( origin );
         }
         finally {
@@ -452,12 +638,27 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public async getDestinations( originId: number ): Promise<BusStop[]> {
+    public async getOriginDestinations( originId: number ): Promise<BusStop[]> {
         const ids = await this.ceturbApiService.getBusStopsIdsByOrigin( originId );
         this.destinations = this.loadStopsFromMemory( ids );
         return this.destinations;
     }
 
+
+    /**
+    * 
+    * 
+    * @param {number} originId 
+    * @param {number} destinationId 
+    * @returns {Promise<Prevision[]>} 
+    * 
+    * @memberOf TranscolOnlineController
+    */
+    public async getRouteDestinations( originId: number, destinationId: number ): Promise<BusStop[]> {
+        const ids = await this.ceturbApiService.getBusStopsIdsByRoute( originId, destinationId );
+        this.destinations = this.loadStopsFromMemory( ids );
+        return this.destinations;
+    }
 
     /**
      * 
@@ -484,6 +685,8 @@ export class TranscolOnlineController {
      */
     public async getRoutePrevisions( originId: number, destinationId: number ): Promise<Prevision[]> {
         this.previsions = await this.ceturbApiService.getPrevisionsByOriginAndDestination( originId, destinationId );
+        console.log( this.previsions.length );
+
         return this.previsions;
     }
 
@@ -496,8 +699,8 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public async getLinePrevisions( originId: number, lineId: number ): Promise<Prevision[]> {
-        this.previsions = await this.ceturbApiService.getPrevisionsByOriginAndLine( originId, lineId );
+    public async getLinePrevisions( line: BusLine ): Promise<Prevision[]> {
+        this.previsions = await this.ceturbApiService.getPrevisionsByOriginAndLine( line.pontoDeOrigemId, line.linhaId );
         return this.previsions;
     }
 
@@ -511,9 +714,12 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public panToStop( stop: BusStop ) {
-        this.map.panTo( new L.LatLng( stop.latitude, stop.longitude ), { animate: true, duration: 0.5 });
+        const newZoom = this.map.getZoom() < this.stopsCluster.options.disableClusteringAtZoom
+            ? this.stopsCluster.options.disableClusteringAtZoom
+            : this.map.getZoom();
+        this.map.setView( new L.LatLng( stop.latitude, stop.longitude ), newZoom , { animate: true, duration: 0.5 });
     }
-    
+
     /**
      * 
      * 
@@ -522,10 +728,10 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    private plotDestinyMarkers( destineStops: BusStop[] = [] ) {
+    private plotDestinationMarkers( destineStops: BusStop[] = [] ) {
         destineStops
             .filter( stop => !this.isSelectedOrigin( stop ) )
-            .forEach( stop => this.setDestinyIcon( stop ) );
+            .forEach( stop => this.setAvailableDestinationIcon( stop ) );
     }
 
     /**
@@ -601,8 +807,21 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    private setDestinyIcon( stop: BusStop ) {
-        this.setIcon( stop, 'destiny', 1000 );
+    private setDestinationIcon( stop: BusStop ) {
+        this.setIcon( stop, 'destination', 1000 );
+    }
+
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {BusStop} stop 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    private setAvailableDestinationIcon( stop: BusStop ) {
+        this.setIcon( stop, 'available-destination', 1000 );
     }
 
     /**
@@ -638,7 +857,7 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    private setIcon( stop: BusStop, type: 'default' | 'secondary' | 'origin' | 'destiny', zIndexOffset: number ) {
+    private setIcon( stop: BusStop, type: 'default' | 'secondary' | 'origin' | 'destination' | 'available-destination', zIndexOffset: number ) {
         if ( !stop ) { return; }
         const marker = this.allStopMarkers[ stop.id ];
         marker.setIcon( this.createIcon( stop, type ) );
@@ -651,13 +870,13 @@ export class TranscolOnlineController {
      * 
      * @private
      * @param {BusStop} stop 
-     * @param {('default' | 'secondary' | 'origin' | 'destiny')} type 
+     * @param {('default' | 'secondary' | 'origin' | 'destination')} type 
      * @returns 
      * 
      * @memberOf TranscolOnlineController
      */
-    private createIcon( stop: BusStop, type: 'default' | 'secondary' | 'origin' | 'destiny' ) {
-        return new BaseIcon( { className: `marker dir-${ stop.direcao } marker-${ type } marker-${ stop.tipo }` });
+    private createIcon( stop: BusStop, type: 'default' | 'secondary' | 'origin' | 'destination' | 'available-destination' ) {
+        return new BaseIcon( { className: `marker dir-${stop.direcao} marker-${type} marker-${stop.tipo}` });
     }
 
 
@@ -673,21 +892,6 @@ export class TranscolOnlineController {
         const marker = this.allStopMarkers[ stop.id ];
         marker.setIcon( new BaseIcon( { className: 'marker marker-origin marker-spin', html: '<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>' }) );
         marker.setZIndexOffset( 2000 );
-    }
-
-
-    /**
-     * 
-     * 
-     * @private
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    private reset() {
-        _.values( this.allStops ).forEach( stop => this.setDefaultIcon( stop ) );
-        this.closeAllScreens();
-        this.unselectAll();
-        this.clearSearchResults();
     }
 
     /**
@@ -711,10 +915,8 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     private closeAllScreens() {
-        this.showOriginDetails = false;
-        this.showOriginDestinies = false;
-        this.showPrevisionsByOrigin = false;
-        this.showOriginSummary = false;
+        this.isDetailsOpenned = false;
+        this.isSummaryOpenned = false;
     }
 }
 

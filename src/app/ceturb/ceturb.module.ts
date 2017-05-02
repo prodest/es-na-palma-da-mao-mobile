@@ -1,6 +1,6 @@
 import { BusLinesComponent } from './bus-lines/bus-lines.component';
 import { BusInfoComponent } from './bus-info/bus-info.component';
-import { DestinyListComponent } from './transcol-online/destiny-list/destiny-list.component';
+import { DestinationListComponent } from './transcol-online/destiny-list/destiny-list.component';
 import { PrevisionListComponent } from './transcol-online/prevision-list/prevision-list.component';
 import { TranscolOnlineComponent } from './transcol-online/transcol-online.component';
 import { StopIconComponent } from './transcol-online/stop-icon/stop-icon.component';
@@ -21,7 +21,7 @@ export default angular.module( 'ceturb.module', [] )
     .directive( 'transcolOnline', TranscolOnlineComponent )
 
     // widgets
-    .component( 'destinyList', DestinyListComponent )
+    .component( 'destinationList', DestinationListComponent )
     .component( 'previsionList', PrevisionListComponent )
     .component( 'stopIcon', StopIconComponent )
     .component( 'stopSummary', StopSummaryComponent )

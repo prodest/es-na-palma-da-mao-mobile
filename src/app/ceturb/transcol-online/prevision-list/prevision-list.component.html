@@ -1,12 +1,15 @@
-<md-list class="prevision-list">
-    <md-subheader class="md-no-sticky"> 
+<md-list ng-if="$ctrl.previsions.length" class="prevision-list">
+    <md-subheader class="md-no-sticky">
         <i class="fa fa-clock-o"></i> {{$ctrl.title}}
-        <i class="pull-right fa fa-refresh" ng-class="{'fa-spin': $ctrl.loading}" ng-click="$ctrl.onRefreshClick()"></i>
+        <i class="pull-right fa fa-refresh" ng-click="::$ctrl.onRefreshClick()"></i>
     </md-subheader>
     <ion-content style="top:56px;">
         <md-list-item class="md-2-line" collection-repeat="prevision in $ctrl.previsions" item-height="70" md-no-ink ng-click="$ctrl.onPrevisionClick({ prevision: prevision })">
             <div class="md-list-item-text">
-                <h4 class="text-padding prevision-list__main"><strong>{{ prevision.identificadorLinha }}</strong> - {{ prevision.bandeira }} 
+              
+                <h4 class="text-padding prevision-list__main">
+                     <!--<span class="vehicle"> <i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i>  {{ prevision.veiculo }}</span> -->
+                    <strong> <i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i> {{ prevision.identificadorLinha }}</strong>  - {{ prevision.bandeira }} 
                     <i class="prevision-list__time"> {{ prevision.previsaoNaOrigem }}</i>
                 </h4>
                 <div class="prevision-list__secondary">{{ prevision.descricaoLinha }}</div>
@@ -15,3 +18,4 @@
         </md-list-item>
     </ion-content>
 </md-list>
+<div class="not-founded" ng-if="$ctrl.previsions && !$ctrl.previsions.length">Nenhuma previsão encontrada</div>

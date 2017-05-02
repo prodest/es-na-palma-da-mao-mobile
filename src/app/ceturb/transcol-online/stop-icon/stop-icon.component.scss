@@ -2,7 +2,8 @@
     
     display: flex;
     margin: 0 10px !important;
-
+    align-items: center;
+    
     * {
         color: darkgoldenrod;
     }
@@ -25,7 +26,7 @@
         font-size: 12px;
     }
 
-    .stop-icon__destiny {
+    .stop-icon__destination{
         display: none;
     }
     .stop-icon__origin {
@@ -33,12 +34,12 @@
     }
 }
 
-.destiny .stop-icon {
+.destination .stop-icon {
     * {
         color: #003e50;
     }
 
-    .stop-icon__destiny {
+    .stop-icon__destination{
         display: block;
     }
     .stop-icon__origin {

@@ -1,7 +1,7 @@
 .prevision-list {
 	md-list-item.md-2-line .md-list-item-text, 
 	md-list-item.md-2-line > .md-no-style .md-list-item-text {
-		margin-right: 45px;
+		margin-right: 40px;
 	}
 	.prevision-list__main, 
 	.prevision-list__secondary {
@@ -29,5 +29,22 @@
 
 	.fa-refresh {
 		cursor: pointer;
+	}
+
+	// .vehicle {
+	// 	font-size: 11px;
+	// 	color: #3a7ca4;
+	// 	margin-right: 5px;
+	// }
+	.fa-wheelchair {
+		// padding: 3px;
+		// border-radius: 3px;
+		color: #2173a5;
+		font-weight: bold;
+		// padding: 3px;
+		// border: 1px solid #666;
+		// border-radius: 3px;
+		// color: #fff;
+		// background: #1b78bb;
 	}
 }
