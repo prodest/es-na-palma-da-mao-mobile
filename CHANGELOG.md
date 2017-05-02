@@ -1,3 +1,13 @@
+<a name="3.9.1"></a>
+## [3.9.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.0...v3.9.1) (2017-05-02)
+
+
+### Bug Fixes
+
+* **app:** usa news highlights como página inicial ([7d623bb](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/7d623bb))
+
+
+
 <a name="3.9.0"></a>
 # [3.9.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.8.0...v3.9.0) (2017-05-02)
 
