@@ -1,3 +1,32 @@
+<a name="3.9.0"></a>
+# [3.9.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.8.0...v3.9.0) (2017-05-02)
+
+
+### Bug Fixes
+
+* **sep:** ajusta tamanho do container de processos acompanhados ([5c4f55d](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/5c4f55d))
+* **sep:** ajusta testes unitários ([be834fc](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/be834fc))
+* **sep:** corrige scroll dos favoritos ([70b5a1e](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/70b5a1e))
+* **sep:** esconde titulo dos acompanhamentos caso não exista nenhum processo ([ea41a7f](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/ea41a7f))
+
+
+### Features
+
+* **sep:** filtra favoritos de acordo com input ([e9fe7d0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e9fe7d0))
+* **sep:** implementa acompanhamento de processos ([403f791](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/403f791))
+* **transcol-online:** adiciona estimativas pra rotas ([862c149](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/862c149))
+* **transcol-online:** adiciona estimativas pra rotas (WIP) ([aec82b0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/aec82b0))
+* **transcol-online:** adiciona icone acessibilidade em previsões ([880f217](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/880f217))
+* **transcol-online:** adiciona legendas pro mapa ([30449e7](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/30449e7))
+* **transcol-online:** adiciona previsão nas linhas ([44b66c2](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/44b66c2))
+* **transcol-online:** adiciona realce de pontos de parada da rota ([11154e9](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/11154e9))
+* **transcol-online:** adiciona seleção de origem/destino e pesquisa textual (WIP) ([c6ee6da](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c6ee6da))
+* **transcol-online:** ajusta zoom na seleção de pontos de parada ([f59d6d6](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/f59d6d6))
+* **transcol-online:** limpar destino habilita selação de destino ([712e976](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/712e976))
+* **transcol-online:** nova versão de previsões da linha ([996de92](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/996de92))
+
+
+
 <a name="3.8.0"></a>
 # [3.8.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.7.1...v3.8.0) (2017-04-19)
 
