@@ -1,3 +1,8 @@
+<a name="3.9.3"></a>
+## [3.9.3](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.2...v3.9.3) (2017-05-02)
+
+
+
 <a name="3.9.2"></a>
 ## [3.9.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.1...v3.9.2) (2017-05-02)
 
