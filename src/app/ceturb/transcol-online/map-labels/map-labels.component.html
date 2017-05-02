@@ -1,0 +1,54 @@
+<div class="map-labels">
+    <div>
+        <div class="map-labels__title"><i class="fa fa-question" aria-hidden="true"></i> Pontos de ônibus</div>
+        <div>
+            <div class="map-labels__icon leaflet-marker-icon marker marker-dafault marker-ponto"><i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description"><strong>Disponível</strong> como ponto de <strong>origem</strong></div>
+        </div>
+        <div>
+            <div class="map-labels__icon leaflet-marker-icon marker marker-available-destination marker-ponto"><i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description"><strong>Disponível</strong> como ponto de <strong>destino</strong></div>
+        </div>
+        <div>
+            <div class="map-labels__icon leaflet-marker-icon marker marker-origin marker-ponto"><i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description"><strong>Definido</strong> como ponto de <strong>origem</strong></div>
+        </div>
+        <div>
+            <div class="map-labels__icon leaflet-marker-icon marker marker-destination marker-ponto"><i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description"><strong>Definido</strong> como ponto de <strong>destino</strong></div>
+        </div>
+    </div>
+    <div style="margin-top:20px;">
+        <div class="map-labels__title"><i class="fa fa-question" aria-hidden="true"></i> Previsões</div>
+        <div>
+            <div class="map-labels__icon  route-previsions__reliability" ng-style="{'color': 'green'}">
+                <i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description">Localização transmitida <strong>há menos de 7 min.</strong></div>
+        </div>
+        <div>
+            <div class="map-labels__icon  route-previsions__reliability" ng-style="{'color': 'orange'}">
+                <i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description">Localização transmitida <strong>há menos de 22 min.</strong></div>
+        </div>
+        <div>
+            <div class="map-labels__icon  route-previsions__reliability" ng-style="{'color': 'red'}">
+                <i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description">Localização transmitida <strong>há mais de 36 min.</strong></div>
+        </div>
+        <div>
+            <div class="map-labels__icon  route-previsions__reliability" ng-style="{'color': 'gray'}">
+                <i class="fa fa-bus" aria-hidden="true"></i>
+            </div>
+            <div class="map-labels__description">Viagem não foi iniciada.</div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -47,7 +47,7 @@ export class TranscolOnlineController {
 
     public isSummaryOpenned = false;
     public isDetailsOpenned = false;
-
+    public showLabels = false;
     public selectedDestination: BusStop | undefined;
     public selectedOrigin: BusStop | undefined;
     public selectedLine: BusLine | undefined;
@@ -130,7 +130,7 @@ export class TranscolOnlineController {
         // request location update and set location
         locateControl.start();
 
-        L.tileLayer( 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWx2YXJvbGxtZW5lemVzIiwiYSI6ImNpejc5cW42YTAwMnQzMXFvbzl0d3RlNDMifQ.dI1h507huh6XDABHZ9FBoQ' )
+        L.tileLayer( `http://mapas.geocontrol.com.br/image-cache/imagem/xyz/OpenStreetMaps?x={x}&y={y}&zoom={z}&projeto=GVBUS-BUSCABUS` )
             .addTo( map );
 
         map.on( 'moveend', () => {
@@ -140,6 +140,7 @@ export class TranscolOnlineController {
 
         map.on( 'click', ( e ) => {
             this.unselectOrigin();
+            this.showLabels = false;
             this.$scope.$safeApply(); // avisa ao angular sobre evento do leaflet
         });
         return map;

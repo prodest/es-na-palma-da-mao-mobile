@@ -1,5 +1,5 @@
-import './destiny-list.component.scss';
-import template = require( './destiny-list.component.html' );
+import './destination-list.component.scss';
+import template = require( './destination-list.component.html' );
 // tslint:disable
 export const DestinationListComponent: ng.IComponentOptions = {
     template: template,

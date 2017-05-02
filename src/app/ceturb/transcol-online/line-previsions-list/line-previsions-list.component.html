@@ -1,0 +1,28 @@
+<div class="line-previsions__page-title">
+    <div><i class="fa fa-clock-o"></i> Próximos horários para a linha <strong> {{$ctrl.line}}</strong></div>
+</div>
+<div class="line-previsions__table-header">
+    <span>Ônibus</span>
+    <span class="origin">Ponto de Origem</span>
+    <span>Confiável</span>
+</div>
+<md-list ng-if="$ctrl.previsions.length" class="line-previsions">
+    <ion-content>
+        <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="45" md-no-ink>
+            <div class="line-previsions__body">
+                <span>
+                    <strong ng-class="{ 'fix': !prevision.acessibilidade}"><i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i> {{ prevision.veiculo }}</strong>
+                </span>
+                <span class="origin">
+                    <strong>{{ prevision.horarioNaOrigem }}</strong>
+                    <span class="line-previsions__relative-time">{{ prevision.previsaoNaOrigem }}</span>
+                </span>
+                <span class="line-previsions__reliability" ng-style="{'color': prevision.confiabilidade}">
+                    <i class="fa fa-bus" aria-hidden="true"></i>
+                </span>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+    </ion-content>
+</md-list>
+<div class="not-founded" ng-if="$ctrl.previsions && !$ctrl.previsions.length">Nenhuma previsão encontrada para a linha {{$ctrl.line}}</div>

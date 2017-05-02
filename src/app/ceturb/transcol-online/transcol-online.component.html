@@ -1,6 +1,13 @@
 <ion-view>
     <ion-nav-title>Transcol Online</ion-nav-title>
+    <ion-nav-buttons side="right">
+		<md-button class="md-icon-button" ng-click="vm.showLabels = !vm.showLabels">
+			<md-icon md-font-icon="fa fa-question">
+			</md-icon>
+		</md-button>
+	</ion-nav-buttons>
     <div class="transcol-online">
+        <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
         <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
             <div class="stop-info__header">
@@ -45,28 +52,29 @@
                     on-swipe-left="::vm.showOriginPrevisions()" 
                     on-destination-click="::vm.selectStop(destination);">
                 </destination-list>
-                <prevision-list 
+                <origin-previsions-list 
                     class="clickable"
                     ng-class="{ 'shown': vm.isShowingOriginPrevisions }"
-                    title="Previsões ({{vm.previsions.length}} linhas)" 
+                    origin="vm.selectedOrigin" 
                     previsions="vm.previsions" 
                     on-swipe-right="::vm.showDestinations()"
                     on-prevision-click="::vm.showLinePrevisions({ identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId, pontoDeOrigemId: prevision.pontoDeOrigemId })" 
                     on-refresh-click="::vm.getOriginPrevisions(vm.selectedOrigin.id)">
-                </prevision-list>
-                <prevision-list 
+                </origin-previsions-list>
+                <line-previsions-list 
                     ng-class="{ 'shown': vm.isShowingLinePrevisions }"
                     title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}" 
+                    line="vm.selectedLine.identificadorLinha"
                     previsions="vm.previsions"
                     on-swipe-right="::vm.showOriginPrevisions()"
                     on-refresh-click="::vm.getLinePrevisions(vm.selectedLine)">
-                </prevision-list>
-                <route-prevision-list
+                </line-previsions-list>
+                <route-previsions-list
                     ng-class="{ 'shown': isShowingRoutePrevisions }" 
                     title="Previsões para a rota" 
                     previsions="vm.previsions"
                     on-refresh-click="::vm.getRoutePrevisions( this.selectedOrigin.id, this.selectedDestination.id )()">
-                </route-prevision-list>
+                </route-previsions-list>
             </div>
         </div>
         <search-bar 
