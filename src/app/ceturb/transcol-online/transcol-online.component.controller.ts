@@ -130,7 +130,7 @@ export class TranscolOnlineController {
         // request location update and set location
         locateControl.start();
 
-        L.tileLayer( 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWx2YXJvbGxtZW5lemVzIiwiYSI6ImNpejc5cW42YTAwMnQzMXFvbzl0d3RlNDMifQ.dI1h507huh6XDABHZ9FBoQ' )
+        L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' )
             .addTo( map );
 
         map.on( 'moveend', () => {
