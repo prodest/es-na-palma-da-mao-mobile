@@ -1,6 +1,13 @@
 <ion-view>
     <ion-nav-title>Transcol Online</ion-nav-title>
+    <ion-nav-buttons side="right">
+		<md-button class="md-icon-button" ng-click="vm.showLabels = !vm.showLabels">
+			<md-icon md-font-icon="fa fa-question">
+			</md-icon>
+		</md-button>
+	</ion-nav-buttons>
     <div class="transcol-online">
+        <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
         <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
             <div class="stop-info__header">

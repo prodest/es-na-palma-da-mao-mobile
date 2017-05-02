@@ -7,7 +7,7 @@ import { StopSummaryComponent } from './transcol-online/stop-summary/stop-summar
 import { RoutePrevisionsListComponent } from './transcol-online/route-previsions-list/route-previsions-list.component';
 import { OriginPrevisionsListComponent } from './transcol-online/origin-previsions-list/origin-previsions-list.component';
 import { LinePrevisionsListComponent } from './transcol-online/line-previsions-list/line-previsions-list.component';
-
+import { MapLabelsComponent } from './transcol-online/map-labels/map-labels.component';
 import { CeturbStorage, CeturbApiService } from './shared/index';
 
 export default angular.module( 'ceturb.module', [] )
@@ -28,6 +28,7 @@ export default angular.module( 'ceturb.module', [] )
     .component( 'routePrevisionsList', RoutePrevisionsListComponent )
     .component( 'originPrevisionsList', OriginPrevisionsListComponent )
     .component( 'linePrevisionsList', LinePrevisionsListComponent )
+    .component( 'mapLabels', MapLabelsComponent )
 
     // routes
     .config( [
