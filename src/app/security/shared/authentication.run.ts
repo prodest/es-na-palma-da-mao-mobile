@@ -23,7 +23,7 @@ function authRun(
     });
 
     $ionicPlatform.ready( async () => {
-        await resumeApplication( 'app.transcolOnline', true );
+        await resumeApplication( 'app.dashboard.newsHighlights', true );
     });
 
     $ionicPlatform.on( 'resume', async () => {
