@@ -1,4 +1,10 @@
 /********************** Map **********************/
+
+.keyboard-open .transcol-online .stop-info
+{
+	transform: translate3d(0px, 110vh, 0px);
+}
+
 .transcol-online {
 	
 	#map{
@@ -176,10 +182,7 @@
 	prevision-list.shown,
 	.auto-complete-panel > * { visibility: visible !important; }
 
-	.stop-info, 
-	.keyboard-open .stop-info--route,
-	.keyboard-open .stop-info--origin,
-	.keyboard-open .stop-info--details
+	.stop-info
 	{
 		width: 100%;
 		// outline: 10px solid #dcd9c5;
