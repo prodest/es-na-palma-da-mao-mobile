@@ -1,3 +1,14 @@
+<a name="3.9.2"></a>
+## [3.9.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.1...v3.9.2) (2017-05-02)
+
+
+### Bug Fixes
+
+* **transcol-online:** esconde origem selecionada quan teclado está aberto ([e1d9247](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e1d9247))
+* **transcol-online:** remove conflito com eventos do ionic ([1b218c1](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/1b218c1))
+
+
+
 <a name="3.9.1"></a>
 ## [3.9.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.0...v3.9.1) (2017-05-02)
 
