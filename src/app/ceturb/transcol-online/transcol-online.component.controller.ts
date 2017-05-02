@@ -105,6 +105,7 @@ export class TranscolOnlineController {
      */
     private createMap() {
         const map = L.map( 'map', {
+            tap: false, // !important
             zoomControl: false,
             center: L.latLng( -20.315894186649725, -40.29565483331681 ),
             zoom: this.zoom.mapDefault,
