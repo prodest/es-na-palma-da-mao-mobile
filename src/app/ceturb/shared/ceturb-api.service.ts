@@ -102,7 +102,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public async searchBusStops( text: string ): Promise<BusStop[]> {
-        const response: any = await this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/texto/pesquisarPontosDeParada`, { texto: text });
+        const response: any = await this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/texto/pesquisarPontosDeParada`, { texto: text });
         return await this.listBusStopsByIds( response.data.pontosDeParada );
     }
 
@@ -117,7 +117,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public async getBusStopsIdsByRoute( originId: number, destinationId: number ): Promise<number[]> {
-        const response: any = await this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }, { headers: { 'Transparent': true } });
+        const response: any = await this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }, { headers: { 'Transparent': true } });
         return response.data.pontosDeParada;
     }
 
@@ -129,7 +129,7 @@ export class CeturbApiService {
      * @returns {Promise<BusRoute>}
      */
     public getBusStopsByArea( bounds: number[] ): Promise<BusStop[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { envelope: bounds })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { envelope: bounds })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
             .then( ids => this.listBusStopsByIds( ids ) );
     }
@@ -143,7 +143,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public getBusStopsByOrigin( id: number ): Promise<BusStop[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
             .then( ids => this.listBusStopsByIds( ids ) );
     }
@@ -157,7 +157,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public getBusStopsIdsByOrigin( id: number ): Promise<any[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
     }
 
@@ -171,7 +171,7 @@ export class CeturbApiService {
      * @memberof CeturbApiService
      */
     private listBusStopsByIds( ids: number[] ): Promise<BusStop[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/json/db/listarPontosDeParada`, { listaIds: ids })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/listarPontosDeParada`, { listaIds: ids })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -185,7 +185,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOriginAndLine( originId: number, lineId: number ): Promise<Prevision[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/estimativas/obterEstimativasPorOrigemELinha`, { pontoDeOrigemId: originId, linhaId: lineId })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemELinha`, { pontoDeOrigemId: originId, linhaId: lineId })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -199,7 +199,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOriginAndDestination( originId: number, destinationId: number ): Promise<Prevision[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/estimativas/obterEstimativasPorOrigemEDestino`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemEDestino`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -212,7 +212,7 @@ export class CeturbApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
-        return this.http.post( `${ this.settings.api.ceturb }/transcolOnline/svc/estimativas/obterEstimativasPorOrigem`, { pontoDeOrigemId: id })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigem`, { pontoDeOrigemId: id })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 }
