@@ -1,14 +1,20 @@
 .map-labels {
     right: calc( 3 * vw );
+
+    .map-labels__icon {
+        position: static;
+        margin: 5px;
+    }
 }
 
 .show-labels {
+    
     .map-labels {
         width: 95vw;
         margin: 0;
         position: absolute;
         right: 0;
-        top: 35px;
+        top: 0;
         background: #fff;
         z-index: 9999;
         -webkit-box-shadow: -7px 6px 5px -6px rgba(0, 0, 0, 0.32);
@@ -34,11 +40,6 @@
                 align-items: center;
             }
         }
-    }
-
-    .map-labels__icon {
-        margin: 5px;
-        position: static;
     }
 
     .map-labels__description {

@@ -1,6 +1,8 @@
+<div class="destinations__page-title">
+    <div><i class="fa fa-map-marker"></i> Selecionar Destino ({{$ctrl.destinations.length}} destinos)</div>
+</div>
 <md-list ng-if="$ctrl.destinations.length" class="destination-list">
-    <md-subheader class="md-no-sticky"><i class="fa fa-bus"></i> Selecionar Destino ({{$ctrl.destinations.length}} destinos):</md-subheader>
-    <ion-content style="top:56px;">
+    <ion-content>
         <md-list-item class="md-2-line" collection-repeat="destination in $ctrl.destinations" item-height="70" md-no-ink ng-click="$ctrl.onDestinationClick({ destination: destination })">
             <div class="md-list-item-text">
                 <h4 class="text-padding"><strong>{{ destination.identificador}}</strong> - {{ destination.logradouro}}

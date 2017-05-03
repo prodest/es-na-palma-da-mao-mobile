@@ -6,7 +6,7 @@
 			</md-icon>
 		</md-button>
 	</ion-nav-buttons>
-    <div class="transcol-online">
+    <ion-content class="transcol-online">
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
         <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
@@ -77,6 +77,7 @@
                 </route-previsions-list>
             </div>
         </div>
+        
         <search-bar 
             ng-if="!vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
             placeholder="Pesquisar ponto de origem" 
@@ -84,6 +85,7 @@
             on-change="::vm.searchAll(text)" 
             on-clear="::vm.clearSearchResults()">
         </search-bar>
+
         <search-bar 
             ng-if="vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
             placeholder="Pesquisar ponto de destino" 
@@ -91,15 +93,13 @@
             on-change="::vm.searchPossibleDestinations(text)" 
             on-clear="::vm.clearSearchResults()">
         </search-bar>
+        <div class="auto-complete-panel" ng-if="vm.searchResults.length">
+            <destination-list class="clickable" destinations="vm.searchResults" on-destination-click="::vm.selectStop(destination)">
+            </destination-list>
+        </div>
+
         <ion-content>
             <div id="map"></div>
-            <div class="auto-complete-panel" ng-if="vm.searchResults.length">
-                <destination-list 
-                    class="clickable"
-                    destinations="vm.searchResults" 
-                    on-destination-click="::vm.selectStop(destination)">
-                </destination-list>
-            </div>
         </ion-content>
-    </div>
+    </ion-content>
 </ion-view>

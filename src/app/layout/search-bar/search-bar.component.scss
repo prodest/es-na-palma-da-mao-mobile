@@ -5,6 +5,7 @@
     background: none;
     background-color: transparent;
     flex-direction: column;
+    top: 0;
 
     .front-icon {
         i {
@@ -16,8 +17,6 @@
     input.input-search {
         border: none !important;
         padding: 2px 2px 2px 30px;
-
-        
     }
 
 
