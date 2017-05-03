@@ -1,3 +1,13 @@
+<a name="3.9.5"></a>
+## [3.9.5](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.4...v3.9.5) (2017-05-03)
+
+
+### Bug Fixes
+
+* **transcol-online:** fixa url dos endpoints do transcol online ([c00c136](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c00c136))
+
+
+
 <a name="3.9.4"></a>
 ## [3.9.4](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.3...v3.9.4) (2017-05-02)
 
