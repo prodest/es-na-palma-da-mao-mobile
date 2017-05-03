@@ -7,9 +7,13 @@
  *
  * @returns {void}
  */
-function themeConfig( $mdThemingProvider, $mdAriaProvider ) {
+function themeConfig( $mdThemingProvider, $mdAriaProvider, $mdInkRippleProvider ) {
 
     $mdAriaProvider.disableWarnings();
+
+    if ( ionic.Platform.isAndroid() ) { 
+        $mdInkRippleProvider.disableInkRipple();
+    }
 
     const customPrimary = {
         '50': '#67c7e2',
@@ -119,5 +123,6 @@ function themeConfig( $mdThemingProvider, $mdAriaProvider ) {
 export default [
     '$mdThemingProvider',
     '$mdAriaProvider',
+    '$mdInkRippleProvider',
     themeConfig
 ];
