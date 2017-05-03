@@ -7,27 +7,6 @@
 * **transcol-online:** fixa url dos endpoints do transcol online ([c00c136](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c00c136))
 
 
-
-<a name="3.9.5"></a>
-## [3.9.5](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.4...v3.9.5) (2017-05-03)
-
-
-### Bug Fixes
-
-* **transcol-online:** fixa url dos endpoints do transcol online ([c00c136](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c00c136))
-
-
-
-<a name="3.9.4"></a>
-## [3.9.4](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.3...v3.9.4) (2017-05-02)
-
-
-
-<a name="3.9.3"></a>
-## [3.9.3](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.2...v3.9.3) (2017-05-02)
-
-
-
 <a name="3.9.2"></a>
 ## [3.9.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.1...v3.9.2) (2017-05-02)
 
