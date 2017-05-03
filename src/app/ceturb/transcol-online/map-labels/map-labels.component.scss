@@ -1,5 +1,5 @@
 .map-labels {
-    right: calc( 3 * vw );
+    right: calc( 3 * 1vw );
 
     .map-labels__icon {
         position: static;
@@ -26,7 +26,7 @@
         flex-wrap: wrap;
 
         body.platform-ios & {
-            top: 64px;    
+            top: 32px;    
         }
 
         >* {
