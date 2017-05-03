@@ -7,10 +7,6 @@
     flex-direction: column;
     top: 0;
 
-    body.platform-ios & {
-        top: 32px;    
-    }
-
     .front-icon {
         i {
             margin-left: 5px;

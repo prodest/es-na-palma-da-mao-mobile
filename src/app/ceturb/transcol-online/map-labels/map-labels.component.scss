@@ -25,10 +25,6 @@
         padding: 15px;
         flex-wrap: wrap;
 
-        body.platform-ios & {
-            top: 32px;    
-        }
-
         >* {
             display: flex;
             flex-direction: column;
