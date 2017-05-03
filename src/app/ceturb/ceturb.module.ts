@@ -9,6 +9,7 @@ import { OriginPrevisionsListComponent } from './transcol-online/origin-previsio
 import { LinePrevisionsListComponent } from './transcol-online/line-previsions-list/line-previsions-list.component';
 import { MapLabelsComponent } from './transcol-online/map-labels/map-labels.component';
 import { CeturbStorage, CeturbApiService } from './shared/index';
+import { GeolocationComponent } from './transcol-online/geolocation/geolocation.component';
 
 export default angular.module( 'ceturb.module', [] )
 
@@ -29,6 +30,7 @@ export default angular.module( 'ceturb.module', [] )
     .component( 'originPrevisionsList', OriginPrevisionsListComponent )
     .component( 'linePrevisionsList', LinePrevisionsListComponent )
     .component( 'mapLabels', MapLabelsComponent )
+    .component( 'geolocation', GeolocationComponent )
 
     // routes
     .config( [

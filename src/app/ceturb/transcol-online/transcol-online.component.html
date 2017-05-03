@@ -1,17 +1,17 @@
 <ion-view>
     <ion-nav-title>Transcol Online</ion-nav-title>
     <ion-nav-buttons side="right">
-		<md-button class="md-icon-button" ng-click="vm.showLabels = !vm.showLabels">
-			<md-icon md-font-icon="fa fa-question">
-			</md-icon>
-		</md-button>
-	</ion-nav-buttons>
+        <md-button class="md-icon-button" ng-click="vm.showLabels = !vm.showLabels">
+            <md-icon md-font-icon="fa fa-question">
+            </md-icon>
+        </md-button>
+    </ion-nav-buttons>
     <ion-content class="transcol-online">
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
         <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
             <div class="stop-info__header">
-                
+
                 <md-button class="md-fab stop-info__btn-routes" ng-click="::vm.onPrevisionsButtonClick()">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </md-button>
@@ -21,63 +21,37 @@
                 </md-button>
 
                 <!--Origin Summary-->
-                <stop-summary 
-                    stop="vm.selectedOrigin" 
-                    on-stop-click="::vm.panToStop(stop)"
-                    on-close-click="::vm.unselectOrigin()" 
-                    ng-if="vm.selectedOrigin && !vm.selectedDestination">
+                <stop-summary stop="vm.selectedOrigin" on-stop-click="::vm.panToStop(stop)" on-close-click="::vm.unselectOrigin()" ng-if="vm.selectedOrigin && !vm.selectedDestination">
                 </stop-summary>
-                
+
                 <!--Route Summary-->
                 <div ng-if="vm.selectedOrigin && vm.selectedDestination" class="stop-info__route">
-                    <stop-summary 
-                        stop="vm.selectedOrigin" 
-                        on-close-click="::vm.unselectOrigin()" 
-                        on-stop-click="::vm.panToStop(stop)">
+                    <stop-summary stop="vm.selectedOrigin" on-close-click="::vm.unselectOrigin()" on-stop-click="::vm.panToStop(stop)">
                     </stop-summary>
                     <hr>
-                    <stop-summary 
-                        stop="vm.selectedDestination" 
-                        on-close-click="::vm.unselectDestination()" 
-                        on-stop-click="::vm.panToStop(stop)" 
+                    <stop-summary stop="vm.selectedDestination" on-close-click="::vm.unselectDestination()" on-stop-click="::vm.panToStop(stop)"
                         class="destination">
                     </stop-summary>
                 </div>
             </div>
             <div class="stop-info__content" ng-class="{ destinations: vm.isShowingDestinations, 'previsionsByOrigin': vm.isShowingOriginPrevisions, 'previsionsByLine': vm.isShowingLinePrevisions, 'previsionsByRoute': vm.isShowingRoutePrevisions }">
-                <destination-list 
-                    class="clickable"
-                    destinations="vm.destinations"
-                    ng-class="{ 'shown': vm.isShowingDestinations }"
-                    on-swipe-left="::vm.showOriginPrevisions()" 
+                <destination-list class="clickable" destinations="vm.destinations" ng-class="{ 'shown': vm.isShowingDestinations }" on-swipe-left="::vm.showOriginPrevisions()"
                     on-destination-click="::vm.selectStop(destination);">
                 </destination-list>
-                <origin-previsions-list 
-                    class="clickable"
-                    ng-class="{ 'shown': vm.isShowingOriginPrevisions }"
-                    origin="vm.selectedOrigin" 
-                    previsions="vm.previsions" 
-                    on-swipe-right="::vm.showDestinations()"
-                    on-prevision-click="::vm.showLinePrevisions({ identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId, pontoDeOrigemId: prevision.pontoDeOrigemId })" 
+                <origin-previsions-list class="clickable" ng-class="{ 'shown': vm.isShowingOriginPrevisions }" origin="vm.selectedOrigin"
+                    previsions="vm.previsions" on-swipe-right="::vm.showDestinations()" on-prevision-click="::vm.showLinePrevisions({ identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId, pontoDeOrigemId: prevision.pontoDeOrigemId })"
                     on-refresh-click="::vm.getOriginPrevisions(vm.selectedOrigin.id)">
                 </origin-previsions-list>
-                <line-previsions-list 
-                    ng-class="{ 'shown': vm.isShowingLinePrevisions }"
-                    title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}" 
-                    line="vm.selectedLine.identificadorLinha"
-                    previsions="vm.previsions"
-                    on-swipe-right="::vm.showOriginPrevisions()"
+                <line-previsions-list ng-class="{ 'shown': vm.isShowingLinePrevisions }" title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}"
+                    line="vm.selectedLine.identificadorLinha" previsions="vm.previsions" on-swipe-right="::vm.showOriginPrevisions()"
                     on-refresh-click="::vm.getLinePrevisions(vm.selectedLine)">
                 </line-previsions-list>
-                <route-previsions-list
-                    ng-class="{ 'shown': isShowingRoutePrevisions }" 
-                    title="Previsões para a rota" 
-                    previsions="vm.previsions"
+                <route-previsions-list ng-class="{ 'shown': isShowingRoutePrevisions }" title="Previsões para a rota" previsions="vm.previsions"
                     on-refresh-click="::vm.getRoutePrevisions( this.selectedOrigin.id, this.selectedDestination.id )()">
                 </route-previsions-list>
             </div>
         </div>
-        
+ 
         <search-bar 
             ng-if="!vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
             placeholder="Pesquisar ponto de origem" 
@@ -95,10 +69,13 @@
             on-change="::vm.searchBustStops( text, vm.selectedOrigin.id )" 
             on-clear="::vm.clearSearchResults()">
         </search-bar>
+        
         <div class="auto-complete-panel" ng-if="vm.searchResults.length">
             <destination-list class="clickable" destinations="vm.searchResults" on-destination-click="::vm.selectStop(destination)">
             </destination-list>
         </div>
+
+        <geolocation ng-show="!vm.isDetailsOpenned && !vm.isRouteSelected" on-location-changed="::vm.setLocationLayer(layerGroup, center)" refresh-location="vm.refreshLocation" />
 
         <ion-content>
             <div id="map"></div>
