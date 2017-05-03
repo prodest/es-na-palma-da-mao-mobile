@@ -24,10 +24,15 @@
         flex-direction: row;
         padding: 15px;
         flex-wrap: wrap;
+
+        body.platform-ios & {
+            top: 64px;    
+        }
+
         >* {
             display: flex;
             flex-direction: column;
-            flex: 1;
+            flex: 0 1 auto;
             min-width: 300px;
             >* {
                 i {
@@ -35,7 +40,7 @@
                     font-size: 1.1em !important;
                 }
                 font-size: 12px;
-                flex: 1;
+                flex: 0 1 auto;
                 display: flex;
                 align-items: center;
             }
@@ -43,6 +48,6 @@
     }
 
     .map-labels__description {
-        flex: 1;
+        flex: 0 1 auto;
     }
 }
