@@ -1,3 +1,28 @@
+<a name="3.10.0"></a>
+# [3.10.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.6...v3.10.0) (2017-05-04)
+
+
+### Bug Fixes
+
+* **transcol-online:** ajusta tamanho das listas nas abas de detalhe ([84e52a9](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/84e52a9))
+* **transcol-online:** corrige label de previsão ([b71f779](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b71f779))
+* **transcol-online:** corrige posição dialog de labels no ios ([51e7447](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/51e7447))
+* **transcol-online:** corrige posicionamento ios ([4b19483](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/4b19483))
+* **transcol-online:** corrige posicionamentos no ios ([fe8a87f](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fe8a87f))
+* **transcol-online:** corrige visualização no IOS e versões antigas do android ([f168db8](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/f168db8))
+
+
+### Features
+
+* **transcol-online:** adiciona confiabilidade previsões na origem ([c5845fa](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c5845fa))
+
+
+### Performance Improvements
+
+* **app:** desabilita ripple effect globalmente no android ([d90ee7b](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/d90ee7b))
+
+
+
 <a name="3.9.6"></a>
 ## [3.9.6](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.4...v3.9.6) (2017-05-03)
 
