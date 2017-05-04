@@ -1,8 +1,12 @@
 /********************** Map **********************/
 
-.keyboard-open .transcol-online .stop-info
-{
+.keyboard-open .transcol-online .stop-info {
 	transform: translate3d(0px, 110vh, 0px);
+}
+
+// ajusta tamanho da  lista quando teclaso está aberto para ocupar toda area dispoível
+.keyboard-open .transcol-online .auto-complete-panel md-list {
+	height: calc( ( 100vh / 2 ) + 20px  ) !important;
 }
 
 .transcol-online {
