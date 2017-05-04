@@ -6,6 +6,7 @@ export const SearchBarComponent: ng.IComponentOptions = {
     template: template,
     bindings: {
         icon: '@',
+        searching: '<',
         placeholder: '@',
         onChange: '&',
         onBlur: '&',

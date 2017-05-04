@@ -44,7 +44,8 @@ export class TranscolOnlineController {
     public allStops: { [ id: number ]: BusStop };
     public allStopMarkers: { [ id: number ]: L.Marker };
     public searchResults: BusStop[] = [];
-
+    public searching: boolean = false;
+    public searchId: number = 0;
     public isSummaryOpenned = false;
     public isDetailsOpenned = false;
     public showLabels = false;
@@ -423,28 +424,6 @@ export class TranscolOnlineController {
     /**
      * 
      * 
-     * @param {string} text 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public searchAll( text: string ) {
-        this.searchIn( _.values( this.allStops ), text );
-    }
-
-    /**
-     * 
-     * 
-     * @param {string} text 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public searchPossibleDestinations( text: string ) {
-        this.searchIn( this.destinations, text );
-    }
-
-    /**
-     * 
-     * 
      * @private
      * 
      * @memberOf TranscolOnlineController
@@ -473,22 +452,23 @@ export class TranscolOnlineController {
     /**
      * 
      * 
-     * @private
      * @param {string} text 
-     * @param {BusStop[]} dataSource 
-     * @returns 
+     * @param {(number | undefined)} [originId=undefined] 
      * 
-     * @memberOf TranscolOnlineController
+     * @memberof TranscolOnlineController
      */
-    private searchIn( dataSource: BusStop[], text: string ) {
-
-        this.searchResults = [];
-
-        if ( text.length <= 3 ) { return; }
-
-        const regex = new RegExp( text, 'i' );
-
-        this.searchResults = dataSource.filter(( stop: BusStop ) => stop.descricao.search( regex ) >= 0 || stop.identificador.search( regex ) >= 0 );
+    public async searchBustStops( text: string, originId: number | undefined = undefined ) {
+        try {
+            const currentSearch = ++this.searchId;
+            this.searching = true;
+            const stopsIds = await this.ceturbApiService.searchBusStopsIds( text, originId );
+            // sempre exibe o resultado mais recente e ignora anteriores
+            if ( currentSearch === this.searchId ) {
+                this.searchResults = stopsIds.map( id => this.allStops[ id ] );
+            }    
+        } finally { 
+            this.searching = false;
+        }
     }
 
     /**
@@ -687,8 +667,6 @@ export class TranscolOnlineController {
      */
     public async getRoutePrevisions( originId: number, destinationId: number ): Promise<Prevision[]> {
         this.previsions = await this.ceturbApiService.getPrevisionsByOriginAndDestination( originId, destinationId );
-        console.log( this.previsions.length );
-
         return this.previsions;
     }
 

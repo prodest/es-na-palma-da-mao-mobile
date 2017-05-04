@@ -81,8 +81,9 @@
         <search-bar 
             ng-if="!vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
             placeholder="Pesquisar ponto de origem" 
-            icon="fa-bus" 
-            on-change="::vm.searchAll(text)" 
+            icon="fa-bus"
+            searching="vm.searching" 
+            on-change="::vm.searchBustStops( text )" 
             on-clear="::vm.clearSearchResults()">
         </search-bar>
 
@@ -90,7 +91,8 @@
             ng-if="vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
             placeholder="Pesquisar ponto de destino" 
             icon="fa-bus" 
-            on-change="::vm.searchPossibleDestinations(text)" 
+            searching="vm.searching"
+            on-change="::vm.searchBustStops( text, vm.selectedOrigin.id )" 
             on-clear="::vm.clearSearchResults()">
         </search-bar>
         <div class="auto-complete-panel" ng-if="vm.searchResults.length">

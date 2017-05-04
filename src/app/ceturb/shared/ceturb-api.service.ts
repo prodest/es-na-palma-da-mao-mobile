@@ -101,9 +101,28 @@ export class CeturbApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public async searchBusStops( text: string ): Promise<BusStop[]> {
-        const response: any = await this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/texto/pesquisarPontosDeParada`, { texto: text });
+    public async searchBusStops( text: string, originId: number | undefined ): Promise<BusStop[]> {
+        const response: any = await this.searchBusStopsIds( text, originId );
         return await this.listBusStopsByIds( response.data.pontosDeParada );
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {string} text 
+     * @param {(number | undefined)} originId 
+     * @returns {Promise<number[]>} 
+     * 
+     * @memberof CeturbApiService
+     */
+    public async searchBusStopsIds( text: string, originId: number | undefined ): Promise<number[]> {
+        const payload: any = { texto: text };
+        if ( originId ) {
+            payload.pontoDeOrigemId = originId;
+        }
+        const response: any = await this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/texto/pesquisarPontosDeParada`, payload );
+        return await response.data.pontosDeParada;
     }
 
 
