@@ -1,3 +1,8 @@
+<a name="3.11.1"></a>
+## [3.11.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.11.0...v3.11.1) (2017-05-04)
+
+
+
 <a name="3.11.0"></a>
 # [3.11.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.10.0...v3.11.0) (2017-05-04)
 
