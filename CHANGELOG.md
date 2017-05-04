@@ -1,3 +1,18 @@
+<a name="3.11.0"></a>
+# [3.11.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.10.0...v3.11.0) (2017-05-04)
+
+
+### Bug Fixes
+
+* **transcol-online:** corrige legenda de previsões ([6a16bf0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6a16bf0))
+
+
+### Features
+
+* **transcol-online:** migra pesquisa textual pra api da geocontrol ([2fce728](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/2fce728))
+
+
+
 <a name="3.10.0"></a>
 # [3.10.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.9.6...v3.10.0) (2017-05-04)
 
