@@ -7,7 +7,7 @@
 </div>
 <md-list ng-if="$ctrl.previsions.length" class="prevision-list">
     <ion-content>
-        <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="70" md-no-ink ng-click="$ctrl.onPrevisionClick({ prevision: prevision })">
+        <md-list-item ng-class="{ 'disabled': prevision.confiabilidade === 'grey' }" collection-repeat="prevision in $ctrl.previsions" item-height="70" item-width="100%" md-no-ink ng-click="$ctrl.onPrevisionClick({ prevision: prevision })">
             <div class="container">
                 <div class="row">
                     <div class="column prevision-list__linha">
@@ -17,7 +17,7 @@
                         <h5 class="prevision-list__bandeira">{{ prevision.bandeira }} </h5>
                         <p class="prevision-list__detalhe">{{ prevision.descricaoLinha }}</p>
                     </div>
-                    <div class="column prevision-list__previsao origin">
+                    <div class="column prevision-list__previsao" ng-style="{'color': prevision.confiabilidade}">
                         <i> {{ prevision.previsaoNaOrigem }}</i>
                     </div>
                 </div>

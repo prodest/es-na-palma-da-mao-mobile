@@ -27,6 +27,10 @@
 		padding: 0;
 	}
 
+    .disabled * {
+        color: #666 !important;
+	}
+
     .container {
         width: 100%;
     }
