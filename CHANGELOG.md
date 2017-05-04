@@ -1,3 +1,19 @@
+<a name="3.12.0"></a>
+# [3.12.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.11.1...v3.12.0) (2017-05-04)
+
+
+### Bug Fixes
+
+* **transcol-online:** ajusta tamanho do auto-complete ([588ca5f](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/588ca5f))
+
+
+### Features
+
+* **transcol-online:**  min. de 4 caracteres para realizar pesquisa ([c6b2bd3](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c6b2bd3))
+* **transcol-online:** busca geolocalização nativamente ([ef1ae48](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/ef1ae48))
+
+
+
 <a name="3.11.1"></a>
 ## [3.11.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.11.0...v3.11.1) (2017-05-04)
 
