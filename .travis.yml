@@ -8,7 +8,7 @@ branches:
   - master
   - /^release-.*$/
   - /^hotfix-.*$/
-  - /^v\d\.\d.\d$/
+  - /^v\d+\.\d+\.\d+$/
 webhooks:
     urls:
       - https://webhooks.gitter.im/e/0e3f30c04846ed5b54c0
