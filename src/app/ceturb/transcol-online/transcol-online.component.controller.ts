@@ -454,6 +454,9 @@ export class TranscolOnlineController {
      * @memberof TranscolOnlineController
      */
     public async searchBustStops( text: string, originId: number | undefined = undefined ) {
+        
+        if ( text.trim().length <= 4 ) { return; }
+        
         try {
             const currentSearch = ++this.searchId;
             this.searching = true;
