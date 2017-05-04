@@ -22,6 +22,8 @@
 }
 
 .prevision-list {
+	position: relative;
+	height: calc( 100vh - 280px );
 
 	md-list-item._md-button-wrap>div.md-button:first-child {
 		padding: 0;
@@ -29,7 +31,7 @@
 
     .disabled * {
         color: #666 !important;
-	}
+    }
 
     .container {
         width: 100%;

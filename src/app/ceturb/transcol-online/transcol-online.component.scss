@@ -157,21 +157,6 @@
 		color: #fff !important;
 	}
 
-	// .transcol-online .gps_ring {	
-	//     border: 3px solid darkred;
-	//     -webkit-border-radius: 30px;
-	//     height: 33px;
-	//     width: 33px;		
-	//     -webkit-animation: pulsate 1s ease-out;
-	//     -webkit-animation-iteration-count: infinite; 
-	//     /*opacity: 0.0*/
-	// }
-
-	// @-webkit-keyframes pulsate {
-	//     0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
-	//     50% {opacity: 1.0;}
-	//     100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
-	// }
 /********************** Bus Stop Info **********************/
 	.origin { color: darkgoldenrod; }
 	.destination{ color: #003e50; }
@@ -217,7 +202,7 @@
 	}
 
 	.stop-info--details {
-		transform: translate3d(0, $bottomSheetHeight * 0.20, 0)
+		transform: translate3d(0, 100px, 0)
 	}
 
 	.stop-info__header, .stop-info__content {
@@ -260,7 +245,6 @@
 
 	.stop-info__content > * md-list {
 		position: relative;
-		height: 65vh;
 	}
 
 
@@ -325,7 +309,7 @@
 
 	.not-founded {
 		text-align: center;
-    	margin: 67px;
+    	margin: 50px auto;
 		display: block;
 		font-size: 14px;
 	}
@@ -353,5 +337,34 @@
 			border-right-color: #eaeaea;
 			border-bottom-color: #eaeaea;
 		}
+	}
+
+	/* iPads (portrait) ----------- */
+	@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+		.stop-info__btn-destination{ right: 8% }
+	}
+	/**********
+	iPad 3
+	**********/
+	@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+		.stop-info__btn-destination{ right: 8% }
+	}
+
+	/* iPhone 5 ----------- */
+	@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+		.stop-info__btn-destination{ right: 11% }
+	}
+
+	@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
+		.stop-info__btn-destination{ right: 20% }
+	}
+
+	/* iPhone 4 ----------- */
+	@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+		.stop-info__btn-destination{ right: 13% }
+	}
+
+	@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+		.stop-info__btn-destination{ right: 20% }
 	}
 }

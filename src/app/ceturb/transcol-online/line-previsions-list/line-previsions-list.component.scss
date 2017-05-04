@@ -23,7 +23,8 @@
 
 .line-previsions {
     
-    height: 50vh !important;
+    position: relative;
+	height: calc( 100vh - 280px );
     
     md-list-item {
         width: 100% !important;

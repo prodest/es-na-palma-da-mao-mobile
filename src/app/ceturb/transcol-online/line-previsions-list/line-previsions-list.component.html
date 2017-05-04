@@ -3,12 +3,12 @@
 </div>
 <div class="line-previsions__table-header">
     <span>Ônibus</span>
-    <span class="origin">Ponto de Origem</span>
+    <span class="origin">Previsão</span>
     <span>Confiável</span>
 </div>
 <md-list ng-if="$ctrl.previsions.length" class="line-previsions">
     <ion-content>
-        <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="45" md-no-ink>
+        <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="45" item-width="100%" md-no-ink>
             <div class="line-previsions__body">
                 <span>
                     <strong ng-class="{ 'fix': !prevision.acessibilidade}"><i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i> {{ prevision.veiculo }}</strong>

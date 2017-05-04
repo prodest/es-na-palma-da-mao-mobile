@@ -10,6 +10,10 @@
         font-size: 16px;
     }
 }
+.destination-list {
+    position: relative;
+	height: calc( 100vh - 245px );
+}
 
 .destination-list .destination-list__reference {
 	font-size: 13px;

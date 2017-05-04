@@ -3,7 +3,7 @@
 </div>
 <md-list ng-if="$ctrl.destinations.length" class="destination-list">
     <ion-content>
-        <md-list-item class="md-2-line" collection-repeat="destination in $ctrl.destinations" item-height="70" md-no-ink ng-click="$ctrl.onDestinationClick({ destination: destination })">
+        <md-list-item class="md-2-line" collection-repeat="destination in $ctrl.destinations" item-height="70" item-width="100%" md-no-ink ng-click="$ctrl.onDestinationClick({ destination: destination })">
             <div class="md-list-item-text">
                 <h4 class="text-padding"><strong>{{ destination.identificador}}</strong> - {{ destination.logradouro}}
                 </h4>
