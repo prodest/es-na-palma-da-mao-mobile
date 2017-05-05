@@ -25,10 +25,13 @@
 			background: #093340;
 		}
 
-		.closed & .favorites-bar, 
         .keyboard-open &,
 		.closed & .swiper-container-horizontal > .swiper-pagination{
 			display: none;
+		}
+
+		.closed & .favorites-bar {
+			transform: translate3d(0px, 110vh, 0px);
 		}
 
 		.favorites-bar {
