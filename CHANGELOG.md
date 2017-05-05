@@ -1,3 +1,14 @@
+<a name="3.13.0"></a>
+# [3.13.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.12.0...v3.13.0) (2017-05-05)
+
+
+### Features
+
+* **transcol-online:** adiciona favoritos ([182135c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/182135c))
+* **transcol-online:** adiciona slider de favoritos ([6717651](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6717651))
+
+
+
 <a name="3.12.0"></a>
 # [3.12.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.11.1...v3.12.0) (2017-05-04)
 
