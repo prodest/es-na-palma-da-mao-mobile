@@ -9,7 +9,7 @@
     <ion-content class="transcol-online">
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
-
+        
         <favorites-slider 
             ng-if="vm.favorites.length"
             ng-class="{'closed':vm.selectedOrigin}"
@@ -17,8 +17,7 @@
             on-favorite-click="vm.selectStop(favorite)">
         </favorites-slider>
 
-
-        <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
+        <div class="espm-footer-panel stop-info" ng-class="{'stop-info--details active': vm.isDetailsOpenned, 'stop-info--origin active': vm.isSummaryOpenned, 'stop-info--route active': vm.selectedOrigin && vm.selectedDestination }">
             <div class="stop-info__header">
 
                 <md-button class="md-fab stop-info__btn stop-info__btn-routes" ng-click="::vm.onPrevisionsButtonClick()">

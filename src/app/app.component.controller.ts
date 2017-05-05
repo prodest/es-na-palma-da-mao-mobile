@@ -129,6 +129,7 @@ export class AppController {
             const dialogIsOpen = angular.element( document.querySelectorAll( '[id^=dialog]' ) ).length > 0;
             const menuContentIsOpen = angular.element( document.querySelectorAll( 'md-template-content' ) ).length > 0;
             const selectMenuIsOpen = angular.element( document.querySelectorAll( 'div._md-select-menu-container._md-active' ) ).length > 0;
+            const footerPanelOpen = this.$rootScope.footerPanel && angular.element( document.querySelectorAll( 'div.espm-footer-panel.active' ) ).length > 0;
             const previousStateIsEmpty = !this.$ionicHistory.backView();
 
             if ( sidenavIsOpen ) {
@@ -141,6 +142,8 @@ export class AppController {
                 this.$mdMenu.hide();
             } else if ( selectMenuIsOpen ) {
                 this.$mdSelect.hide();
+            } else if ( footerPanelOpen ) {
+                this.$rootScope.footerPanel.backButtonAction();
             } else if ( previousStateIsEmpty ) {
 
                 this.$rootScope.backButtonPressedOnceToExit = true;

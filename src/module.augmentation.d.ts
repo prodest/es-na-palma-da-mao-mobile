@@ -98,6 +98,7 @@ declare module 'angular' {
 
     interface IRootScopeService {
         backButtonPressedOnceToExit: boolean;
+        footerPanel: any;
     }
 
     interface IScope {

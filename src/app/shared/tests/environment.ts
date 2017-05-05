@@ -1,6 +1,7 @@
 export class Enviroment {
     public onIonicBeforeEnterEvent: any;
     public onIonicLoadedEvent: any;
+    public $rootScope: any;
     public $scope: any;
     public $ionicHistory: any;
     public $ionicNativeTransitions: any;

@@ -1,16 +1,14 @@
-import { IScope, IWindowService } from 'angular';
+import { IRootScopeService, IScope, IWindowService } from 'angular';
 import './favorites/favorites-modal.component.scss';
 import favoritesModalTemplate = require( './favorites/favorites-modal.component.html' );
 import { FavoritesModalController } from './favorites/favorites-modal.component.controller';
 import { AuthenticationService } from '../../security/shared/index';
 import { AuthNeededController, authNeededTemplate } from '../../layout/auth-needed/index';
 import { TranscolOnlineStorage, FavoriteLocation, BusStop, Prevision, TranscolOnlineApiService, sortByFavorite } from './shared/index';
-
-
 import * as L from 'leaflet';
+import * as _ from 'lodash';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster-css';
-import * as _ from 'lodash';
 
 // tslint:disable-next-line:variable-name
 let BaseIcon = L.DivIcon.extend( {
@@ -29,6 +27,7 @@ interface BusLine {
 export class TranscolOnlineController {
 
     public static $inject: string[] = [
+        '$rootScope',
         '$scope',
         '$window',
         '$mdDialog',
@@ -80,6 +79,7 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     constructor(
+        private $rootScope: IRootScopeService,
         private $scope: IScope,
         private $window: IWindowService,
         private $mdDialog: angular.material.IDialogService,
@@ -111,7 +111,7 @@ export class TranscolOnlineController {
         this.map = this.createMap();
         const startBounds = [ -38.50708007812501, -17.14079039331664, -42.46215820312501, -23.725011735951796 ]; // grande vitória
         const stops = await this.api.getBusStopsByArea( startBounds );
-       
+
         this.renderBusStops( stops );
         this.syncFavorites();
     }
@@ -125,13 +125,13 @@ export class TranscolOnlineController {
      * @memberof TranscolOnlineController
      */
     private updateFavoritesFromLocalStorage() {
-        this.favorites = _.chunk( this.storage.favoriteStops.items.sort( sortByFavorite ).map( i => <any>{ 
+        this.favorites = _.chunk( this.storage.favoriteStops.items.sort( sortByFavorite ).map( i => <any>{
             stop: this.allStops[ i.stop ],
-            type: i.type    
+            type: i.type
         }), 3 );
     }
 
-    
+
     /**
      * 
      * 
@@ -160,8 +160,7 @@ export class TranscolOnlineController {
         });
 
         map.on( 'click', ( e ) => {
-            this.unselectOrigin();
-            this.showLabels = false;
+            this.clearMapSelection();
             this.$scope.$safeApply(); // avisa ao angular sobre evento do leaflet
         });
         return map;
@@ -498,7 +497,7 @@ export class TranscolOnlineController {
             // se tiver origem selecionada mantem somente possíveis destinos            
             if ( this.selectedOrigin ) {
                 stopsIds = stopsIds.filter( s => this.isPossibleDestination( s ) );
-            }   
+            }
             // sempre exibe o resultado mais recente e ignora anteriores
             if ( currentSearch === this.searchId ) {
                 this.searchResults = stopsIds.map( id => this.allStops[ id ] );
@@ -579,6 +578,8 @@ export class TranscolOnlineController {
      */
     private selectOrigin( origin: BusStop ) {
         this.unselectAll();
+
+        this.$rootScope.footerPanel = this;
 
         this.selectedOrigin = origin;
 
@@ -773,7 +774,7 @@ export class TranscolOnlineController {
         if ( this.authenticationService.isAnonymous ) {
             return this.showAuthNeededModal();
         }
-        
+
         if ( this.isFavoriteStop( stop ) ) {
             this.storage.removeFromFavoriteStops( stop );
         } else {
@@ -787,10 +788,10 @@ export class TranscolOnlineController {
             const type = await this.$mdDialog.show( options );
             this.storage.addToFavoriteStops( stop, type );
         }
-    
+
         this.syncFavorites();
     }
-    
+
 
     /**
      * 
@@ -815,12 +816,27 @@ export class TranscolOnlineController {
      * 
      * @memberof TranscolOnlineController
      */
-    private isFavoriteStop( stop: BusStop ): boolean { 
+    private isFavoriteStop( stop: BusStop ): boolean {
         if ( !stop ) {
             return false;
         }
         return this.storage.isFavoriteStop( stop );
     }
+
+    /**
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public backButtonAction() {
+        if ( this.isDetailsOpenned ) {
+            this.closeDetails();
+        } else {
+            this.clearMapSelection();
+        }
+        this.$scope.$safeApply();
+    }
+    /* Private Methods */
 
     /**
      * 
@@ -1017,8 +1033,16 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     private closeAllScreens() {
+        if ( this.$rootScope.footerPanel ) {
+            delete this.$rootScope.footerPanel;
+        }
         this.isDetailsOpenned = false;
         this.isSummaryOpenned = false;
+    }
+
+    private clearMapSelection() {
+        this.unselectOrigin();
+        this.showLabels = false;
     }
 }
 
