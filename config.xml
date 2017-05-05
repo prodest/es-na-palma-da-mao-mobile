@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="br.gov.es.prodest.espm" version="3.6.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="br.gov.es.prodest.espm" version="3.14.3" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ES na Palma da Mão</name>
     <description>		
         ES na Palma da Mão
@@ -108,4 +108,11 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="Escanear códigos de barra" />
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
+    <plugin name="cordova-plugin-crosswalk-webview" spec="~2.2.0">
+        <variable name="XWALK_VERSION" value="21+" />
+        <variable name="XWALK_LITEVERSION" value="xwalk_core_library_canary:17+" />
+        <variable name="XWALK_COMMANDLINE" value="--disable-pull-to-refresh-effect" />
+        <variable name="XWALK_MODE" value="embedded" />
+        <variable name="XWALK_MULTIPLEAPK" value="true" />
+    </plugin>
 </widget>
