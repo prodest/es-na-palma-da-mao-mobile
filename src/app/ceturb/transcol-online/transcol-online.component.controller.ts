@@ -110,17 +110,10 @@ export class TranscolOnlineController {
 
         this.map = this.createMap();
         const startBounds = [ -38.50708007812501, -17.14079039331664, -42.46215820312501, -23.725011735951796 ]; // grande vitória
-
-
-        let promises: any[] = [ this.api.getBusStopsByArea( startBounds )];
-
-        if ( !this.authenticationService.user.anonymous ) {
-            promises.push( this.api.syncFavoriteStopsData() );
-        }
-        const [ stops ] = await Promise.all( promises );
+        const stops = await this.api.getBusStopsByArea( startBounds );
        
+        this.syncFavorites();
         this.renderBusStops( stops );
-        this.updateFavoritesFromLocalStorage();
     }
 
 
@@ -778,8 +771,10 @@ export class TranscolOnlineController {
    */
     public async onFavoriteButtonClick( stop: BusStop ) {
         if ( this.authenticationService.isAnonymous ) {
-            this.showAuthNeededModal();
-        } else if ( this.isFavoriteStop( stop ) ) {
+            return this.showAuthNeededModal();
+        }
+        
+        if ( this.isFavoriteStop( stop ) ) {
             this.storage.removeFromFavoriteStops( stop );
         } else {
             const options = {
@@ -793,10 +788,24 @@ export class TranscolOnlineController {
             this.storage.addToFavoriteStops( stop, type );
         }
     
-        this.updateFavoritesFromLocalStorage();
-        this.api.syncFavoriteStopsData( true );
+        this.syncFavorites();
     }
     
+
+    /**
+     * 
+     * 
+     * @private
+     * 
+     * @memberof TranscolOnlineController
+     */
+    private async syncFavorites() {
+        if ( !this.authenticationService.user.anonymous ) {
+            await this.api.syncFavoriteStopsData();
+            this.updateFavoritesFromLocalStorage();
+        }
+    }
+
     /**
      * 
      * 
