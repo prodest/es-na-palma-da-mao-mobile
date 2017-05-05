@@ -188,7 +188,7 @@ export class TranscolOnlineApiService {
         };
 
         return this.http
-            .post( `https://api.es.gov.br/espm/ceturb/transcolOnline/data/favoriteStops`, payload )
+            .post( `https://api.es.gov.br/espm/ceturb/transcolOnline/data/favoriteStops`, payload, { headers: { 'Transparent': true } } )
             .then(( response: IHttpPromiseCallbackArg<FavoriteStops> ) => {
                 this.storage.favoriteStops = response.data!;
                 return response.data;

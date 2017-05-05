@@ -1,0 +1,16 @@
+<ion-content class="favorites-slider" scroll="false">
+    <ion-slides slider="data.slider">
+        <ion-slide-page ng-repeat="favorites in $ctrl.favorites">
+            <div class="favorites-bar">
+                <div ng-repeat="favorite in favorites">
+                    <md-button class="md-fab md-mini" ng-click="$ctrl.onFavoriteClick({ favorite:favorite.stop })">
+                        <i ng-if="favorite.type==='casa'" class="fa fa-home"></i>
+                        <i ng-if="favorite.type==='trabalho'" class="fa fa-briefcase"></i>
+                        <i ng-if="favorite.type==='outros'" class="fa fa-star"></i>
+                    </md-button>
+                    <div class="favorites-bar__label">{{favorite.stop.descricao}}</div>
+                </div>
+            </div>
+        </ion-slide-page>
+    </ion-slides>
+</ion-content>

@@ -86,7 +86,9 @@ export class TranscolOnlineStorage {
      * @memberof TranscolOnlineStorage
      */
     public addToFavoriteStops( stop: BusStop, type: FavoriteLocation ): FavoriteStops {
-        this.favoriteStops.items.push( { stop: stop.id, type } );
+        if ( !this.isFavoriteStop( stop ) ) {
+            this.favoriteStops.items.push( { stop: stop.id, type });
+        }    
         return this.favoriteStops;
     }
 

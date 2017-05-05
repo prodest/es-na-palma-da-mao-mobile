@@ -10,6 +10,7 @@ import { LinePrevisionsListComponent } from './transcol-online/line-previsions-l
 import { MapLabelsComponent } from './transcol-online/map-labels/map-labels.component';
 import { TranscolOnlineStorage } from './transcol-online/shared/index';
 import { GeolocationComponent } from './transcol-online/geolocation/geolocation.component';
+import { FavoritesSliderComponent } from './transcol-online/favorites-slider/favorites-slider.component';
 import { TranscolOnlineApiService } from './transcol-online/shared/index';
 import { CeturbStorage, CeturbApiService } from './shared/index';
 
@@ -27,6 +28,7 @@ export default angular.module( 'ceturb.module', [] )
     .directive( 'transcolOnline', TranscolOnlineComponent )
 
     // widgets
+    .component( 'favoritesSlider', FavoritesSliderComponent )
     .component( 'destinationList', DestinationListComponent )
     .component( 'stopIcon', StopIconComponent )
     .component( 'stopSummary', StopSummaryComponent )

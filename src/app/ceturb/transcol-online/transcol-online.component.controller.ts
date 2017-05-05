@@ -5,7 +5,7 @@ import { FavoritesModalController } from './favorites/favorites-modal.component.
 import { AuthenticationService } from '../../security/shared/index';
 import { AuthNeededController, authNeededTemplate } from '../../layout/auth-needed/index';
 import { TranscolOnlineStorage, FavoriteLocation, BusStop, Prevision, TranscolOnlineApiService, sortByFavorite } from './shared/index';
-import { ToastService } from '../../shared/shared.module';
+
 
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
@@ -34,14 +34,13 @@ export class TranscolOnlineController {
         '$mdDialog',
         'transcolOnlineStorage',
         'authenticationService',
-        'toast',
         'transcolOnlineApiService'
     ];
 
     public map: L.Map;
     public stopsCluster: any = L.markerClusterGroup( {
         maxClusterRadius: 80,
-        disableClusteringAtZoom: 14,
+        disableClusteringAtZoom: 15,
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false
     });
@@ -86,7 +85,6 @@ export class TranscolOnlineController {
         private $mdDialog: angular.material.IDialogService,
         private storage: TranscolOnlineStorage,
         private authenticationService: AuthenticationService,
-        private toast: ToastService,
         private api: TranscolOnlineApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
         this.$scope.$on( '$ionicView.beforeEnter', () => ( this.refreshLocation = true ) );
@@ -133,11 +131,11 @@ export class TranscolOnlineController {
      * 
      * @memberof TranscolOnlineController
      */
-    private updateFavoritesFromLocalStorage() { 
-        this.favorites = this.storage.favoriteStops.items.sort( sortByFavorite ).slice( 0, 3 ).map( i => <any>{ 
+    private updateFavoritesFromLocalStorage() {
+        this.favorites = _.chunk( this.storage.favoriteStops.items.sort( sortByFavorite ).map( i => <any>{ 
             stop: this.allStops[ i.stop ],
             type: i.type    
-        });
+        }), 3 );
     }
 
     
@@ -782,7 +780,7 @@ export class TranscolOnlineController {
         if ( this.authenticationService.isAnonymous ) {
             this.showAuthNeededModal();
         } else if ( this.isFavoriteStop( stop ) ) {
-            this.removeFromFavorites( stop );
+            this.storage.removeFromFavoriteStops( stop );
         } else {
             const options = {
                 controller: FavoritesModalController,
@@ -792,7 +790,7 @@ export class TranscolOnlineController {
             };
 
             const type = await this.$mdDialog.show( options );
-            this.addToFavorites( stop, type );
+            this.storage.addToFavoriteStops( stop, type );
         }
     
         this.updateFavoritesFromLocalStorage();
@@ -813,34 +811,6 @@ export class TranscolOnlineController {
             return false;
         }
         return this.storage.isFavoriteStop( stop );
-    }
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {BusStop} stop 
-     * 
-     * @memberof TranscolOnlineController
-     */
-    private removeFromFavorites( stop: BusStop ) { 
-        this.storage.removeFromFavoriteStops( stop );
-        this.toast.info( { title: `Ponto ${ stop.identificador } removido dos favoritos` });
-    }
-
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {BusStop} stop 
-     * @param {string} type 
-     * 
-     * @memberof TranscolOnlineController
-     */
-    private addToFavorites( stop: BusStop, type: FavoriteLocation ) {
-        this.storage.addToFavoriteStops( stop, type );
-        this.toast.info( { title: `Ponto ${ stop.identificador } favoritado como ${ type }` });
     }
 
     /**

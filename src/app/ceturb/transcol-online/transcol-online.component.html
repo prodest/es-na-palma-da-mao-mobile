@@ -10,16 +10,13 @@
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
 
-        <div class="favorites-bar" ng-if="vm.favorites.length">
-            <div ng-repeat="favorite in vm.favorites">
-                <md-button class="md-fab" ng-click="vm.selectStop(favorite.stop)">
-                    <i ng-if="favorite.type==='casa'" class="fa fa-home"></i>
-                    <i ng-if="favorite.type==='trabalho'" class="fa fa-briefcase"></i>
-                    <i ng-if="favorite.type==='outros'" class="fa fa-star"></i>
-                </md-button>
-                <div class="favorites-bar__label">{{favorite.stop.descricao}}</div>
-            </div>
-        </div>
+        <favorites-slider 
+            ng-if="vm.favorites.length"
+            ng-class="{'closed':vm.selectedOrigin}"
+            favorites="vm.favorites" 
+            on-favorite-click="vm.selectStop(favorite)">
+        </favorites-slider>
+
 
         <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
             <div class="stop-info__header">

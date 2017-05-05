@@ -18,7 +18,7 @@ describe( 'TranscolOnline', () => {
         beforeEach(() => {
             environment.refresh();
             apiAservice = <TranscolOnlineApiService>{};
-            controller = new TranscolOnlineController( environment.$scope, $windowMock, {} as any, {} as any, {} as any, {} as any, apiAservice );
+            controller = new TranscolOnlineController( environment.$scope, $windowMock, {} as any, {} as any, {} as any, apiAservice );
         });
     });
 
