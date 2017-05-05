@@ -1,0 +1,24 @@
+<md-dialog aria-label="List dialog" id="transcol-modal-favorites">
+    <md-dialog-content class="md-padding">
+        <div class="cb-dialog-content-label">Selecionar como favorito</div>
+        <div class="cb-dialog-content">
+            <section layout="column"  layout-align="center center" layout-wrap class="favorite-type-selector">
+                <md-button class="md-raised" ng-click="vm.ok('casa')">
+                    <i class="fa fa-home"></i> casa
+                </md-button>
+
+                <md-button class="md-raised" ng-click="vm.ok('trabalho')">
+                    <i class="ion-briefcase"></i> trabalho
+                </md-button>
+
+                <md-button class="md-raised" ng-click="vm.ok('outros')">
+                    <i class="fa fa-star"></i> outros
+                </md-button>
+            </section>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <md-button ng-click="vm.cancel()" class="md-primary">Cancelar</md-button>
+        <!--<md-button ng-click="vm.ok(vm.selectedOrigins)" class="md-primary">Consultar</md-button>-->
+    </md-dialog-actions>
+</md-dialog>

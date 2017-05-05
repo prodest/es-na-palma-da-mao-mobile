@@ -8,13 +8,17 @@ import { RoutePrevisionsListComponent } from './transcol-online/route-previsions
 import { OriginPrevisionsListComponent } from './transcol-online/origin-previsions-list/origin-previsions-list.component';
 import { LinePrevisionsListComponent } from './transcol-online/line-previsions-list/line-previsions-list.component';
 import { MapLabelsComponent } from './transcol-online/map-labels/map-labels.component';
-import { CeturbStorage, CeturbApiService } from './shared/index';
+import { TranscolOnlineStorage } from './transcol-online/shared/index';
 import { GeolocationComponent } from './transcol-online/geolocation/geolocation.component';
+import { TranscolOnlineApiService } from './transcol-online/shared/index';
+import { CeturbStorage, CeturbApiService } from './shared/index';
 
 export default angular.module( 'ceturb.module', [] )
 
     // services
     .service( 'ceturbStorage', CeturbStorage )
+    .service( 'transcolOnlineStorage', TranscolOnlineStorage )
+    .service( 'transcolOnlineApiService', TranscolOnlineApiService )
     .service( 'ceturbApiService', CeturbApiService )
 
     // components

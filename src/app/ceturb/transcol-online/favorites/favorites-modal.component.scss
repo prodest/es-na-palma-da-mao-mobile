@@ -1,0 +1,20 @@
+#transcol-modal-favorites {
+    .cb-dialog-content-label {
+        text-align: center;
+    }
+    .favorite-type-selector {
+        margin: 20px 0 0 0;
+        .md-button {
+            line-height: initial;
+            min-width: 127px;
+            padding: 5px 15px;
+            font-size: 12px;
+            color: #205868 !important;
+            i {
+                padding: 3px 0;
+                font-size: 25px;
+                display: block;
+            }
+        }
+    }
+}

@@ -54,12 +54,12 @@ export class BusLinesController {
      * @memberOf BusLinesController
      */
     public async getLines() {
-        let promisses: any[] = [ this.ceturbApiService.getLines() ];
+        let promises: any[] = [ this.ceturbApiService.getLines() ];
 
         if ( !this.authenticationService.user.anonymous ) {
-            promisses.push( this.ceturbApiService.syncFavoriteLinesData() );
+            promises.push( this.ceturbApiService.syncFavoriteLinesData() );
         }
-        const [ lines ] = await Promise.all( promisses );
+        const [ lines ] = await Promise.all( promises );
 
         this.filteredLines = this.lines = this.mapLines( lines );
     }

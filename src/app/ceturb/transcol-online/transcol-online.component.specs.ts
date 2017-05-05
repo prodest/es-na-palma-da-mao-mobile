@@ -1,6 +1,6 @@
 import { TranscolOnlineController } from './transcol-online.component.controller';
 import { TranscolOnlineComponent } from './transcol-online.component';
-import { CeturbApiService } from '../shared/index';
+import { TranscolOnlineApiService } from './shared/index';
 import TranscolOnlineTemplate = require( './transcol-online.component.html' );
 import { environment, $windowMock } from '../../shared/tests/index';
 
@@ -14,11 +14,11 @@ describe( 'TranscolOnline', () => {
 
     describe( 'Controller', () => {
         let controller: TranscolOnlineController;
-        let ceturbApiService: CeturbApiService;
+        let apiAservice: TranscolOnlineApiService;
         beforeEach(() => {
             environment.refresh();
-            ceturbApiService = <CeturbApiService>{};
-            controller = new TranscolOnlineController( environment.$scope, $windowMock, ceturbApiService );
+            apiAservice = <TranscolOnlineApiService>{};
+            controller = new TranscolOnlineController( environment.$scope, $windowMock, {} as any, {} as any, {} as any, {} as any, apiAservice );
         });
     });
 

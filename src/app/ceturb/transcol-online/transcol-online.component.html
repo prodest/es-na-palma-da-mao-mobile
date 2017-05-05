@@ -9,15 +9,31 @@
     <ion-content class="transcol-online">
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
+
+        <div class="favorites-bar" ng-if="vm.favorites.length">
+            <div ng-repeat="favorite in vm.favorites">
+                <md-button class="md-fab" ng-click="vm.selectStop(favorite.stop)">
+                    <i ng-if="favorite.type==='casa'" class="fa fa-home"></i>
+                    <i ng-if="favorite.type==='trabalho'" class="fa fa-briefcase"></i>
+                    <i ng-if="favorite.type==='outros'" class="fa fa-star"></i>
+                </md-button>
+                <div class="favorites-bar__label">{{favorite.stop.descricao}}</div>
+            </div>
+        </div>
+
         <div class="stop-info" ng-class="{'stop-info--details': vm.isDetailsOpenned, 'stop-info--origin': vm.isSummaryOpenned, 'stop-info--route': vm.selectedOrigin && vm.selectedDestination }">
             <div class="stop-info__header">
 
-                <md-button class="md-fab stop-info__btn-routes" ng-click="::vm.onPrevisionsButtonClick()">
+                <md-button class="md-fab stop-info__btn stop-info__btn-routes" ng-click="::vm.onPrevisionsButtonClick()">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </md-button>
 
-                <md-button class="md-fab stop-info__btn-destination" ng-click="::vm.onDestinationsButtonClick()" ng-if="vm.selectedOrigin && !vm.selectedDestination">
+                <md-button class="md-fab stop-info__btn stop-info__btn-destination" ng-click="::vm.onDestinationsButtonClick()" ng-if="vm.selectedOrigin && !vm.selectedDestination">
                     <i class="fa fa-map-signs" aria-hidden="true"></i>
+                </md-button>
+
+                <md-button class="md-fab stop-info__btn stop-info__btn-favorite" ng-class="{'is-favorite': vm.isFavoriteStop(vm.selectedOrigin)}" ng-click="::vm.onFavoriteButtonClick(vm.selectedOrigin)" ng-if="vm.selectedOrigin && !vm.selectedDestination">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </md-button>
 
                 <!--Origin Summary-->
