@@ -801,7 +801,7 @@ export class TranscolOnlineController {
      */
     private async syncFavorites() {
         if ( !this.authenticationService.user.anonymous ) {
-            await this.api.syncFavoriteStopsData();
+            await this.api.syncFavoriteStopsData( true );
             this.updateFavoritesFromLocalStorage();
         }
     }
