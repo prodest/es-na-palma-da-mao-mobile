@@ -1,3 +1,14 @@
+<a name="3.13.1"></a>
+## [3.13.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.13.0...v3.13.1) (2017-05-05)
+
+
+### Bug Fixes
+
+* **transcol-online:** ajusta espaçamento entre botões ([e1a02ba](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e1a02ba))
+* **transcol-online:** corrige erro de sincronização de favoritos ([62b915a](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/62b915a))
+
+
+
 <a name="3.13.0"></a>
 # [3.13.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.12.0...v3.13.0) (2017-05-05)
 
