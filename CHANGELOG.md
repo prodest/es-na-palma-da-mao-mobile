@@ -1,3 +1,13 @@
+<a name="3.14.0"></a>
+# [3.14.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.13.1...v3.14.0) (2017-05-05)
+
+
+### Features
+
+* **transcol-online:** adiciona animação para esconder slider de favoritos ([fb07a8c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fb07a8c))
+
+
+
 <a name="3.13.1"></a>
 ## [3.13.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.13.0...v3.13.1) (2017-05-05)
 
