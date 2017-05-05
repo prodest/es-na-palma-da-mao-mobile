@@ -1,3 +1,13 @@
+<a name="3.14.1"></a>
+## [3.14.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.14.0...v3.14.1) (2017-05-05)
+
+
+### Bug Fixes
+
+* **transcol-online:** corrige erro de sincronização de favoritos - v2 ([6b927c9](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/6b927c9))
+
+
+
 <a name="3.14.0"></a>
 # [3.14.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.13.1...v3.14.0) (2017-05-05)
 
