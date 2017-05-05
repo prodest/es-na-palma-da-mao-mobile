@@ -112,8 +112,8 @@ export class TranscolOnlineController {
         const startBounds = [ -38.50708007812501, -17.14079039331664, -42.46215820312501, -23.725011735951796 ]; // grande vitória
         const stops = await this.api.getBusStopsByArea( startBounds );
        
-        this.syncFavorites();
         this.renderBusStops( stops );
+        this.syncFavorites();
     }
 
 
