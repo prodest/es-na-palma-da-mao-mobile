@@ -73,7 +73,7 @@ export class CeturbApiService {
             this.ceturbStorage.favoriteLines.date = new Date();
         }
         return this.http
-            .post( `${ this.settings.api.ceturb }/data/favoriteBusLines`, this.ceturbStorage.favoriteLines )
+            .post( `${ this.settings.api.espm }/ceturb/data/favorite`, this.ceturbStorage.favoriteLines )
             .then(( response: IHttpPromiseCallbackArg<FavoriteLinesData> ) => {
                 this.ceturbStorage.favoriteLines = response.data!;
                 return response.data;
