@@ -11,7 +11,7 @@
         <md-list-item collection-repeat="prevision in $ctrl.previsions" item-height="45" item-width="100%" md-no-ink>
             <div class="line-previsions__body">
                 <span>
-                    <strong ng-class="{ 'fix': !prevision.acessibilidade}"><i ng-if="prevision.acessibilidade" class="fa fa-wheelchair" aria-hidden="true"></i> {{ prevision.veiculo }}</strong>
+                    <strong>{{ prevision.veiculo }}</strong>
                 </span>
                 <span class="origin">
                     <strong>{{ prevision.horarioNaOrigem }}</strong>
