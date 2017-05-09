@@ -2,13 +2,17 @@
     <md-dialog-content class="md-padding">
         <div class="cb-dialog-content-label">Selecionar como favorito</div>
         <div class="cb-dialog-content">
-            <section layout="column"  layout-align="center center" layout-wrap class="favorite-type-selector">
+            <section layout="row"  layout-align="center center" layout-wrap class="favorite-type-selector">
                 <md-button class="md-raised" ng-click="vm.ok('casa')">
                     <i class="fa fa-home"></i> casa
                 </md-button>
 
+                <md-button class="md-raised" ng-click="vm.ok('escola')">
+                    <i class="fa fa-graduation-cap"></i> escola
+                </md-button>
+                
                 <md-button class="md-raised" ng-click="vm.ok('trabalho')">
-                    <i class="ion-briefcase"></i> trabalho
+                    <i class="fa fa-briefcase"></i> trabalho
                 </md-button>
 
                 <md-button class="md-raised" ng-click="vm.ok('outros')">

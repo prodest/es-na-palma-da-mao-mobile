@@ -4,9 +4,11 @@
     }
     .favorite-type-selector {
         margin: 20px 0 0 0;
+        max-width: 250px;
+
         .md-button {
             line-height: initial;
-            min-width: 127px;
+            min-width: 100px;
             padding: 5px 15px;
             font-size: 12px;
             color: #205868 !important;

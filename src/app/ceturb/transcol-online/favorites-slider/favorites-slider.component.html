@@ -5,6 +5,7 @@
                 <div ng-repeat="favorite in favorites">
                     <md-button class="md-fab md-mini" ng-click="$ctrl.onFavoriteClick({ favorite:favorite.stop })">
                         <i ng-if="favorite.type==='casa'" class="fa fa-home"></i>
+                        <i ng-if="favorite.type==='escola'" class="fa fa-graduation-cap"></i>
                         <i ng-if="favorite.type==='trabalho'" class="fa fa-briefcase"></i>
                         <i ng-if="favorite.type==='outros'" class="fa fa-star"></i>
                     </md-button>

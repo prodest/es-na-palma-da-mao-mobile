@@ -7,4 +7,4 @@ export interface FavoriteStops {
 }
 
 
-export type FavoriteLocation = 'casa' | 'trabalho' | 'outros';
+export type FavoriteLocation = 'casa' | 'trabalho' | 'escola' | 'outros';
