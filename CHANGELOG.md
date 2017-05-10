@@ -1,3 +1,21 @@
+<a name="3.15.0"></a>
+# [3.15.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.14.2...v3.15.0) (2017-05-10)
+
+
+### Bug Fixes
+
+* **ceturb:** corrige chamada à api-espm ([022099b](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/022099b))
+
+
+### Features
+
+* **transcol-online:** adiciona escola como novo tipo de favoritos ([d483e36](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/d483e36))
+* **transcol-online:** adiciona função para botao "back" do android ([b07872a](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b07872a))
+* **transcol-online:** altera configurações de confiabilidade ([dfe3ace](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/dfe3ace))
+* **transcol-online:** remove o ícone de acessibilidade ([e0d3666](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e0d3666))
+
+
+
 <a name="3.14.2"></a>
 ## [3.14.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.14.1...v3.14.2) (2017-05-05)
 
