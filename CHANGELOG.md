@@ -1,3 +1,21 @@
+<a name="3.16.0"></a>
+# [3.16.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.15.0...v3.16.0) (2017-05-10)
+
+
+### Bug Fixes
+
+* **transcol-online:** corrige flick na abertura de teclado ([542d434](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/542d434))
+
+
+### Features
+
+* **transcol-online:** adiciona indicação de versão beta na UI ([b7a6d58](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/b7a6d58))
+* **transcol-online:** adiciona loading para carregamento inicial de stops ([8e905d0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/8e905d0))
+* **transcol-online:** esconde paginação de favoritos quando houver só 1 página ([7f37830](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/7f37830))
+* **transcol-online:** exibe a descrição na previsão por origem em 2 linhas ([2f92527](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/2f92527))
+
+
+
 <a name="3.15.0"></a>
 # [3.15.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.14.2...v3.15.0) (2017-05-10)
 
