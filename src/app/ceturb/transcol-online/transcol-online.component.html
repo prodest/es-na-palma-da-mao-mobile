@@ -11,7 +11,7 @@
         <beta-ribbon></beta-ribbon>
 
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
-        <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
+        <spinner ng-if="( vm.isDetailsOpenned || !vm.allStops ) && uiState.loading"></spinner>
         
         <favorites-slider 
             ng-if="vm.favorites.length"
