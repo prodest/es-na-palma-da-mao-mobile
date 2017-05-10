@@ -7,6 +7,9 @@
         </md-button>
     </ion-nav-buttons>
     <ion-content class="transcol-online">
+
+        <beta-ribbon></beta-ribbon>
+
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="vm.isDetailsOpenned && uiState.loading"></spinner>
         

@@ -13,6 +13,7 @@ import { GeolocationComponent } from './transcol-online/geolocation/geolocation.
 import { FavoritesSliderComponent } from './transcol-online/favorites-slider/favorites-slider.component';
 import { TranscolOnlineApiService } from './transcol-online/shared/index';
 import { CeturbStorage, CeturbApiService } from './shared/index';
+import { BetaRibbonComponent } from './transcol-online/beta-ribbon/beta-ribbon.component';
 
 export default angular.module( 'ceturb.module', [] )
 
@@ -37,6 +38,7 @@ export default angular.module( 'ceturb.module', [] )
     .component( 'linePrevisionsList', LinePrevisionsListComponent )
     .component( 'mapLabels', MapLabelsComponent )
     .component( 'geolocation', GeolocationComponent )
+    .component( 'betaRibbon', BetaRibbonComponent )
 
     // routes
     .config( [
