@@ -51,6 +51,14 @@ function appRun( $rootScope: any,
 
         Keyboard.hideKeyboardAccessoryBar( true );
         Keyboard.disableScroll( true );
+        Keyboard.onKeyboardShow().subscribe(() => {
+            document.body.classList.add( 'keyboard-openned' );
+        });
+
+        Keyboard.onKeyboardHide().subscribe(() => {
+            document.body.classList.remove( 'keyboard-openned' );
+        });
+        
 
         // Check coarse location permissions
         cordovaPermissions.RequestCoarseLocationPermission();

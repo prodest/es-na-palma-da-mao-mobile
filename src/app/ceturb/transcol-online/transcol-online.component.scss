@@ -1,11 +1,11 @@
 /********************** Map **********************/
 
-.keyboard-open .transcol-online .stop-info {
-	transform: translate3d(0px, 110vh, 0px);
+.keyboard-openned .transcol-online .stop-info {
+	display: none;
 }
 
 // ajusta tamanho da  lista quando teclaso está aberto para ocupar toda area dispoível
-.keyboard-open .transcol-online .auto-complete-panel md-list {
+.keyboard-openned .transcol-online .auto-complete-panel md-list {
 	height: calc( ( 100vh / 2 ) + 20px  ) !important;
 }
 
@@ -181,7 +181,7 @@
 		// outline: 10px solid #dcd9c5;
 		height: 100vh;
 		z-index: 999;
-		transform: translate3d(0px, 110vh, 0px);
+		transform: translate3d(0px, 210vh, 0px);
 		background: white;
 		position: absolute;
 		bottom: 0px;
