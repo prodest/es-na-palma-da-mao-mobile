@@ -1,5 +1,5 @@
 <ion-content class="favorites-slider" scroll="false">
-    <ion-slides slider="data.slider">
+    <ion-slides slider="data.slider" ng-class="{'onePage': $ctrl.favorites.length < 2 } ">
         <ion-slide-page ng-repeat="favorites in $ctrl.favorites">
             <div class="favorites-bar">
                 <div ng-repeat="favorite in favorites">

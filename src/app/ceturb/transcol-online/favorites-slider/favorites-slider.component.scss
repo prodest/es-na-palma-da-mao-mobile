@@ -25,6 +25,10 @@
 			background: #093340;
 		}
 
+		.onePage .swiper-pagination-bullet {
+			visibility: hidden;
+		}
+
         .keyboard-open &,
 		.closed & .swiper-container-horizontal > .swiper-pagination{
 			display: none;
