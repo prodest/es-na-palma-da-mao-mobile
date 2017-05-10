@@ -62,13 +62,26 @@
 		flex: 5;
 		padding: 0 5px 0 5px;
 		> * {
-			margin: 0 0 5px 8px;
+			margin: 0 0 5px 0;
 			text-transform: capitalize;
 		}
     }
+    // ref: https://codepen.io/martinwolf/pen/qlFdp
+    $font-size:11px;
+    $line-height: 1.4;
+    $lines-to-show: 2;
 
-	.prevision-list__detalhe {
-		font-size: 12px;
+    .prevision-list__detalhe {
+        display: block; /* Fallback for non-webkit */
+        display: -webkit-box;
+        margin: 0 auto 0 0;
+        font-size: $font-size;
+        line-height: $line-height;
+        -webkit-line-clamp: $lines-to-show;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: initial;
     }
 
 	.prevision-list__previsao {
