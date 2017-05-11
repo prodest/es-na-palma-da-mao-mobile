@@ -1,0 +1,57 @@
+
+#transcol-online-feedback {
+    background-color: #f1f1f1;
+
+    .title-container {
+        padding: 10px;
+
+        .title {
+            color: #5d5d5d;
+        }
+        .subtitle {
+            color: #808080;
+        }
+    }
+
+    .list-problems {
+        width: 90%;
+        margin: auto;
+        box-shadow: 0 3px 8px 0 rgba( 0, 0, 0, 0.2 );
+        background-color: #208baa;
+        border-radius: 5px;
+        color: #eaeaea;
+
+        .line-item-inner {
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            align-items: center;
+
+            i.fa {
+                transition: all 200ms linear;
+
+                &.rotate {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+        .md-list-item-text {
+            justify-content: space-between;
+        }
+
+        .icon-detail {
+            font-size: 1.8em;
+        }
+
+        .panel {
+            background-color: #52a7bf;
+
+            .input-line {
+                padding-left: 10px;
+                border-radius: 5px;
+            }
+        }
+    }
+}

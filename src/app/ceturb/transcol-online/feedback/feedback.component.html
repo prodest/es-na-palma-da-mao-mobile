@@ -1,0 +1,92 @@
+<ion-view>
+	<ion-nav-title>Feedback</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<back-button></back-button>
+	</ion-nav-buttons>
+
+	<spinner ng-if="uiState.loading"></spinner>
+
+	<ion-content id="transcol-online-feedback">
+		<div class="title-container">
+			<h5 class="title"><strong>REPORTAR UM PROBLEMA</strong></h5>
+			<h6 class="subtitle">Porque você está reportando um problema?</h6>
+		</div>
+		<div class="list-problems">
+			<div class="md-2-line line-item">
+				<div class="line-item-inner" ng-click="vm.showDetails(0)">
+					<strong class="line-number" flex="1">
+						A linha não aparece no ponto escolhido
+					</strong>
+					<div class="icon-detail">
+						<i ng-class="{ rotate: vm.activePanel === 0 }" class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+				<md-divider></md-divider>
+				<div class="panel" ng-show="vm.activePanel === 0">
+					<feedback-form show-stop="true" show-line="true" show-time="true"></feedback-form>
+					<md-divider></md-divider>
+				</div>
+			</div>
+			<div class="md-2-line line-item">
+				<div class="line-item-inner" ng-click="vm.showDetails(1)">
+					<strong class="line-number" flex="1">
+						Erro na localização ou endereço do ponto de parada
+					</strong>
+					<div class="icon-detail">
+						<i ng-class="{ rotate: vm.activePanel === 1 }" class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+				<md-divider></md-divider>
+				<div class="panel" ng-show="vm.activePanel === 1">
+					<feedback-form show-stop="true"></feedback-form>
+					<md-divider></md-divider>
+				</div>
+			</div>
+			<div class="md-2-line line-item">
+				<div class="line-item-inner" ng-click="vm.showDetails(2)">
+					<strong class="line-number" flex="1">
+						Erro no horário previsto (erro maior que três minutos, antes ou após o horário)
+					</strong>
+					<div class="icon-detail">
+						<i ng-class="{ rotate: vm.activePanel === 2 }" class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+				<md-divider></md-divider>
+				<div class="panel" ng-show="vm.activePanel === 2">
+					<feedback-form show-line="true" show-time="true" get-location="true"></feedback-form>
+					<md-divider></md-divider>
+				</div>
+			</div>
+			<div class="md-2-line line-item">
+				<div class="line-item-inner" ng-click="vm.showDetails(3)">
+					<strong class="line-number" flex="1">
+						Erro na previsão da viagem (veículo não passou)
+					</strong>
+					<div class="icon-detail">
+						<i ng-class="{ rotate: vm.activePanel === 3 }" class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+				<md-divider></md-divider>
+				<div class="panel" ng-show="vm.activePanel === 3">
+					<feedback-form show-line="true" show-time="true" get-location="true"></feedback-form>
+					<md-divider></md-divider>
+				</div>
+			</div>
+			<div class="md-2-line line-item">
+				<div class="line-item-inner" ng-click="vm.showDetails(4)">
+					<strong class="line-number" flex="1">
+						Outro problema:
+					</strong>
+					<div class="icon-detail">
+						<i ng-class="{ rotate: vm.activePanel === 4 }" class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+				<div class="panel" ng-show="vm.activePanel === 4">
+					<md-divider></md-divider>
+					<feedback-form show-text="true"></feedback-form>
+				</div>
+			</div>
+		</div>
+		<error-message error="uiState.error"></error-message>
+	</ion-content>
+</ion-view>

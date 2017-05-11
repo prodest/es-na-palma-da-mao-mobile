@@ -285,6 +285,15 @@
     "secure": false
   },
   {
+    "name": "app.transcolOnlineFeedback",
+    "url": "transcolOnlineFeedback",
+    "type": "load",
+    "src": "app/ceturb/transcol-online/feedback/index",
+    "menu": false,
+    "editable": false,
+    "secure": false
+  },
+  {
     "name": "app.dioSearch",
     "url": "dio",
     "type": "load",

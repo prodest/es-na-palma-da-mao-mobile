@@ -1,0 +1,40 @@
+.feedback-form {
+    .panel-inner {
+        padding: 10px;
+
+        md-input-container {
+            margin-bottom: 0px;
+            width: 90%;
+
+            &.md-input-focused {
+                color: white;
+            }
+        }
+        
+        label {
+            color: white;
+        }
+
+        input, textarea {
+            border-color: rgba(256,256,256,0.52);
+        }
+    }
+
+    .submit-wrapper {
+        text-align: right;
+
+        .send-button {
+            color: white;
+        }
+    }
+
+    md-input-container.md-espm-theme.md-input-focused {
+        label {
+            color: white;
+        }
+
+        .md-input {
+           border-color: #c86673;
+        }
+    } 
+}

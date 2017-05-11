@@ -5,6 +5,7 @@ import { FavoritesModalController } from './favorites/favorites-modal.component.
 import { AuthenticationService } from '../../security/shared/index';
 import { AuthNeededController, authNeededTemplate } from '../../layout/auth-needed/index';
 import { TranscolOnlineStorage, FavoriteLocation, BusStop, Prevision, TranscolOnlineApiService, sortByFavorite } from './shared/index';
+import { TransitionService } from '../../shared/shared.module';
 import * as L from 'leaflet';
 import * as _ from 'lodash';
 import 'leaflet.markercluster';
@@ -33,7 +34,8 @@ export class TranscolOnlineController {
         '$mdDialog',
         'transcolOnlineStorage',
         'authenticationService',
-        'transcolOnlineApiService'
+        'transcolOnlineApiService',
+        'transitionService'
     ];
 
     public map: L.Map;
@@ -85,7 +87,8 @@ export class TranscolOnlineController {
         private $mdDialog: angular.material.IDialogService,
         private storage: TranscolOnlineStorage,
         private authenticationService: AuthenticationService,
-        private api: TranscolOnlineApiService ) {
+        private api: TranscolOnlineApiService,
+        private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
         this.$scope.$on( '$ionicView.beforeEnter', () => ( this.refreshLocation = true ) );
     }
@@ -749,6 +752,16 @@ export class TranscolOnlineController {
         this.map.setView( latlng, newZoom, { animate: true, duration: 0.5 });
     }
 
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf TranscolOnlineController
+     */
+    public goToFeedback() {
+        this.transitionService.changeState( 'app.transcolOnlineFeedback' );
+    }
 
     /**
      * 
