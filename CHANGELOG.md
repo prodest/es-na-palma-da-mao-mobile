@@ -1,3 +1,13 @@
+<a name="3.17.0"></a>
+# [3.17.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.16.0...v3.17.0) (2017-05-16)
+
+
+### Features
+
+* **transcol-online:** feedback inicial ([21722c9](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/21722c9))
+
+
+
 <a name="3.16.0"></a>
 # [3.16.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.15.0...v3.16.0) (2017-05-10)
 
