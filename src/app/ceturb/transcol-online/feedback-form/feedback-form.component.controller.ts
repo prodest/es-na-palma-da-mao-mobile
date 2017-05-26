@@ -6,17 +6,22 @@ export class FeedbackFormController {
     public showTime: boolean;
     public showText: boolean;
 
-    public line: number;
-    public stop: number;
-    public time: Date;
-    public text: string;
+    public form: {
+        line: number,
+        stop: number,
+        time: Date,
+        text: string
+    };
 
     public static $inject: string[] = [];
+
+    public onSendFeedback: ( form: any ) => void;
 
     constructor() {
     }
 
-    public send() {
+    public send( form: any ) {
+        // this.onSendFeedback( form );
     }
 
     public get description() {

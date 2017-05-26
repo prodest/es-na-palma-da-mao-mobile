@@ -4,29 +4,29 @@
         <div ng-show="vm.showLine">
             <md-input-container>
                 <label>Nº da Linha</label>
-                <input type="number" ng-model="vm.line">
+                <input type="number" ng-model="vm.form.line">
             </md-input-container>
         </div>
         <div ng-show="vm.showStop">
             <md-input-container>
                 <label>Nº do Ponto</label>
-                <input type="number" ng-model="vm.stop">
+                <input type="number" ng-model="vm.form.stop">
             </md-input-container>
         </div>
         <div ng-show="vm.showTime">
             <md-input-container>
                 <label>Hora</label>
-                <input type="time" ng-model="vm.date">
+                <input type="time" ng-model="vm.form.date">
             </md-input-container>
         </div>
         <div ng-show="vm.showText">
             <md-input-container>
                 <label>Descreva seu problema:</label>
-                <textarea ng-model="vm.text" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
+                <textarea ng-model="vm.form.text" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
             </md-input-container>
         </div>
     </div>
     <div class="submit-wrapper">
-        <button class="send-button md-primary md-button md-espm-theme" ng-click="vm.send()">ENVIAR</button>
+        <button class="send-button md-primary md-button md-espm-theme" ng-click="vm.send( vm.form )">ENVIAR</button>
     </div>
 </div>

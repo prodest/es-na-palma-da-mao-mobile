@@ -23,7 +23,7 @@
 				</div>
 				<md-divider></md-divider>
 				<div class="panel" ng-show="vm.activePanel === 0">
-					<feedback-form show-stop="true" show-line="true" show-time="true"></feedback-form>
+					<feedback-form show-stop="true" show-line="true" show-time="true" on-send-feedback="vm.saveFeedback(form)"></feedback-form>
 					<md-divider></md-divider>
 				</div>
 			</div>
