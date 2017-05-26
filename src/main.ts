@@ -2,6 +2,7 @@
 /// <reference path="./module.augmentation.d.ts" /> 
 /// <reference path="./module.declaration.d.ts" /> 
 
+import './main.polyfill';
 import * as tsLib from 'tslib';
 
 // make all typescript helpers available on window object. It allows decorate helpers later. 
@@ -19,11 +20,3 @@ angular.element( document ).ready( function () {
         strictDi: true
     });
 });
-
-
-
-
-
-
-
-
