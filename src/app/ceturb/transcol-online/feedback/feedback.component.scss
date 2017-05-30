@@ -52,6 +52,11 @@
                 padding-left: 10px;
                 border-radius: 5px;
             }
+
+            &.last-panel {
+                margin-bottom: 20px;
+                border-radius: 0 0 4px 4px;
+            }
         }
     }
 }
