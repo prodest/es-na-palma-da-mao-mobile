@@ -10,7 +10,7 @@
 #
 # For release setup token authentication (https://github.com/conventional-changelog/conventional-github-releaser)
 
-travis status --no-interactive &&
+# travis status --no-interactive &&
 echo "Apagando node_modules" &&
 rimraf node_modules &&
 echo "git pull --rebase" &&
