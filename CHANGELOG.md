@@ -1,3 +1,19 @@
+<a name="3.18.0"></a>
+# [3.18.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.17.0...v3.18.0) (2017-05-30)
+
+
+### Bug Fixes
+
+* **transcol-online:** corrige margens e bordas no feedback ([af7cf53](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/af7cf53))
+
+
+### Features
+
+* **main:** adiciona polyfill para Object.assign ([afb547a](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/afb547a))
+* **transcol-online:** melhora envio de feedback ([84a658e](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/84a658e))
+
+
+
 <a name="3.17.0"></a>
 # [3.17.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.16.0...v3.17.0) (2017-05-16)
 
