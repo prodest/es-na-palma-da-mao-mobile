@@ -1,3 +1,13 @@
+<a name="3.18.1"></a>
+## [3.18.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.18.0...v3.18.1) (2017-06-01)
+
+
+### Bug Fixes
+
+* **settings:** corrige endereço da api acesso cidadão developers ([7e37431](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/7e37431))
+
+
+
 <a name="3.18.0"></a>
 # [3.18.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.17.0...v3.18.0) (2017-05-30)
 
