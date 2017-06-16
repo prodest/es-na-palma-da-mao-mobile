@@ -25,6 +25,8 @@ interface BusLine {
     pontoDeOrigemId: number;
 }
 
+const SEARCH_MIN_LENGTH = 3;
+
 export class TranscolOnlineController {
 
     public static $inject: string[] = [
@@ -490,7 +492,7 @@ export class TranscolOnlineController {
      */
     public async searchBustStops( text: string, originId: number | undefined = undefined ) {
 
-        if ( text.trim().length <= 4 ) { return; }
+        if ( text.trim().length < SEARCH_MIN_LENGTH ) { return; }
 
         try {
             const currentSearch = ++this.searchId;
