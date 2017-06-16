@@ -4,10 +4,13 @@
 <md-list ng-if="$ctrl.destinations.length" class="destination-list">
     <ion-content>
         <md-list-item class="md-2-line" collection-repeat="destination in $ctrl.destinations" item-height="70" item-width="100%" md-no-ink ng-click="$ctrl.onDestinationClick({ destination: destination })">
-            <div class="md-list-item-text">
+            <div class="md-list-item-text" ng-if="destination.isTerminal">
+                <h4 class="text-padding">{{ destination.identificador}} - {{ destination.descricao}} </h4>
+            </div>
+            <div class="md-list-item-text" ng-if="!destination.isTerminal">
                 <h4 class="text-padding"><strong>{{ destination.identificador}}</strong> - {{ destination.logradouro}}
                 </h4>
-                <div class="destination-list__reference" ng-if="!destination.isTerminal">{{ destination.bairro}} - {{ destination.municipio}}</div>
+                <div class="destination-list__reference">{{ destination.descricao}} <span ng-if="destination.descricao">-</span> {{ destination.municipio}}</div>
             </div>
             <md-divider></md-divider>
         </md-list-item>

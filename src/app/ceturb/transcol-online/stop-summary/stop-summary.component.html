@@ -3,10 +3,11 @@
     <stop-icon stop="$ctrl.stop"></stop-icon>
     <p ng-if="!$ctrl.stop.isTerminal" class="stop-info__address">
         {{$ctrl.stop.logradouro}}
-        <span class="stop-info__city">{{$ctrl.stop.bairro}} - {{$ctrl.stop.municipio}}</span>
+        <span class="stop-info__city">{{$ctrl.stop.descricao}} <span ng-if="$ctrl.stop.descricao">-</span> {{$ctrl.stop.municipio}}</span>
     </p>
     <p ng-if="$ctrl.stop.isTerminal" class="stop-info__address">
-        {{$ctrl.stop.descricao}}
+         {{$ctrl.stop.descricao}}
+        <span class="stop-info__city">{{$ctrl.stop.logradouro}} - {{$ctrl.stop.municipio}}</span>
     </p>
 </div>
 <md-icon  ng-click="$ctrl.onCloseClick()">
