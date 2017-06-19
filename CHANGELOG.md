@@ -1,3 +1,13 @@
+<a name="3.19.0"></a>
+# [3.19.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.18.1...v3.19.0) (2017-06-19)
+
+
+### Features
+
+* **transcol-online:** altera min. caracteres para 3 na pesquisa ([5faa3be](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/5faa3be))
+
+
+
 <a name="3.18.1"></a>
 ## [3.18.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.18.0...v3.18.1) (2017-06-01)
 
