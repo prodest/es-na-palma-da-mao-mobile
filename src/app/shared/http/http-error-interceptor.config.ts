@@ -2,7 +2,6 @@ import { HttpErrorSnifferService } from './http-error-sniffer.service';
 import { AnswersService } from '../fabric/index';
 import { Error } from './models/index';
 
-
 let httpErrorInterceptorConfig = $httpProvider => {
     let httpErrorInterceptor = ( $log, httpErrorSnifferService: HttpErrorSnifferService, answersService: AnswersService ) => {
         return {
@@ -16,6 +15,11 @@ let httpErrorInterceptorConfig = $httpProvider => {
                     error: 'Erro inesperado',
                     message: 'Erro inesperado'
                 }, response.data || {});
+
+
+                const respTime = new Date().getTime() - response.config.startTime;
+
+                error.isTimeout = ( response.status === -1 && response.config.timeout && respTime >= response.config.timeout ); 
 
                 httpErrorSnifferService.error = error;
 

@@ -18,4 +18,5 @@ export interface Error {
     handled: boolean;
     guid: string;
     status: number;
+    isTimeout: boolean;
 }

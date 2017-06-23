@@ -13,6 +13,7 @@ import charjsConfig from './chartjs.config';
 import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
 import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config';
 import httpDecoratorConfig from './http/http-decorator.config';
+import httpTimeoutConfig from './http/http-timeout-interceptor.config';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import appRun from './app.run';
 import networkRun from './network.run';
@@ -50,6 +51,7 @@ export default angular.module( 'shared', dependencies )
     .config( ionicConfig )
     .config( charjsConfig )
     .config( themeConfig )
+    .config( httpTimeoutConfig )
     .config( httpDecoratorConfig )
     .config( httpSnifferInterceptorConfig )
     .config( httpErrorInterceptorConfig )
