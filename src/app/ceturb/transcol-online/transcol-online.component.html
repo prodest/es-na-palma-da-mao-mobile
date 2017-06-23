@@ -10,16 +10,16 @@
             </md-icon>
         </md-button>
     </ion-nav-buttons>
-    <ion-content class="transcol-online">
+    <ion-content class="transcol-online" ng-show="!uiState.error">
 
         <beta-ribbon></beta-ribbon>
 
         <map-labels ng-class="{'show-labels': vm.showLabels }"></map-labels>
         <spinner ng-if="( vm.isDetailsOpenned || !vm.allStops ) && uiState.loading"></spinner>
-        
+
         <favorites-slider 
-            ng-if="vm.favorites.length"
-            ng-class="{'closed':vm.selectedOrigin}"
+            ng-if="vm.favorites.length" 
+            ng-class="{'closed':vm.selectedOrigin}" 
             favorites="vm.favorites" 
             on-favorite-click="vm.selectStop(favorite)">
         </favorites-slider>
@@ -35,7 +35,11 @@
                     <i class="fa fa-map-signs" aria-hidden="true"></i>
                 </md-button>
 
-                <md-button class="md-fab stop-info__btn stop-info__btn-favorite" ng-class="{'is-favorite': vm.isFavoriteStop(vm.selectedOrigin)}" ng-click="::vm.onFavoriteButtonClick(vm.selectedOrigin)" ng-if="vm.selectedOrigin && !vm.selectedDestination">
+                <md-button 
+                    class="md-fab stop-info__btn stop-info__btn-favorite" 
+                    ng-class="{'is-favorite': vm.isFavoriteStop(vm.selectedOrigin)}"
+                    ng-click="::vm.onFavoriteButtonClick(vm.selectedOrigin)" 
+                    ng-if="vm.selectedOrigin && !vm.selectedDestination">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </md-button>
 
@@ -70,11 +74,11 @@
                 </route-previsions-list>
             </div>
         </div>
- 
+
         <search-bar 
             ng-if="!vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
-            placeholder="Pesquisar ponto de origem" 
-            icon="fa-bus"
+            placeholder="Pesquisar ponto de origem"
+            icon="fa-bus" 
             searching="vm.searching" 
             on-change="::vm.searchBustStops( text )" 
             on-clear="::vm.clearSearchResults()">
@@ -82,22 +86,28 @@
 
         <search-bar 
             ng-if="vm.selectedOrigin && !vm.isDetailsOpenned && !vm.isRouteSelected" 
-            placeholder="Pesquisar ponto de destino" 
+            placeholder="Pesquisar ponto de destino"
             icon="fa-bus" 
-            searching="vm.searching"
+            searching="vm.searching" 
             on-change="::vm.searchBustStops( text, vm.selectedOrigin.id )" 
             on-clear="::vm.clearSearchResults()">
         </search-bar>
-        
+
         <div class="auto-complete-panel" ng-if="vm.searchResults.length">
             <destination-list class="clickable" destinations="vm.searchResults" on-destination-click="::vm.selectStop(destination)">
             </destination-list>
         </div>
 
-        <geolocation ng-show="!vm.isDetailsOpenned && !vm.isRouteSelected" on-location-changed="::vm.setLocationLayer(layerGroup, center)" refresh-location="vm.refreshLocation" />
+        <geolocation 
+            ng-show="!vm.isDetailsOpenned && !vm.isRouteSelected" 
+            on-location-changed="::vm.setLocationLayer(layerGroup, center)"
+            refresh-location="vm.refreshLocation" />
 
         <ion-content>
             <div id="map"></div>
         </ion-content>
+    </ion-content>
+    <ion-content class="transcol-online" ng-show="uiState.error">
+        <error-message error="uiState.error"></error-message>
     </ion-content>
 </ion-view>
