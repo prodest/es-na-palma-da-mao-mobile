@@ -10,7 +10,7 @@
             </md-icon>
         </md-button>
     </ion-nav-buttons>
-    <ion-content class="transcol-online" ng-show="!uiState.error">
+    <ion-content class="transcol-online" ng-show="!uiState.error || uiState.error.isTimeout">
 
         <beta-ribbon></beta-ribbon>
 
@@ -107,7 +107,7 @@
             <div id="map"></div>
         </ion-content>
     </ion-content>
-    <ion-content class="transcol-online" ng-show="uiState.error">
+    <ion-content class="transcol-online" ng-show="uiState.error && !uiState.error.isTimeout">
         <error-message error="uiState.error"></error-message>
     </ion-content>
 </ion-view>

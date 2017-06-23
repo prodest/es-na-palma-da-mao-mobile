@@ -1,6 +1,8 @@
 import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
 import { FavoriteStops, TranscolOnlineStorage, BusStop, Prevision } from './index';
 
+const TIMEOUT = 10000;
+
 /**
  * 
  * 
@@ -93,22 +95,8 @@ export class TranscolOnlineApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public getBusStopsByOrigin( id: number ): Promise<BusStop[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id })
-            .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada )
-            .then( ids => this.listBusStopsByIds( ids ) );
-    }
-
-    /**
-     * 
-     * 
-     * @param {number} id 
-     * @returns {Promise<any[]>} 
-     * 
-     * @memberOf CeturbApiService
-     */
     public getBusStopsIdsByOrigin( id: number ): Promise<any[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/pesquisarPontosDeParada`, { pontoDeOrigemId: id }, { timeout: TIMEOUT })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data.pontosDeParada );
     }
 
@@ -122,7 +110,7 @@ export class TranscolOnlineApiService {
      * @memberof CeturbApiService
      */
     private listBusStopsByIds( ids: number[] ): Promise<BusStop[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/listarPontosDeParada`, { listaIds: ids })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/listarPontosDeParada`, { listaIds: ids } )
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -136,7 +124,7 @@ export class TranscolOnlineApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOriginAndLine( originId: number, lineId: number ): Promise<Prevision[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemELinha`, { pontoDeOrigemId: originId, linhaId: lineId })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemELinha`, { pontoDeOrigemId: originId, linhaId: lineId }, { timeout: TIMEOUT })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -150,7 +138,7 @@ export class TranscolOnlineApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOriginAndDestination( originId: number, destinationId: number ): Promise<Prevision[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemEDestino`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemEDestino`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }, { timeout: TIMEOUT })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -163,7 +151,7 @@ export class TranscolOnlineApiService {
      * @memberOf CeturbApiService
      */
     public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigem`, { pontoDeOrigemId: id })
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigem`, { pontoDeOrigemId: id }, { timeout: TIMEOUT } )
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
