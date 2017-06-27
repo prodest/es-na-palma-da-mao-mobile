@@ -1,3 +1,23 @@
+<a name="3.20.0"></a>
+# [3.20.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.19.0...v3.20.0) (2017-06-27)
+
+
+### Bug Fixes
+
+* **transcol-online:** adiciona dados do usuário logado no feedback ([fc358d0](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fc358d0))
+* **transcol-online:** corrige descrição dos favoritos ([de66c1b](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/de66c1b))
+
+
+### Features
+
+* **shared:** adiciona interceptor para controlar timeout ([10358da](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/10358da))
+* **transcol-online:** adiciona auto refresh para previsões ([4268a63](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/4268a63))
+* **transcol-online:** adiciona tratamento de erros ([0093548](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/0093548))
+* **transcol-online:** configura timeout e erro ([349f2a9](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/349f2a9))
+* **transcol-online:** implementa post da  msg de feedback ([0b9b0e6](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/0b9b0e6))
+
+
+
 <a name="3.19.0"></a>
 # [3.19.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.18.1...v3.19.0) (2017-06-19)
 
