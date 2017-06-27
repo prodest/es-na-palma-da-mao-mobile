@@ -12,7 +12,8 @@ export interface ISettings {
         espm: string,
         acessocidadao: string,
         acessocidadaoApi: string,
-        transparency: string
+        transparency: string,
+        feedback: string,
     };
     push: {
         senderId: string;

@@ -4,7 +4,7 @@
 
         md-input-container {
             margin-bottom: 0px;
-            width: 90%;
+            width: 100%;
 
             &.md-input-focused {
                 color: white;
@@ -22,10 +22,7 @@
 
     .submit-wrapper {
         text-align: right;
-
-        .send-button {
-            color: white;
-        }
+        padding-bottom: 20px;
     }
 
     md-input-container.md-espm-theme.md-input-focused {

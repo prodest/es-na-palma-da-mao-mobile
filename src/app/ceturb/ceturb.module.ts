@@ -15,7 +15,8 @@ import { FavoritesSliderComponent } from './transcol-online/favorites-slider/fav
 import { TranscolOnlineApiService } from './transcol-online/shared/index';
 import { CeturbStorage, CeturbApiService } from './shared/index';
 import { BetaRibbonComponent } from './transcol-online/beta-ribbon/beta-ribbon.component';
-import { FeedbackFormComponent } from './transcol-online/feedback-form/feedback-form.component';
+import { FeedbackFormComponent } from './transcol-online/feedback/feedback-form/feedback-form.component';
+import { FeedBackApiService } from './transcol-online/feedback/shared/feedback-api.service';
 
 export default angular.module( 'ceturb.module', [] )
 
@@ -24,6 +25,7 @@ export default angular.module( 'ceturb.module', [] )
     .service( 'transcolOnlineStorage', TranscolOnlineStorage )
     .service( 'transcolOnlineApiService', TranscolOnlineApiService )
     .service( 'ceturbApiService', CeturbApiService )
+    .service( 'feedBackApiService', FeedBackApiService )
 
     // components
     .directive( 'busLines', BusLinesComponent )

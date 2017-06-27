@@ -1,3 +1,18 @@
+export type FeedBack = {
+    line?: number,
+    stop?: number,
+    time?: Date,
+    text?: string,
+    type?: FeedBackType
+};
+
+export enum FeedBackType {
+    LinhaNaoAparece = 0,
+    LocalizacaoErrada = 1,
+    ErroNoHorario = 2,
+    ErroNaPrevisao = 3,
+    OutroProblema = 4
+}
 
 export class FeedbackFormController {
 
@@ -6,24 +21,37 @@ export class FeedbackFormController {
     public showTime: boolean;
     public showText: boolean;
 
-    public form: {
-        line: number,
-        stop: number,
-        time: Date,
-        text: string
-    };
+    public form: FeedBack;
 
-    public static $inject: string[] = [];
+    // public static $inject: string[] = [];
 
-    public onSendFeedback: ( form: any ) => void;
+    // tslint:disable-next-line:variable-name
+    public onSendFeedback: ( { form: FeedBack }) => void;
 
-    constructor() {
+    /**
+     * Creates an instance of FeedbackFormController.
+     * @memberof FeedbackFormController
+     */
+    constructor() { }
+
+    /**
+     * 
+     * 
+     * @param {*} form 
+     * @memberof FeedbackFormController
+     */
+    public send( form: FeedBack ) {
+        if ( form ) {
+            this.onSendFeedback( { form });
+        }
     }
 
-    public send( form: any ) {
-        // this.onSendFeedback( form );
-    }
-
+    /**
+     * 
+     * 
+     * @readonly
+     * @memberof FeedbackFormController
+     */
     public get description() {
         let desc = 'Favor informar ';
         if ( this.showText ) {

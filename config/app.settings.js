@@ -13,7 +13,8 @@ const shared = {
     espm: process.env.API_ESPM_URL || 'https://api.es.gov.br/developers/espm',
     transparency: process.env.API_TRANSPARENCY_URL || 'https://api.es.gov.br/developers/transparency',
     acessocidadaoApi: process.env.API_ACESSO_CIDADAO_URL || 'https://developers.es.gov.br/acessocidadao.webapi/api',
-    acessocidadao: process.env.ACESSO_CIDADAO_URL || 'https://developers.es.gov.br/acessocidadao'
+    acessocidadao: process.env.ACESSO_CIDADAO_URL || 'https://developers.es.gov.br/acessocidadao',
+    feedback: process.env.API_FEEDBACK_URL || 'https://developers.es.gov.br/demandas'
   },
   push: {
     senderId: process.env.PUSH_SENDER_ID,

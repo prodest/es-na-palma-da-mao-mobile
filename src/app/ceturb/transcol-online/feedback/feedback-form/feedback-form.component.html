@@ -1,0 +1,36 @@
+<div class="feedback-form">
+    <div class="panel-inner">
+        <span>{{$ctrl.description}}</span>
+        <div ng-show="$ctrl.showLine">
+            <md-input-container>
+                <label>Nº da Linha</label>
+                <input type="number" ng-model="$ctrl.form.line">
+            </md-input-container>
+        </div>
+        <div ng-show="$ctrl.showStop">
+            <md-input-container>
+                <label>Nº do Ponto</label>
+                <input type="number" ng-model="$ctrl.form.stop">
+            </md-input-container>
+        </div>
+        <div ng-show="$ctrl.showTime">
+            <md-input-container>
+                <label>Hora</label>
+                <input type="time" ng-model="$ctrl.form.date">
+            </md-input-container>
+        </div>
+        <div ng-show="$ctrl.showText">
+            <md-input-container>
+                <label>Descreva seu problema:</label>
+                <textarea ng-model="$ctrl.form.text" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
+            </md-input-container>
+        </div>
+    </div>
+    <div class="submit-wrapper">
+        <!-- <md-button ng-click="$ctrl.send( $ctrl.form )" class="primary">ENVIAR</md-button> -->
+        <md-button class="md-raised" md-colors="::{color: 'primary'}" md-no-ink="isAndroid" ng-click="$ctrl.send( $ctrl.form )">
+            ENVIAR
+        </md-button>
+        <!-- <div class="send-button md-primary md-button md-espm-theme" ng-click="$ctrl.send( $ctrl.form )">ENVIAR</div> -->
+    </div>
+</div>

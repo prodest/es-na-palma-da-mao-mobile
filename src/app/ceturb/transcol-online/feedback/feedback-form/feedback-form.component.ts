@@ -5,7 +5,6 @@ import { FeedbackFormController } from './feedback-form.component.controller';
 export const FeedbackFormComponent: ng.IComponentOptions = {
     template: template,
     controller: FeedbackFormController,
-    controllerAs: 'vm',
     bindings: {
         showStop: '<',
         showLine: '<',
