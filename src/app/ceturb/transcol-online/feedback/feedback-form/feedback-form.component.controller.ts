@@ -1,9 +1,12 @@
+import { User } from '../../../../security/shared/index';
+
 export type FeedBack = {
     line?: number,
     stop?: number,
     time?: Date,
     text?: string,
-    type?: FeedBackType
+    type?: FeedBackType,
+    user?: User
 };
 
 export enum FeedBackType {
