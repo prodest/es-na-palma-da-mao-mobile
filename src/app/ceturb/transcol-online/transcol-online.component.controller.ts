@@ -1,4 +1,4 @@
-import { IRootScopeService, IScope, IWindowService } from 'angular';
+import { IRootScopeService, IScope, IWindowService, IIntervalService, IRequestShortcutConfig } from 'angular';
 import './favorites/favorites-modal.component.scss';
 import favoritesModalTemplate = require( './favorites/favorites-modal.component.html' );
 import { FavoritesModalController } from './favorites/favorites-modal.component.controller';
@@ -26,6 +26,8 @@ interface BusLine {
 }
 
 const SEARCH_MIN_LENGTH = 3;
+const REFRESH_INTERVAL = 30000;
+const TRANSPARENT_REQUEST_CONFIG = { headers: { 'Transparent': true } };
 
 export class TranscolOnlineController {
 
@@ -34,6 +36,7 @@ export class TranscolOnlineController {
         '$scope',
         '$window',
         '$mdDialog',
+        '$interval',
         'transcolOnlineStorage',
         'authenticationService',
         'transcolOnlineApiService',
@@ -73,6 +76,7 @@ export class TranscolOnlineController {
     public marker: any;
     public locationLayer: L.LayerGroup;
     public refreshLocation: boolean = false;
+    public autoRefreshTimer: any; // IPromise<any>
 
     /**
      * Creates an instance of TranscolOnlineController.
@@ -87,12 +91,17 @@ export class TranscolOnlineController {
         private $scope: IScope,
         private $window: IWindowService,
         private $mdDialog: angular.material.IDialogService,
+        private $interval: IIntervalService,
         private storage: TranscolOnlineStorage,
         private authenticationService: AuthenticationService,
         private api: TranscolOnlineApiService,
         private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
-        this.$scope.$on( '$ionicView.beforeEnter', () => ( this.refreshLocation = true ) );
+        this.$scope.$on( '$ionicView.beforeEnter', () => {
+            this.refreshLocation = true;
+            this.startAutoRefreshTimer();
+        });
+        this.$scope.$on( '$ionicView.leave', () => this.stopAutoRefreshTimer() /* para o timer de auto refresh de previsões */ );
     }
 
     /**
@@ -121,6 +130,45 @@ export class TranscolOnlineController {
         this.syncFavorites();
     }
 
+
+    /**
+     * 
+     * 
+     * @private
+     * @memberof TranscolOnlineController
+     */
+    private startAutoRefreshTimer() {
+
+        this.stopAutoRefreshTimer();
+
+        this.autoRefreshTimer = this.$interval(() => {
+
+            if ( this.isDetailsOpenned ) {
+                if ( this.selectedOrigin && this.selectedDestination ) {
+                    // console.log( 'buscando previsões para rota: ', this.selectedOrigin.identificador, ' => ', this.selectedDestination.identificador );
+                    this.getRoutePrevisions( this.selectedOrigin.id, this.selectedDestination.id, TRANSPARENT_REQUEST_CONFIG );
+                } else if ( this.selectedLine ) {
+                    // console.log( 'buscando previsões para a linha: ', this.selectedLine.identificadorLinha, ' na origem: ', this.selectedLine.pontoDeOrigemId );
+                    this.getLinePrevisions( this.selectedLine, TRANSPARENT_REQUEST_CONFIG );
+                }
+                else if ( this.selectedOrigin ) {
+                    // console.log( 'buscando previsões na origem: ', this.selectedOrigin.identificador );
+                    this.getOriginPrevisions( this.selectedOrigin.id, TRANSPARENT_REQUEST_CONFIG );
+                }
+            }
+        }, REFRESH_INTERVAL );
+    }
+
+    /**
+     * 
+     * 
+     * @memberof TranscolOnlineController
+     */
+    public stopAutoRefreshTimer() {
+        if ( this.autoRefreshTimer ) {
+            this.$interval.cancel( this.autoRefreshTimer );
+        }
+    }
 
     /**
      * 
@@ -190,11 +238,6 @@ export class TranscolOnlineController {
      */
     private onMapMove() {
         this.logMapInfo();
-
-        //  esconde origin quando clusters forem visíveis
-        // if ( this.isInClusterView ) {
-        //     this.reset();
-        // }
     }
 
     /**
@@ -693,8 +736,8 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public async getOriginPrevisions( originId: number ): Promise<Prevision[]> {
-        this.previsions = await this.api.getPrevisionsByOrigin( originId );
+    public async getOriginPrevisions( originId: number, config?: IRequestShortcutConfig ): Promise<Prevision[]> {
+        this.previsions = await this.api.getPrevisionsByOrigin( originId, config );
         return this.previsions;
     }
 
@@ -708,8 +751,8 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public async getRoutePrevisions( originId: number, destinationId: number ): Promise<Prevision[]> {
-        this.previsions = await this.api.getPrevisionsByOriginAndDestination( originId, destinationId );
+    public async getRoutePrevisions( originId: number, destinationId: number, config?: IRequestShortcutConfig ): Promise<Prevision[]> {
+        this.previsions = await this.api.getPrevisionsByOriginAndDestination( originId, destinationId, config );
         return this.previsions;
     }
 
@@ -722,8 +765,8 @@ export class TranscolOnlineController {
      * 
      * @memberOf TranscolOnlineController
      */
-    public async getLinePrevisions( line: BusLine ): Promise<Prevision[]> {
-        this.previsions = await this.api.getPrevisionsByOriginAndLine( line.pontoDeOrigemId, line.linhaId );
+    public async getLinePrevisions( line: BusLine, config?: IRequestShortcutConfig ): Promise<Prevision[]> {
+        this.previsions = await this.api.getPrevisionsByOriginAndLine( line.pontoDeOrigemId, line.linhaId, config );
         return this.previsions;
     }
 

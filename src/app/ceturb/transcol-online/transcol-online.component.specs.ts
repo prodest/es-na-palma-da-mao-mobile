@@ -17,10 +17,11 @@ describe( 'TranscolOnline', () => {
         let controller: TranscolOnlineController;
         let apiAservice: TranscolOnlineApiService;
         let transitionAservice: TransitionService;
+
         beforeEach(() => {
             environment.refresh();
             apiAservice = <TranscolOnlineApiService>{};
-            controller = new TranscolOnlineController( environment.$rootScope, environment.$scope, $windowMock, {} as any, {} as any, {} as any, apiAservice, transitionAservice );
+            controller = new TranscolOnlineController( environment.$rootScope, environment.$scope, $windowMock, {} as any, {} as any, {} as any, {} as any, apiAservice, transitionAservice );
         });
     });
 

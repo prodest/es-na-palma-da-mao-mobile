@@ -1,8 +1,9 @@
-import { IHttpService, IHttpPromiseCallbackArg } from 'angular';
+import { IHttpService, IHttpPromiseCallbackArg, IRequestShortcutConfig } from 'angular';
+import * as _ from 'lodash';
 import { FavoriteStops, TranscolOnlineStorage, BusStop, Prevision } from './index';
 
 const TIMEOUT = 10000;
-
+const DEFAULT_REQUEST_CONFIG = { timeout: TIMEOUT, headers: { 'Transparent': false } };
 /**
  * 
  * 
@@ -13,7 +14,7 @@ export class TranscolOnlineApiService {
 
     public static $inject: string[] = [ '$http', 'transcolOnlineStorage' ];
 
-    
+
     /**
      * Creates an instance of TranscolOnlineApiService.
      * @param {IHttpService} http 
@@ -110,7 +111,7 @@ export class TranscolOnlineApiService {
      * @memberof CeturbApiService
      */
     private listBusStopsByIds( ids: number[] ): Promise<BusStop[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/listarPontosDeParada`, { listaIds: ids } )
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/json/db/listarPontosDeParada`, { listaIds: ids })
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -123,8 +124,16 @@ export class TranscolOnlineApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public getPrevisionsByOriginAndLine( originId: number, lineId: number ): Promise<Prevision[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemELinha`, { pontoDeOrigemId: originId, linhaId: lineId }, { timeout: TIMEOUT })
+    public getPrevisionsByOriginAndLine( originId: number, lineId: number, config: IRequestShortcutConfig = {}): Promise<Prevision[]> {
+
+        const payload = {
+            pontoDeOrigemId: originId,
+            linhaId: lineId
+        };
+
+        const requestConfig: IRequestShortcutConfig = _.merge( {}, DEFAULT_REQUEST_CONFIG, config );
+
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemELinha`, payload, requestConfig )
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -137,8 +146,16 @@ export class TranscolOnlineApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public getPrevisionsByOriginAndDestination( originId: number, destinationId: number ): Promise<Prevision[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemEDestino`, { pontoDeOrigemId: originId, pontoDeDestinoId: destinationId }, { timeout: TIMEOUT })
+    public getPrevisionsByOriginAndDestination( originId: number, destinationId: number, config: IRequestShortcutConfig = {}): Promise<Prevision[]> {
+
+        const payload = {
+            pontoDeOrigemId: originId,
+            pontoDeDestinoId: destinationId
+        };
+
+        const requestConfig: IRequestShortcutConfig = _.merge( {}, DEFAULT_REQUEST_CONFIG, config );
+
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigemEDestino`, payload, requestConfig )
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -150,8 +167,13 @@ export class TranscolOnlineApiService {
      * 
      * @memberOf CeturbApiService
      */
-    public getPrevisionsByOrigin( id: number ): Promise<Prevision[]> {
-        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigem`, { pontoDeOrigemId: id }, { timeout: TIMEOUT } )
+    public getPrevisionsByOrigin( id: number, config: IRequestShortcutConfig = {}): Promise<Prevision[]> {
+
+        const payload = { pontoDeOrigemId: id };
+        
+        const requestConfig: IRequestShortcutConfig = _.merge( {}, DEFAULT_REQUEST_CONFIG, config );
+
+        return this.http.post( `https://api.es.gov.br/ceturb/transcolOnline/svc/estimativas/obterEstimativasPorOrigem`, payload, requestConfig )
             .then(( response: IHttpPromiseCallbackArg<any> ) => response.data );
     }
 
@@ -176,7 +198,7 @@ export class TranscolOnlineApiService {
         };
 
         return this.http
-            .post( `https://api.es.gov.br/espm/ceturb/transcolOnline/data/favoriteStops`, payload, { headers: { 'Transparent': true } } )
+            .post( `https://api.es.gov.br/espm/ceturb/transcolOnline/data/favoriteStops`, payload, { headers: { 'Transparent': true } })
             .then(( response: IHttpPromiseCallbackArg<FavoriteStops> ) => {
                 this.storage.favoriteStops = response.data!;
                 return response.data;
