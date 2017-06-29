@@ -52,7 +52,7 @@ export class GeolocationController implements IComponentController {
 
     private getLocation () {
         this.active = true;
-        return Geolocation.getCurrentPosition()
+        return Geolocation.getCurrentPosition( { timeout: 10000 } )
             .then(( resp ) => {
                 this.currentPosition = L.latLng( resp.coords.latitude, resp.coords.longitude );
                 const radius = resp.coords.accuracy || 5;
@@ -75,9 +75,6 @@ export class GeolocationController implements IComponentController {
 
                 this.layers = new L.LayerGroup( [ this.marker, this.circle ] );
                 this.active = false;
-            } ).catch(( error ) => {
-                this.active = false;
-                console.log( 'Error getting location', error );
             } );
     }
 
@@ -89,6 +86,10 @@ export class GeolocationController implements IComponentController {
      */
     public updateLocation (): void {
         this.getLocation()
-            .then(() => this.onLocationChanged( { layerGroup: this.layers, center: this.currentPosition } ) );
+            .then(() => this.onLocationChanged( { layerGroup: this.layers, center: this.currentPosition } ) )
+            .catch(( error ) => {
+                this.active = false;
+                console.log( 'Error getting location', error );
+            } );
     }
 }
