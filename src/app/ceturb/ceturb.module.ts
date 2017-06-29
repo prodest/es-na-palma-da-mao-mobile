@@ -68,6 +68,7 @@ export default angular.module( 'ceturb.module', [] )
                 })
                 .state( 'app.transcolOnline', {
                     url: 'transcolOnline',
+                    cache: false,
                     views: {
                         content: {
                             template: '<transcol-online></transcol-online>'
