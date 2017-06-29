@@ -1,3 +1,13 @@
+<a name="3.21.0"></a>
+# [3.21.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.20.0...v3.21.0) (2017-06-29)
+
+
+### Features
+
+* **transcolOnline:** define um timeout para obter a localização do usuário ([3ea0dab](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/3ea0dab))
+
+
+
 <a name="3.20.0"></a>
 # [3.20.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.19.0...v3.20.0) (2017-06-27)
 
