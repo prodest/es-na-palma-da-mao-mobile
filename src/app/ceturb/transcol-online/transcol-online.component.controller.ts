@@ -397,6 +397,7 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public showDestinations() {
+        this.selectedLine = undefined;
         this.navigateToDestinations();
     }
 
@@ -427,6 +428,7 @@ export class TranscolOnlineController {
      */
     public showOriginPrevisions(): Promise<Prevision[]> {
         this.previsions = undefined;
+        this.selectedLine = undefined;
         this.navigateToOriginPrevisions();
         return this.getOriginPrevisions( this.selectedOrigin!.id );
     }

@@ -65,11 +65,11 @@
                     previsions="vm.previsions" on-swipe-right="::vm.showDestinations()" on-prevision-click="::vm.showLinePrevisions({ identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId, pontoDeOrigemId: prevision.pontoDeOrigemId })"
                     on-refresh-click="::vm.getOriginPrevisions(vm.selectedOrigin.id)">
                 </origin-previsions-list>
-                <line-previsions-list ng-class="{ 'shown': vm.isShowingLinePrevisions }" title="Previsões para a linha {{vm.selectedLine.identificadorLinha}}"
+                <line-previsions-list ng-class="{ 'shown': vm.isShowingLinePrevisions }"
                     line="vm.selectedLine.identificadorLinha" previsions="vm.previsions" on-swipe-right="::vm.showOriginPrevisions()"
                     on-refresh-click="::vm.getLinePrevisions(vm.selectedLine)">
                 </line-previsions-list>
-                <route-previsions-list ng-class="{ 'shown': isShowingRoutePrevisions }" title="Previsões para a rota" previsions="vm.previsions"
+                <route-previsions-list ng-class="{ 'shown': isShowingRoutePrevisions }" previsions="vm.previsions"
                     on-refresh-click="::vm.getRoutePrevisions( this.selectedOrigin.id, this.selectedDestination.id )()">
                 </route-previsions-list>
             </div>
