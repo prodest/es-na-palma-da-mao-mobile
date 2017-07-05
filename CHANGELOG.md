@@ -1,3 +1,13 @@
+<a name="3.21.1"></a>
+## [3.21.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.21.0...v3.21.1) (2017-07-05)
+
+
+### Bug Fixes
+
+* **transcol-online:** corrige refresh ([fd11731](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/fd11731))
+
+
+
 <a name="3.21.0"></a>
 # [3.21.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.20.0...v3.21.0) (2017-06-29)
 
