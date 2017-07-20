@@ -1,34 +1,36 @@
 <div class="feedback-form">
-    <div class="panel-inner">
-        <span>{{$ctrl.description}}</span>
-        <div ng-show="$ctrl.showLine">
-            <md-input-container>
-                <label>Nº da Linha</label>
-                <input type="number" ng-model="$ctrl.form.line">
-            </md-input-container>
+    <form name="$ctrl.formFeedback">
+        <div class="panel-inner">
+            <span>{{$ctrl.description}}</span>
+            <div ng-if="$ctrl.showLine">
+                <md-input-container>
+                    <label>Nº da Linha</label>
+                    <input type="number" ng-model="$ctrl.form.line" required>
+                </md-input-container>
+            </div>
+            <div ng-if="$ctrl.showStop">
+                <md-input-container>
+                    <label>Nº do Ponto</label>
+                    <input type="number" ng-model="$ctrl.form.stop" required>
+                </md-input-container>
+            </div>
+            <div ng-if="$ctrl.showTime">
+                <md-input-container>
+                    <label>Hora</label>
+                    <input type="time" ng-model="$ctrl.form.date" required>
+                </md-input-container>
+            </div>
+            <div ng-if="$ctrl.showText">
+                <md-input-container>
+                    <label>Descreva seu problema:</label>
+                    <textarea ng-model="$ctrl.form.text" md-maxlength="1000" rows="5" md-select-on-focus required></textarea>
+                </md-input-container>
+            </div>
         </div>
-        <div ng-show="$ctrl.showStop">
-            <md-input-container>
-                <label>Nº do Ponto</label>
-                <input type="number" ng-model="$ctrl.form.stop">
-            </md-input-container>
+        <div class="submit-wrapper">
+            <md-button class="md-raised" md-colors="::{color: 'primary'}" md-no-ink="isAndroid" ng-click="$ctrl.send( $ctrl.form )">
+                ENVIAR
+            </md-button>
         </div>
-        <div ng-show="$ctrl.showTime">
-            <md-input-container>
-                <label>Hora</label>
-                <input type="time" ng-model="$ctrl.form.date">
-            </md-input-container>
-        </div>
-        <div ng-show="$ctrl.showText">
-            <md-input-container>
-                <label>Descreva seu problema:</label>
-                <textarea ng-model="$ctrl.form.text" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
-            </md-input-container>
-        </div>
-    </div>
-    <div class="submit-wrapper">
-        <md-button class="md-raised" md-colors="::{color: 'primary'}" md-no-ink="isAndroid" ng-click="$ctrl.send( $ctrl.form )">
-            ENVIAR
-        </md-button>
-    </div>
+    </form>
 </div>

@@ -24,12 +24,13 @@ export class FeedbackFormController {
     public showTime: boolean;
     public showText: boolean;
 
+    public formFeedback;
     public form: FeedBack;
 
     // public static $inject: string[] = [];
 
     // tslint:disable-next-line:variable-name
-    public onSendFeedback: ( { form: FeedBack }) => void;
+    public onSendFeedback: ( { form: FeedBack } ) => void;
 
     /**
      * Creates an instance of FeedbackFormController.
@@ -44,8 +45,8 @@ export class FeedbackFormController {
      * @memberof FeedbackFormController
      */
     public send( form: FeedBack ) {
-        if ( form ) {
-            this.onSendFeedback( { form });
+        if ( form && this.formFeedback.$valid ) {
+            this.onSendFeedback( { form } );
         }
     }
 
