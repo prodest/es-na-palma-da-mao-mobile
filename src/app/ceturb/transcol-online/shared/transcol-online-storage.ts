@@ -31,8 +31,7 @@ export class TranscolOnlineStorage {
      * @memberof TranscolOnlineStorage
      */
     public get favoriteStops(): FavoriteStops {
-        this.$localStorage[ this.favoriteStopsKey ] = this.$localStorage[ this.favoriteStopsKey ] || { items: [] };
-        return this.$localStorage[ this.favoriteStopsKey ] as FavoriteStops;
+        return this.$localStorage[ this.favoriteStopsKey ] ? this.$localStorage[ this.favoriteStopsKey ] : { items: [] };
     }
 
     

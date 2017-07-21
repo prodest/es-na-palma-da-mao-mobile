@@ -186,7 +186,7 @@ export class TranscolOnlineApiService {
      * 
      * @memberof TranscolOnlineApiService
      */
-    public syncFavoriteStopsData( hasNewData: boolean = false ): Promise<FavoriteStops> {
+    public syncFavoriteStopsData( hasNewData: boolean = false ): Promise<FavoriteStops | undefined> {
         if ( hasNewData ) {
             this.storage.favoriteStops.date = new Date();
         }

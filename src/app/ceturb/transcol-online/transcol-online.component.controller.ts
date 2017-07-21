@@ -127,7 +127,7 @@ export class TranscolOnlineController {
         const stops = await this.api.getBusStopsByArea( startBounds );
 
         this.renderBusStops( stops );
-        this.syncFavorites();
+        this.syncFavorites( false );
     }
 
 
@@ -849,7 +849,7 @@ export class TranscolOnlineController {
             this.storage.addToFavoriteStops( stop, type );
         }
 
-        this.syncFavorites();
+        this.syncFavorites( true );
     }
 
 
@@ -860,9 +860,9 @@ export class TranscolOnlineController {
      * 
      * @memberof TranscolOnlineController
      */
-    private async syncFavorites() {
+    private async syncFavorites( hasNewData: boolean) {
         if ( !this.authenticationService.user.anonymous ) {
-            await this.api.syncFavoriteStopsData( true );
+            await this.api.syncFavoriteStopsData( hasNewData );
             this.updateFavoritesFromLocalStorage();
         }
     }
