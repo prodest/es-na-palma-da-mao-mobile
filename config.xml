@@ -35,6 +35,15 @@
         <hook src="hook_scripts/after_prepare/010_add_platform_class.js" type="after_prepare" />
         <hook src="hook_scripts/after_platform_add/030_update_platform_config.js" type="after_platform_add" />
         <hook src="hook_scripts/after_prepare/copy_resources_files.js" type="after_prepare" />
+        <config-file parent="application/activity" target="AndroidManifest.xml">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="acessocidadao" android:path="/" android:scheme="espm" />
+            </intent-filter>
+        </config-file>
+        <resource-file src="google-services.json" target="google-services.json" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -47,20 +56,13 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.9.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.9.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.9.png" />
-        <config-file parent="application/activity" target="AndroidManifest.xml">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="acessocidadao" android:path="/" android:scheme="espm" />
-            </intent-filter>
-        </config-file>
     </platform>
     <platform name="ios">
         <preference name="KeyboardDisplayRequiresUserAction" value="false" />
         <feature name="Keyboard">
             <param name="ios-package" onload="true" value="IonicKeyboard" />
         </feature>
+        <resource-file src="GoogleService-Info.plist" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -108,4 +110,5 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="Escanear códigos de barra" />
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
+    <plugin name="phonegap-plugin-push" spec="https://github.com/prodest/phonegap-plugin-push" />
 </widget>
