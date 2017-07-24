@@ -23,7 +23,7 @@
 				</div>
 				<md-divider></md-divider>
 				<div class="panel" ng-show="vm.activePanel === 0">
-					<feedback-form show-stop="true" show-line="true" show-time="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)"></feedback-form>
+					<feedback-form show-stop="true" show-line="true" show-time="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)" on-error="::vm.showDialog( message )"></feedback-form>
 					<md-divider></md-divider>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 				</div>
 				<md-divider></md-divider>
 				<div class="panel" ng-show="vm.activePanel === 1">
-					<feedback-form show-stop="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)"></feedback-form>
+					<feedback-form show-stop="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)" on-error="::vm.showDialog( message )"></feedback-form>
 					<md-divider></md-divider>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 				</div>
 				<md-divider></md-divider>
 				<div class="panel" ng-show="vm.activePanel === 2">
-					<feedback-form show-stop="true" show-line="true" show-time="true" get-location="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)"></feedback-form>
+					<feedback-form show-stop="true" show-line="true" show-time="true" get-location="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)" on-error="::vm.showDialog( message )"></feedback-form>
 					<md-divider></md-divider>
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 				</div>
 				<md-divider></md-divider>
 				<div class="panel" ng-show="vm.activePanel === 3">
-					<feedback-form show-stop="true" show-line="true" show-time="true" get-location="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)"></feedback-form>
+					<feedback-form show-stop="true" show-line="true" show-time="true" get-location="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)" on-error="::vm.showDialog( message )"></feedback-form>
 					<md-divider></md-divider>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 				</div>
 				<div class="panel last-panel" ng-show="vm.activePanel === 4">
 					<md-divider></md-divider>
-					<feedback-form show-text="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)"></feedback-form>
+					<feedback-form show-text="true" on-send-feedback="::vm.saveFeedback(form, vm.activePanel)" on-error="::vm.showDialog( message )"></feedback-form>
 				</div>
 			</div>
 		</div>

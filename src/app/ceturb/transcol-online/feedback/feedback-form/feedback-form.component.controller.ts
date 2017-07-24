@@ -31,6 +31,8 @@ export class FeedbackFormController {
 
     // tslint:disable-next-line:variable-name
     public onSendFeedback: ( { form: FeedBack } ) => void;
+    // tslint:disable-next-line:variable-name
+    public onError: ( { message: string } ) => void;
 
     /**
      * Creates an instance of FeedbackFormController.
@@ -47,6 +49,8 @@ export class FeedbackFormController {
     public send( form: FeedBack ) {
         if ( form && this.formFeedback.$valid ) {
             this.onSendFeedback( { form } );
+        } else {
+            this.onError( { message: 'Campos não preenchidos ou inválidos' } );
         }
     }
 

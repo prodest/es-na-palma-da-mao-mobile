@@ -11,6 +11,7 @@ export const FeedbackFormComponent: ng.IComponentOptions = {
         showTime: '<',
         getLocation: '<',
         showText: '<',
-        onSendFeedback: '&'
+        onSendFeedback: '&',
+        onError: '&'
     }
 };

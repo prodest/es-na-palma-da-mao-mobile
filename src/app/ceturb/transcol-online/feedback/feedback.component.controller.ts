@@ -10,18 +10,23 @@ export class TranscolFeedbackController {
 
     public line: number;
 
-    public static $inject: string[] = [ '$window', 'feedBackApiService', 'transitionService', 'toast' ];
+    public static $inject: string[] = [ '$window', 'feedBackApiService', 'transitionService', 'toast', '$mdDialog' ];
 
     /**
      * Creates an instance of TranscolFeedbackController.
      * @param {IWindowService} $window 
+     * @param {FeedBackApiService} feedBackApiService 
+     * @param {TransitionService} transitionService 
+     * @param {ToastService} toast 
+     * @param {angular.material.IDialogService} $mdDialog 
      * @memberof TranscolFeedbackController
      */
     constructor(
         private $window: IWindowService,
         private feedBackApiService: FeedBackApiService,
         private transitionService: TransitionService,
-        private toast: ToastService ) {
+        private toast: ToastService,
+        private $mdDialog: angular.material.IDialogService ) {
     }
 
     /**
@@ -60,9 +65,16 @@ export class TranscolFeedbackController {
         this.feedBackApiService
             .saveFeedBack( form )
             .then(() => this.goBack() )
-            .then(() => window.setTimeout( () => this.toast.info( { title: 'Mensagem enviada com sucesso' }), 600 ) );
+            .then(() => window.setTimeout(() => this.toast.info( { title: 'Mensagem enviada com sucesso' } ), 600 ) );
     }
 
+    public showDialog( message: string ) {
+        let alert = this.$mdDialog.alert()
+            .clickOutsideToClose( true )
+            .textContent( 'Favor preencher todos os campos' )
+            .ok( 'ENTENDI' );
+        this.$mdDialog.show( alert );
+    }
 
     /**
      * 
