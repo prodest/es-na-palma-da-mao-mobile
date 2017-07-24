@@ -1,3 +1,20 @@
+<a name="3.22.0"></a>
+# [3.22.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.21.1...v3.22.0) (2017-07-24)
+
+
+### Bug Fixes
+
+* **transcol-online:** Corrige sincronização de favoritos ([03ff8ca](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/03ff8ca))
+* **transcol-online:** Exibe mensagem caso campos de feedback não preenchidos ([173a938](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/173a938))
+* **transcol-online:** Exige preenchimento dos campos ([d9a893c](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/d9a893c))
+
+
+### Features
+
+* **cordova:** Atualiza configurações para Cordova 7 ([c049197](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/c049197))
+
+
+
 <a name="3.21.1"></a>
 ## [3.21.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.21.0...v3.21.1) (2017-07-05)
 
