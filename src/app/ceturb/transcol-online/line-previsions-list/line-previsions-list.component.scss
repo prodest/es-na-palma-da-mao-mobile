@@ -16,10 +16,20 @@
     margin-bottom: 5px;
     background: none;
     justify-content: center;
+    text-align: center;
     i, strong {
         font-size: 16px;
     }
 }
+
+.line-previsions__page-subtitle {
+    text-transform: capitalize !important;
+    font-size: 10px;
+    line-height: 15px;
+    margin-top: 6px;
+}
+
+
 
 .line-previsions {
     

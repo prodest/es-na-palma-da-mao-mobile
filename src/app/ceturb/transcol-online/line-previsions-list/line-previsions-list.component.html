@@ -1,5 +1,10 @@
 <div class="line-previsions__page-title">
-    <div><i class="fa fa-clock-o"></i> Próximos horários para a linha <strong> {{$ctrl.line}}</strong></div>
+    <div>
+        <i class="fa fa-clock-o"></i>
+         Próximos horários da linha 
+         <strong> {{$ctrl.line}} </strong>
+         <div ng-if="$ctrl.previsions.length" class="line-previsions__page-subtitle">{{$ctrl.previsions[0].bandeira}} - {{$ctrl.previsions[0].descricaoLinha}}</div>
+    </div>
 </div>
 <div class="line-previsions__table-header">
     <span>Ônibus</span>
