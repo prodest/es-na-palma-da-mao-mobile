@@ -30,11 +30,6 @@
                 <md-button class="md-fab stop-info__btn stop-info__btn-routes" ng-click="::vm.onPrevisionsButtonClick()">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </md-button>
-
-                <md-button class="md-fab stop-info__btn stop-info__btn-destination" ng-click="::vm.onDestinationsButtonClick()" ng-if="vm.selectedOrigin && !vm.selectedDestination">
-                    <i class="fa fa-map-signs" aria-hidden="true"></i>
-                </md-button>
-
                 <md-button 
                     class="md-fab stop-info__btn stop-info__btn-favorite" 
                     ng-class="{'is-favorite': vm.isFavoriteStop(vm.selectedOrigin)}"
@@ -57,10 +52,7 @@
                     </stop-summary>
                 </div>
             </div>
-            <div class="stop-info__content" ng-class="{ destinations: vm.isShowingDestinations, 'previsionsByOrigin': vm.isShowingOriginPrevisions, 'previsionsByLine': vm.isShowingLinePrevisions, 'previsionsByRoute': vm.isShowingRoutePrevisions }">
-                <destination-list class="clickable" destinations="vm.destinations" ng-class="{ 'shown': vm.isShowingDestinations }" on-swipe-left="::vm.showOriginPrevisions()"
-                    on-destination-click="::vm.selectStop(destination);">
-                </destination-list>
+            <div class="stop-info__content" ng-class="{ 'previsionsByOrigin': vm.isShowingOriginPrevisions, 'previsionsByLine': vm.isShowingLinePrevisions, 'previsionsByRoute': vm.isShowingRoutePrevisions }">
                 <origin-previsions-list class="clickable" ng-class="{ 'shown': vm.isShowingOriginPrevisions }" origin="vm.selectedOrigin"
                     previsions="vm.previsions" on-swipe-right="::vm.showDestinations()" on-prevision-click="::vm.showLinePrevisions({ identificadorLinha: prevision.identificadorLinha, linhaId: prevision.linhaId, pontoDeOrigemId: prevision.pontoDeOrigemId })"
                     on-refresh-click="::vm.getOriginPrevisions(vm.selectedOrigin.id)">

@@ -308,8 +308,6 @@ export class TranscolOnlineController {
     }
 
 
-
-    public isShowingDestinations = false;
     public isShowingOriginPrevisions = false;
     public isShowingLinePrevisions = false;
     public isShowingRoutePrevisions = false;
@@ -325,23 +323,6 @@ export class TranscolOnlineController {
     public get isRouteSelected(): boolean {
         return !!this.selectedOrigin && !!this.selectedDestination;
     }
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf TranscolOnlineController
-     */
-    public onDestinationsButtonClick() {
-        if ( this.isDetailsOpenned && this.isShowingDestinations ) {
-            this.closeDetails();
-        }
-        else {
-            this.showDestinations();
-            this.openDetails();
-        }
-    }
-
 
     /**
      * 
@@ -412,7 +393,7 @@ export class TranscolOnlineController {
         if ( clearDestinations ) {
             this.destinations = [];
         }
-        this.isShowingDestinations = true;
+
         this.isShowingOriginPrevisions = false;
         this.isShowingLinePrevisions = false;
         this.isShowingRoutePrevisions = false;
@@ -440,7 +421,6 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public navigateToOriginPrevisions( clearPrevisions = true ) {
-        this.isShowingDestinations = false;
         this.isShowingOriginPrevisions = true;
         this.isShowingLinePrevisions = false;
         this.isShowingRoutePrevisions = false;
@@ -466,7 +446,6 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public navigateToRoutePrevisions( clearPrevisions = true ) {
-        this.isShowingDestinations = false;
         this.isShowingOriginPrevisions = false;
         this.isShowingLinePrevisions = false;
         this.isShowingRoutePrevisions = true;
@@ -493,7 +472,6 @@ export class TranscolOnlineController {
      * @memberOf TranscolOnlineController
      */
     public navigateToLinePrevisions( clearPrevisions = true ) {
-        this.isShowingDestinations = false;
         this.isShowingOriginPrevisions = false;
         this.isShowingLinePrevisions = true;
         this.isShowingRoutePrevisions = false;
