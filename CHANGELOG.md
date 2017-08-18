@@ -1,3 +1,13 @@
+<a name="3.23.0"></a>
+# [3.23.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.22.0...v3.23.0) (2017-08-18)
+
+
+### Features
+
+* **transcol-online:** remove aba de destinos ([8e5f376](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/8e5f376))
+
+
+
 <a name="3.22.0"></a>
 # [3.22.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.21.1...v3.22.0) (2017-07-24)
 
