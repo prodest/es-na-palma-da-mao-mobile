@@ -9,6 +9,7 @@ export interface Prevision {
     bandeira: string;
     complemento: string;
     descricaoLinha: string;
+    observacaoLinha: string;
     identificadorLinha: string;
     linhaId: number;
     previsaoEmMinutos: number;
