@@ -77,15 +77,23 @@
     left: 2%;
 }
 
+body.keyboard-openned .favorite-process-container {
+    max-height: 50%;
+}
+
 /* The starting CSS styles for the enter animation */
 .favorite-process-container.ng-enter {
-  transition:0.3s linear all;
-  opacity:0;
+    transition:0.3s linear all;
+    opacity:0;
 }
+
+.favorite-process-container.ng-enter-prepare {
+    opacity: 0;
+  }
 
 /* The finishing CSS styles for the enter animation */
 .favorite-process-container.ng-enter.ng-enter-active {
-  opacity:1;
+    opacity:1;
 }
 
 .item-favorite-inner {
