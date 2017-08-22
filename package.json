@@ -52,7 +52,6 @@
     "component": "gulp generate --template component",
     "state": "gulp generate --template state",
     "commitmsg": "validate-commit-msg",
-    "prepush": "yarn test",
     "postmerge": "yarn install",
     "postrewrite": "yarn install"
   },
