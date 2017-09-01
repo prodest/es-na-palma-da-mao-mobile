@@ -1,3 +1,15 @@
+<a name="3.23.1"></a>
+## [3.23.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.23.0...v3.23.1) (2017-09-01)
+
+
+### Bug Fixes
+
+* **geral:** Corrige erro de multidex na compilação android. ([ab8bc57](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/ab8bc57))
+* **sep:** corrige tamanho da tela com teclado aberto no ios ([a5e6f09](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/a5e6f09))
+* **transcol-online:** corrige posicionamento do teclado no feedback ([e6e1075](https://github.com/prodest/es-na-palma-da-mao-mobile/commit/e6e1075))
+
+
+
 <a name="3.23.0"></a>
 # [3.23.0](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.22.0...v3.23.0) (2017-08-18)
 
