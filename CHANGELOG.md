@@ -3,6 +3,11 @@
 
 
 
+<a name="3.23.2"></a>
+## [3.23.2](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.23.1...v3.23.2) (2017-10-02)
+
+
+
 <a name="3.23.1"></a>
 ## [3.23.1](https://github.com/prodest/es-na-palma-da-mao-mobile/compare/v3.23.0...v3.23.1) (2017-09-01)
 
