@@ -3,7 +3,7 @@ import { YearFilter } from './index';
 
 export class YearFilterController implements IComponentController {
 
-    private availableYears: number[];
+    public availableYears: number[];
     public yearRange?: [ number, number ];
     public filter: YearFilter;
 

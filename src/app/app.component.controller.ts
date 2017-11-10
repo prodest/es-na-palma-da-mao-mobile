@@ -23,7 +23,7 @@ export class AppController {
         'transitionService'
     ];
 
-    private menu: { items: Route[], groups: any };
+    public menu: { items: Route[], groups: any };
 
     /**
      * Creates an instance of AppController.
@@ -68,7 +68,7 @@ export class AppController {
      * 
      * @memberOf MenuController
      */
-    private noHeaderShadow = true;
+    public noHeaderShadow = true;
 
     /**
      * Ativa o controller

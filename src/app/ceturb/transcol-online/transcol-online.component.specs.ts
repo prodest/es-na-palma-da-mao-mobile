@@ -1,9 +1,9 @@
 import { TranscolOnlineController } from './transcol-online.component.controller';
 import { TranscolOnlineComponent } from './transcol-online.component';
-import { TranscolOnlineApiService } from './shared/index';
+// import { TranscolOnlineApiService } from './shared/index';
 import TranscolOnlineTemplate = require( './transcol-online.component.html' );
-import { environment, $windowMock } from '../../shared/tests/index';
-import { TransitionService } from '../../shared/shared.module';
+import { environment/* , $windowMock  */} from '../../shared/tests/index';
+// import { TransitionService } from '../../shared/shared.module';
 
 let expect = chai.expect;
 
@@ -14,14 +14,14 @@ describe( 'TranscolOnline', () => {
     afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
-        let controller: TranscolOnlineController;
-        let apiAservice: TranscolOnlineApiService;
-        let transitionAservice: TransitionService;
+        // let controller: TranscolOnlineController;
+        // let apiAservice: TranscolOnlineApiService;
+        // let transitionAservice: TransitionService;
 
         beforeEach(() => {
             environment.refresh();
-            apiAservice = <TranscolOnlineApiService>{};
-            controller = new TranscolOnlineController( environment.$rootScope, environment.$scope, $windowMock, {} as any, {} as any, {} as any, {} as any, apiAservice, transitionAservice );
+            // apiAservice = <TranscolOnlineApiService>{};
+            // controller = new TranscolOnlineController( environment.$rootScope, environment.$scope, $windowMock, {} as any, {} as any, {} as any, {} as any, apiAservice, transitionAservice );
         });
     });
 

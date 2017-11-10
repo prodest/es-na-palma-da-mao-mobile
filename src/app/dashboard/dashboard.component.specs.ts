@@ -3,7 +3,7 @@ import { DashBoardController } from './dashboard.component.controller';
 import { DashBoardComponent } from './dashboard.component';
 import DashBoardTemplate = require('./dashboard.component.html');
 import { environment } from '../shared/tests/index';
-import { TransitionService } from '../shared/shared.module';
+// import { TransitionService } from '../shared/shared.module';
 
 let expect = chai.expect;
 
@@ -14,13 +14,13 @@ describe( 'Dashboard', () => {
     afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
-        let controller: DashBoardController;
-        let $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate;
-        let transitionService: TransitionService;
+        // let controller: DashBoardController;
+        // let $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate;
+        // let transitionService: TransitionService;
 
         beforeEach(() => {
             environment.refresh();
-            controller = new DashBoardController( $ionicTabsDelegate, transitionService );
+            // controller = new DashBoardController( $ionicTabsDelegate, transitionService );
         });
     });
 

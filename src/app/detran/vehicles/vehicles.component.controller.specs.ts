@@ -1,7 +1,7 @@
 import { VehiclesController } from './vehicles.component.controller';
 import { VehiclesComponent } from './vehicles.component';
 import VehiclesTemplate = require( './vehicles.component.html' );
-import { Vehicle, VehicleStorage, VehicleInfo } from '../shared/index';
+import { Vehicle, VehicleStorage/* , VehicleInfo */ } from '../shared/index';
 import { TransitionService } from '../../shared/shared.module';
 import addVehicleTemplate = require( './add-vehicle/add-vehicle.html' );
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
@@ -34,7 +34,7 @@ describe( 'Detran/vehicles', () => {
 
         // models
         let vehicle: Vehicle;
-        let vehicleInfo: VehicleInfo;
+        // let vehicleInfo: VehicleInfo;
 
         beforeEach(() => {
             environment.refresh();
@@ -53,7 +53,7 @@ describe( 'Detran/vehicles', () => {
 
             // setup stubs
             vehicle = { plate: '123456', renavam: 333333 };
-            vehicleInfo = { color: 'red', model: 'Idea' };
+            // vehicleInfo = { color: 'red', model: 'Idea' };
             vehicles = [ vehicle, vehicle ];
 
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
