@@ -15,10 +15,6 @@ webhooks:
     on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
-
-before_install:
- - npm i -g yarn --cache-min 999999999
-
 install:
  - node --version
  - cd ../
@@ -30,12 +26,9 @@ install:
  - echo $TRAVIS_TAG
  - git branch -a
  - git checkout $TRAVIS_BRANCH
- - yarn install
+ - npm i
 script: 
- - yarn test:coverage
-
-cache: yarn
-
+ - npm run test:coverage
 deploy:
   provider: script
   skip_cleanup: true
