@@ -10,4 +10,6 @@ export interface Route {
     groupMenu: boolean;
     editable: boolean;
     secure: boolean;
+    deepLink: boolean;
+    fallbackUrl: string;
 }

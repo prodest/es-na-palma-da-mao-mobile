@@ -316,6 +316,17 @@
     "icon": "fa fa-clock-o"
   },
   {
+    "name": "app.mb",
+    "url": "mb://action=login",
+    "src": "",
+    "menu": true,
+    "menuName": "Táxi Gov",
+    "group": "Servidor",
+    "icon": "fa fa-taxi",
+    "deepLink": true,
+    "fallbackUrl": "market://details?id=mb.taxi.meiabandeirada"
+  },
+  {
     "name": "app.about",
     "url": "about",
     "type": "load",

@@ -1,4 +1,4 @@
-import { IRootScopeService } from 'angular';
+import { IRootScopeService, IScope, IWindowService } from 'angular';
 import { ToastService, TransitionService } from './shared/shared.module';
 import { User, AuthenticationService } from './security/security.module';
 import { Route, statesJson } from './shared/routes/index';
@@ -20,7 +20,9 @@ export class AppController {
         '$state',
         'authenticationService',
         'toast',
-        'transitionService'
+        'transitionService',
+        '$window',
+        '$scope'
     ];
 
     public menu: { items: Route[], groups: any };
@@ -40,6 +42,8 @@ export class AppController {
      * @param {AuthenticationService} authService
      * @param {ToastService} toast
      * @param {TransitionService} transitionService
+     * @param {IWindowService} $window
+     * @param {IScope} $scope
      * 
      * @memberOf AppController
      */
@@ -54,7 +58,9 @@ export class AppController {
         private $state: angular.ui.IStateService,
         private authService: AuthenticationService,
         private toast: ToastService,
-        private transitionService: TransitionService ) {
+        private transitionService: TransitionService,
+        private $window: IWindowService,
+        private $scope: IScope ) {
         this.activate();
     }
 
@@ -206,10 +212,18 @@ export class AppController {
     public navigateTo( route: Route ): void {
         this.closeSideNav();
 
-        let toRoute = !this.authService.user.isAuthenticated && route.secure
-            ? 'app.noAccess'
-            : route.name;
-        this.transitionService.changeMenuState( toRoute );
+        if ( route.deepLink ) {
+            this.$window.open( route.url, '_system' );
+            if ( this.$scope.isAndroid ) {
+                setTimeout( this.$window.open( route.fallbackUrl, '_system' ), 500 );
+            }
+            console.log( route.url );
+        } else {
+            let toRoute = !this.authService.user.isAuthenticated && route.secure
+                ? 'app.noAccess'
+                : route.name;
+            this.transitionService.changeMenuState( toRoute );
+        }
     }
 
     /**
@@ -228,7 +242,6 @@ export class AppController {
         this.closeSideNav();
         this.transitionService.changeRootState( 'home' );
     }
-
 
     /********************************************** Private API  **********************************************/
 
