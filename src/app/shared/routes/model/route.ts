@@ -11,5 +11,6 @@ export interface Route {
     editable: boolean;
     secure: boolean;
     deepLink: boolean;
-    fallbackUrl: string;
+    package: string;
+    uriScheme: string;
 }

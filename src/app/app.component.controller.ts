@@ -2,7 +2,7 @@ import { IRootScopeService, IScope, IWindowService } from 'angular';
 import { ToastService, TransitionService } from './shared/shared.module';
 import { User, AuthenticationService } from './security/security.module';
 import { Route, statesJson } from './shared/routes/index';
-
+import { AppAvailability } from 'ionic-native';
 /**
  * Controller raiz da aplicação
  */
@@ -213,11 +213,18 @@ export class AppController {
         this.closeSideNav();
 
         if ( route.deepLink ) {
-            this.$window.open( route.url, '_system' );
             if ( this.$scope.isAndroid ) {
-                setTimeout( this.$window.open( route.fallbackUrl, '_system' ), 500 );
+                AppAvailability.check( route.package )
+                    .then(
+                    ( yes: boolean ) => this.$window.open( route.url, '_system' ),
+                    ( no: any ) => this.$window.open( 'market://details?id=' + route.package, '_system' ) );
+            } else {
+                // TODO: Verificar como fazer para ios
+                AppAvailability.check( route.uriScheme )
+                    .then(
+                    ( yes: boolean ) => console.log( yes ),
+                    ( no: any ) => console.log( no ) );
             }
-            console.log( route.url );
         } else {
             let toRoute = !this.authService.user.isAuthenticated && route.secure
                 ? 'app.noAccess'
