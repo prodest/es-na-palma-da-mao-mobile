@@ -4,8 +4,6 @@ export * from './identities/socialNetworkIdentity';
 export * from './identities/identity';
 
 export * from './authResponses/acessoCidadaoResponse';
-export * from './authResponses/digitsAccessToken';
-export * from './authResponses/digitsAuthResponse';
 export * from './authResponses/googleAuthResponse';
 
 export * from './claims/acessoCidadaoClaims';

@@ -1,9 +1,8 @@
 import { HttpErrorSnifferService } from './http-error-sniffer.service';
-import { AnswersService } from '../fabric/index';
 import { Error } from './models/index';
 
 let httpErrorInterceptorConfig = $httpProvider => {
-    let httpErrorInterceptor = ( $log, httpErrorSnifferService: HttpErrorSnifferService, answersService: AnswersService ) => {
+    let httpErrorInterceptor = ( $log, httpErrorSnifferService: HttpErrorSnifferService ) => {
         return {
             'response': function ( response ) {
                 httpErrorSnifferService.error = undefined;
@@ -23,15 +22,12 @@ let httpErrorInterceptorConfig = $httpProvider => {
 
                 httpErrorSnifferService.error = error;
 
-                // Fabric
-                answersService.sendResponseErrorEvent( response );
-
                 $log.error( response );
                 return Promise.reject( response );
             }
         };
     };
-    $httpProvider.interceptors.push( [ '$log', 'httpErrorSnifferService', 'answersService', httpErrorInterceptor ] );
+    $httpProvider.interceptors.push( [ '$log', 'httpErrorSnifferService', httpErrorInterceptor ] );
 };
 
 httpErrorInterceptorConfig.$inject = [ '$httpProvider' ];

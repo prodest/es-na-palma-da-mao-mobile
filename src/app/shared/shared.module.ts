@@ -21,7 +21,6 @@ import awaiterRun from './awaiter.run';
 import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
 import pushModule from './push/index';
-import fabricModule from './fabric/index';
 import permissionsModule from './permissions/index';
 import { TransitionService } from './transition.service';
 import { settings } from './settings/index';
@@ -31,7 +30,6 @@ let dependencies = [
     dialog.name,
     directives.name,
     pushModule.name,
-    fabricModule.name,
     permissionsModule.name
 ];
 
@@ -40,7 +38,6 @@ export * from './dialog/index';
 export * from './transition.service';
 export * from './push/index';
 export * from './settings/index';
-export * from './fabric/index';
 export * from './routes/index';
 
 export default angular.module( 'shared', dependencies )

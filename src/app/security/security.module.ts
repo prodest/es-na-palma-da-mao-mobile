@@ -4,7 +4,6 @@ import {
     AuthenticationService,
     AuthenticationStorageService,
     AcessoCidadaoService,
-    DigitsService,
     httpAuthInterceptorConfig,
     authenticationRun
 } from './shared/index';
@@ -13,7 +12,6 @@ export default angular.module( 'security.module', [] )
 
     // services
     .service( 'acessoCidadaoService', AcessoCidadaoService )
-    .service( 'digitsService', DigitsService )
     .service( 'authenticationService', AuthenticationService )
     .service( 'authenticationStorageService', AuthenticationStorageService )
 

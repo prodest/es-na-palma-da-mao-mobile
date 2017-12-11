@@ -1,5 +1,5 @@
 import { AuthenticationStorageService } from './authentication-storage.service';
-import { ISettings, AnswersService } from '../../shared/shared.module';
+import { ISettings } from '../../shared/shared.module';
 import {
     IWindowService,
     IHttpService,
@@ -24,7 +24,7 @@ import {
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', 'authenticationStorageService', 'settings', 'answersService' ];
+    public static $inject: string[] = [ '$window', '$http', 'authenticationStorageService', 'settings' ];
     private identityServerUrl: string;
     private static refreshingToken: boolean = false;
 
@@ -35,15 +35,13 @@ export class AcessoCidadaoService {
      * @param {IHttpService} $http
      * @param {AuthenticationStorageService} authStorage
      * @param {ISettings} settings
-     * @param {AnswersService} answersService
      * 
      * @memberOf AcessoCidadaoService
      */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
         private authStorage: AuthenticationStorageService,
-        private settings: ISettings,
-        private answersService: AnswersService ) {
+        private settings: ISettings) {
         this.identityServerUrl = this.settings.identityServer.url;
     }
 
@@ -64,15 +62,9 @@ export class AcessoCidadaoService {
      * @returns {Promise<AcessoCidadaoClaims>}
      */
     public async login( identity: Identity ): Promise<AcessoCidadaoClaims> {
-        try {
-            const token = await this.getToken( identity );
-            this.sendAnswers( identity, true );
-            this.saveTokenOnLocalStorage( token );
-            return await this.getAcessoCidadaoUserClaims();
-        } catch ( error ) {
-            this.sendAnswers( identity, false );
-            throw error;
-        }
+        const token = await this.getToken( identity );
+        this.saveTokenOnLocalStorage( token );
+        return await this.getAcessoCidadaoUserClaims();
     }
 
     /**
@@ -192,23 +184,6 @@ export class AcessoCidadaoService {
         identity.refresh_token = this.acessoCidadaoResponse.refresh_token;
 
         return identity;
-    }
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {*} data
-     * @param {boolean} success
-     * 
-     * @memberOf AcessoCidadaoService
-     */
-    private sendAnswers( data: any, success: boolean ) {
-        if ( !!data.provider ) {
-            this.answersService.sendLogin( 'AcessoCidadao', success, { provider: data.provider, grant_type: data.grant_type });
-        } else {
-            this.answersService.sendLogin( 'AcessoCidadao', success, { grant_type: data.grant_type });
-        }
     }
 
     /**

@@ -2,14 +2,11 @@ import { Identity } from './models/identities/identity';
 import { GooglePlus, Facebook, FacebookLoginResponse } from 'ionic-native';
 import { AuthenticationStorageService } from './authentication-storage.service';
 import { AcessoCidadaoService } from './acesso-cidadao.service';
-import { DigitsService } from './digits.service';
-import { ISettings, AnswersService, PushService } from '../../shared/shared.module';
+import { ISettings, PushService } from '../../shared/shared.module';
 
 import {
     AcessoCidadaoIdentity,
     SocialNetworkIdentity,
-    PhoneIdentity,
-    DigitsAuthResponse,
     GoogleAuthResponse,
     User
 } from './models/index';
@@ -25,9 +22,7 @@ export class AuthenticationService {
 
     public static $inject: string[] = [
         'authenticationStorageService',
-        'answersService',
         'acessoCidadaoService',
-        'digitsService',
         'settings',
         'pushService'
     ];
@@ -37,18 +32,14 @@ export class AuthenticationService {
      * Creates an instance of AuthenticationService.
      * 
      * @param {AuthenticationStorageService} authStorage
-     * @param {AnswersService} answersService
      * @param {AcessoCidadaoService} acessoCidadaoService
-     * @param {DigitsService} digitsService
      * @param {ISettings} settings
      * @param {PushService} pushService
      * 
      * @memberOf AuthenticationService
      */
     constructor( private authStorage: AuthenticationStorageService,
-        private answersService: AnswersService,
         private acessoCidadaoService: AcessoCidadaoService,
-        private digitsService: DigitsService,
         private settings: ISettings,
         private pushService: PushService ) {
     }
@@ -63,7 +54,6 @@ export class AuthenticationService {
 
         // 1 - se desloga de todos os providers
         GooglePlus.logout();
-        this.digitsService.logout();
         this.acessoCidadaoService.logout();
 
         // 2 - limpa auth storage
@@ -117,9 +107,6 @@ export class AuthenticationService {
             // salva resposta no local storage
             this.authStorage.facebookAuthResponse = loginResponse;
 
-            // efetua log
-            this.answersService.sendLogin( 'Facebook', true, undefined );
-
             identity = {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
@@ -129,7 +116,6 @@ export class AuthenticationService {
                 accesstoken: loginResponse.authResponse.accessToken
             };
         } catch ( error ) {
-            this.answersService.sendLogin( 'Facebook', false, undefined );
             throw error;
         }
 
@@ -161,9 +147,6 @@ export class AuthenticationService {
             // salva resposta no local storage
             this.authStorage.googleAuthResponse = authReponse;
 
-            // efetua log
-            this.answersService.sendLogin( 'Google', true, undefined );
-
             identity = {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
@@ -173,34 +156,8 @@ export class AuthenticationService {
                 accesstoken: authReponse.idToken
             };
         } catch ( error ) {
-            this.answersService.sendLogin( 'Google', false, undefined );
             throw error;
         }
-
-        return this.login( identity );
-    }
-
-    /**
-     * 
-     * 
-     * @returns {Promise<User>}
-     * 
-     * @memberOf AuthenticationService
-     */
-    public async digitsLogin(): Promise<User> {
-
-        const authResponse: DigitsAuthResponse = await this.digitsService.login( {});
-
-        let identity: PhoneIdentity = {
-            client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-            client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-            grant_type: 'customloginexterno',
-            scope: this.settings.identityServer.defaultScopes,
-            provider: 'Celular',
-            accesstoken: 'token',
-            apiUrl: authResponse[ 'X-Auth-Service-Provider' ],
-            authHeader: authResponse[ 'X-Verify-Credentials-Authorization' ]
-        };
 
         return this.login( identity );
     }

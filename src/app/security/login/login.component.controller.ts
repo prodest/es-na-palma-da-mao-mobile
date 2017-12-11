@@ -86,13 +86,6 @@ export class LoginController {
     }
 
     /**
-     * Realiza login digits
-     */
-    public async digitsLogin() {
-        await this.loginWith(() => this.authenticationService.digitsLogin() );
-    }
-
-    /**
      * Abre a janela(no browser) de recuperar senha do acesso cidadão.
      */
     public openUrlForgotPassword(): void {

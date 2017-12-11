@@ -29,8 +29,7 @@ describe( 'Login', () => {
             authenticationService = <AuthenticationService><any>{
                 acessoCidadaoLogin() { },
                 facebookLogin() { },
-                googleLogin() { },
-                digitsLogin() { }
+                googleLogin() { }
             };
             let transitionService = <TransitionService><any>{
                 changeRootState: () => { },
@@ -177,7 +176,7 @@ describe( 'Login', () => {
         });
 
 
-        [ 'google', 'facebook', 'digits' ].forEach( providerName => {
+        [ 'google', 'facebook' ].forEach( providerName => {
             describe( `${providerName}Login()`, () => {
 
                 let loginMethodName = `${providerName}Login`;

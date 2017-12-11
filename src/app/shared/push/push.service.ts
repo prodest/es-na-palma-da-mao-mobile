@@ -46,9 +46,6 @@ export class PushService {
                     this.notify( this.getJson( data.additionalData['appData'] ) );
                 }
             });
-
-            // TODO: send statistics to answers
-            // push.on( 'error', ( e ) => console.log( e ) );
         }
     }
 
