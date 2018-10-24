@@ -1,5 +1,11 @@
 
-# ES na palma da mão
+# Esse projeto foi descontinuado
+
+A nova versão está no repositório: **[https://github.com/prodest/es-na-palma-da-mao-mobile-vnext](https://github.com/prodest/es-na-palma-da-mao-mobile-vnext)**
+
+---
+
+## ES na palma da mão (Antigo)
 [![Build Status][travis-image]][travis-url] 
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![Coverage percentage][coveralls-image]][coveralls-url]
